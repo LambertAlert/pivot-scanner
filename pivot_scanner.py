@@ -61,7 +61,7 @@ TICKERS = [
 ]
 
 # Core strategy parameters
-MIN_STREAK      = 3       # minimum consecutive same-color candles before pivot
+MIN_STREAK      = 1       # minimum consecutive same-color candles before pivot
 BARS_TO_FETCH   = 100     # how many 30-min bars of history to pull
 
 # Data source: "polygon" | "yfinance" | "auto"
@@ -393,3 +393,5 @@ def format_email_alert(ticker: str, result: dict) -> tuple:
     if d == "bullish":
         stop_txt   = f"Below pivot low  ({pb['low']:.2f})"
         broken_txt = f"Trigger close {tb['close']:.2f}  >  Pivot high {pb['high']:.2f}"
+        
+        
