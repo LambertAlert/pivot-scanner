@@ -394,4 +394,18 @@ def format_email_alert(ticker: str, result: dict) -> tuple:
         stop_txt   = f"Below pivot low  ({pb['low']:.2f})"
         broken_txt = f"Trigger close {tb['close']:.2f}  >  Pivot high {pb['high']:.2f}"
         
-        
+        def send_gmail(subject: str, body: str):
+    """Send a plain-text alert email via Gmail SMTP SSL."""
+    if not SEND_EMAIL:
+        log.info("Email disabled (SEND_EMAIL=False) — skipping.")
+        return
+
+    # DEBUG — print credential status without exposing values
+    log.info(f"SEND_EMAIL     : {SEND_EMAIL}")
+    log.info(f"GMAIL_SENDER   : {GMAIL_SENDER}")
+    log.info(f"GMAIL_RECIPIENT: {GMAIL_RECIPIENT}")
+    log.info(f"GMAIL_APP_PASS : {'SET' if GMAIL_APP_PASS else 'NOT SET'}")
+
+    if not GMAIL_APP_PASS or GMAIL_APP_PASS == "":
+        log.warning("GMAIL_APP_PASS not set — skipping email alert.")
+        return
