@@ -51,7 +51,13 @@ except ImportError:
 # ═══════════════════════════════════════════════════════════════════════════════
 
 TICKERS = [
-    "MU", "TSLA", "QQQ", "HOOD", "NVDA", "AMD", "AMZN", "META", "SPY", "AAPL"
+    "ORCL", "LRCX", "PANW", "CRWD", "CVNA", "CCJ", "ALAB", "CRDO", "Q", "BWXT",
+    "MKSI", "ROKU", "IONQ", "IREN", "STRL", "RMBS", "MOD", "HL", "MP", "FLS",
+    "CAVA", "ARWR", "SANM", "PRIM", "PRAX", "WFRD", "AUGO", "ECG", "SITE", "CELC",
+    "ALM", "CGON", "FLY", "ONDS", "SIMO", "SEI", "KNF", "LMND", "LGND", "DNTH",
+    "TDW", "LASR", "AXTI", "SYNA", "PII", "PARR", "AMPX", "SEDG", "SEZL", "KWR",
+    "NGL", "LAR", "NBTX", "NBR", "BKSY", "GPRE", "LPTH", "ANRO", "RLMD", "FET",
+    "ARMP", "IRD", "OPTX", "ASYS", "SLGL", "AP", "OCC", "NRXS"
 ]
 
 # Core strategy parameters
@@ -60,7 +66,7 @@ BARS_TO_FETCH   = 100     # how many 30-min bars of history to pull
 
 # Data source: "polygon" | "yfinance" | "auto"
 # "auto" tries Polygon first, falls back to yfinance
-DATA_SOURCE     = "auto"
+DATA_SOURCE     = "yfinance"
 
 # Polygon.io API key — set here OR as env var POLYGON_API_KEY
 # Free key: https://polygon.io/dashboard/signup
@@ -71,7 +77,7 @@ ALERT_STYLE     = "full"
 
 # Pause between tickers to respect free-tier rate limits (seconds)
 # Polygon free tier = 5 calls/min → 12s between calls is safe
-RATE_LIMIT_PAUSE = 12
+RATE_LIMIT_PAUSE = 1
 
 # ── Gmail config ──────────────────────────────────────────────────────────────
 GMAIL_SENDER    = os.getenv("GMAIL_SENDER",    "neil.lambert1214@gmail.com")   # your Gmail address
