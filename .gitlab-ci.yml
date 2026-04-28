@@ -18,16 +18,7 @@ run_pivot_scanner:
     - if: '$CI_PIPELINE_SOURCE == "web"'
 
   before_script:
-    - pip install polygon-api-client yfinance pandas numpy
-    - echo "GMAIL_SENDER is $GMAIL_SENDER"
-    - echo "GMAIL_RECIPIENT is $GMAIL_RECIPIENT"
-    - echo "GMAIL_APP_PASS length is ${#GMAIL_APP_PASS}"
+    - pip install --quiet polygon-api-client yfinance pandas numpy
 
   script:
     - python pivot_scanner.py
-
-  variables:
-    GMAIL_SENDER:    $GMAIL_SENDER
-    GMAIL_APP_PASS:  $GMAIL_PASS
-    GMAIL_RECIPIENT: $GMAIL_RECIPIENT
-    POLYGON_API_KEY: $POLYGON_API_KEY
