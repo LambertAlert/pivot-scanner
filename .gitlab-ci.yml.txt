@@ -1,0 +1,34 @@
+# .gitlab-ci.yml
+# 30-Min Pivot Scanner — GitLab CI/CD Scheduler
+# ================================================
+# This file tells GitLab how to run your pivot scanner.
+# The actual schedule (every :01 and :31) is set in the
+# GitLab UI under Build → Schedules (see setup steps below).
+
+image: python:3.11-slim   # use a lightweight Python environment
+
+stages:
+  - scan
+
+run_pivot_scanner:
+  stage: scan
+
+  # Only run on scheduled triggers and manual runs — not on every code push
+  rules:
+    - if: '$CI_PIPELINE_SOURCE == "schedule"'
+    - if: '$CI_PIPELINE_SOURCE == "web"'      # allows manual "Run pipeline" button
+
+  before_script:
+    # Install dependencies before running the script
+    - pip install --quiet polygon-api-client yfinance pandas numpy
+
+  script:
+    - python pivot_scanner.py
+
+  # Pass your secrets in as environment variables
+  # GitLab automatically injects CI/CD variables you set in Settings → CI/CD → Variables
+  variables:
+    POLYGON_API_KEY: $POLYGON_API_KEY
+    GMAIL_SENDER:    $GMAIL_SENDER
+    GMAIL_APP_PASS:  $GMAIL_APP_PASS
+    GMAIL_RECIPIENT: $GMAIL_RECIPIENT

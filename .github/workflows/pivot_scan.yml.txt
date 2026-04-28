@@ -1,0 +1,32 @@
+name: 30-Min Pivot Scanner
+
+on:
+  schedule:
+    # Fires at :01 and :31, Mon-Fri during market hours
+    # GitHub Actions uses UTC — these times = 9:01am–4:31pm Central Time
+    - cron: '1,31 14-21 * * 1-5'
+  workflow_dispatch:  # adds a manual "Run workflow" button in the GitHub UI
+
+jobs:
+  scan:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install dependencies
+        run: pip install polygon-api-client yfinance pandas numpy
+
+      - name: Run pivot scanner
+        env:
+          POLYGON_API_KEY: ${{ secrets.POLYGON_API_KEY }}
+          GMAIL_SENDER:    ${{ secrets.GMAIL_SENDER }}
+          GMAIL_APP_PASS:  ${{ secrets.GMAIL_APP_PASS }}
+          GMAIL_RECIPIENT: ${{ secrets.GMAIL_RECIPIENT }}
+        run: python pivot_scanner.py
