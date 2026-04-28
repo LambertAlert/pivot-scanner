@@ -5,7 +5,7 @@
 # The actual schedule (every :01 and :31) is set in the
 # GitLab UI under Build → Schedules (see setup steps below).
 
-image: python:3.11-slim   # use a lightweight Python environment
+image: python:3.11-slim
 
 stages:
   - scan
@@ -13,22 +13,21 @@ stages:
 run_pivot_scanner:
   stage: scan
 
-  # Only run on scheduled triggers and manual runs — not on every code push
   rules:
     - if: '$CI_PIPELINE_SOURCE == "schedule"'
-    - if: '$CI_PIPELINE_SOURCE == "web"'      # allows manual "Run pipeline" button
+    - if: '$CI_PIPELINE_SOURCE == "web"'
 
   before_script:
-    # Install dependencies before running the script
-    - pip install --quiet polygon-api-client yfinance pandas numpy
+    - pip install polygon-api-client yfinance pandas numpy
+    - echo "GMAIL_SENDER is $GMAIL_SENDER"
+    - echo "GMAIL_RECIPIENT is $GMAIL_RECIPIENT"
+    - echo "GMAIL_APP_PASS length is ${#GMAIL_APP_PASS}"
 
   script:
     - python pivot_scanner.py
 
-  # Pass your secrets in as environment variables
-  # GitLab automatically injects CI/CD variables you set in Settings → CI/CD → Variables
   variables:
-    POLYGON_API_KEY: $POLYGON_API_KEY
     GMAIL_SENDER:    $GMAIL_SENDER
-    GMAIL_APP_PASS:  $GMAIL_APP_PASS
+    GMAIL_APP_PASS:  $GMAIL_PASS
     GMAIL_RECIPIENT: $GMAIL_RECIPIENT
+    POLYGON_API_KEY: $POLYGON_API_KEY
