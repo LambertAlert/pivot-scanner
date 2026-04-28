@@ -81,7 +81,7 @@ RATE_LIMIT_PAUSE = 1
 
 # ── Gmail config ──────────────────────────────────────────────────────────────
 GMAIL_SENDER    = os.getenv("GMAIL_SENDER",    "neil.lambert1214@gmail.com")   # your Gmail address
-GMAIL_APP_PASS  = os.getenv("GMAIL_APP_PASS",  "yzvp axky tani icpc")               # 16-char App Password
+GMAIL_APP_PASS  = os.getenv("GMAIL_APP_PASS",  "yzvpaxkytaniicpc")               # 16-char App Password
 GMAIL_RECIPIENT = os.getenv("GMAIL_RECIPIENT", "neil.lambert1214@gmail.com")   # alert destination
 SEND_EMAIL      = True    # set False to disable email and only print to console
 
