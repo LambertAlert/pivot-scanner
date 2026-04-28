@@ -393,8 +393,42 @@ def format_email_alert(ticker: str, result: dict) -> tuple:
     if d == "bullish":
         stop_txt   = f"Below pivot low  ({pb['low']:.2f})"
         broken_txt = f"Trigger close {tb['close']:.2f}  >  Pivot high {pb['high']:.2f}"
-        
-        def send_gmail(subject: str, body: str):
+    else:
+        stop_txt   = f"Above pivot high ({pb['high']:.2f})"
+        broken_txt = f"Trigger close {tb['close']:.2f}  <  Pivot low  {pb['low']:.2f}"
+
+    subject = f"🚨 {direction_label} PIVOT — {ticker} | 30-Min Bar"
+
+    body = f"""
+30-MINUTE PIVOT ALERT
+{'=' * 52}
+Ticker     : {ticker}
+Direction  : {direction_label}
+Scan time  : {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}
+
+SETUP DETAILS
+{'─' * 52}
+Streak         : {streak} consecutive {streak_color} bars
+Pivot candle   : O:{pb['open']:.2f}  H:{pb['high']:.2f}  L:{pb['low']:.2f}  C:{pb['close']:.2f}
+Pivot time     : {p_time}
+Trigger candle : O:{tb['open']:.2f}  H:{tb['high']:.2f}  L:{tb['low']:.2f}  C:{tb['close']:.2f}
+Trigger time   : {t_time}
+Signal         : {broken_txt}
+
+TRADE PARAMETERS
+{'─' * 52}
+Entry  : {entry_txt}
+Stop   : {stop_txt}
+
+{'=' * 52}
+Scan alert only — not financial advice.
+Strategy: @1ChartMaster 30-Min Pivot | Elite Swing Traders
+""".strip()
+
+    return subject, body
+
+
+def send_gmail(subject: str, body: str):
     """Send a plain-text alert email via Gmail SMTP SSL."""
     if not SEND_EMAIL:
         log.info("Email disabled (SEND_EMAIL=False) — skipping.")
@@ -409,3 +443,24 @@ def format_email_alert(ticker: str, result: dict) -> tuple:
     if not GMAIL_APP_PASS or GMAIL_APP_PASS == "":
         log.warning("GMAIL_APP_PASS not set — skipping email alert.")
         return
+
+    try:
+        msg = MIMEMultipart("alternative")
+        msg["Subject"] = subject
+        msg["From"]    = GMAIL_SENDER
+        msg["To"]      = GMAIL_RECIPIENT
+
+        msg.attach(MIMEText(body, "plain"))
+
+        with smtplib.SMTP_SSL("smtp.gmail.com", 465) as server:
+            server.login(GMAIL_SENDER, GMAIL_APP_PASS)
+            server.sendmail(GMAIL_SENDER, GMAIL_RECIPIENT, msg.as_string())
+
+        log.info(f"✉️  Email alert sent → {GMAIL_RECIPIENT}")
+
+    except smtplib.SMTPAuthenticationError:
+        log.error("Gmail auth failed — double-check your App Password and sender address.")
+    except smtplib.SMTPException as e:
+        log.error(f"SMTP error while sending alert: {e}")
+    except Exception as e:
+        log.error(f"Unexpected error sending email: {e}")
