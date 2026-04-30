@@ -255,15 +255,12 @@ def build_macro_df() -> dict:
         sector_snapshot.append(row)
 
     # Recent regime history (last 60 rows)
-    regime_history = (
-        df[["combined_regime", "SPY", "QQQ", "VIX"]]
-        .tail(60)
-        .reset_index()
-        .rename(columns={"index": "date"})
-        .assign(date=lambda d: d["date"].astype(str))
-        .fillna(0)
-        .to_dict(orient="records")
-    )
+    regime_history_df = df[["combined_regime", "SPY", "QQQ", "VIX"]].tail(60).copy()
+    # Convert the date index to a string column regardless of its name
+    regime_history_df = regime_history_df.reset_index()
+    regime_history_df.columns = ["date"] + list(regime_history_df.columns[1:])
+    regime_history_df["date"] = regime_history_df["date"].astype(str)
+    regime_history = regime_history_df.fillna(0).to_dict(orient="records")
 
     output = {
         "generated_at":    datetime.now().isoformat(),
