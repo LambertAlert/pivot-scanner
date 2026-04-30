@@ -1,0 +1,1717 @@
+{
+  "generated_at": "2026-04-30T01:24:09.553045",
+  "current": {
+    "date": "2026-04-29",
+    "SPY": 711.58,
+    "QQQ": 661.57,
+    "VIX": 18.8,
+    "SPY_ret_1d": -0.02,
+    "QQQ_ret_1d": 0.61,
+    "SPY_20d": 9.42,
+    "QQQ_20d": 14.62,
+    "SPY_vol_21": 14.3,
+    "price_regime": "Strong Trending",
+    "vix_regime": "Low Vol (Investable)",
+    "combined_regime": "Strong Trending + Low Vol (Investable)",
+    "US10Y": 4.418,
+    "DXY": 98.9,
+    "GOLD": 4579.5,
+    "OIL": 107.34,
+    "Yield_Curve": 4.382
+  },
+  "sector_snapshot": [
+    {
+      "ticker": "XLK",
+      "name": "Technology",
+      "price": 159.11,
+      "vs_SPY_20d": 9.42,
+      "mom_60d": 9.67
+    },
+    {
+      "ticker": "XLF",
+      "name": "Financials",
+      "price": 51.92,
+      "vs_SPY_20d": -3.89,
+      "mom_60d": -3.41
+    },
+    {
+      "ticker": "XLE",
+      "name": "Energy",
+      "price": 59.03,
+      "vs_SPY_20d": -11.93,
+      "mom_60d": 18.71
+    },
+    {
+      "ticker": "XLV",
+      "name": "Health Care",
+      "price": 142.84,
+      "vs_SPY_20d": -10.96,
+      "mom_60d": -7.88
+    },
+    {
+      "ticker": "XLI",
+      "name": "Industrials",
+      "price": 169.93,
+      "vs_SPY_20d": -3.97,
+      "mom_60d": 1.72
+    },
+    {
+      "ticker": "XLY",
+      "name": "Cons Disc",
+      "price": 116.84,
+      "vs_SPY_20d": -2.01,
+      "mom_60d": -4.01
+    },
+    {
+      "ticker": "XLP",
+      "name": "Cons Staples",
+      "price": 82.92,
+      "vs_SPY_20d": -7.56,
+      "mom_60d": -1.32
+    },
+    {
+      "ticker": "XLB",
+      "name": "Materials",
+      "price": 50.96,
+      "vs_SPY_20d": -6.8,
+      "mom_60d": 3.09
+    },
+    {
+      "ticker": "XLU",
+      "name": "Utilities",
+      "price": 45.68,
+      "vs_SPY_20d": -9.02,
+      "mom_60d": 7.93
+    },
+    {
+      "ticker": "XLC",
+      "name": "Comm Svcs",
+      "price": 115.29,
+      "vs_SPY_20d": -4.95,
+      "mom_60d": -3.35
+    },
+    {
+      "ticker": "XLRE",
+      "name": "Real Estate",
+      "price": 43.64,
+      "vs_SPY_20d": -2.32,
+      "mom_60d": 7.26
+    }
+  ],
+  "unique_regimes": [
+    "Bottoming + Low Vol (Investable)",
+    "Bottoming + Moderate (Chop)",
+    "Strong Trending + High Vol (Fear)",
+    "Strong Trending + Low Vol (Investable)",
+    "Strong Trending + Moderate (Chop)",
+    "Topping + High Vol (Fear)",
+    "Topping + Low Vol (Investable)",
+    "Topping + Moderate (Chop)",
+    "Transition / Other + High Vol (Fear)",
+    "Transition / Other + Low Vol (Investable)",
+    "Transition / Other + Moderate (Chop)"
+  ],
+  "regime_stats": {
+    "Transition / Other + Low Vol (Investable)": {
+      "SPY": {
+        "Count": 68,
+        "Avg_5d_Return": 0.2,
+        "Avg_20d_Return": 1.34,
+        "Win_Rate_5d": 67.6,
+        "Volatility_Ann": 8.83,
+        "Sharpe": 9.6
+      },
+      "QQQ": {
+        "Count": 68,
+        "Avg_5d_Return": 0.37,
+        "Avg_20d_Return": 2.22,
+        "Win_Rate_5d": 67.6,
+        "Volatility_Ann": 11.93,
+        "Sharpe": 9.36
+      },
+      "XLK": {
+        "Count": 68,
+        "Avg_5d_Return": 0.46,
+        "Avg_20d_Return": 2.61,
+        "Win_Rate_5d": 64.7,
+        "Volatility_Ann": 13.15,
+        "Sharpe": 9.01
+      },
+      "XLF": {
+        "Count": 68,
+        "Avg_5d_Return": -0.22,
+        "Avg_20d_Return": 0.27,
+        "Win_Rate_5d": 51.5,
+        "Volatility_Ann": 15.28,
+        "Sharpe": 3.21
+      },
+      "XLE": {
+        "Count": 68,
+        "Avg_5d_Return": -0.16,
+        "Avg_20d_Return": -1.89,
+        "Win_Rate_5d": 44.1,
+        "Volatility_Ann": 28.24,
+        "Sharpe": 1.54
+      },
+      "XLV": {
+        "Count": 68,
+        "Avg_5d_Return": 0.36,
+        "Avg_20d_Return": 2.04,
+        "Win_Rate_5d": 60.3,
+        "Volatility_Ann": 10.49,
+        "Sharpe": 6.57
+      },
+      "XLI": {
+        "Count": 68,
+        "Avg_5d_Return": -0.23,
+        "Avg_20d_Return": 0.07,
+        "Win_Rate_5d": 47.1,
+        "Volatility_Ann": 13.32,
+        "Sharpe": 3.71
+      },
+      "XLY": {
+        "Count": 68,
+        "Avg_5d_Return": 0.06,
+        "Avg_20d_Return": 1.25,
+        "Win_Rate_5d": 55.9,
+        "Volatility_Ann": 13.87,
+        "Sharpe": 8.08
+      },
+      "XLP": {
+        "Count": 68,
+        "Avg_5d_Return": 0.35,
+        "Avg_20d_Return": 0.91,
+        "Win_Rate_5d": 66.2,
+        "Volatility_Ann": 8.75,
+        "Sharpe": 5.85
+      },
+      "XLB": {
+        "Count": 68,
+        "Avg_5d_Return": -0.25,
+        "Avg_20d_Return": -0.72,
+        "Win_Rate_5d": 48.5,
+        "Volatility_Ann": 14.39,
+        "Sharpe": 3.21
+      },
+      "XLU": {
+        "Count": 68,
+        "Avg_5d_Return": 0.21,
+        "Avg_20d_Return": 1.28,
+        "Win_Rate_5d": 57.4,
+        "Volatility_Ann": 11.21,
+        "Sharpe": 3.24
+      },
+      "XLC": {
+        "Count": 68,
+        "Avg_5d_Return": 0.05,
+        "Avg_20d_Return": 1.48,
+        "Win_Rate_5d": 60.3,
+        "Volatility_Ann": 11.61,
+        "Sharpe": 8.3
+      },
+      "XLRE": {
+        "Count": 68,
+        "Avg_5d_Return": 0.67,
+        "Avg_20d_Return": 2.02,
+        "Win_Rate_5d": 64.7,
+        "Volatility_Ann": 11.77,
+        "Sharpe": 7.29
+      }
+    },
+    "Transition / Other + Moderate (Chop)": {
+      "SPY": {
+        "Count": 134,
+        "Avg_5d_Return": 0.56,
+        "Avg_20d_Return": -0.32,
+        "Win_Rate_5d": 62.7,
+        "Volatility_Ann": 20.34,
+        "Sharpe": 1.73
+      },
+      "QQQ": {
+        "Count": 134,
+        "Avg_5d_Return": 0.61,
+        "Avg_20d_Return": -0.68,
+        "Win_Rate_5d": 61.2,
+        "Volatility_Ann": 26.89,
+        "Sharpe": 1.36
+      },
+      "XLK": {
+        "Count": 134,
+        "Avg_5d_Return": 0.77,
+        "Avg_20d_Return": -0.68,
+        "Win_Rate_5d": 61.9,
+        "Volatility_Ann": 28.56,
+        "Sharpe": 1.28
+      },
+      "XLF": {
+        "Count": 134,
+        "Avg_5d_Return": 0.5,
+        "Avg_20d_Return": -0.2,
+        "Win_Rate_5d": 60.4,
+        "Volatility_Ann": 21.34,
+        "Sharpe": 2.31
+      },
+      "XLE": {
+        "Count": 134,
+        "Avg_5d_Return": 0.75,
+        "Avg_20d_Return": 2.46,
+        "Win_Rate_5d": 63.4,
+        "Volatility_Ann": 31.44,
+        "Sharpe": 0.38
+      },
+      "XLV": {
+        "Count": 134,
+        "Avg_5d_Return": 0.12,
+        "Avg_20d_Return": -0.4,
+        "Win_Rate_5d": 55.2,
+        "Volatility_Ann": 17.48,
+        "Sharpe": 0.79
+      },
+      "XLI": {
+        "Count": 134,
+        "Avg_5d_Return": 0.7,
+        "Avg_20d_Return": 0.23,
+        "Win_Rate_5d": 61.2,
+        "Volatility_Ann": 20.87,
+        "Sharpe": 2.77
+      },
+      "XLY": {
+        "Count": 134,
+        "Avg_5d_Return": 0.7,
+        "Avg_20d_Return": -0.65,
+        "Win_Rate_5d": 61.2,
+        "Volatility_Ann": 28.07,
+        "Sharpe": 1.74
+      },
+      "XLP": {
+        "Count": 134,
+        "Avg_5d_Return": 0.22,
+        "Avg_20d_Return": 0.32,
+        "Win_Rate_5d": 57.5,
+        "Volatility_Ann": 14.57,
+        "Sharpe": 1.59
+      },
+      "XLB": {
+        "Count": 134,
+        "Avg_5d_Return": 0.57,
+        "Avg_20d_Return": -0.22,
+        "Win_Rate_5d": 61.2,
+        "Volatility_Ann": 22.73,
+        "Sharpe": 2.17
+      },
+      "XLU": {
+        "Count": 134,
+        "Avg_5d_Return": 0.58,
+        "Avg_20d_Return": 1.34,
+        "Win_Rate_5d": 59.0,
+        "Volatility_Ann": 17.69,
+        "Sharpe": 2.3
+      },
+      "XLC": {
+        "Count": 134,
+        "Avg_5d_Return": 0.11,
+        "Avg_20d_Return": -1.08,
+        "Win_Rate_5d": 57.5,
+        "Volatility_Ann": 25.37,
+        "Sharpe": -0.06
+      },
+      "XLRE": {
+        "Count": 134,
+        "Avg_5d_Return": 0.7,
+        "Avg_20d_Return": 0.25,
+        "Win_Rate_5d": 62.7,
+        "Volatility_Ann": 21.35,
+        "Sharpe": 2.39
+      }
+    },
+    "Strong Trending + Moderate (Chop)": {
+      "SPY": {
+        "Count": 215,
+        "Avg_5d_Return": 0.23,
+        "Avg_20d_Return": 1.16,
+        "Win_Rate_5d": 59.5,
+        "Volatility_Ann": 16.36,
+        "Sharpe": -4.6
+      },
+      "QQQ": {
+        "Count": 215,
+        "Avg_5d_Return": 0.38,
+        "Avg_20d_Return": 1.71,
+        "Win_Rate_5d": 57.7,
+        "Volatility_Ann": 21.45,
+        "Sharpe": -4.44
+      },
+      "XLK": {
+        "Count": 215,
+        "Avg_5d_Return": 0.6,
+        "Avg_20d_Return": 2.29,
+        "Win_Rate_5d": 60.0,
+        "Volatility_Ann": 24.49,
+        "Sharpe": -3.73
+      },
+      "XLF": {
+        "Count": 215,
+        "Avg_5d_Return": 0.12,
+        "Avg_20d_Return": 1.05,
+        "Win_Rate_5d": 55.8,
+        "Volatility_Ann": 20.15,
+        "Sharpe": -4.03
+      },
+      "XLE": {
+        "Count": 215,
+        "Avg_5d_Return": 0.74,
+        "Avg_20d_Return": 2.76,
+        "Win_Rate_5d": 60.0,
+        "Volatility_Ann": 24.13,
+        "Sharpe": -0.47
+      },
+      "XLV": {
+        "Count": 215,
+        "Avg_5d_Return": -0.16,
+        "Avg_20d_Return": -0.49,
+        "Win_Rate_5d": 45.1,
+        "Volatility_Ann": 13.25,
+        "Sharpe": -3.58
+      },
+      "XLI": {
+        "Count": 215,
+        "Avg_5d_Return": 0.16,
+        "Avg_20d_Return": 0.7,
+        "Win_Rate_5d": 55.8,
+        "Volatility_Ann": 17.24,
+        "Sharpe": -3.53
+      },
+      "XLY": {
+        "Count": 215,
+        "Avg_5d_Return": 0.11,
+        "Avg_20d_Return": 1.63,
+        "Win_Rate_5d": 49.3,
+        "Volatility_Ann": 22.22,
+        "Sharpe": -4.71
+      },
+      "XLP": {
+        "Count": 215,
+        "Avg_5d_Return": 0.03,
+        "Avg_20d_Return": 0.03,
+        "Win_Rate_5d": 53.0,
+        "Volatility_Ann": 13.57,
+        "Sharpe": -1.17
+      },
+      "XLB": {
+        "Count": 215,
+        "Avg_5d_Return": 0.13,
+        "Avg_20d_Return": 0.42,
+        "Win_Rate_5d": 54.9,
+        "Volatility_Ann": 18.0,
+        "Sharpe": -3.82
+      },
+      "XLU": {
+        "Count": 215,
+        "Avg_5d_Return": 0.18,
+        "Avg_20d_Return": 0.5,
+        "Win_Rate_5d": 53.5,
+        "Volatility_Ann": 17.7,
+        "Sharpe": -1.08
+      },
+      "XLC": {
+        "Count": 215,
+        "Avg_5d_Return": 0.15,
+        "Avg_20d_Return": 1.07,
+        "Win_Rate_5d": 54.4,
+        "Volatility_Ann": 19.49,
+        "Sharpe": -4.61
+      },
+      "XLRE": {
+        "Count": 215,
+        "Avg_5d_Return": 0.0,
+        "Avg_20d_Return": -0.36,
+        "Win_Rate_5d": 46.5,
+        "Volatility_Ann": 19.13,
+        "Sharpe": -2.47
+      }
+    },
+    "Strong Trending + Low Vol (Investable)": {
+      "SPY": {
+        "Count": 644,
+        "Avg_5d_Return": 0.21,
+        "Avg_20d_Return": 1.04,
+        "Win_Rate_5d": 60.4,
+        "Volatility_Ann": 10.33,
+        "Sharpe": 3.91
+      },
+      "QQQ": {
+        "Count": 644,
+        "Avg_5d_Return": 0.28,
+        "Avg_20d_Return": 1.32,
+        "Win_Rate_5d": 59.6,
+        "Volatility_Ann": 15.07,
+        "Sharpe": 3.48
+      },
+      "XLK": {
+        "Count": 644,
+        "Avg_5d_Return": 0.27,
+        "Avg_20d_Return": 1.37,
+        "Win_Rate_5d": 56.7,
+        "Volatility_Ann": 17.92,
+        "Sharpe": 3.02
+      },
+      "XLF": {
+        "Count": 644,
+        "Avg_5d_Return": 0.16,
+        "Avg_20d_Return": 0.71,
+        "Win_Rate_5d": 53.9,
+        "Volatility_Ann": 12.89,
+        "Sharpe": 2.97
+      },
+      "XLE": {
+        "Count": 644,
+        "Avg_5d_Return": 0.36,
+        "Avg_20d_Return": 1.57,
+        "Win_Rate_5d": 55.6,
+        "Volatility_Ann": 19.92,
+        "Sharpe": 1.78
+      },
+      "XLV": {
+        "Count": 644,
+        "Avg_5d_Return": 0.11,
+        "Avg_20d_Return": 0.73,
+        "Win_Rate_5d": 52.0,
+        "Volatility_Ann": 11.77,
+        "Sharpe": 1.59
+      },
+      "XLI": {
+        "Count": 644,
+        "Avg_5d_Return": 0.21,
+        "Avg_20d_Return": 0.93,
+        "Win_Rate_5d": 57.1,
+        "Volatility_Ann": 12.53,
+        "Sharpe": 2.68
+      },
+      "XLY": {
+        "Count": 644,
+        "Avg_5d_Return": 0.14,
+        "Avg_20d_Return": 0.54,
+        "Win_Rate_5d": 55.9,
+        "Volatility_Ann": 16.75,
+        "Sharpe": 2.73
+      },
+      "XLP": {
+        "Count": 644,
+        "Avg_5d_Return": 0.08,
+        "Avg_20d_Return": 0.5,
+        "Win_Rate_5d": 52.2,
+        "Volatility_Ann": 10.43,
+        "Sharpe": 1.01
+      },
+      "XLB": {
+        "Count": 644,
+        "Avg_5d_Return": 0.07,
+        "Avg_20d_Return": 0.52,
+        "Win_Rate_5d": 49.8,
+        "Volatility_Ann": 14.21,
+        "Sharpe": 2.06
+      },
+      "XLU": {
+        "Count": 644,
+        "Avg_5d_Return": 0.14,
+        "Avg_20d_Return": 0.76,
+        "Win_Rate_5d": 53.9,
+        "Volatility_Ann": 14.97,
+        "Sharpe": 1.17
+      },
+      "XLC": {
+        "Count": 644,
+        "Avg_5d_Return": 0.3,
+        "Avg_20d_Return": 1.25,
+        "Win_Rate_5d": 57.1,
+        "Volatility_Ann": 14.73,
+        "Sharpe": 3.21
+      },
+      "XLRE": {
+        "Count": 644,
+        "Avg_5d_Return": 0.04,
+        "Avg_20d_Return": 0.4,
+        "Win_Rate_5d": 52.5,
+        "Volatility_Ann": 15.4,
+        "Sharpe": 1.19
+      }
+    },
+    "Topping + Moderate (Chop)": {
+      "SPY": {
+        "Count": 69,
+        "Avg_5d_Return": -0.72,
+        "Avg_20d_Return": -0.21,
+        "Win_Rate_5d": 44.9,
+        "Volatility_Ann": 23.46,
+        "Sharpe": 3.18
+      },
+      "QQQ": {
+        "Count": 69,
+        "Avg_5d_Return": -0.81,
+        "Avg_20d_Return": 0.16,
+        "Win_Rate_5d": 42.0,
+        "Volatility_Ann": 31.28,
+        "Sharpe": 2.72
+      },
+      "XLK": {
+        "Count": 69,
+        "Avg_5d_Return": -0.77,
+        "Avg_20d_Return": 0.37,
+        "Win_Rate_5d": 39.1,
+        "Volatility_Ann": 31.48,
+        "Sharpe": 3.35
+      },
+      "XLF": {
+        "Count": 69,
+        "Avg_5d_Return": -0.54,
+        "Avg_20d_Return": -0.4,
+        "Win_Rate_5d": 47.8,
+        "Volatility_Ann": 22.86,
+        "Sharpe": 3.19
+      },
+      "XLE": {
+        "Count": 69,
+        "Avg_5d_Return": -0.97,
+        "Avg_20d_Return": 1.56,
+        "Win_Rate_5d": 52.2,
+        "Volatility_Ann": 33.19,
+        "Sharpe": 3.13
+      },
+      "XLV": {
+        "Count": 69,
+        "Avg_5d_Return": -0.62,
+        "Avg_20d_Return": -1.2,
+        "Win_Rate_5d": 42.0,
+        "Volatility_Ann": 17.62,
+        "Sharpe": 4.1
+      },
+      "XLI": {
+        "Count": 69,
+        "Avg_5d_Return": -0.8,
+        "Avg_20d_Return": 0.54,
+        "Win_Rate_5d": 47.8,
+        "Volatility_Ann": 22.38,
+        "Sharpe": 2.0
+      },
+      "XLY": {
+        "Count": 69,
+        "Avg_5d_Return": -0.52,
+        "Avg_20d_Return": 0.64,
+        "Win_Rate_5d": 46.4,
+        "Volatility_Ann": 33.95,
+        "Sharpe": 2.03
+      },
+      "XLP": {
+        "Count": 69,
+        "Avg_5d_Return": -0.47,
+        "Avg_20d_Return": -0.93,
+        "Win_Rate_5d": 44.9,
+        "Volatility_Ann": 16.73,
+        "Sharpe": 2.69
+      },
+      "XLB": {
+        "Count": 69,
+        "Avg_5d_Return": -1.2,
+        "Avg_20d_Return": -0.75,
+        "Win_Rate_5d": 37.7,
+        "Volatility_Ann": 24.13,
+        "Sharpe": 1.35
+      },
+      "XLU": {
+        "Count": 69,
+        "Avg_5d_Return": -0.75,
+        "Avg_20d_Return": -2.16,
+        "Win_Rate_5d": 44.9,
+        "Volatility_Ann": 20.21,
+        "Sharpe": 2.46
+      },
+      "XLC": {
+        "Count": 69,
+        "Avg_5d_Return": -0.88,
+        "Avg_20d_Return": -0.65,
+        "Win_Rate_5d": 46.4,
+        "Volatility_Ann": 31.68,
+        "Sharpe": 2.11
+      },
+      "XLRE": {
+        "Count": 69,
+        "Avg_5d_Return": -1.69,
+        "Avg_20d_Return": -1.57,
+        "Win_Rate_5d": 44.9,
+        "Volatility_Ann": 21.44,
+        "Sharpe": 0.83
+      }
+    },
+    "Topping + High Vol (Fear)": {
+      "SPY": {
+        "Count": 46,
+        "Avg_5d_Return": 0.86,
+        "Avg_20d_Return": 5.4,
+        "Win_Rate_5d": 56.5,
+        "Volatility_Ann": 39.9,
+        "Sharpe": -2.83
+      },
+      "QQQ": {
+        "Count": 46,
+        "Avg_5d_Return": 0.45,
+        "Avg_20d_Return": 5.07,
+        "Win_Rate_5d": 54.3,
+        "Volatility_Ann": 47.87,
+        "Sharpe": -3.21
+      },
+      "XLK": {
+        "Count": 46,
+        "Avg_5d_Return": 0.68,
+        "Avg_20d_Return": 6.42,
+        "Win_Rate_5d": 52.2,
+        "Volatility_Ann": 50.79,
+        "Sharpe": -3.03
+      },
+      "XLF": {
+        "Count": 46,
+        "Avg_5d_Return": 1.33,
+        "Avg_20d_Return": 6.22,
+        "Win_Rate_5d": 63.0,
+        "Volatility_Ann": 36.16,
+        "Sharpe": -2.89
+      },
+      "XLE": {
+        "Count": 46,
+        "Avg_5d_Return": 3.97,
+        "Avg_20d_Return": 10.85,
+        "Win_Rate_5d": 78.3,
+        "Volatility_Ann": 46.51,
+        "Sharpe": 1.61
+      },
+      "XLV": {
+        "Count": 46,
+        "Avg_5d_Return": 1.23,
+        "Avg_20d_Return": 3.85,
+        "Win_Rate_5d": 63.0,
+        "Volatility_Ann": 25.09,
+        "Sharpe": -2.66
+      },
+      "XLI": {
+        "Count": 46,
+        "Avg_5d_Return": 1.31,
+        "Avg_20d_Return": 7.12,
+        "Win_Rate_5d": 58.7,
+        "Volatility_Ann": 33.44,
+        "Sharpe": -1.68
+      },
+      "XLY": {
+        "Count": 46,
+        "Avg_5d_Return": -0.19,
+        "Avg_20d_Return": 3.7,
+        "Win_Rate_5d": 45.7,
+        "Volatility_Ann": 48.72,
+        "Sharpe": -4.34
+      },
+      "XLP": {
+        "Count": 46,
+        "Avg_5d_Return": 0.15,
+        "Avg_20d_Return": 2.65,
+        "Win_Rate_5d": 58.7,
+        "Volatility_Ann": 25.99,
+        "Sharpe": -4.46
+      },
+      "XLB": {
+        "Count": 46,
+        "Avg_5d_Return": 1.64,
+        "Avg_20d_Return": 7.37,
+        "Win_Rate_5d": 65.2,
+        "Volatility_Ann": 36.78,
+        "Sharpe": -2.09
+      },
+      "XLU": {
+        "Count": 46,
+        "Avg_5d_Return": 0.69,
+        "Avg_20d_Return": 4.61,
+        "Win_Rate_5d": 65.2,
+        "Volatility_Ann": 28.45,
+        "Sharpe": -2.2
+      },
+      "XLC": {
+        "Count": 46,
+        "Avg_5d_Return": 0.79,
+        "Avg_20d_Return": 3.06,
+        "Win_Rate_5d": 60.9,
+        "Volatility_Ann": 38.91,
+        "Sharpe": -2.58
+      },
+      "XLRE": {
+        "Count": 46,
+        "Avg_5d_Return": 0.48,
+        "Avg_20d_Return": 3.95,
+        "Win_Rate_5d": 63.0,
+        "Volatility_Ann": 34.84,
+        "Sharpe": -3.82
+      }
+    },
+    "Bottoming + Moderate (Chop)": {
+      "SPY": {
+        "Count": 41,
+        "Avg_5d_Return": 0.4,
+        "Avg_20d_Return": 0.19,
+        "Win_Rate_5d": 51.2,
+        "Volatility_Ann": 23.48,
+        "Sharpe": 0.43
+      },
+      "QQQ": {
+        "Count": 41,
+        "Avg_5d_Return": 0.59,
+        "Avg_20d_Return": -0.43,
+        "Win_Rate_5d": 53.7,
+        "Volatility_Ann": 30.54,
+        "Sharpe": 0.63
+      },
+      "XLK": {
+        "Count": 41,
+        "Avg_5d_Return": 0.89,
+        "Avg_20d_Return": 0.43,
+        "Win_Rate_5d": 58.5,
+        "Volatility_Ann": 34.13,
+        "Sharpe": 0.9
+      },
+      "XLF": {
+        "Count": 41,
+        "Avg_5d_Return": -0.1,
+        "Avg_20d_Return": -0.6,
+        "Win_Rate_5d": 53.7,
+        "Volatility_Ann": 24.54,
+        "Sharpe": -0.32
+      },
+      "XLE": {
+        "Count": 41,
+        "Avg_5d_Return": 0.1,
+        "Avg_20d_Return": -2.18,
+        "Win_Rate_5d": 63.4,
+        "Volatility_Ann": 27.78,
+        "Sharpe": -0.55
+      },
+      "XLV": {
+        "Count": 41,
+        "Avg_5d_Return": -0.13,
+        "Avg_20d_Return": 0.51,
+        "Win_Rate_5d": 63.4,
+        "Volatility_Ann": 19.12,
+        "Sharpe": 0.92
+      },
+      "XLI": {
+        "Count": 41,
+        "Avg_5d_Return": 0.71,
+        "Avg_20d_Return": 1.65,
+        "Win_Rate_5d": 65.9,
+        "Volatility_Ann": 20.61,
+        "Sharpe": 0.45
+      },
+      "XLY": {
+        "Count": 41,
+        "Avg_5d_Return": 0.36,
+        "Avg_20d_Return": -1.59,
+        "Win_Rate_5d": 51.2,
+        "Volatility_Ann": 29.92,
+        "Sharpe": -0.29
+      },
+      "XLP": {
+        "Count": 41,
+        "Avg_5d_Return": 0.33,
+        "Avg_20d_Return": 1.83,
+        "Win_Rate_5d": 65.9,
+        "Volatility_Ann": 13.93,
+        "Sharpe": 2.3
+      },
+      "XLB": {
+        "Count": 41,
+        "Avg_5d_Return": 0.75,
+        "Avg_20d_Return": 0.78,
+        "Win_Rate_5d": 63.4,
+        "Volatility_Ann": 24.84,
+        "Sharpe": 0.77
+      },
+      "XLU": {
+        "Count": 41,
+        "Avg_5d_Return": 0.12,
+        "Avg_20d_Return": 2.25,
+        "Win_Rate_5d": 61.0,
+        "Volatility_Ann": 21.3,
+        "Sharpe": 2.34
+      },
+      "XLC": {
+        "Count": 41,
+        "Avg_5d_Return": 0.28,
+        "Avg_20d_Return": -0.72,
+        "Win_Rate_5d": 53.7,
+        "Volatility_Ann": 28.26,
+        "Sharpe": 0.83
+      },
+      "XLRE": {
+        "Count": 41,
+        "Avg_5d_Return": 0.2,
+        "Avg_20d_Return": 0.73,
+        "Win_Rate_5d": 56.1,
+        "Volatility_Ann": 28.12,
+        "Sharpe": 1.44
+      }
+    }
+  },
+  "transitions": {
+    "1d": {
+      "Bottoming + Low Vol (Investable)": {
+        "Bottoming + Low Vol (Investable)": 0.6153846153846154,
+        "Bottoming + Moderate (Chop)": 0.07317073170731707,
+        "Strong Trending + High Vol (Fear)": 0.0,
+        "Strong Trending + Low Vol (Investable)": 0.0,
+        "Strong Trending + Moderate (Chop)": 0.0,
+        "Topping + High Vol (Fear)": 0.0,
+        "Topping + Low Vol (Investable)": 0.0,
+        "Topping + Moderate (Chop)": 0.0,
+        "Transition / Other + High Vol (Fear)": 0.0,
+        "Transition / Other + Low Vol (Investable)": 0.029411764705882353,
+        "Transition / Other + Moderate (Chop)": 0.0
+      },
+      "Bottoming + Moderate (Chop)": {
+        "Bottoming + Low Vol (Investable)": 0.15384615384615385,
+        "Bottoming + Moderate (Chop)": 0.7804878048780488,
+        "Strong Trending + High Vol (Fear)": 0.0,
+        "Strong Trending + Low Vol (Investable)": 0.0,
+        "Strong Trending + Moderate (Chop)": 0.0,
+        "Topping + High Vol (Fear)": 0.0,
+        "Topping + Low Vol (Investable)": 0.0,
+        "Topping + Moderate (Chop)": 0.0,
+        "Transition / Other + High Vol (Fear)": 0.0,
+        "Transition / Other + Low Vol (Investable)": 0.0,
+        "Transition / Other + Moderate (Chop)": 0.05223880597014925
+      },
+      "Strong Trending + High Vol (Fear)": {
+        "Bottoming + Low Vol (Investable)": 0.0,
+        "Bottoming + Moderate (Chop)": 0.0,
+        "Strong Trending + High Vol (Fear)": 0.42857142857142855,
+        "Strong Trending + Low Vol (Investable)": 0.0,
+        "Strong Trending + Moderate (Chop)": 0.018604651162790697,
+        "Topping + High Vol (Fear)": 0.0,
+        "Topping + Low Vol (Investable)": 0.0,
+        "Topping + Moderate (Chop)": 0.0,
+        "Transition / Other + High Vol (Fear)": 0.0,
+        "Transition / Other + Low Vol (Investable)": 0.0,
+        "Transition / Other + Moderate (Chop)": 0.0
+      },
+      "Strong Trending + Low Vol (Investable)": {
+        "Bottoming + Low Vol (Investable)": 0.0,
+        "Bottoming + Moderate (Chop)": 0.0,
+        "Strong Trending + High Vol (Fear)": 0.0,
+        "Strong Trending + Low Vol (Investable)": 0.9315707620528771,
+        "Strong Trending + Moderate (Chop)": 0.2,
+        "Topping + High Vol (Fear)": 0.0,
+        "Topping + Low Vol (Investable)": 0.0,
+        "Topping + Moderate (Chop)": 0.0,
+        "Transition / Other + High Vol (Fear)": 0.0,
+        "Transition / Other + Low Vol (Investable)": 0.029411764705882353,
+        "Transition / Other + Moderate (Chop)": 0.0
+      },
+      "Strong Trending + Moderate (Chop)": {
+        "Bottoming + Low Vol (Investable)": 0.0,
+        "Bottoming + Moderate (Chop)": 0.0,
+        "Strong Trending + High Vol (Fear)": 0.42857142857142855,
+        "Strong Trending + Low Vol (Investable)": 0.06842923794712286,
+        "Strong Trending + Moderate (Chop)": 0.7209302325581395,
+        "Topping + High Vol (Fear)": 0.0,
+        "Topping + Low Vol (Investable)": 0.0,
+        "Topping + Moderate (Chop)": 0.0,
+        "Transition / Other + High Vol (Fear)": 0.0,
+        "Transition / Other + Low Vol (Investable)": 0.04411764705882353,
+        "Transition / Other + Moderate (Chop)": 0.07462686567164178
+      },
+      "Topping + High Vol (Fear)": {
+        "Bottoming + Low Vol (Investable)": 0.0,
+        "Bottoming + Moderate (Chop)": 0.0,
+        "Strong Trending + High Vol (Fear)": 0.0,
+        "Strong Trending + Low Vol (Investable)": 0.0,
+        "Strong Trending + Moderate (Chop)": 0.0,
+        "Topping + High Vol (Fear)": 0.7608695652173914,
+        "Topping + Low Vol (Investable)": 0.0,
+        "Topping + Moderate (Chop)": 0.07246376811594203,
+        "Transition / Other + High Vol (Fear)": 0.25,
+        "Transition / Other + Low Vol (Investable)": 0.0,
+        "Transition / Other + Moderate (Chop)": 0.022388059701492536
+      },
+      "Topping + Low Vol (Investable)": {
+        "Bottoming + Low Vol (Investable)": 0.0,
+        "Bottoming + Moderate (Chop)": 0.0,
+        "Strong Trending + High Vol (Fear)": 0.0,
+        "Strong Trending + Low Vol (Investable)": 0.0,
+        "Strong Trending + Moderate (Chop)": 0.0,
+        "Topping + High Vol (Fear)": 0.0,
+        "Topping + Low Vol (Investable)": 0.6666666666666666,
+        "Topping + Moderate (Chop)": 0.028985507246376812,
+        "Transition / Other + High Vol (Fear)": 0.0,
+        "Transition / Other + Low Vol (Investable)": 0.0,
+        "Transition / Other + Moderate (Chop)": 0.0
+      },
+      "Topping + Moderate (Chop)": {
+        "Bottoming + Low Vol (Investable)": 0.0,
+        "Bottoming + Moderate (Chop)": 0.0,
+        "Strong Trending + High Vol (Fear)": 0.0,
+        "Strong Trending + Low Vol (Investable)": 0.0,
+        "Strong Trending + Moderate (Chop)": 0.0,
+        "Topping + High Vol (Fear)": 0.17391304347826086,
+        "Topping + Low Vol (Investable)": 0.16666666666666666,
+        "Topping + Moderate (Chop)": 0.7246376811594203,
+        "Transition / Other + High Vol (Fear)": 0.16666666666666666,
+        "Transition / Other + Low Vol (Investable)": 0.0,
+        "Transition / Other + Moderate (Chop)": 0.05970149253731343
+      },
+      "Transition / Other + High Vol (Fear)": {
+        "Bottoming + Low Vol (Investable)": 0.0,
+        "Bottoming + Moderate (Chop)": 0.0,
+        "Strong Trending + High Vol (Fear)": 0.0,
+        "Strong Trending + Low Vol (Investable)": 0.0,
+        "Strong Trending + Moderate (Chop)": 0.004651162790697674,
+        "Topping + High Vol (Fear)": 0.043478260869565216,
+        "Topping + Low Vol (Investable)": 0.0,
+        "Topping + Moderate (Chop)": 0.0,
+        "Transition / Other + High Vol (Fear)": 0.4166666666666667,
+        "Transition / Other + Low Vol (Investable)": 0.0,
+        "Transition / Other + Moderate (Chop)": 0.029850746268656716
+      },
+      "Transition / Other + Low Vol (Investable)": {
+        "Bottoming + Low Vol (Investable)": 0.23076923076923078,
+        "Bottoming + Moderate (Chop)": 0.0,
+        "Strong Trending + High Vol (Fear)": 0.0,
+        "Strong Trending + Low Vol (Investable)": 0.0,
+        "Strong Trending + Moderate (Chop)": 0.0,
+        "Topping + High Vol (Fear)": 0.0,
+        "Topping + Low Vol (Investable)": 0.16666666666666666,
+        "Topping + Moderate (Chop)": 0.0,
+        "Transition / Other + High Vol (Fear)": 0.0,
+        "Transition / Other + Low Vol (Investable)": 0.7941176470588235,
+        "Transition / Other + Moderate (Chop)": 0.06716417910447761
+      },
+      "Transition / Other + Moderate (Chop)": {
+        "Bottoming + Low Vol (Investable)": 0.0,
+        "Bottoming + Moderate (Chop)": 0.14634146341463414,
+        "Strong Trending + High Vol (Fear)": 0.14285714285714285,
+        "Strong Trending + Low Vol (Investable)": 0.0,
+        "Strong Trending + Moderate (Chop)": 0.05581395348837209,
+        "Topping + High Vol (Fear)": 0.021739130434782608,
+        "Topping + Low Vol (Investable)": 0.0,
+        "Topping + Moderate (Chop)": 0.17391304347826086,
+        "Transition / Other + High Vol (Fear)": 0.16666666666666666,
+        "Transition / Other + Low Vol (Investable)": 0.10294117647058823,
+        "Transition / Other + Moderate (Chop)": 0.6940298507462687
+      }
+    },
+    "5d": {
+      "Bottoming + Low Vol (Investable)": {
+        "Bottoming + Low Vol (Investable)": 0.07692307692307693,
+        "Bottoming + Moderate (Chop)": 0.12195121951219512,
+        "Strong Trending + High Vol (Fear)": 0.0,
+        "Strong Trending + Low Vol (Investable)": 0.0,
+        "Strong Trending + Moderate (Chop)": 0.0,
+        "Topping + High Vol (Fear)": 0.0,
+        "Topping + Low Vol (Investable)": 0.16666666666666666,
+        "Topping + Moderate (Chop)": 0.0,
+        "Transition / Other + High Vol (Fear)": 0.0,
+        "Transition / Other + Low Vol (Investable)": 0.058823529411764705,
+        "Transition / Other + Moderate (Chop)": 0.014925373134328358
+      },
+      "Bottoming + Moderate (Chop)": {
+        "Bottoming + Low Vol (Investable)": 0.07692307692307693,
+        "Bottoming + Moderate (Chop)": 0.36585365853658536,
+        "Strong Trending + High Vol (Fear)": 0.0,
+        "Strong Trending + Low Vol (Investable)": 0.0,
+        "Strong Trending + Moderate (Chop)": 0.0,
+        "Topping + High Vol (Fear)": 0.0,
+        "Topping + Low Vol (Investable)": 0.0,
+        "Topping + Moderate (Chop)": 0.08695652173913043,
+        "Transition / Other + High Vol (Fear)": 0.0,
+        "Transition / Other + Low Vol (Investable)": 0.0,
+        "Transition / Other + Moderate (Chop)": 0.1417910447761194
+      },
+      "Strong Trending + High Vol (Fear)": {
+        "Bottoming + Low Vol (Investable)": 0.0,
+        "Bottoming + Moderate (Chop)": 0.0,
+        "Strong Trending + High Vol (Fear)": 0.0,
+        "Strong Trending + Low Vol (Investable)": 0.0,
+        "Strong Trending + Moderate (Chop)": 0.03271028037383177,
+        "Topping + High Vol (Fear)": 0.0,
+        "Topping + Low Vol (Investable)": 0.0,
+        "Topping + Moderate (Chop)": 0.0,
+        "Transition / Other + High Vol (Fear)": 0.0,
+        "Transition / Other + Low Vol (Investable)": 0.0,
+        "Transition / Other + Moderate (Chop)": 0.0
+      },
+      "Strong Trending + Low Vol (Investable)": {
+        "Bottoming + Low Vol (Investable)": 0.15384615384615385,
+        "Bottoming + Moderate (Chop)": 0.0,
+        "Strong Trending + High Vol (Fear)": 0.14285714285714285,
+        "Strong Trending + Low Vol (Investable)": 0.8703125,
+        "Strong Trending + Moderate (Chop)": 0.3364485981308411,
+        "Topping + High Vol (Fear)": 0.0,
+        "Topping + Low Vol (Investable)": 0.0,
+        "Topping + Moderate (Chop)": 0.0,
+        "Transition / Other + High Vol (Fear)": 0.0,
+        "Transition / Other + Low Vol (Investable)": 0.16176470588235295,
+        "Transition / Other + Moderate (Chop)": 0.007462686567164179
+      },
+      "Strong Trending + Moderate (Chop)": {
+        "Bottoming + Low Vol (Investable)": 0.3076923076923077,
+        "Bottoming + Moderate (Chop)": 0.024390243902439025,
+        "Strong Trending + High Vol (Fear)": 0.2857142857142857,
+        "Strong Trending + Low Vol (Investable)": 0.121875,
+        "Strong Trending + Moderate (Chop)": 0.4766355140186916,
+        "Topping + High Vol (Fear)": 0.0,
+        "Topping + Low Vol (Investable)": 0.0,
+        "Topping + Moderate (Chop)": 0.028985507246376812,
+        "Transition / Other + High Vol (Fear)": 0.0,
+        "Transition / Other + Low Vol (Investable)": 0.14705882352941177,
+        "Transition / Other + Moderate (Chop)": 0.11940298507462686
+      },
+      "Topping + High Vol (Fear)": {
+        "Bottoming + Low Vol (Investable)": 0.0,
+        "Bottoming + Moderate (Chop)": 0.0,
+        "Strong Trending + High Vol (Fear)": 0.0,
+        "Strong Trending + Low Vol (Investable)": 0.0,
+        "Strong Trending + Moderate (Chop)": 0.004672897196261682,
+        "Topping + High Vol (Fear)": 0.5,
+        "Topping + Low Vol (Investable)": 0.0,
+        "Topping + Moderate (Chop)": 0.14492753623188406,
+        "Transition / Other + High Vol (Fear)": 0.3333333333333333,
+        "Transition / Other + Low Vol (Investable)": 0.0,
+        "Transition / Other + Moderate (Chop)": 0.05970149253731343
+      },
+      "Topping + Low Vol (Investable)": {
+        "Bottoming + Low Vol (Investable)": 0.0,
+        "Bottoming + Moderate (Chop)": 0.0,
+        "Strong Trending + High Vol (Fear)": 0.0,
+        "Strong Trending + Low Vol (Investable)": 0.0,
+        "Strong Trending + Moderate (Chop)": 0.0,
+        "Topping + High Vol (Fear)": 0.0,
+        "Topping + Low Vol (Investable)": 0.0,
+        "Topping + Moderate (Chop)": 0.028985507246376812,
+        "Transition / Other + High Vol (Fear)": 0.0,
+        "Transition / Other + Low Vol (Investable)": 0.0,
+        "Transition / Other + Moderate (Chop)": 0.029850746268656716
+      },
+      "Topping + Moderate (Chop)": {
+        "Bottoming + Low Vol (Investable)": 0.0,
+        "Bottoming + Moderate (Chop)": 0.0,
+        "Strong Trending + High Vol (Fear)": 0.14285714285714285,
+        "Strong Trending + Low Vol (Investable)": 0.0015625,
+        "Strong Trending + Moderate (Chop)": 0.018691588785046728,
+        "Topping + High Vol (Fear)": 0.30434782608695654,
+        "Topping + Low Vol (Investable)": 0.3333333333333333,
+        "Topping + Moderate (Chop)": 0.391304347826087,
+        "Transition / Other + High Vol (Fear)": 0.5,
+        "Transition / Other + Low Vol (Investable)": 0.0,
+        "Transition / Other + Moderate (Chop)": 0.1044776119402985
+      },
+      "Transition / Other + High Vol (Fear)": {
+        "Bottoming + Low Vol (Investable)": 0.0,
+        "Bottoming + Moderate (Chop)": 0.04878048780487805,
+        "Strong Trending + High Vol (Fear)": 0.0,
+        "Strong Trending + Low Vol (Investable)": 0.0015625,
+        "Strong Trending + Moderate (Chop)": 0.004672897196261682,
+        "Topping + High Vol (Fear)": 0.021739130434782608,
+        "Topping + Low Vol (Investable)": 0.16666666666666666,
+        "Topping + Moderate (Chop)": 0.028985507246376812,
+        "Transition / Other + High Vol (Fear)": 0.08333333333333333,
+        "Transition / Other + Low Vol (Investable)": 0.0,
+        "Transition / Other + Moderate (Chop)": 0.022388059701492536
+      },
+      "Transition / Other + Low Vol (Investable)": {
+        "Bottoming + Low Vol (Investable)": 0.23076923076923078,
+        "Bottoming + Moderate (Chop)": 0.024390243902439025,
+        "Strong Trending + High Vol (Fear)": 0.0,
+        "Strong Trending + Low Vol (Investable)": 0.0,
+        "Strong Trending + Moderate (Chop)": 0.018691588785046728,
+        "Topping + High Vol (Fear)": 0.0,
+        "Topping + Low Vol (Investable)": 0.16666666666666666,
+        "Topping + Moderate (Chop)": 0.043478260869565216,
+        "Transition / Other + High Vol (Fear)": 0.0,
+        "Transition / Other + Low Vol (Investable)": 0.5294117647058824,
+        "Transition / Other + Moderate (Chop)": 0.12686567164179105
+      },
+      "Transition / Other + Moderate (Chop)": {
+        "Bottoming + Low Vol (Investable)": 0.15384615384615385,
+        "Bottoming + Moderate (Chop)": 0.4146341463414634,
+        "Strong Trending + High Vol (Fear)": 0.42857142857142855,
+        "Strong Trending + Low Vol (Investable)": 0.0046875,
+        "Strong Trending + Moderate (Chop)": 0.10747663551401869,
+        "Topping + High Vol (Fear)": 0.17391304347826086,
+        "Topping + Low Vol (Investable)": 0.16666666666666666,
+        "Topping + Moderate (Chop)": 0.2463768115942029,
+        "Transition / Other + High Vol (Fear)": 0.08333333333333333,
+        "Transition / Other + Low Vol (Investable)": 0.10294117647058823,
+        "Transition / Other + Moderate (Chop)": 0.373134328358209
+      }
+    },
+    "10d": {
+      "Bottoming + Low Vol (Investable)": {
+        "Bottoming + Low Vol (Investable)": 0.0,
+        "Bottoming + Moderate (Chop)": 0.0,
+        "Strong Trending + High Vol (Fear)": 0.0,
+        "Strong Trending + Low Vol (Investable)": 0.001564945226917058,
+        "Strong Trending + Moderate (Chop)": 0.0,
+        "Topping + High Vol (Fear)": 0.0,
+        "Topping + Low Vol (Investable)": 0.3333333333333333,
+        "Topping + Moderate (Chop)": 0.07246376811594203,
+        "Transition / Other + High Vol (Fear)": 0.0,
+        "Transition / Other + Low Vol (Investable)": 0.0,
+        "Transition / Other + Moderate (Chop)": 0.03731343283582089
+      },
+      "Bottoming + Moderate (Chop)": {
+        "Bottoming + Low Vol (Investable)": 0.0,
+        "Bottoming + Moderate (Chop)": 0.21951219512195122,
+        "Strong Trending + High Vol (Fear)": 0.0,
+        "Strong Trending + Low Vol (Investable)": 0.0,
+        "Strong Trending + Moderate (Chop)": 0.0,
+        "Topping + High Vol (Fear)": 0.10869565217391304,
+        "Topping + Low Vol (Investable)": 0.0,
+        "Topping + Moderate (Chop)": 0.17391304347826086,
+        "Transition / Other + High Vol (Fear)": 0.08333333333333333,
+        "Transition / Other + Low Vol (Investable)": 0.0,
+        "Transition / Other + Moderate (Chop)": 0.1044776119402985
+      },
+      "Strong Trending + High Vol (Fear)": {
+        "Bottoming + Low Vol (Investable)": 0.0,
+        "Bottoming + Moderate (Chop)": 0.0,
+        "Strong Trending + High Vol (Fear)": 0.0,
+        "Strong Trending + Low Vol (Investable)": 0.006259780907668232,
+        "Strong Trending + Moderate (Chop)": 0.014084507042253521,
+        "Topping + High Vol (Fear)": 0.0,
+        "Topping + Low Vol (Investable)": 0.0,
+        "Topping + Moderate (Chop)": 0.0,
+        "Transition / Other + High Vol (Fear)": 0.0,
+        "Transition / Other + Low Vol (Investable)": 0.0,
+        "Transition / Other + Moderate (Chop)": 0.0
+      },
+      "Strong Trending + Low Vol (Investable)": {
+        "Bottoming + Low Vol (Investable)": 0.3076923076923077,
+        "Bottoming + Moderate (Chop)": 0.024390243902439025,
+        "Strong Trending + High Vol (Fear)": 0.0,
+        "Strong Trending + Low Vol (Investable)": 0.809076682316119,
+        "Strong Trending + Moderate (Chop)": 0.4131455399061033,
+        "Topping + High Vol (Fear)": 0.0,
+        "Topping + Low Vol (Investable)": 0.0,
+        "Topping + Moderate (Chop)": 0.0,
+        "Transition / Other + High Vol (Fear)": 0.0,
+        "Transition / Other + Low Vol (Investable)": 0.3076923076923077,
+        "Transition / Other + Moderate (Chop)": 0.1044776119402985
+      },
+      "Strong Trending + Moderate (Chop)": {
+        "Bottoming + Low Vol (Investable)": 0.6153846153846154,
+        "Bottoming + Moderate (Chop)": 0.1951219512195122,
+        "Strong Trending + High Vol (Fear)": 0.0,
+        "Strong Trending + Low Vol (Investable)": 0.16901408450704225,
+        "Strong Trending + Moderate (Chop)": 0.3333333333333333,
+        "Topping + High Vol (Fear)": 0.0,
+        "Topping + Low Vol (Investable)": 0.0,
+        "Topping + Moderate (Chop)": 0.028985507246376812,
+        "Transition / Other + High Vol (Fear)": 0.0,
+        "Transition / Other + Low Vol (Investable)": 0.06153846153846154,
+        "Transition / Other + Moderate (Chop)": 0.1044776119402985
+      },
+      "Topping + High Vol (Fear)": {
+        "Bottoming + Low Vol (Investable)": 0.0,
+        "Bottoming + Moderate (Chop)": 0.0,
+        "Strong Trending + High Vol (Fear)": 0.0,
+        "Strong Trending + Low Vol (Investable)": 0.0,
+        "Strong Trending + Moderate (Chop)": 0.014084507042253521,
+        "Topping + High Vol (Fear)": 0.1956521739130435,
+        "Topping + Low Vol (Investable)": 0.5,
+        "Topping + Moderate (Chop)": 0.21739130434782608,
+        "Transition / Other + High Vol (Fear)": 0.3333333333333333,
+        "Transition / Other + Low Vol (Investable)": 0.0,
+        "Transition / Other + Moderate (Chop)": 0.08955223880597014
+      },
+      "Topping + Low Vol (Investable)": {
+        "Bottoming + Low Vol (Investable)": 0.0,
+        "Bottoming + Moderate (Chop)": 0.0,
+        "Strong Trending + High Vol (Fear)": 0.0,
+        "Strong Trending + Low Vol (Investable)": 0.003129890453834116,
+        "Strong Trending + Moderate (Chop)": 0.018779342723004695,
+        "Topping + High Vol (Fear)": 0.0,
+        "Topping + Low Vol (Investable)": 0.0,
+        "Topping + Moderate (Chop)": 0.0,
+        "Transition / Other + High Vol (Fear)": 0.0,
+        "Transition / Other + Low Vol (Investable)": 0.0,
+        "Transition / Other + Moderate (Chop)": 0.0
+      },
+      "Topping + Moderate (Chop)": {
+        "Bottoming + Low Vol (Investable)": 0.0,
+        "Bottoming + Moderate (Chop)": 0.17073170731707318,
+        "Strong Trending + High Vol (Fear)": 0.2857142857142857,
+        "Strong Trending + Low Vol (Investable)": 0.004694835680751174,
+        "Strong Trending + Moderate (Chop)": 0.04225352112676056,
+        "Topping + High Vol (Fear)": 0.32608695652173914,
+        "Topping + Low Vol (Investable)": 0.0,
+        "Topping + Moderate (Chop)": 0.11594202898550725,
+        "Transition / Other + High Vol (Fear)": 0.5,
+        "Transition / Other + Low Vol (Investable)": 0.0,
+        "Transition / Other + Moderate (Chop)": 0.1417910447761194
+      },
+      "Transition / Other + High Vol (Fear)": {
+        "Bottoming + Low Vol (Investable)": 0.0,
+        "Bottoming + Moderate (Chop)": 0.0,
+        "Strong Trending + High Vol (Fear)": 0.0,
+        "Strong Trending + Low Vol (Investable)": 0.001564945226917058,
+        "Strong Trending + Moderate (Chop)": 0.0,
+        "Topping + High Vol (Fear)": 0.0,
+        "Topping + Low Vol (Investable)": 0.16666666666666666,
+        "Topping + Moderate (Chop)": 0.043478260869565216,
+        "Transition / Other + High Vol (Fear)": 0.0,
+        "Transition / Other + Low Vol (Investable)": 0.0,
+        "Transition / Other + Moderate (Chop)": 0.05223880597014925
+      },
+      "Transition / Other + Low Vol (Investable)": {
+        "Bottoming + Low Vol (Investable)": 0.0,
+        "Bottoming + Moderate (Chop)": 0.04878048780487805,
+        "Strong Trending + High Vol (Fear)": 0.14285714285714285,
+        "Strong Trending + Low Vol (Investable)": 0.001564945226917058,
+        "Strong Trending + Moderate (Chop)": 0.03286384976525822,
+        "Topping + High Vol (Fear)": 0.0,
+        "Topping + Low Vol (Investable)": 0.0,
+        "Topping + Moderate (Chop)": 0.028985507246376812,
+        "Transition / Other + High Vol (Fear)": 0.08333333333333333,
+        "Transition / Other + Low Vol (Investable)": 0.5230769230769231,
+        "Transition / Other + Moderate (Chop)": 0.11940298507462686
+      },
+      "Transition / Other + Moderate (Chop)": {
+        "Bottoming + Low Vol (Investable)": 0.07692307692307693,
+        "Bottoming + Moderate (Chop)": 0.34146341463414637,
+        "Strong Trending + High Vol (Fear)": 0.5714285714285714,
+        "Strong Trending + Low Vol (Investable)": 0.003129890453834116,
+        "Strong Trending + Moderate (Chop)": 0.13145539906103287,
+        "Topping + High Vol (Fear)": 0.3695652173913043,
+        "Topping + Low Vol (Investable)": 0.0,
+        "Topping + Moderate (Chop)": 0.3188405797101449,
+        "Transition / Other + High Vol (Fear)": 0.0,
+        "Transition / Other + Low Vol (Investable)": 0.1076923076923077,
+        "Transition / Other + Moderate (Chop)": 0.2462686567164179
+      }
+    }
+  },
+  "regime_history": [
+    {
+      "date": "2026-02-03",
+      "combined_regime": "Strong Trending + Low Vol (Investable)",
+      "SPY": 687.6520385742188,
+      "QQQ": 615.7435913085938,
+      "VIX": 18.0
+    },
+    {
+      "date": "2026-02-04",
+      "combined_regime": "Strong Trending + Low Vol (Investable)",
+      "SPY": 684.3211059570312,
+      "QQQ": 604.9871826171875,
+      "VIX": 18.639999389648438
+    },
+    {
+      "date": "2026-02-05",
+      "combined_regime": "Strong Trending + Moderate (Chop)",
+      "SPY": 675.7744750976562,
+      "QQQ": 596.2781982421875,
+      "VIX": 21.770000457763672
+    },
+    {
+      "date": "2026-02-06",
+      "combined_regime": "Strong Trending + Moderate (Chop)",
+      "SPY": 688.739013671875,
+      "QQQ": 608.8822631835938,
+      "VIX": 20.3700008392334
+    },
+    {
+      "date": "2026-02-09",
+      "combined_regime": "Strong Trending + Low Vol (Investable)",
+      "SPY": 692.0599975585938,
+      "QQQ": 613.54638671875,
+      "VIX": 17.360000610351562
+    },
+    {
+      "date": "2026-02-10",
+      "combined_regime": "Strong Trending + Low Vol (Investable)",
+      "SPY": 690.2349243164062,
+      "QQQ": 610.699951171875,
+      "VIX": 17.790000915527344
+    },
+    {
+      "date": "2026-02-11",
+      "combined_regime": "Strong Trending + Low Vol (Investable)",
+      "SPY": 690.075439453125,
+      "QQQ": 612.337890625,
+      "VIX": 17.649999618530273
+    },
+    {
+      "date": "2026-02-12",
+      "combined_regime": "Strong Trending + Moderate (Chop)",
+      "SPY": 679.41455078125,
+      "QQQ": 599.8836059570312,
+      "VIX": 20.81999969482422
+    },
+    {
+      "date": "2026-02-13",
+      "combined_regime": "Strong Trending + Moderate (Chop)",
+      "SPY": 679.8931884765625,
+      "QQQ": 601.1619873046875,
+      "VIX": 20.600000381469727
+    },
+    {
+      "date": "2026-02-17",
+      "combined_regime": "Strong Trending + Moderate (Chop)",
+      "SPY": 680.9901733398438,
+      "QQQ": 600.542724609375,
+      "VIX": 20.290000915527344
+    },
+    {
+      "date": "2026-02-18",
+      "combined_regime": "Strong Trending + Moderate (Chop)",
+      "SPY": 684.4208374023438,
+      "QQQ": 605.027099609375,
+      "VIX": 19.6200008392334
+    },
+    {
+      "date": "2026-02-19",
+      "combined_regime": "Strong Trending + Moderate (Chop)",
+      "SPY": 682.61572265625,
+      "QQQ": 602.7100219726562,
+      "VIX": 20.229999542236328
+    },
+    {
+      "date": "2026-02-20",
+      "combined_regime": "Strong Trending + Moderate (Chop)",
+      "SPY": 687.5523071289062,
+      "QQQ": 608.0433349609375,
+      "VIX": 19.09000015258789
+    },
+    {
+      "date": "2026-02-23",
+      "combined_regime": "Strong Trending + Moderate (Chop)",
+      "SPY": 680.531494140625,
+      "QQQ": 600.652587890625,
+      "VIX": 21.010000228881836
+    },
+    {
+      "date": "2026-02-24",
+      "combined_regime": "Strong Trending + Moderate (Chop)",
+      "SPY": 685.4779052734375,
+      "QQQ": 607.1044921875,
+      "VIX": 19.549999237060547
+    },
+    {
+      "date": "2026-02-25",
+      "combined_regime": "Strong Trending + Low Vol (Investable)",
+      "SPY": 691.26220703125,
+      "QQQ": 615.9033813476562,
+      "VIX": 17.93000030517578
+    },
+    {
+      "date": "2026-02-26",
+      "combined_regime": "Strong Trending + Low Vol (Investable)",
+      "SPY": 687.422607421875,
+      "QQQ": 608.4727783203125,
+      "VIX": 18.6299991607666
+    },
+    {
+      "date": "2026-02-27",
+      "combined_regime": "Strong Trending + Moderate (Chop)",
+      "SPY": 684.1216430664062,
+      "QQQ": 606.5252075195312,
+      "VIX": 19.860000610351562
+    },
+    {
+      "date": "2026-03-02",
+      "combined_regime": "Strong Trending + Moderate (Chop)",
+      "SPY": 684.5106201171875,
+      "QQQ": 607.32421875,
+      "VIX": 21.440000534057617
+    },
+    {
+      "date": "2026-03-03",
+      "combined_regime": "Strong Trending + Moderate (Chop)",
+      "SPY": 678.4771118164062,
+      "QQQ": 600.8224487304688,
+      "VIX": 23.56999969482422
+    },
+    {
+      "date": "2026-03-04",
+      "combined_regime": "Strong Trending + Moderate (Chop)",
+      "SPY": 683.2639770507812,
+      "QQQ": 609.9808959960938,
+      "VIX": 21.149999618530273
+    },
+    {
+      "date": "2026-03-05",
+      "combined_regime": "Strong Trending + Moderate (Chop)",
+      "SPY": 679.4544067382812,
+      "QQQ": 608.1431274414062,
+      "VIX": 23.75
+    },
+    {
+      "date": "2026-03-06",
+      "combined_regime": "Strong Trending + Moderate (Chop)",
+      "SPY": 670.5487060546875,
+      "QQQ": 598.9946899414062,
+      "VIX": 29.489999771118164
+    },
+    {
+      "date": "2026-03-09",
+      "combined_regime": "Strong Trending + Moderate (Chop)",
+      "SPY": 676.4227294921875,
+      "QQQ": 606.99462890625,
+      "VIX": 25.5
+    },
+    {
+      "date": "2026-03-10",
+      "combined_regime": "Strong Trending + Moderate (Chop)",
+      "SPY": 675.3356323242188,
+      "QQQ": 607.004638671875,
+      "VIX": 24.93000030517578
+    },
+    {
+      "date": "2026-03-11",
+      "combined_regime": "Strong Trending + Moderate (Chop)",
+      "SPY": 674.4879760742188,
+      "QQQ": 606.9247436523438,
+      "VIX": 24.229999542236328
+    },
+    {
+      "date": "2026-03-12",
+      "combined_regime": "Strong Trending + Moderate (Chop)",
+      "SPY": 664.2459106445312,
+      "QQQ": 596.5078735351562,
+      "VIX": 27.290000915527344
+    },
+    {
+      "date": "2026-03-13",
+      "combined_regime": "Strong Trending + Moderate (Chop)",
+      "SPY": 660.4862060546875,
+      "QQQ": 592.9722900390625,
+      "VIX": 27.190000534057617
+    },
+    {
+      "date": "2026-03-16",
+      "combined_regime": "Strong Trending + Moderate (Chop)",
+      "SPY": 667.2078857421875,
+      "QQQ": 599.6239013671875,
+      "VIX": 23.510000228881836
+    },
+    {
+      "date": "2026-03-17",
+      "combined_regime": "Strong Trending + Moderate (Chop)",
+      "SPY": 668.9630126953125,
+      "QQQ": 602.5502319335938,
+      "VIX": 22.3700008392334
+    },
+    {
+      "date": "2026-03-18",
+      "combined_regime": "Strong Trending + Moderate (Chop)",
+      "SPY": 659.6285400390625,
+      "QQQ": 594.15087890625,
+      "VIX": 25.09000015258789
+    },
+    {
+      "date": "2026-03-19",
+      "combined_regime": "Strong Trending + Moderate (Chop)",
+      "SPY": 658.0029907226562,
+      "QQQ": 592.273193359375,
+      "VIX": 24.059999465942383
+    },
+    {
+      "date": "2026-03-20",
+      "combined_regime": "Strong Trending + Moderate (Chop)",
+      "SPY": 648.5700073242188,
+      "QQQ": 581.3269653320312,
+      "VIX": 26.780000686645508
+    },
+    {
+      "date": "2026-03-23",
+      "combined_regime": "Strong Trending + Moderate (Chop)",
+      "SPY": 655.3800048828125,
+      "QQQ": 588.0,
+      "VIX": 26.149999618530273
+    },
+    {
+      "date": "2026-03-24",
+      "combined_regime": "Strong Trending + Moderate (Chop)",
+      "SPY": 653.1799926757812,
+      "QQQ": 583.97998046875,
+      "VIX": 26.950000762939453
+    },
+    {
+      "date": "2026-03-25",
+      "combined_regime": "Strong Trending + Moderate (Chop)",
+      "SPY": 656.8200073242188,
+      "QQQ": 587.8200073242188,
+      "VIX": 25.329999923706055
+    },
+    {
+      "date": "2026-03-26",
+      "combined_regime": "Strong Trending + Moderate (Chop)",
+      "SPY": 645.0900268554688,
+      "QQQ": 573.7899780273438,
+      "VIX": 27.440000534057617
+    },
+    {
+      "date": "2026-03-27",
+      "combined_regime": "Strong Trending + High Vol (Fear)",
+      "SPY": 634.0900268554688,
+      "QQQ": 562.5800170898438,
+      "VIX": 31.049999237060547
+    },
+    {
+      "date": "2026-03-30",
+      "combined_regime": "Strong Trending + High Vol (Fear)",
+      "SPY": 631.969970703125,
+      "QQQ": 558.280029296875,
+      "VIX": 30.610000610351562
+    },
+    {
+      "date": "2026-03-31",
+      "combined_regime": "Transition / Other + Moderate (Chop)",
+      "SPY": 650.3400268554688,
+      "QQQ": 577.1799926757812,
+      "VIX": 25.25
+    },
+    {
+      "date": "2026-04-01",
+      "combined_regime": "Transition / Other + Moderate (Chop)",
+      "SPY": 655.239990234375,
+      "QQQ": 584.3099975585938,
+      "VIX": 24.540000915527344
+    },
+    {
+      "date": "2026-04-02",
+      "combined_regime": "Transition / Other + Moderate (Chop)",
+      "SPY": 655.8300170898438,
+      "QQQ": 584.97998046875,
+      "VIX": 23.8700008392334
+    },
+    {
+      "date": "2026-04-06",
+      "combined_regime": "Transition / Other + Moderate (Chop)",
+      "SPY": 658.9299926757812,
+      "QQQ": 588.5,
+      "VIX": 24.170000076293945
+    },
+    {
+      "date": "2026-04-07",
+      "combined_regime": "Strong Trending + Moderate (Chop)",
+      "SPY": 659.219970703125,
+      "QQQ": 588.5900268554688,
+      "VIX": 25.780000686645508
+    },
+    {
+      "date": "2026-04-08",
+      "combined_regime": "Transition / Other + Moderate (Chop)",
+      "SPY": 676.010009765625,
+      "QQQ": 606.0900268554688,
+      "VIX": 21.040000915527344
+    },
+    {
+      "date": "2026-04-09",
+      "combined_regime": "Transition / Other + Moderate (Chop)",
+      "SPY": 679.9099731445312,
+      "QQQ": 610.1900024414062,
+      "VIX": 19.489999771118164
+    },
+    {
+      "date": "2026-04-10",
+      "combined_regime": "Transition / Other + Moderate (Chop)",
+      "SPY": 679.4600219726562,
+      "QQQ": 611.0700073242188,
+      "VIX": 19.229999542236328
+    },
+    {
+      "date": "2026-04-13",
+      "combined_regime": "Transition / Other + Moderate (Chop)",
+      "SPY": 686.0999755859375,
+      "QQQ": 617.3900146484375,
+      "VIX": 19.1200008392334
+    },
+    {
+      "date": "2026-04-14",
+      "combined_regime": "Transition / Other + Low Vol (Investable)",
+      "SPY": 694.4600219726562,
+      "QQQ": 628.5999755859375,
+      "VIX": 18.360000610351562
+    },
+    {
+      "date": "2026-04-15",
+      "combined_regime": "Transition / Other + Low Vol (Investable)",
+      "SPY": 699.9400024414062,
+      "QQQ": 637.4000244140625,
+      "VIX": 18.170000076293945
+    },
+    {
+      "date": "2026-04-16",
+      "combined_regime": "Transition / Other + Low Vol (Investable)",
+      "SPY": 701.6599731445312,
+      "QQQ": 640.469970703125,
+      "VIX": 17.940000534057617
+    },
+    {
+      "date": "2026-04-17",
+      "combined_regime": "Transition / Other + Low Vol (Investable)",
+      "SPY": 710.1400146484375,
+      "QQQ": 648.8499755859375,
+      "VIX": 17.479999542236328
+    },
+    {
+      "date": "2026-04-20",
+      "combined_regime": "Transition / Other + Low Vol (Investable)",
+      "SPY": 708.719970703125,
+      "QQQ": 646.7899780273438,
+      "VIX": 18.8700008392334
+    },
+    {
+      "date": "2026-04-21",
+      "combined_regime": "Strong Trending + Moderate (Chop)",
+      "SPY": 704.0800170898438,
+      "QQQ": 644.3300170898438,
+      "VIX": 19.5
+    },
+    {
+      "date": "2026-04-22",
+      "combined_regime": "Strong Trending + Low Vol (Investable)",
+      "SPY": 711.2100219726562,
+      "QQQ": 655.1099853515625,
+      "VIX": 18.920000076293945
+    },
+    {
+      "date": "2026-04-23",
+      "combined_regime": "Strong Trending + Moderate (Chop)",
+      "SPY": 708.4500122070312,
+      "QQQ": 651.4199829101562,
+      "VIX": 19.309999465942383
+    },
+    {
+      "date": "2026-04-24",
+      "combined_regime": "Strong Trending + Low Vol (Investable)",
+      "SPY": 713.9400024414062,
+      "QQQ": 663.8800048828125,
+      "VIX": 18.709999084472656
+    },
+    {
+      "date": "2026-04-27",
+      "combined_regime": "Strong Trending + Low Vol (Investable)",
+      "SPY": 715.1699829101562,
+      "QQQ": 664.22998046875,
+      "VIX": 18.020000457763672
+    },
+    {
+      "date": "2026-04-28",
+      "combined_regime": "Strong Trending + Low Vol (Investable)",
+      "SPY": 711.6900024414062,
+      "QQQ": 657.5499877929688,
+      "VIX": 17.829999923706055
+    },
+    {
+      "date": "2026-04-29",
+      "combined_regime": "Strong Trending + Low Vol (Investable)",
+      "SPY": 711.5800170898438,
+      "QQQ": 661.5700073242188,
+      "VIX": 18.809999465942383
+    }
+  ]
+}
