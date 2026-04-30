@@ -1,24 +1,55 @@
-# .gitlab-ci.yml
-# 30-Min Pivot Scanner — GitLab CI/CD Scheduler
-# ================================================
-# This file tells GitLab how to run your pivot scanner.
-# The actual schedule (every :01 and :31) is set in the
-# GitLab UI under Build → Schedules (see setup steps below).
+# .gitlab-ci.yml — Pivot Scanner War Room Pipeline
+# Five jobs triggered by $JOB_TYPE variable in each pipeline schedule.
+#
+# REQUIRED: Project Access Token (write_repository) saved as GITLAB_TOKEN (Masked)
+#
+# Schedules:
+#   weekly      → 0 0 * * 1         (Sun midnight UTC)
+#   daily       → 30 21 * * 1-5     (4:30pm CT)
+#   macro_theme → 45 21 * * 1-5     (4:45pm CT)
+#   intraday    → 1,31 14-21 * * 1-5
 
 image: python:3.11-slim
+stages: [run]
 
-stages:
-  - scan
+.commit_data: &commit_data
+  - apt-get update -qq && apt-get install -y -qq git
+  - git config --global user.email "ci@gitlab.com"
+  - git config --global user.name "Pipeline Bot"
+  - git remote set-url origin "https://oauth2:${GITLAB_TOKEN}@${CI_SERVER_HOST}/${CI_PROJECT_PATH}.git"
+  - git checkout main
+  - git add data/ pivot_data.db 2>/dev/null || true
+  - git diff --staged --quiet || git commit -m "[ci skip] data update [$JOB_TYPE]"
+  - git push origin main || echo "nothing to push"
 
-run_pivot_scanner:
-  stage: scan
-
+weekly_screener:
+  stage: run
   rules:
-    - if: '$CI_PIPELINE_SOURCE == "schedule"'
-    - if: '$CI_PIPELINE_SOURCE == "web"'
+    - if: '$CI_PIPELINE_SOURCE == "schedule" && $JOB_TYPE == "weekly"'
+    - if: '$CI_PIPELINE_SOURCE == "web" && $JOB_TYPE == "weekly"'
+  before_script: [pip install --quiet yfinance pandas numpy]
+  script: [python weekly_screener.py, *commit_data]
 
-  before_script:
-    - pip install --quiet polygon-api-client yfinance pandas numpy
+daily_screener:
+  stage: run
+  rules:
+    - if: '$CI_PIPELINE_SOURCE == "schedule" && $JOB_TYPE == "daily"'
+    - if: '$CI_PIPELINE_SOURCE == "web" && $JOB_TYPE == "daily"'
+  before_script: [pip install --quiet yfinance pandas numpy]
+  script: [python daily_screener.py, python radar_prep.py, *commit_data]
 
-  script:
-    - python pivot_scanner.py
+macro_theme:
+  stage: run
+  rules:
+    - if: '$CI_PIPELINE_SOURCE == "schedule" && $JOB_TYPE == "macro_theme"'
+    - if: '$CI_PIPELINE_SOURCE == "web" && $JOB_TYPE == "macro_theme"'
+  before_script: [pip install --quiet yfinance pandas numpy polygon-api-client]
+  script: [python macro_prep.py, python theme_prep.py, *commit_data]
+
+pivot_scanner:
+  stage: run
+  rules:
+    - if: '$CI_PIPELINE_SOURCE == "schedule" && $JOB_TYPE == "intraday"'
+    - if: '$CI_PIPELINE_SOURCE == "web" && $JOB_TYPE == "intraday"'
+  before_script: [pip install --quiet yfinance pandas numpy]
+  script: [python pivot_scanner.py, python radar_prep.py, *commit_data]

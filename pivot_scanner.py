@@ -1,97 +1,32 @@
 """
-30-Minute Pivot Scanner — Based on @1ChartMaster / Elite Swing Traders Strategy
-================================================================================
-DETECTION ONLY — no order execution.
-
-Strategy:
-  BULLISH: streak of ≥ MIN_STREAK consecutive RED candles → first GREEN = pivot candle
-           → if NEXT candle closes ABOVE pivot HIGH → ALERT (calls setup)
-  BEARISH: streak of ≥ MIN_STREAK consecutive GREEN candles → first RED = pivot candle
-           → if NEXT candle closes BELOW pivot LOW → ALERT (puts setup)
-
-Scheduling: run this script once after each 30-min bar closes (e.g., via cron at :01 and :31)
-            or call scan_all_tickers() from your own scheduler loop.
-
-Dependencies:
-    pip install polygon-api-client yfinance pandas numpy
-
-Gmail setup:
-    1. Enable 2-Step Verification on your Google account
-    2. Generate an App Password at: myaccount.google.com/apppasswords
-    3. Set GMAIL_SENDER, GMAIL_APP_PASS, GMAIL_RECIPIENT as env vars or edit the config block below
+INTRADAY PIVOT SCANNER (v3) — writes triggers to data_layer (no email).
+Reads daily_watchlist.json, runs 30-min and 65-min pivot detection,
+persists every trigger to SQLite + JSON for the Streamlit dashboard.
 """
 
 import os
 import time
 import logging
-import smtplib
-from datetime import datetime, timedelta, timezone
-from email.mime.text import MIMEText
-from email.mime.multipart import MIMEMultipart
+from datetime import datetime, timezone
 from typing import Optional
 
 import pandas as pd
+import yfinance as yf
 
-# ── Try importing optional data providers ────────────────────────────────────
-try:
-    from polygon import RESTClient as PolygonClient
-    POLYGON_AVAILABLE = True
-except ImportError:
-    POLYGON_AVAILABLE = False
-
-try:
-    import yfinance as yf
-    YFINANCE_AVAILABLE = True
-except ImportError:
-    YFINANCE_AVAILABLE = False
+from data_layer import save_trigger, get_latest_daily_watchlist
 
 
 # ═══════════════════════════════════════════════════════════════════════════════
-#  CONFIGURABLE PARAMETERS  (edit these)
+#  CONFIG
 # ═══════════════════════════════════════════════════════════════════════════════
 
-TICKERS = [
-    "ORCL", "LRCX", "PANW", "CRWD", "CVNA", "CCJ", "ALAB", "CRDO", "Q", "BWXT",
-    "MKSI", "ROKU", "IONQ", "IREN", "STRL", "RMBS", "MOD", "HL", "MP", "FLS",
-    "CAVA", "ARWR", "SANM", "PRIM", "PRAX", "WFRD", "AUGO", "ECG", "SITE", "CELC",
-    "ALM", "CGON", "FLY", "ONDS", "SIMO", "SEI", "KNF", "LMND", "LGND", "DNTH",
-    "TDW", "LASR", "AXTI", "SYNA", "PII", "PARR", "AMPX", "SEDG", "SEZL", "KWR",
-    "NGL", "LAR", "NBTX", "NBR", "BKSY", "GPRE", "LPTH", "ANRO", "RLMD", "FET",
-    "ARMP", "IRD", "OPTX", "ASYS", "SLGL", "AP", "OCC", "NRXS"
-]
+MIN_STREAK       = 3
+RATE_LIMIT_PAUSE = 2
+SCAN_30MIN       = True
+SCAN_65MIN       = True
+ALERT_TIERS      = ["HIGH", "MED"]    # only persist these tiers
 
-# Core strategy parameters
-MIN_STREAK      = 3      # minimum consecutive same-color candles before pivot
-BARS_TO_FETCH   = 100     # how many 30-min bars of history to pull
-
-# Data source: "polygon" | "yfinance" | "auto"
-# "auto" tries Polygon first, falls back to yfinance
-DATA_SOURCE     = "yfinance"
-
-# Polygon.io API key — set here OR as env var POLYGON_API_KEY
-# Free key: https://polygon.io/dashboard/signup
-POLYGON_API_KEY = os.getenv("POLYGON_API_KEY", "AVQOVtvsBKFlRp5HBjdysH0oMos4geGc")
-
-# Alert verbosity: "full" prints full details; "minimal" prints ticker + direction only
-ALERT_STYLE     = "full"
-
-# Pause between tickers to respect free-tier rate limits (seconds)
-# Polygon free tier = 5 calls/min → 12s between calls is safe
-RATE_LIMIT_PAUSE = 1
-
-# ── Gmail config ──────────────────────────────────────────────────────────────
-GMAIL_SENDER    = os.getenv("GMAIL_SENDER",    "neil.lambert1214@gmail.com")   # your Gmail address
-GMAIL_APP_PASS  = os.getenv("GMAIL_APP_PASS",  "yzvpaxkytaniicpc")               # 16-char App Password
-GMAIL_RECIPIENT = os.getenv("GMAIL_RECIPIENT", "neil.lambert1214@gmail.com")   # alert destination
-SEND_EMAIL      = True    # set False to disable email and only print to console
-
-# Logging level
-LOG_LEVEL       = logging.INFO
-
-
-# ═══════════════════════════════════════════════════════════════════════════════
-#  LOGGING SETUP
-# ═══════════════════════════════════════════════════════════════════════════════
+LOG_LEVEL        = logging.INFO
 
 logging.basicConfig(
     level=LOG_LEVEL,
@@ -105,362 +40,158 @@ log = logging.getLogger(__name__)
 #  DATA FETCHING
 # ═══════════════════════════════════════════════════════════════════════════════
 
-def fetch_bars_polygon(ticker: str, n_bars: int = BARS_TO_FETCH) -> Optional[pd.DataFrame]:
-    """
-    Fetch the last n_bars × 30-minute OHLC bars from Polygon.io.
-    Returns a DataFrame with columns [open, high, low, close, volume]
-    indexed by UTC datetime, sorted oldest → newest.
-    Returns None on failure.
-    """
-    if not POLYGON_AVAILABLE:
-        log.warning("polygon-api-client not installed. Run: pip install polygon-api-client")
-        return None
-    if POLYGON_API_KEY == "YOUR_POLYGON_API_KEY_HERE":
-        log.warning("Polygon API key not set. Set POLYGON_API_KEY env var or edit the script.")
-        return None
-
+def fetch_intraday_bars(ticker: str, interval: str) -> Optional[pd.DataFrame]:
     try:
-        client = PolygonClient(POLYGON_API_KEY)
-
-        # Go back enough calendar days to guarantee n_bars of trading data.
-        # ~13 trading hours/day × 2 bars/hour = ~26 bars/day. Add buffer for weekends/holidays.
-        calendar_days_back = max(10, int((n_bars / 26) * 2.5) + 7)
-        end_dt   = datetime.now(tz=timezone.utc)
-        start_dt = end_dt - timedelta(days=calendar_days_back)
-
-        aggs = client.get_aggs(
-            ticker=ticker,
-            multiplier=30,
-            timespan="minute",
-            from_=start_dt.strftime("%Y-%m-%d"),
-            to=end_dt.strftime("%Y-%m-%d"),
-            adjusted=True,
-            sort="asc",
-            limit=n_bars + 50,   # fetch a little extra, trim below
-        )
-
-        if not aggs:
-            log.warning(f"[{ticker}] Polygon returned no data.")
-            return None
-
-        rows = []
-        for bar in aggs:
-            rows.append({
-                "timestamp": pd.Timestamp(bar.timestamp, unit="ms", tz="UTC"),
-                "open":   bar.open,
-                "high":   bar.high,
-                "low":    bar.low,
-                "close":  bar.close,
-                "volume": bar.volume,
-            })
-
-        df = pd.DataFrame(rows).set_index("timestamp").sort_index()
-        df = df.tail(n_bars)   # keep only the most recent n_bars
-        log.debug(f"[{ticker}] Polygon: fetched {len(df)} 30-min bars.")
-        return df
-
-    except Exception as e:
-        log.error(f"[{ticker}] Polygon fetch error: {e}")
-        return None
-
-
-def fetch_bars_yfinance(ticker: str, n_bars: int = BARS_TO_FETCH) -> Optional[pd.DataFrame]:
-    """
-    Fetch 30-minute bars from yfinance.
-    yfinance provides up to 60 days of 30-min history.
-    Returns a DataFrame with columns [open, high, low, close, volume]
-    sorted oldest → newest. Returns None on failure.
-    """
-    if not YFINANCE_AVAILABLE:
-        log.warning("yfinance not installed. Run: pip install yfinance")
-        return None
-
-    try:
-        tkr = yf.Ticker(ticker)
-        df  = tkr.history(period="60d", interval="30m", auto_adjust=True)
-
+        df = yf.Ticker(ticker).history(period="60d", interval=interval, auto_adjust=True)
         if df.empty:
-            log.warning(f"[{ticker}] yfinance returned no data.")
             return None
-
-        # Normalize timezone and column names
-        df.index   = df.index.tz_convert("UTC") if df.index.tzinfo else df.index.tz_localize("UTC")
+        df.index = df.index.tz_convert("UTC") if df.index.tzinfo else df.index.tz_localize("UTC")
         df.columns = [c.lower() for c in df.columns]
         df = df[["open", "high", "low", "close", "volume"]].sort_index()
-        df = df.tail(n_bars)
-        log.debug(f"[{ticker}] yfinance: fetched {len(df)} 30-min bars.")
-        return df
-
+        return df.tail(100)
     except Exception as e:
-        log.error(f"[{ticker}] yfinance fetch error: {e}")
+        log.error(f"[{ticker}] {interval} fetch error: {e}")
         return None
-
-
-def fetch_bars(ticker: str) -> Optional[pd.DataFrame]:
-    """
-    Route to the configured data source.
-    "auto" tries Polygon first, falls back to yfinance.
-    """
-    source = DATA_SOURCE.lower()
-
-    if source == "polygon":
-        return fetch_bars_polygon(ticker)
-
-    if source == "yfinance":
-        return fetch_bars_yfinance(ticker)
-
-    # "auto" mode — try Polygon, silently fall back to yfinance
-    df = fetch_bars_polygon(ticker)
-    if df is not None and not df.empty:
-        return df
-
-    log.info(f"[{ticker}] Falling back to yfinance...")
-    return fetch_bars_yfinance(ticker)
-
-
-# ═══════════════════════════════════════════════════════════════════════════════
-#  CANDLE COLOR HELPERS
-# ═══════════════════════════════════════════════════════════════════════════════
-
-def is_green(row: pd.Series) -> bool:
-    """Green (bullish) candle: close strictly above open."""
-    return row["close"] > row["open"]
-
-
-def is_red(row: pd.Series) -> bool:
-    """
-    Red (bearish) candle: close at or below open.
-    Doji/flat candles count as red — no follow-through = no bullish conviction.
-    """
-    return row["close"] <= row["open"]
 
 
 # ═══════════════════════════════════════════════════════════════════════════════
 #  PIVOT DETECTION
 # ═══════════════════════════════════════════════════════════════════════════════
 
+def is_green(row): return row["close"] > row["open"]
+def is_red(row):   return row["close"] <= row["open"]
+
+
 def detect_pivot(df: pd.DataFrame, min_streak: int = MIN_STREAK) -> Optional[dict]:
-    """
-    Scan the tail of df to detect a freshly triggered 30-min pivot.
-
-    Bar roles (from the end of df):
-        df.iloc[-1]  = trigger candle  (the bar that just closed)
-        df.iloc[-2]  = pivot candle    (first candle breaking the streak)
-        df.iloc[-3]  and earlier = streak candles
-
-    Only fires on the very latest bar — no look-back re-alerts.
-
-    Returns a dict on trigger, None otherwise:
-        direction    : "bullish" | "bearish"
-        streak_len   : actual number of streak candles found
-        pivot_bar    : pd.Series
-        trigger_bar  : pd.Series
-        pivot_time   : timestamp of pivot candle
-        trigger_time : timestamp of trigger candle
-    """
     if len(df) < min_streak + 2:
-        log.debug(f"Not enough bars to evaluate pivot (need {min_streak + 2}, have {len(df)}).")
         return None
+    trigger_bar = df.iloc[-1]
+    pivot_bar   = df.iloc[-2]
 
-    trigger_bar = df.iloc[-1]   # candle that just closed — this is what we're evaluating
-    pivot_bar   = df.iloc[-2]   # the candle immediately before the trigger
-
-    # ── BULLISH check ─────────────────────────────────────────────────────────
-    # Pivot candle must be GREEN (first green after a red streak)
+    # Bullish
     if is_green(pivot_bar):
-        # Walk backwards from pivot_bar to count consecutive RED candles
         streak = 0
         for i in range(3, len(df) + 1):
-            bar = df.iloc[-i]
-            if is_red(bar):
-                streak += 1
-            else:
-                break   # streak ends at first non-red bar
-
-        if streak >= min_streak:
-            # Trigger fires if the latest bar closes ABOVE the pivot candle's HIGH
-            if trigger_bar["close"] > pivot_bar["high"]:
-                return {
-                    "direction":    "bullish",
-                    "streak_len":   streak,
-                    "pivot_bar":    pivot_bar,
-                    "trigger_bar":  trigger_bar,
-                    "pivot_time":   df.index[-2],
-                    "trigger_time": df.index[-1],
-                }
-
-    # ── BEARISH check ─────────────────────────────────────────────────────────
-    # Pivot candle must be RED (first red after a green streak)
-    if is_red(pivot_bar):
-        # Walk backwards from pivot_bar to count consecutive GREEN candles
-        streak = 0
-        for i in range(3, len(df) + 1):
-            bar = df.iloc[-i]
-            if is_green(bar):
+            if is_red(df.iloc[-i]):
                 streak += 1
             else:
                 break
+        if streak >= min_streak and trigger_bar["close"] > pivot_bar["high"]:
+            return {
+                "direction": "bullish", "streak_len": streak,
+                "pivot_bar": pivot_bar, "trigger_bar": trigger_bar,
+                "pivot_time": df.index[-2], "trigger_time": df.index[-1],
+            }
 
-        if streak >= min_streak:
-            # Trigger fires if the latest bar closes BELOW the pivot candle's LOW
-            if trigger_bar["close"] < pivot_bar["low"]:
-                return {
-                    "direction":    "bearish",
-                    "streak_len":   streak,
-                    "pivot_bar":    pivot_bar,
-                    "trigger_bar":  trigger_bar,
-                    "pivot_time":   df.index[-2],
-                    "trigger_time": df.index[-1],
-                }
+    # Bearish
+    if is_red(pivot_bar):
+        streak = 0
+        for i in range(3, len(df) + 1):
+            if is_green(df.iloc[-i]):
+                streak += 1
+            else:
+                break
+        if streak >= min_streak and trigger_bar["close"] < pivot_bar["low"]:
+            return {
+                "direction": "bearish", "streak_len": streak,
+                "pivot_bar": pivot_bar, "trigger_bar": trigger_bar,
+                "pivot_time": df.index[-2], "trigger_time": df.index[-1],
+            }
 
-    return None   # no trigger on the latest bar
+    return None
 
 
 # ═══════════════════════════════════════════════════════════════════════════════
-#  ALERT FORMATTING  (console)
+#  PERSIST TRIGGER
 # ═══════════════════════════════════════════════════════════════════════════════
 
-def format_console_alert(ticker: str, result: dict, style: str = ALERT_STYLE) -> str:
-    """Build the console alert string from a detect_pivot() result dict."""
-    d      = result["direction"]
-    pb     = result["pivot_bar"]
-    tb     = result["trigger_bar"]
-    p_time = result["pivot_time"]
-    t_time = result["trigger_time"]
-    streak = result["streak_len"]
-
-    pivot_str = (f"O:{pb['open']:.2f}  H:{pb['high']:.2f}  "
-                 f"L:{pb['low']:.2f}  C:{pb['close']:.2f}")
-    trig_str  = (f"O:{tb['open']:.2f}  H:{tb['high']:.2f}  "
-                 f"L:{tb['low']:.2f}  C:{tb['close']:.2f}")
+def persist_trigger(entry: dict, timeframe: str, result: dict):
+    """Build full trigger record and save via data_layer."""
+    pb = result["pivot_bar"]
+    tb = result["trigger_bar"]
+    d  = result["direction"]
 
     if d == "bullish":
-        emoji      = "🚨🟢"
-        label      = "BULLISH 30-MIN PIVOT TRIGGERED"
-        streak_txt = f"{streak} consecutive RED bars → GREEN pivot → trigger close above pivot HIGH"
-        entry_txt  = "Entry: ITM/ATM weekly calls (consider next weekly expiry)"
-        stop_txt   = f"Stop: below pivot candle LOW ({pb['low']:.2f})"
-        broken_txt = (f"Trigger close {tb['close']:.2f} > Pivot high {pb['high']:.2f}")
+        stop_level = float(pb["low"])
+        entry_note = "ITM/ATM weekly calls"
     else:
-        emoji      = "🚨🔴"
-        label      = "BEARISH 30-MIN PIVOT TRIGGERED"
-        streak_txt = f"{streak} consecutive GREEN bars → RED pivot → trigger close below pivot LOW"
-        entry_txt  = "Entry: ITM/ATM weekly puts (consider next weekly expiry)"
-        stop_txt   = f"Stop: above pivot candle HIGH ({pb['high']:.2f})"
-        broken_txt = (f"Trigger close {tb['close']:.2f} < Pivot low {pb['low']:.2f}")
+        stop_level = float(pb["high"])
+        entry_note = "ITM/ATM weekly puts"
 
-    if style == "minimal":
-        return f"{emoji} {label} on {ticker} | {broken_txt}"
+    trigger = {
+        "ticker":         entry["ticker"],
+        "timeframe":      timeframe,
+        "direction":      d,
+        "conviction":     entry["conviction"],
+        "theme":          entry["theme"],
+        "theme_rank":     entry["theme_rank"],
+        "weekly_stage":   entry["weekly_stage"],
+        "daily_stage":    entry["daily_stage"],
+        "trend_template": entry["trend_template"],
+        "weekly_bbuw":    entry["weekly_bbuw"],
+        "daily_bbuw":     entry["daily_bbuw"],
+        "streak_len":     result["streak_len"],
+        "pivot_open":     float(pb["open"]),
+        "pivot_high":     float(pb["high"]),
+        "pivot_low":      float(pb["low"]),
+        "pivot_close":    float(pb["close"]),
+        "pivot_time":     str(result["pivot_time"]),
+        "trigger_open":   float(tb["open"]),
+        "trigger_high":   float(tb["high"]),
+        "trigger_low":    float(tb["low"]),
+        "trigger_close":  float(tb["close"]),
+        "trigger_time":   str(result["trigger_time"]),
+        "stop_level":     stop_level,
+        "entry_note":     entry_note,
+    }
 
-    lines = [
-        "",
-        "=" * 70,
-        f"  {emoji}  {label} on {ticker}",
-        "=" * 70,
-        f"  Streak        : {streak_txt}",
-        f"  Pivot candle  : {pivot_str}  @ {p_time}",
-        f"  Trigger candle: {trig_str}  @ {t_time}",
-        f"  Signal        : {broken_txt}",
-        f"  {entry_txt}",
-        f"  {stop_txt}",
-        "=" * 70,
-        "",
-    ]
-    return "\n".join(lines)
+    save_trigger(trigger)
+    log.info(f"  💾 Persisted: {entry['ticker']} {timeframe} {d.upper()}")
 
 
 # ═══════════════════════════════════════════════════════════════════════════════
-#  EMAIL ALERT  (Gmail)
+#  MAIN
 # ═══════════════════════════════════════════════════════════════════════════════
 
-def format_email_alert(ticker: str, result: dict) -> tuple:
-    """
-    Build the (subject, body) tuple for the Gmail alert.
-    Subject is kept short so it reads clearly as a phone banner notification.
-    Body has full OHLC + trade parameters.
-    """
-    d      = result["direction"]
-    pb     = result["pivot_bar"]
-    tb     = result["trigger_bar"]
-    streak = result["streak_len"]
-    p_time = result["pivot_time"]
-    t_time = result["trigger_time"]
+def main():
+    log.info("Starting INTRADAY pivot scanner (v3 — dashboard mode)...")
 
-    direction_label = "BULLISH 🟢" if d == "bullish" else "BEARISH 🔴"
-    streak_color    = "RED"   if d == "bullish" else "GREEN"
-    entry_txt       = "ITM/ATM weekly calls" if d == "bullish" else "ITM/ATM weekly puts"
+    daily_data = get_latest_daily_watchlist()
+    entries = daily_data.get("entries", [])
+    entries = [e for e in entries if e["conviction"] in ALERT_TIERS]
 
-    if d == "bullish":
-        stop_txt   = f"Below pivot low  ({pb['low']:.2f})"
-        broken_txt = f"Trigger close {tb['close']:.2f}  >  Pivot high {pb['high']:.2f}"
-    else:
-        stop_txt   = f"Above pivot high ({pb['high']:.2f})"
-        broken_txt = f"Trigger close {tb['close']:.2f}  <  Pivot low  {pb['low']:.2f}"
-
-    subject = f"🚨 {direction_label} PIVOT — {ticker} | 30-Min Bar"
-
-    body = f"""
-30-MINUTE PIVOT ALERT
-{'=' * 52}
-Ticker     : {ticker}
-Direction  : {direction_label}
-Scan time  : {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}
-
-SETUP DETAILS
-{'─' * 52}
-Streak         : {streak} consecutive {streak_color} bars
-Pivot candle   : O:{pb['open']:.2f}  H:{pb['high']:.2f}  L:{pb['low']:.2f}  C:{pb['close']:.2f}
-Pivot time     : {p_time}
-Trigger candle : O:{tb['open']:.2f}  H:{tb['high']:.2f}  L:{tb['low']:.2f}  C:{tb['close']:.2f}
-Trigger time   : {t_time}
-Signal         : {broken_txt}
-
-TRADE PARAMETERS
-{'─' * 52}
-Entry  : {entry_txt}
-Stop   : {stop_txt}
-
-{'=' * 52}
-Scan alert only — not financial advice.
-Strategy: @1ChartMaster 30-Min Pivot | Elite Swing Traders
-""".strip()
-
-    return subject, body
-
-
-def send_gmail(subject: str, body: str):
-    """Send a plain-text alert email via Gmail SMTP SSL."""
-    if not SEND_EMAIL:
-        log.info("Email disabled (SEND_EMAIL=False) — skipping.")
+    if not entries:
+        log.error("No entries in daily watchlist. Run daily_screener.py first.")
         return
 
-    # DEBUG — print credential status without exposing values
-    log.info(f"SEND_EMAIL     : {SEND_EMAIL}")
-    log.info(f"GMAIL_SENDER   : {GMAIL_SENDER}")
-    log.info(f"GMAIL_RECIPIENT: {GMAIL_RECIPIENT}")
-    log.info(f"GMAIL_APP_PASS : {'SET' if GMAIL_APP_PASS else 'NOT SET'}")
+    log.info(f"Scanning {len(entries)} tickers (tiers: {ALERT_TIERS})")
 
-    if not GMAIL_APP_PASS or GMAIL_APP_PASS == "":
-        log.warning("GMAIL_APP_PASS not set — skipping email alert.")
-        return
+    trigger_count = 0
+    for i, entry in enumerate(entries, 1):
+        ticker = entry["ticker"]
+        log.info(f"[{i}/{len(entries)}] {ticker} ({entry['conviction']})")
 
-    try:
-        msg = MIMEMultipart("alternative")
-        msg["Subject"] = subject
-        msg["From"]    = GMAIL_SENDER
-        msg["To"]      = GMAIL_RECIPIENT
+        if SCAN_30MIN:
+            df = fetch_intraday_bars(ticker, "30m")
+            if df is not None:
+                r = detect_pivot(df)
+                if r:
+                    persist_trigger(entry, "30-MIN", r)
+                    trigger_count += 1
 
-        msg.attach(MIMEText(body, "plain"))
+        if SCAN_65MIN:
+            df = fetch_intraday_bars(ticker, "60m")
+            if df is not None:
+                r = detect_pivot(df)
+                if r:
+                    persist_trigger(entry, "65-MIN", r)
+                    trigger_count += 1
 
-        with smtplib.SMTP_SSL("smtp.gmail.com", 465) as server:
-            server.login(GMAIL_SENDER, GMAIL_APP_PASS)
-            server.sendmail(GMAIL_SENDER, GMAIL_RECIPIENT, msg.as_string())
+        if i < len(entries):
+            time.sleep(RATE_LIMIT_PAUSE)
 
-        log.info(f"✉️  Email alert sent → {GMAIL_RECIPIENT}")
+    log.info(f"\n  SCAN COMPLETE — {trigger_count} trigger(s) persisted to data_layer")
 
-    except smtplib.SMTPAuthenticationError:
-        log.error("Gmail auth failed — double-check your App Password and sender address.")
-    except smtplib.SMTPException as e:
-        log.error(f"SMTP error while sending alert: {e}")
-    except Exception as e:
-        log.error(f"Unexpected error sending email: {e}")
+
+if __name__ == "__main__":
+    main()
