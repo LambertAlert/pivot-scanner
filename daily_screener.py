@@ -12,7 +12,7 @@ from typing import Optional
 import pandas as pd
 import yfinance as yf
 
-from data_layer import save_daily_watchlist, get_latest_weekly_watchlist
+from data_layer import save_daily_watchlist, get_latest_weekly_watchlist, get_industry_ranks
 
 
 # ═══════════════════════════════════════════════════════════════════════════════
@@ -170,18 +170,18 @@ def load_sector_themes(csv_path: str) -> dict:
 #  CONVICTION
 # ═══════════════════════════════════════════════════════════════════════════════
 
-def assign_conviction(weekly_bbuw, daily_bbuw, trend_template, theme_rank,
+def assign_conviction(weekly_bbuw, daily_bbuw, trend_template, industry_rank: int,
                        pivot_8w_tier: str = "NONE") -> str:
     """
     Tiered conviction scoring (max 10 points).
 
     Points awarded:
-      • Weekly BBUW   ≥ 60 → +1, ≥ 75 → +1            (max 2)
-      • Daily  BBUW   ≥ 60 → +1, ≥ 75 → +1            (max 2)
-      • Trend Template ≥ 6 → +1, = 8 → +1             (max 2)
-      • Theme Rank    ≤ 3  → +1, = 1 → +1             (max 2)
-      • 8W Pivot      STANDARD → +1, STRONG → +2      (max 2)
-        (PROXIMITY/WEAK/NONE → 0)
+      • Weekly BBUW    ≥ 60 → +1, ≥ 75 → +1              (max 2)
+      • Daily  BBUW    ≥ 60 → +1, ≥ 75 → +1              (max 2)
+      • Trend Template ≥ 6  → +1, = 8  → +1              (max 2)
+      • Industry Rank  ≤ 10 → +1, ≤ 3  → +1              (max 2)
+        (dynamic weekly rank from actual watchlist performance)
+      • 8W Pivot STANDARD → +1, STRONG → +2              (max 2)
 
     Tiers:
       HIGH ≥ 7
@@ -189,20 +189,18 @@ def assign_conviction(weekly_bbuw, daily_bbuw, trend_template, theme_rank,
       LOW  < 4
     """
     points = 0
-    if weekly_bbuw   >= 60: points += 1
-    if weekly_bbuw   >= 75: points += 1
-    if daily_bbuw    >= 60: points += 1
-    if daily_bbuw    >= 75: points += 1
-    if trend_template >= 6: points += 1
-    if trend_template == 8: points += 1
-    if theme_rank    <= 3:  points += 1
-    if theme_rank    == 1:  points += 1
+    if weekly_bbuw    >= 60: points += 1
+    if weekly_bbuw    >= 75: points += 1
+    if daily_bbuw     >= 60: points += 1
+    if daily_bbuw     >= 75: points += 1
+    if trend_template >= 6:  points += 1
+    if trend_template == 8:  points += 1
+    if industry_rank  <= 10: points += 1
+    if industry_rank  <= 3:  points += 1
 
-    # 8-Week Pivot bonus — true to @1ChartMaster's "buy the 8W pullback"
-    if pivot_8w_tier == "STANDARD":
-        points += 1
-    elif pivot_8w_tier == "STRONG":
-        points += 2
+    # 8-Week Pivot bonus
+    if pivot_8w_tier == "STANDARD": points += 1
+    elif pivot_8w_tier == "STRONG": points += 2
 
     if points >= 7: return "HIGH"
     if points >= 4: return "MED"
@@ -225,6 +223,10 @@ def main():
     themes = load_sector_themes(THEMES_CSV)
     log.info(f"Loaded {len(themes)} sector theme mappings.")
 
+    # Load dynamic industry ranks (computed Sunday by weekly_screener.py)
+    industry_rank_lookup = get_industry_ranks()   # {industry_name: rank_int}
+    log.info(f"Loaded {len(industry_rank_lookup)} industry ranks.")
+
     df_spy = fetch_daily_bars("SPY")
 
     qualified = []
@@ -246,11 +248,15 @@ def main():
         theme_info = themes.get(ticker, {"theme": "Unclassified", "rank": 99, "industry": ""})
         pivot_8w_tier = entry.get("pivot_8w_tier", "NONE")
 
+        # Look up the dynamic industry rank (default 99 = unranked)
+        ticker_industry = theme_info.get("industry", "")
+        industry_rank = industry_rank_lookup.get(ticker_industry, 99)
+
         conviction = assign_conviction(
             entry.get("bbuw_score", 0),
             daily_bbuw["score"],
             entry.get("trend_template_score", 0),
-            theme_info["rank"],
+            industry_rank,
             pivot_8w_tier=pivot_8w_tier,
         )
 
@@ -265,7 +271,8 @@ def main():
             "daily_bbuw_components": daily_bbuw["components"],
             "theme": theme_info["theme"],
             "theme_rank": theme_info["rank"],
-            "industry": theme_info.get("industry", ""),   # Barchart industry label
+            "industry": theme_info.get("industry", ""),
+            "industry_rank": industry_rank,            # dynamic weekly rank
             # 8-Week Pivot passthrough from weekly screener
             "pivot_8w_fired":        entry.get("pivot_8w_fired", False),
             "pivot_8w_tier":         pivot_8w_tier,
@@ -278,7 +285,7 @@ def main():
             "STRONG": "🔥", "STANDARD": "✅", "WEAK": "⚠️",
             "PROXIMITY": "👀", "NONE": "  ",
         }.get(pivot_8w_tier, "  ")
-        log.info(f"  ✅ {ticker} — {conviction}  {tier_emoji}{pivot_8w_tier}")
+        log.info(f"  ✅ {ticker} — {conviction} | Ind.Rank #{industry_rank} | {tier_emoji}{pivot_8w_tier}")
         time.sleep(RATE_LIMIT_PAUSE)
 
     conviction_order = {"HIGH": 0, "MED": 1, "LOW": 2}

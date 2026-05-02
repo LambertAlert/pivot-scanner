@@ -13,7 +13,7 @@ import pandas as pd
 import numpy as np
 import yfinance as yf
 
-from data_layer import save_weekly_watchlist
+from data_layer import save_weekly_watchlist, save_industry_ranks
 
 
 # ═══════════════════════════════════════════════════════════════════════════════
@@ -21,6 +21,7 @@ from data_layer import save_weekly_watchlist
 # ═══════════════════════════════════════════════════════════════════════════════
 
 INPUT_CSV         = "watchlist_input.csv"
+THEMES_CSV        = "sector_themes.csv"   # needed for industry rank computation
 RATE_LIMIT_PAUSE  = 1.0
 LOG_LEVEL         = logging.INFO
 MIN_BBUW_SCORE    = 40
@@ -272,6 +273,112 @@ def detect_8week_pivot(df: pd.DataFrame) -> dict:
 
 
 # ═══════════════════════════════════════════════════════════════════════════════
+#  INDUSTRY RANKING  — computed from the full ticker universe
+# ═══════════════════════════════════════════════════════════════════════════════
+
+def compute_industry_ranks(all_results: list) -> list:
+    """
+    Rank every industry in the watchlist by how strongly its members
+    are performing right now.  Uses ALL scanned tickers (qualified + unqualified)
+    so every industry has enough representation to score fairly.
+
+    Composite score (0-100) per industry — weighted components:
+      • avg BBUW score             (30%) — compression / setup quality
+      • avg RS vs SPY component    (25%) — relative strength signal
+      • % in Stage 1 or 2         (20%) — structural trend health
+      • % trend template ≥ 5/8    (15%) — Minervini criteria
+      • % with active 8W pivot     (10%) — STRONG / STANDARD / PROXIMITY
+
+    Returns list of dicts sorted rank 1..N.
+    """
+    import csv as csv_mod
+    from collections import defaultdict
+
+    # Load industry mapping from sector_themes.csv
+    ticker_to_industry = {}
+    if os.path.exists(THEMES_CSV):
+        with open(THEMES_CSV, "r", newline="") as f:
+            reader = csv_mod.DictReader(f)
+            for row in reader:
+                sym = (row.get("Symbol") or "").strip().upper()
+                ind = (row.get("Industry") or "").strip()
+                if sym and ind:
+                    ticker_to_industry[sym] = ind
+
+    # Group scanned results by industry
+    industry_groups = defaultdict(list)
+    for r in all_results:
+        industry = ticker_to_industry.get(r["ticker"], "Unclassified")
+        if industry and industry != "Unclassified":
+            industry_groups[industry].append(r)
+
+    # Score each industry
+    scored = []
+    for industry, members in industry_groups.items():
+        n = len(members)
+        if n < 2:
+            continue   # skip single-ticker industries
+
+        # 1. Avg BBUW
+        avg_bbuw = sum(m.get("bbuw_score", 0) or 0 for m in members) / n
+
+        # 2. Avg RS vs SPY — from the rs_vs_spy component inside bbuw_components
+        rs_vals = [
+            m.get("bbuw_components", {}).get("rs_vs_spy", 50) or 50
+            for m in members
+        ]
+        avg_rs_component = sum(rs_vals) / len(rs_vals)   # 0-100 scale, 50 = neutral
+
+        # 3. % in Stage 1 or 2
+        pct_stage12 = sum(1 for m in members if m.get("stage") in [1, 2]) / n * 100
+
+        # 4. % trend template score ≥ 5
+        pct_trend = sum(
+            1 for m in members
+            if (m.get("trend_template_score") or 0) >= 5
+        ) / n * 100
+
+        # 5. % with active 8W pivot tier
+        pct_8w = sum(
+            1 for m in members
+            if m.get("pivot_8w_tier") in ("STRONG", "STANDARD", "PROXIMITY")
+        ) / n * 100
+
+        # Weighted composite — all inputs already on 0-100 scale
+        composite = (
+            avg_bbuw           * 0.30 +
+            avg_rs_component   * 0.25 +
+            pct_stage12        * 0.20 +
+            pct_trend          * 0.15 +
+            pct_8w             * 0.10
+        )
+
+        scored.append({
+            "industry":           industry,
+            "ticker_count":       n,
+            "avg_bbuw":           round(avg_bbuw, 1),
+            "avg_rs_component":   round(avg_rs_component, 1),
+            "pct_stage12":        round(pct_stage12, 1),
+            "pct_trend_template": round(pct_trend, 1),
+            "pct_8w_active":      round(pct_8w, 1),
+            "composite_score":    round(composite, 1),
+            "rank":               0,   # set below
+        })
+
+    # Sort descending by composite and assign rank
+    scored.sort(key=lambda x: x["composite_score"], reverse=True)
+    for i, row in enumerate(scored, 1):
+        row["rank"] = i
+
+    log.info(f"\n  INDUSTRY RANKS — {len(scored)} industries scored")
+    for r in scored[:5]:
+        log.info(f"    #{r['rank']:>2}  {r['industry']:<42}  "
+                 f"score={r['composite_score']:.1f}  n={r['ticker_count']}")
+
+    return scored
+
+
+# ═══════════════════════════════════════════════════════════════════════════════
 #  MAIN
 # ═══════════════════════════════════════════════════════════════════════════════
 
@@ -299,7 +406,8 @@ def main():
     log.info(f"Loaded {len(tickers)} tickers. Fetching SPY...")
     df_spy = fetch_weekly_bars("SPY")
 
-    qualified = []
+    qualified  = []
+    full_results = []   # ALL scanned tickers — used for industry ranking
     for i, ticker in enumerate(tickers, 1):
         log.info(f"[{i}/{len(tickers)}] {ticker}")
         df_weekly = fetch_weekly_bars(ticker)
@@ -314,22 +422,25 @@ def main():
         bbuw = calc_bbuw_weekly(df_weekly, df_spy)
         pivot_8w = detect_8week_pivot(df_weekly)
 
+        # Every scanned ticker goes into full_results for industry ranking
+        result = {
+            "ticker":                ticker,
+            "stage":                 stage,
+            "trend_template_score":  template["score"],
+            "trend_template_criteria": template["criteria"],
+            "bbuw_score":            bbuw["score"],
+            "bbuw_components":       bbuw["components"],
+            "pivot_8w_fired":        pivot_8w["pivot_fired"],
+            "pivot_8w_tier":         pivot_8w["pivot_tier"],
+            "ema8":                  pivot_8w.get("ema8"),
+            "pct_from_ema8":         pivot_8w.get("pct_from_ema8"),
+            "ema8_rising":           pivot_8w.get("ema_rising", False),
+            "pivot_8w_volume_spike": pivot_8w.get("bull_volume_spike", False),
+        }
+        full_results.append(result)
+
         if stage in QUALIFYING_STAGES and bbuw["score"] >= MIN_BBUW_SCORE:
-            qualified.append({
-                "ticker": ticker,
-                "stage": stage,
-                "trend_template_score": template["score"],
-                "trend_template_criteria": template["criteria"],
-                "bbuw_score": bbuw["score"],
-                "bbuw_components": bbuw["components"],
-                # 8-Week Pivot fields
-                "pivot_8w_fired":       pivot_8w["pivot_fired"],
-                "pivot_8w_tier":        pivot_8w["pivot_tier"],
-                "ema8":                 pivot_8w.get("ema8"),
-                "pct_from_ema8":        pivot_8w.get("pct_from_ema8"),
-                "ema8_rising":          pivot_8w.get("ema_rising", False),
-                "pivot_8w_volume_spike": pivot_8w.get("bull_volume_spike", False),
-            })
+            qualified.append(result)
             tier_emoji = {
                 "STRONG":    "🔥",
                 "STANDARD":  "✅",
@@ -349,6 +460,11 @@ def main():
         -x["bbuw_score"]
     ))
     save_weekly_watchlist(qualified)
+
+    # ── Industry ranking — uses ALL scanned results, not just qualified ───────
+    # Pass full_results so unqualified tickers still contribute to their industry score
+    industry_ranks = compute_industry_ranks(full_results)
+    save_industry_ranks(industry_ranks)
 
     # Tier summary
     tier_counts = {}

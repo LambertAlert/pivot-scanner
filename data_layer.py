@@ -20,6 +20,7 @@ WEEKLY_JSON              = "data/weekly_watchlist.json"
 DAILY_JSON               = "data/daily_watchlist.json"
 LATEST_TRIGGERS_JSON     = "data/latest_triggers.json"
 SECTOR_THEMES_JSON       = "data/sector_themes.json"
+INDUSTRY_RANKS_JSON      = "data/industry_ranks.json"
 
 
 # ═══════════════════════════════════════════════════════════════════════════════
@@ -283,6 +284,34 @@ def get_today_triggers():
     if data.get("date") != today_str:
         return []
     return data.get("triggers", [])
+
+
+def save_industry_ranks(ranks: list):
+    """
+    Persist weekly industry ranking to JSON.
+    ranks: list of dicts sorted rank 1..N, each containing:
+      industry, rank, ticker_count, avg_bbuw, avg_rs_pct,
+      pct_above_ema21, pct_stage2, pct_8w_active, composite_score
+    """
+    write_json(INDUSTRY_RANKS_JSON, {
+        "generated_at": datetime.now().isoformat(),
+        "count":        len(ranks),
+        "ranks":        ranks,
+    })
+
+
+def get_industry_ranks() -> dict:
+    """
+    Returns a fast {industry_name: rank_int} lookup dict for
+    use in daily_screener conviction scoring.
+    """
+    data = read_json(INDUSTRY_RANKS_JSON, default={"ranks": []})
+    return {r["industry"]: r["rank"] for r in data.get("ranks", [])}
+
+
+def get_industry_ranks_full() -> dict:
+    """Returns the full industry rank data for dashboard display."""
+    return read_json(INDUSTRY_RANKS_JSON, default={"ranks": [], "generated_at": None})
 
 
 def get_trigger_history(days: int = 30, conviction: Optional[str] = None,

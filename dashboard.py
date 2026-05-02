@@ -125,6 +125,11 @@ def load_index_read():
     if not os.path.exists(p): return {}
     with open(p) as f: return json.load(f)
 
+@st.cache_data(ttl=3600)   # refresh hourly — updates weekly
+def load_industry_ranks():
+    from data_layer import get_industry_ranks_full
+    return get_industry_ranks_full()
+
 @st.cache_data(ttl=60)
 def _triggers(): return get_today_triggers()
 
@@ -139,6 +144,7 @@ macro          = load_macro()
 theme_data     = load_theme()
 radar_data     = load_radar()
 index_read     = load_index_read()
+industry_ranks = load_industry_ranks()
 today_triggers = _triggers()
 daily_data     = _daily()
 weekly_data    = _weekly()
@@ -630,7 +636,8 @@ with tab4:
             df["8W Pivot"] = df["pivot_8w_tier"].map(tier_emoji_map).fillna("—")
 
         dcols = [c for c in [
-            "ticker", "conviction", "8W Pivot", "theme", "industry", "theme_rank",
+            "ticker", "conviction", "8W Pivot", "theme", "industry",
+            "industry_rank", "theme_rank",
             "weekly_stage", "daily_stage", "trend_template",
             "weekly_bbuw", "daily_bbuw",
             "ema8", "pct_from_ema8",
@@ -917,6 +924,66 @@ with tab5:
             fig_s.add_vline(x=6, line_dash="dash", line_color="rgba(245,166,35,0.3)")
             fig_s.add_hline(y=60, line_dash="dash", line_color="rgba(245,166,35,0.3)")
             st.plotly_chart(fig_s, use_container_width=True)
+
+        # ── Industry Rankings ──────────────────────────────────────────────────
+        st.markdown("<div class='sec-bar'><div class='sec-bar-line'></div><div class='sec-bar-label'>Industry Rankings (Dynamic · Updated Weekly)</div><div class='sec-bar-line'></div></div>", unsafe_allow_html=True)
+
+        ind_ranks = industry_ranks.get("ranks", [])
+        if not ind_ranks:
+            st.info("No industry rank data yet. Run the Weekly Screen schedule to populate.")
+        else:
+            st.caption(f"Generated: {industry_ranks.get('generated_at','—')} · "
+                       f"{len(ind_ranks)} industries ranked by composite score · "
+                       f"Replaces static theme_rank in conviction scoring")
+
+            # Top 10 callout strip
+            top10 = ind_ranks[:10]
+            top10_html = ""
+            for r in top10:
+                score = r.get("composite_score", 0)
+                bar_w = int(score)
+                top10_html += f"""
+<div style='display:flex;align-items:center;gap:.8rem;padding:.35rem 0;border-bottom:1px solid var(--border2);font-family:var(--mono);font-size:.78rem;'>
+  <div style='font-family:var(--display);font-size:.65rem;font-weight:700;color:var(--accent);width:2rem;text-align:right;'>#{r['rank']}</div>
+  <div style='flex:1;color:var(--text);'>{r['industry']}</div>
+  <div style='width:120px;background:var(--panel);border-radius:2px;overflow:hidden;'>
+    <div style='width:{bar_w}%;height:6px;background:linear-gradient(90deg,var(--accent2),var(--accent));border-radius:2px;'></div>
+  </div>
+  <div style='color:var(--accent);font-weight:700;width:3rem;text-align:right;'>{score:.0f}</div>
+  <div style='color:var(--muted);width:2rem;text-align:right;'>{r['ticker_count']}t</div>
+</div>"""
+
+            st.markdown(f"""
+<div style='background:var(--panel);border:1px solid var(--border);border-left:3px solid var(--accent);padding:1rem;margin-bottom:1rem;'>
+  <div style='font-family:var(--display);font-size:.55rem;color:var(--muted);letter-spacing:.15em;text-transform:uppercase;margin-bottom:.6rem;'>Top 10 Industries This Week</div>
+  {top10_html}
+</div>
+            """, unsafe_allow_html=True)
+
+            # Full sortable table
+            ir_df = pd.DataFrame(ind_ranks)
+            ir_display_cols = [c for c in [
+                "rank", "industry", "ticker_count", "composite_score",
+                "avg_bbuw", "avg_rs_component", "pct_stage12",
+                "pct_trend_template", "pct_8w_active",
+            ] if c in ir_df.columns]
+            st.dataframe(ir_df[ir_display_cols], use_container_width=True,
+                         height=500, hide_index=True)
+
+            # Bar chart of top 20
+            top20 = ir_df.head(20)
+            fig_ir = px.bar(
+                top20, x="industry", y="composite_score",
+                color="composite_score",
+                color_continuous_scale=["#e05c5c", "#f5a623", "#4caf7d"],
+                range_color=[40, 80],
+                title="Top 20 Industries — Composite Rank Score",
+            )
+            fig_ir.update_layout(
+                **PL, showlegend=False, coloraxis_showscale=False,
+                height=320, xaxis_tickangle=-45,
+            )
+            st.plotly_chart(fig_ir, use_container_width=True)
 
 # ─── TAB 6: TRIGGER HISTORY ───────────────────────────────────────────────────
 with tab6:
