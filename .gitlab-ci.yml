@@ -44,7 +44,7 @@ macro_theme:
     - if: '$CI_PIPELINE_SOURCE == "schedule" && $JOB_TYPE == "macro_theme"'
     - if: '$CI_PIPELINE_SOURCE == "web" && $JOB_TYPE == "macro_theme"'
   before_script: [pip install --quiet yfinance pandas numpy polygon-api-client]
-  script: [python macro_prep.py, python theme_prep.py, *commit_data]
+  script: [python macro_prep.py, python theme_prep.py, python index_read_prep.py, *commit_data]
 
 pivot_scanner:
   stage: run

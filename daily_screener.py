@@ -140,20 +140,29 @@ def calc_bbuw_daily(df: pd.DataFrame, df_spy: pd.DataFrame = None) -> dict:
 # ═══════════════════════════════════════════════════════════════════════════════
 
 def load_sector_themes(csv_path: str) -> dict:
+    """
+    Load sector theme map from sector_themes.csv.
+    Supports both old format (Symbol, Theme, ThemeRank)
+    and new format (Symbol, Theme, ThemeRank, Industry).
+    Returns: {ticker: {"theme": str, "rank": int, "industry": str}}
+    """
     themes = {}
     if not os.path.exists(csv_path):
+        log.warning(f"Sector themes file not found: {csv_path}")
         return themes
     with open(csv_path, "r", newline="") as f:
         reader = csv.DictReader(f)
         for row in reader:
             sym = row.get("Symbol", "").strip().upper()
             theme = row.get("Theme", "").strip()
+            industry = row.get("Industry", "").strip()   # new column — empty in old format
             try:
                 rank = int(row.get("ThemeRank", 99))
             except ValueError:
                 rank = 99
             if sym:
-                themes[sym] = {"theme": theme, "rank": rank}
+                themes[sym] = {"theme": theme, "rank": rank, "industry": industry}
+    log.info(f"Loaded {len(themes)} sector theme mappings.")
     return themes
 
 
@@ -234,7 +243,7 @@ def main():
         if daily_bbuw["score"] < MIN_DAILY_BBUW_SCORE:
             continue
 
-        theme_info = themes.get(ticker, {"theme": "Unclassified", "rank": 99})
+        theme_info = themes.get(ticker, {"theme": "Unclassified", "rank": 99, "industry": ""})
         pivot_8w_tier = entry.get("pivot_8w_tier", "NONE")
 
         conviction = assign_conviction(
@@ -256,6 +265,7 @@ def main():
             "daily_bbuw_components": daily_bbuw["components"],
             "theme": theme_info["theme"],
             "theme_rank": theme_info["rank"],
+            "industry": theme_info.get("industry", ""),   # Barchart industry label
             # 8-Week Pivot passthrough from weekly screener
             "pivot_8w_fired":        entry.get("pivot_8w_fired", False),
             "pivot_8w_tier":         pivot_8w_tier,

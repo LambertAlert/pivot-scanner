@@ -119,6 +119,12 @@ def load_radar():
     if not os.path.exists(p): return {}
     with open(p) as f: return json.load(f)
 
+@st.cache_data(ttl=300)
+def load_index_read():
+    p = "data/index_read.json"
+    if not os.path.exists(p): return {}
+    with open(p) as f: return json.load(f)
+
 @st.cache_data(ttl=60)
 def _triggers(): return get_today_triggers()
 
@@ -132,6 +138,7 @@ def _weekly(): return get_latest_weekly_watchlist()
 macro          = load_macro()
 theme_data     = load_theme()
 radar_data     = load_radar()
+index_read     = load_index_read()
 today_triggers = _triggers()
 daily_data     = _daily()
 weekly_data    = _weekly()
@@ -195,8 +202,8 @@ st.markdown(f"""
 """, unsafe_allow_html=True)
 
 # ── Tabs ──────────────────────────────────────────────────────────────────────
-tab1,tab2,tab3,tab4,tab_radar,tab5,tab6 = st.tabs([
-    "◈ MACRO VIEW","◈ SECTOR THEMES","◈ ACTIVE TRIGGERS",
+tab1,tab_index,tab2,tab3,tab4,tab_radar,tab5,tab6 = st.tabs([
+    "◈ MACRO VIEW","◈ INDEX READ","◈ SECTOR THEMES","◈ ACTIVE TRIGGERS",
     "◈ DAILY WATCHLIST","◈ SETUPS RADAR","◈ WEEKLY SCREEN","◈ TRIGGER HISTORY",
 ])
 
@@ -262,6 +269,238 @@ with tab1:
                                  title=f"Transition Probabilities ({horizon})")
                 fig3.update_layout(**PL, height=350)
                 st.plotly_chart(fig3, use_container_width=True)
+
+# ─── TAB INDEX: KELL-STYLE INDEX READ ─────────────────────────────────────────
+with tab_index:
+    if not index_read:
+        st.info("No index read data. Run index_read_prep.py.")
+    else:
+        st.caption(f"Generated: {index_read.get('generated_at','—')} · Rule-based technical structure analysis using the Cycle of Price Action framework")
+
+        indices_data = index_read.get("indices", [])
+        sectors_data = index_read.get("sectors", [])
+        all_data = indices_data + sectors_data
+
+        # ── Framework Reference (collapsible) ───────────────────────────────
+        with st.expander("📖 Cycle of Price Action — Framework Reference", expanded=False):
+            st.markdown("""
+<div style='font-family:var(--mono);font-size:.85rem;color:var(--text);line-height:1.6;'>
+
+<div style='font-family:var(--display);font-size:.7rem;color:var(--accent);letter-spacing:.15em;text-transform:uppercase;margin-bottom:.6rem;'>Core EMA Toolkit</div>
+
+<b>Daily 10/20 EMA</b> — Kell's primary working levels. Trend filter, dynamic support, and risk tool. Hold above = trend intact. Loss of 10 EMA after extension = early warning. Loss of 20/21 EMA = deeper structural break.
+
+<b>Weekly 10/20 EMA & 20-Week MA</b> — Major trend shift signals. The 20-week MA is the Weinstein reference for Stage 2 vs Stage 4 markets. Slope direction matters more than position.
+
+<b>50/200 SMA</b> — Long-term trend filter. Below 200 SMA = long-term trend compromised. Crossover signals (death cross / golden cross) are confirmation, not entries.
+
+<br>
+<div style='font-family:var(--display);font-size:.7rem;color:var(--accent);letter-spacing:.15em;text-transform:uppercase;margin:1rem 0 .6rem 0;'>Four Phases of the Cycle</div>
+
+<b>🌱 Wedge Pop / Base n' Break</b> — Bottoming or reversal forming. Falling wedge resolves up, base breaks out, bear trap reverses. Watch for confirmation; entries near breakout level. Stop below pattern low.
+
+<b>↗️ EMA Crossback</b> — <i>Kell's preferred entry phase</i>. Price re-tests the 10 EMA (or deeper, the 21 EMA) from above and holds. Best in established uptrends with HH/HL structure. Lowest-risk entry with tight stop just below the EMA.
+
+<b>🚀 Trend Continuation</b> — Riding the trend. Above 10/20 EMA, working levels intact, higher highs and higher lows. Hold the position; let it run. Avoid re-entering when extended >5-8% from 10 EMA.
+
+<b>⚠️ Exhaustion / End of Cycle</b> — Distribution risk. Rising wedge, bull traps, failed breakouts, or loss of working levels after extension. Tighten stops; loss of 10 EMA = scale out. No new longs.
+
+<br>
+<div style='font-family:var(--display);font-size:.7rem;color:var(--accent);letter-spacing:.15em;text-transform:uppercase;margin:1rem 0 .6rem 0;'>Risk Management Rules</div>
+
+<b>Entry rule:</b> EMA Crossback is the highest-quality setup — wait for it.<br>
+<b>Hold rule:</b> Above 10 EMA daily / 10-week weekly = stay long.<br>
+<b>Sell signal:</b> Downside cross of 10 EMA after extension, distribution candles, weekly structure flips to LH/LL.<br>
+<b>Multi-timeframe:</b> Weekly structure rules > daily structure rules. Daily defines entries; weekly defines if you should be looking at all.
+
+</div>
+            """, unsafe_allow_html=True)
+
+        # ── Bias + Phase Summary KPI Strip ──────────────────────────────────
+        n_constructive = sum(1 for r in all_data if r["narrative"]["bias_color"] == "green")
+        n_cautious     = sum(1 for r in all_data if r["narrative"]["bias_color"] == "amber")
+        n_distribution = sum(1 for r in all_data if r["narrative"]["bias_color"] == "red")
+
+        from collections import Counter
+        phase_counts = Counter(r["phase"]["phase"] for r in all_data)
+
+        st.markdown(f"""
+<div class='kpi-strip' style='grid-template-columns:repeat(4,1fr);'>
+  <div class='kpi-cell green'>
+    <div class='kpi-lbl'>↗️ EMA Crossback</div>
+    <div class='kpi-val green'>{phase_counts.get('EMA_CROSSBACK', 0)}</div>
+    <div class='kpi-sub'>low-risk entry zone</div>
+  </div>
+  <div class='kpi-cell green'>
+    <div class='kpi-lbl'>🚀 Trend Continuation</div>
+    <div class='kpi-val green'>{phase_counts.get('TREND_CONTINUATION', 0)}</div>
+    <div class='kpi-sub'>working levels intact</div>
+  </div>
+  <div class='kpi-cell blue'>
+    <div class='kpi-lbl'>🌱 Wedge / Base Break</div>
+    <div class='kpi-val'>{phase_counts.get('WEDGE_POP_BASE_BREAK', 0)}</div>
+    <div class='kpi-sub'>reversal forming</div>
+  </div>
+  <div class='kpi-cell red'>
+    <div class='kpi-lbl'>⚠️ Exhaustion</div>
+    <div class='kpi-val red'>{phase_counts.get('EXHAUSTION', 0)}</div>
+    <div class='kpi-sub'>distribution risk</div>
+  </div>
+</div>
+        """, unsafe_allow_html=True)
+
+        # ── Filters ─────────────────────────────────────────────────────────
+        fc1, fc2 = st.columns([1, 2])
+        with fc1:
+            view_pick = st.radio("View", ["Indices", "Sectors", "Both"], horizontal=True, key="index_view")
+        with fc2:
+            phase_filter = st.multiselect(
+                "Filter by phase",
+                ["EMA_CROSSBACK", "TREND_CONTINUATION", "WEDGE_POP_BASE_BREAK", "EXHAUSTION", "NEUTRAL"],
+                default=[],
+                key="index_phase_filter",
+                help="Empty = show all phases",
+            )
+
+        # ── Card renderer ───────────────────────────────────────────────────
+        def render_index_card(r):
+            narr = r["narrative"]
+            phase = r["phase"]
+            bias = narr["bias"]
+            bias_color = narr["bias_color"]
+            today_pct = r.get("today_pct", 0)
+            today_color = "var(--green)" if today_pct >= 0 else "var(--red)"
+
+            # Phase styling
+            phase_color_map = {
+                "green": "var(--green)",
+                "blue":  "var(--blue)",
+                "amber": "var(--accent)",
+                "red":   "var(--red)",
+            }
+            phase_bg_map = {
+                "green": "rgba(76,175,125,0.15)",
+                "blue":  "rgba(91,141,238,0.15)",
+                "amber": "rgba(245,166,35,0.15)",
+                "red":   "rgba(224,92,92,0.15)",
+            }
+            phase_color = phase_color_map[phase["phase_color"]]
+            phase_bg = phase_bg_map[phase["phase_color"]]
+
+            # Bias styling
+            border_color = {"green": "var(--green)", "amber": "var(--accent)", "red": "var(--red)"}[bias_color]
+            bias_bg = {"green": "rgba(76,175,125,0.15)", "amber": "rgba(245,166,35,0.15)", "red": "rgba(224,92,92,0.15)"}[bias_color]
+            bias_txt = {"green": "var(--green)", "amber": "var(--accent)", "red": "var(--red)"}[bias_color]
+
+            # Build daily/weekly read HTML
+            daily_html = "".join(f"<li style='margin-bottom:.25rem;'>{line}</li>" for line in narr["daily_read"])
+            weekly_html = "".join(f"<li style='margin-bottom:.25rem;'>{line}</li>" for line in narr["weekly_read"])
+
+            # Cycle signals
+            cycle_html = ""
+            if narr["cycle_signals"]:
+                cycle_html = "<div style='margin-top:.7rem;padding:.6rem;background:rgba(245,166,35,0.06);border-left:2px solid var(--accent);'>"
+                cycle_html += "<div class='t-field-lbl' style='margin-bottom:.4rem;'>Cycle of Price Action — Active Signals</div>"
+                for sig in narr["cycle_signals"]:
+                    cycle_html += f"<div style='font-family:var(--mono);font-size:.78rem;color:var(--text);margin:.15rem 0;'>{sig}</div>"
+                cycle_html += "</div>"
+
+            # Bull / Bear cases
+            bull_html = "".join(f"<div style='font-family:var(--mono);font-size:.75rem;margin:.15rem 0;color:var(--green);'>▲ {lvl}</div>" for lvl in narr["bull_levels"])
+            bear_html = "".join(f"<div style='font-family:var(--mono);font-size:.75rem;margin:.15rem 0;color:var(--red);'>▼ {lvl}</div>" for lvl in narr["bear_levels"])
+
+            return f"""
+<div style='background:linear-gradient(135deg,#0f0f17 0%,#09090e 100%);border:1px solid var(--border);border-left:3px solid {border_color};padding:1.2rem;margin-bottom:1rem;border-radius:4px;'>
+  <div style='display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:.8rem;'>
+    <div>
+      <div class='t-ticker'>{r['ticker']} <span style='font-family:var(--display);font-size:.7rem;font-weight:400;color:var(--muted);letter-spacing:.1em;'>· {r['name']}</span></div>
+      <div class='t-meta' style='margin-top:.3rem;'>
+        Price: <span style='color:var(--text);font-family:var(--mono);'>${r['current_price']:.2f}</span> &nbsp;
+        Today: <span style='color:{today_color};font-family:var(--mono);'>{"+" if today_pct>=0 else ""}{today_pct:.2f}%</span>
+      </div>
+    </div>
+    <div style='display:flex;flex-direction:column;gap:.3rem;align-items:flex-end;'>
+      <div style='background:{bias_bg};color:{bias_txt};padding:.4rem .8rem;font-family:var(--display);font-size:.6rem;font-weight:700;letter-spacing:.15em;clip-path:polygon(0 0,calc(100% - 6px) 0,100% 6px,100% 100%,0 100%);'>
+        {bias}
+      </div>
+    </div>
+  </div>
+
+  <!-- Cycle Phase Banner -->
+  <div style='background:{phase_bg};border-left:3px solid {phase_color};padding:.6rem .8rem;margin-bottom:.8rem;border-radius:3px;'>
+    <div style='display:flex;justify-content:space-between;align-items:center;'>
+      <div>
+        <div style='font-family:var(--display);font-size:.55rem;letter-spacing:.15em;color:var(--muted);text-transform:uppercase;'>Cycle Phase</div>
+        <div style='font-family:var(--display);font-size:.95rem;color:{phase_color};font-weight:700;margin-top:.15rem;'>{phase['phase_emoji']} {phase['phase_label']}</div>
+      </div>
+    </div>
+    <div style='font-family:var(--mono);font-size:.78rem;color:var(--text);margin-top:.4rem;line-height:1.5;'>
+      {phase['phase_action']}
+    </div>
+  </div>
+
+  <div style='display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-top:.8rem;'>
+    <div>
+      <div class='t-field-lbl'>Daily Structure Read</div>
+      <ul style='list-style:none;padding:0;margin:.4rem 0 0 0;font-family:var(--mono);font-size:.78rem;color:var(--text);'>
+        {daily_html}
+      </ul>
+    </div>
+    <div>
+      <div class='t-field-lbl'>Weekly Structure Read</div>
+      <ul style='list-style:none;padding:0;margin:.4rem 0 0 0;font-family:var(--mono);font-size:.78rem;color:var(--text);'>
+        {weekly_html}
+      </ul>
+    </div>
+  </div>
+
+  {cycle_html}
+
+  <div style='display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-top:.8rem;padding-top:.7rem;border-top:1px solid var(--border2);'>
+    <div>
+      <div class='t-field-lbl' style='color:var(--green);'>Bull Case</div>
+      <div style='margin-top:.3rem;'>{bull_html}</div>
+    </div>
+    <div>
+      <div class='t-field-lbl' style='color:var(--red);'>Bear Case</div>
+      <div style='margin-top:.3rem;'>{bear_html}</div>
+    </div>
+  </div>
+</div>
+"""
+
+        # Apply phase filter
+        def filter_phase(items):
+            if not phase_filter:
+                return items
+            return [r for r in items if r["phase"]["phase"] in phase_filter]
+
+        filtered_indices = filter_phase(indices_data)
+        filtered_sectors = filter_phase(sectors_data)
+
+        # Render cards
+        if view_pick in ("Indices", "Both"):
+            st.markdown("<div class='sec-bar'><div class='sec-bar-line'></div><div class='sec-bar-label'>Major Indices</div><div class='sec-bar-line'></div></div>", unsafe_allow_html=True)
+            if not filtered_indices:
+                st.markdown("<div style='font-family:var(--mono);color:var(--muted);padding:1rem;font-size:.8rem;'>No indices match the selected phase filter.</div>", unsafe_allow_html=True)
+            else:
+                for r in filtered_indices:
+                    st.markdown(render_index_card(r), unsafe_allow_html=True)
+
+        if view_pick in ("Sectors", "Both"):
+            st.markdown("<div class='sec-bar'><div class='sec-bar-line'></div><div class='sec-bar-label'>Sector ETFs</div><div class='sec-bar-line'></div></div>", unsafe_allow_html=True)
+            if not filtered_sectors:
+                st.markdown("<div style='font-family:var(--mono);color:var(--muted);padding:1rem;font-size:.8rem;'>No sectors match the selected phase filter.</div>", unsafe_allow_html=True)
+            else:
+                for r in filtered_sectors:
+                    st.markdown(render_index_card(r), unsafe_allow_html=True)
+
+        # ── Footer disclaimer / source pointer ──────────────────────────────
+        st.markdown("""
+<div style='margin-top:2rem;padding:1rem;background:rgba(245,166,35,0.04);border-left:2px solid var(--accent);font-family:var(--mono);font-size:.75rem;color:var(--muted);line-height:1.6;'>
+  <strong style='color:var(--accent);'>About this analysis:</strong> Rule-based technical structure detection using the Cycle of Price Action framework popularized by Oliver Kell. <em>This is generated mechanically from price data — it is not Oliver Kell's analysis or current views.</em> For Kell's actual views and commentary, see his Substack at <strong>theweeklieswatch.substack.com</strong> or follow <strong>@OliverKell_</strong> and <strong>@TheSwingReport</strong> on X.
+</div>
+        """, unsafe_allow_html=True)
 
 # ─── TAB 2: SECTOR THEMES ─────────────────────────────────────────────────────
 with tab2:
@@ -391,7 +630,7 @@ with tab4:
             df["8W Pivot"] = df["pivot_8w_tier"].map(tier_emoji_map).fillna("—")
 
         dcols = [c for c in [
-            "ticker", "conviction", "8W Pivot", "theme", "theme_rank",
+            "ticker", "conviction", "8W Pivot", "theme", "industry", "theme_rank",
             "weekly_stage", "daily_stage", "trend_template",
             "weekly_bbuw", "daily_bbuw",
             "ema8", "pct_from_ema8",
