@@ -26,6 +26,8 @@ from data_layer import (
     get_latest_daily_watchlist,
     get_today_triggers,
     get_trigger_history,
+    get_industry_ranks_full,
+    get_volume_surges,
 )
 
 # ── Page config ───────────────────────────────────────────────────────────────
@@ -125,14 +127,12 @@ def load_index_read():
     if not os.path.exists(p): return {}
     with open(p) as f: return json.load(f)
 
-@st.cache_data(ttl=3600)   # refresh hourly — updates weekly
+@st.cache_data(ttl=3600)
 def load_industry_ranks():
-    from data_layer import get_industry_ranks_full
     return get_industry_ranks_full()
 
 @st.cache_data(ttl=300)
 def load_volume_surges():
-    from data_layer import get_volume_surges
     return get_volume_surges()
 
 @st.cache_data(ttl=60)
