@@ -3,7 +3,7 @@ Pivot Scanner — Unified Dashboard
 ====================================
 Tabs:
   1. ◈ MACRO VIEW      — Regime, VIX, macro indicators, sector rotation
-  2. ◈ SECTOR THEMES   — ETF thematic RS rankings + momentum engine v3.0
+  2. ◈ THEME TRACKER   — ETF thematic RS rankings + momentum engine v3.0
   3. ◈ ACTIVE TRIGGERS — Today's 30/65-min pivot alerts
   4. ◈ DAILY WATCHLIST — Conviction-tiered setups + near-resistance filter
   5. ◈ WEEKLY SCREEN   — Stage + BBUW from weekly screener
@@ -215,7 +215,7 @@ st.markdown(f"""
 
 # ── Tabs ──────────────────────────────────────────────────────────────────────
 tab1,tab_index,tab2,tab3,tab4,tab_radar,tab5,tab6,tab_vol = st.tabs([
-    "◈ MACRO VIEW","◈ INDEX READ","◈ SECTOR THEMES","◈ ACTIVE TRIGGERS",
+    "◈ MACRO VIEW","◈ INDEX READ","◈ THEME TRACKER","◈ ACTIVE TRIGGERS",
     "◈ DAILY WATCHLIST","◈ SETUPS RADAR","◈ WEEKLY SCREEN",
     "◈ TRIGGER HISTORY","◈ VOLUME LOG",
 ])
@@ -515,7 +515,7 @@ with tab_index:
 </div>
         """, unsafe_allow_html=True)
 
-# ─── TAB 2: SECTOR THEMES ─────────────────────────────────────────────────────
+# ─── TAB 2: THEME TRACKER ─────────────────────────────────────────────────────
 with tab2:
     if not theme_data:
         st.info("No theme data. Run theme_prep.py.")
@@ -923,6 +923,20 @@ with tab5:
         if "stage" in wdf.columns:
             wdf["Stage"] = wdf["stage"].map(stage_labels).fillna("—")
 
+        # Extract RS vs SPY score from bbuw_components (0-100, 50=neutral)
+        # Then convert to a percentile rank so higher = stronger RS
+        if "bbuw_components" in wdf.columns:
+            wdf["rs_vs_spy_score"] = wdf["bbuw_components"].apply(
+                lambda c: c.get("rs_vs_spy", 50) if isinstance(c, dict) else 50
+            )
+            # Rank 1 = weakest RS, N = strongest RS (so high rank = leading)
+            wdf["rs_rank"] = wdf["rs_vs_spy_score"].rank(
+                ascending=True, method="min", na_option="bottom"
+            ).astype(int)
+        else:
+            wdf["rs_vs_spy_score"] = 50
+            wdf["rs_rank"] = 0
+
         # 8W Pivot tier emoji column
         tier_emoji_map = {
             "STRONG":    "🔥 STRONG",
@@ -1093,8 +1107,8 @@ with tab5:
             st.caption("Industry data appears once daily screener has run.")
 
         # ── Scatter chart ──────────────────────────────────────────────────────
-        if "bbuw_score" in wdf.columns and "trend_template_score" in wdf.columns:
-            st.markdown("<div class='sec-bar'><div class='sec-bar-line'></div><div class='sec-bar-label'>BBUW vs Trend Template (Colored by 8W Pivot Tier)</div><div class='sec-bar-line'></div></div>", unsafe_allow_html=True)
+        if "bbuw_score" in wdf.columns and "rs_rank" in wdf.columns:
+            st.markdown("<div class='sec-bar'><div class='sec-bar-line'></div><div class='sec-bar-label'>BBUW vs RS Rank (Colored by 8W Pivot Tier)</div><div class='sec-bar-line'></div></div>", unsafe_allow_html=True)
             tier_color_map = {
                 "STRONG":    "#f5a623",
                 "STANDARD":  "#4caf7d",
@@ -1109,16 +1123,19 @@ with tab5:
                 else {"color_continuous_scale": ["#e05c5c","#f5a623","#4caf7d"]}
             )
             fig_s = px.scatter(
-                wdf, x="trend_template_score", y="bbuw_score",
+                wdf, x="rs_rank", y="bbuw_score",
                 text="ticker", color=color_arg,
-                title="BBUW Score vs Minervini Trend Template",
+                hover_data={"rs_vs_spy_score": True, "trend_template_score": True,
+                            "rs_rank": True, "bbuw_score": True},
+                title="BBUW Score vs RS Rank (higher rank = stronger RS vs SPY)",
                 **color_kwargs,
             )
             fig_s.update_traces(textposition="top center", textfont_size=9)
             fig_s.update_layout(
                 **PL, showlegend=(color_arg == "pivot_8w_tier"),
                 coloraxis_showscale=False, height=420,
-                xaxis_title="Trend Template (0-8)", yaxis_title="Weekly BBUW",
+                xaxis_title="RS Rank (higher = stronger RS vs SPY)",
+                yaxis_title="Weekly BBUW",
                 legend=dict(font=dict(size=9), title_text="8W Pivot Tier"),
             )
             fig_s.add_vline(x=6, line_dash="dash", line_color="rgba(245,166,35,0.3)")
