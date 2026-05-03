@@ -690,13 +690,9 @@ with tab4:
                         showlegend=False,
                         coloraxis_showscale=False,
                         height=max(300, len(ind_counts.head(20)) * 28),
-                        yaxis=dict(
-                            categoryorder="total ascending",
-                            gridcolor="rgba(245,166,35,0.08)",
-                            linecolor="rgba(245,166,35,0.22)",
-                        ),
                         margin=dict(l=0, r=0, t=35, b=0),
                     )
+                    fig_ind.update_yaxes(categoryorder="total ascending")
                     st.plotly_chart(fig_ind, use_container_width=True)
 
             with ic2:
@@ -1032,13 +1028,9 @@ with tab5:
                     showlegend=False,
                     coloraxis_showscale=False,
                     height=max(300, len(wind_counts.head(20)) * 28),
-                    yaxis=dict(
-                        categoryorder="total ascending",
-                        gridcolor="rgba(245,166,35,0.08)",
-                        linecolor="rgba(245,166,35,0.22)",
-                    ),
                     margin=dict(l=0, r=0, t=35, b=0),
                 )
+                fig_wind.update_yaxes(categoryorder="total ascending")
                 st.plotly_chart(fig_wind, use_container_width=True)
 
             with wc2:
