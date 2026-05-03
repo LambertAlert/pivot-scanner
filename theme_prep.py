@@ -27,29 +27,138 @@ OUTPUT_JSON = "data/theme_data.json"
 
 # ── Full theme universe (from Sector_Theme.ipynb) ────────────────────────────
 THEMES = {
-    "Semiconductors":               ["SOXX", "SMH", "PSI", "SOXQ", "XSD", "FTXL"],
-    "AI & Future Tech":             ["ARTY", "AIQ", "CHAT"],
-    "Robotics & Automation":        ["BOTZ", "ROBO"],
-    "Cybersecurity":                ["CIBR", "HACK"],
-    "Defense & Aerospace":          ["ITA", "SHLD"],
-    "Data Centers / Digital Infra": ["DTCR"],
-    "Nuclear / Uranium":            ["URA", "NLR"],
-    "Solar Energy":                 ["TAN"],
-    "Clean Energy / Power":         ["ICLN", "LIT", "HYDR"],
-    "Drones / UAV":                 ["DRNZ"],
-    "Space Tech":                   ["UFO"],
-    "Rare Earth / Strategic Metals": ["REMX"],
-    "Quantum Computing":            ["QTUM"],
-    "Humanoid Robotics":            ["KOID"],
-    "Fintech":                      ["FINX"],
-    "Home Construction":            ["ITB"],
-    "EV & Self-Driving Tech":       ["IDRV"],
-    "Gaming / Esports":             ["HERO"],
-    "Clean Water":                  ["AQWA"],
-    "Biotechnology":                ["IBB", "XBI"],
-    "Crypto / Blockchain":          ["BKCH", "IBIT"],
-    "Cloud Computing":              ["SKYY"],
-    "Expanded Tech / Software":     ["IGV"],
+    # ── Technology & Innovation ───────────────────────────────────────────────
+    "Semiconductors": [
+        "SOXX", "SMH", "PSI", "SOXQ", "XSD", "FTXL",
+    ],
+    "AI & Future Tech": [
+        "ARTY", "AIQ", "CHAT", "THNQ",
+        "ARKK",       # active innovation — includes AI leaders
+    ],
+    "Robotics & Automation": [
+        "BOTZ", "ROBO", "IRBO", "ARKQ",
+    ],
+    "Cybersecurity": [
+        "CIBR", "HACK", "BUG", "IHAK",
+    ],
+    "Cloud Computing": [
+        "SKYY", "WCLD", "CLOU",
+    ],
+    "Expanded Tech / Software": [
+        "IGV", "ARKW",
+    ],
+    "Data Centers / Digital Infra": [
+        "DTCR", "SRVR",
+    ],
+    "Quantum Computing": [
+        "QTUM",
+    ],
+    "Humanoid Robotics": [
+        "KOID",
+    ],
+
+    # ── Defense, Space & Drones ───────────────────────────────────────────────
+    "Defense & Aerospace": [
+        "ITA", "SHLD", "PPA", "XAR",
+    ],
+    "Drones / UAV": [
+        "DRNZ", "HELO",
+    ],
+    "Space Tech": [
+        "UFO", "ARKX",
+    ],
+
+    # ── Energy & Resources ────────────────────────────────────────────────────
+    "Nuclear / Uranium": [
+        "URA", "NLR", "URNM", "NUKZ",
+    ],
+    "Solar Energy": [
+        "TAN", "RAYS",
+    ],
+    "Clean Energy / Power": [
+        "ICLN", "LIT", "HYDR", "CNRG", "QCLN",
+    ],
+    "Oil & Gas / Upstream": [
+        "XOP", "OIH", "GUSH",
+    ],
+    "Rare Earth / Strategic Metals": [
+        "REMX", "COPX", "PICK",
+    ],
+    "Gold & Precious Metals": [
+        "GDX", "GDXJ", "SIL", "SGDM",
+    ],
+    "Commodities / Inflation": [
+        "GSG", "PDBC", "DBA",
+    ],
+
+    # ── Health & Life Sciences ────────────────────────────────────────────────
+    "Biotechnology": [
+        "IBB", "XBI", "ARKG", "BBH", "PBE",
+    ],
+    "Healthcare Innovation": [
+        "IDNA", "GNOM", "EDOC",
+    ],
+    "Aging Population": [
+        "AGNG",
+    ],
+
+    # ── Consumer & Real Estate ────────────────────────────────────────────────
+    "Home Construction": [
+        "ITB", "XHB",
+    ],
+    "Consumer Discretionary": [
+        "XLY", "IBUY", "FDIS",
+    ],
+    "Gaming / Esports": [
+        "HERO", "NERD", "GAMR",
+    ],
+
+    # ── Finance & Digital Assets ──────────────────────────────────────────────
+    "Fintech": [
+        "FINX", "ARKF", "IPAY",
+    ],
+    "Crypto / Blockchain": [
+        "BKCH", "IBIT", "FBTC", "BLOK", "BITQ",
+    ],
+
+    # ── EV & Mobility ─────────────────────────────────────────────────────────
+    "EV & Self-Driving Tech": [
+        "IDRV", "DRIV", "KARS",
+    ],
+
+    # ── Infrastructure & Utilities ────────────────────────────────────────────
+    "Clean Water": [
+        "AQWA", "PHO", "FIW",
+    ],
+
+    # ── Global / Geopolitical Themes ──────────────────────────────────────────
+    "India": [
+        "INDA", "SMIN", "INCO",
+    ],
+    "Japan": [
+        "EWJ", "DXJ", "JPXN",
+    ],
+    "Emerging Markets": [
+        "EEM", "VWO", "FM",
+    ],
+    "Latin America": [
+        "ILF", "EWZ",
+    ],
+
+    # ── Size & Style Factors ──────────────────────────────────────────────────
+    "Small Cap": [
+        "IWM", "IJR", "VBK",
+    ],
+    "Dividend / Value": [
+        "VYM", "SCHD", "DVY", "VTV",
+    ],
+
+    # ── Fixed Income / Macro ──────────────────────────────────────────────────
+    "Bonds / Duration": [
+        "TLT", "IEF", "HYG", "LQD",
+    ],
+
+    # ── Broad Sector SPDRs ────────────────────────────────────────────────────
     "Broad Sectors": [
         "XLK", "XLV", "XLF", "XLE", "XLI",
         "XLY", "XLP", "XLB", "XLU", "XLC", "XLRE",
