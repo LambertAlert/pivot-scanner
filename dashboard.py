@@ -652,6 +652,98 @@ with tab4:
         ] if c in df.columns]
         st.dataframe(df[dcols], use_container_width=True, height=550, hide_index=True)
 
+        # ── Industry Clustering Charts ─────────────────────────────────────────
+        st.markdown("<div class='sec-bar'><div class='sec-bar-line'></div><div class='sec-bar-label'>Industry Clustering</div><div class='sec-bar-line'></div></div>", unsafe_allow_html=True)
+
+        if "industry" in df.columns and not df.empty:
+            ic1, ic2 = st.columns([1, 1])
+
+            # Count by industry — filter out blanks
+            ind_counts = (
+                df[df["industry"].str.strip() != ""]["industry"]
+                .value_counts()
+                .reset_index()
+            )
+            ind_counts.columns = ["Industry", "Count"]
+
+            # Count by theme
+            theme_counts = (
+                df[df["theme"].str.strip() != ""]["theme"]
+                .value_counts()
+                .reset_index()
+            )
+            theme_counts.columns = ["Theme", "Count"]
+
+            with ic1:
+                if not ind_counts.empty:
+                    # Horizontal bar chart — easier to read with long industry names
+                    fig_ind = px.bar(
+                        ind_counts.head(20),
+                        x="Count", y="Industry",
+                        orientation="h",
+                        color="Count",
+                        color_continuous_scale=["#1a1a2e", "#f5a623", "#4caf7d"],
+                        title=f"Industry Breakdown — Daily Watchlist ({len(df)} names)",
+                    )
+                    fig_ind.update_layout(
+                        **PL,
+                        showlegend=False,
+                        coloraxis_showscale=False,
+                        height=max(300, len(ind_counts.head(20)) * 28),
+                        yaxis=dict(
+                            categoryorder="total ascending",
+                            gridcolor="rgba(245,166,35,0.08)",
+                            linecolor="rgba(245,166,35,0.22)",
+                        ),
+                        margin=dict(l=0, r=0, t=35, b=0),
+                    )
+                    st.plotly_chart(fig_ind, use_container_width=True)
+
+            with ic2:
+                if not theme_counts.empty:
+                    # Donut chart for themes (fewer categories)
+                    fig_theme = px.pie(
+                        theme_counts,
+                        values="Count",
+                        names="Theme",
+                        hole=0.55,
+                        title=f"Theme Breakdown — Daily Watchlist",
+                        color_discrete_sequence=[
+                            "#f5a623", "#4caf7d", "#5b8dee", "#e05c5c",
+                            "#c97d1e", "#9b7ed1", "#2ecc71", "#e74c3c",
+                            "#3498db", "#f39c12", "#1abc9c", "#e91e63",
+                        ],
+                    )
+                    fig_theme.update_traces(
+                        textposition="inside",
+                        textinfo="percent+label",
+                        textfont=dict(family="Fira Code, monospace", size=10),
+                    )
+                    fig_theme.update_layout(
+                        **PL,
+                        height=max(300, len(ind_counts.head(20)) * 28),
+                        showlegend=False,
+                        margin=dict(l=0, r=0, t=35, b=0),
+                    )
+                    st.plotly_chart(fig_theme, use_container_width=True)
+
+            # Clustering alert — flag any industry with ≥ 3 names
+            clustered = ind_counts[ind_counts["Count"] >= 3].sort_values("Count", ascending=False)
+            if not clustered.empty:
+                cluster_items = "  ·  ".join(
+                    f"<span style='color:var(--accent);font-weight:700;'>{r['Industry']}</span> "
+                    f"<span style='color:var(--text);'>({r['Count']})</span>"
+                    for _, r in clustered.iterrows()
+                )
+                st.markdown(f"""
+<div style='background:rgba(245,166,35,0.08);border-left:3px solid var(--accent);
+     padding:.7rem 1rem;font-family:var(--mono);font-size:.78rem;margin-top:.5rem;'>
+  <span style='font-family:var(--display);font-size:.55rem;color:var(--muted);
+       letter-spacing:.15em;text-transform:uppercase;'>Cluster Alert — Industries with ≥ 3 names: </span>
+  {cluster_items}
+</div>
+                """, unsafe_allow_html=True)
+
         # BBUW drill-down
         st.markdown("<div class='sec-bar'><div class='sec-bar-line'></div><div class='sec-bar-label'>BBUW Component Drill-Down</div><div class='sec-bar-line'></div></div>", unsafe_allow_html=True)
         ins = st.selectbox("Inspect ticker",[e["ticker"] for e in daily_entries],key="dl_ins")
@@ -898,6 +990,119 @@ with tab5:
             "trend_template_score", "bbuw_score",
         ] if c in wdf.columns]
         st.dataframe(wdf[wd], use_container_width=True, height=500, hide_index=True)
+
+        # ── Industry Clustering — Weekly Screen ───────────────────────────────
+        st.markdown("<div class='sec-bar'><div class='sec-bar-line'></div><div class='sec-bar-label'>Industry Clustering — Stage 1/2 Names</div><div class='sec-bar-line'></div></div>", unsafe_allow_html=True)
+
+        # For weekly screen we pull industry from sector_themes via daily data
+        # The wdf has "ticker" — look up industries from daily_data if available
+        daily_ind_lookup = {
+            e["ticker"]: e.get("industry", "")
+            for e in daily_data.get("entries", [])
+            if e.get("industry", "")
+        }
+        # Also check if weekly entries have industry from being in the full results
+        weekly_industries = []
+        for _, row in wdf.iterrows():
+            ticker = row.get("ticker", "")
+            ind = daily_ind_lookup.get(ticker, "")
+            if ind:
+                weekly_industries.append(ind)
+
+        if weekly_industries:
+            wc1, wc2 = st.columns([1, 1])
+            wind_counts = (
+                pd.Series(weekly_industries)
+                .value_counts()
+                .reset_index()
+            )
+            wind_counts.columns = ["Industry", "Count"]
+
+            with wc1:
+                fig_wind = px.bar(
+                    wind_counts.head(20),
+                    x="Count", y="Industry",
+                    orientation="h",
+                    color="Count",
+                    color_continuous_scale=["#1a1a2e", "#f5a623", "#4caf7d"],
+                    title=f"Industry Breakdown — Weekly Screen ({len(wdf)} names)",
+                )
+                fig_wind.update_layout(
+                    **PL,
+                    showlegend=False,
+                    coloraxis_showscale=False,
+                    height=max(300, len(wind_counts.head(20)) * 28),
+                    yaxis=dict(
+                        categoryorder="total ascending",
+                        gridcolor="rgba(245,166,35,0.08)",
+                        linecolor="rgba(245,166,35,0.22)",
+                    ),
+                    margin=dict(l=0, r=0, t=35, b=0),
+                )
+                st.plotly_chart(fig_wind, use_container_width=True)
+
+            with wc2:
+                # Map industries to themes for the donut
+                theme_lookup = {
+                    e["ticker"]: e.get("theme", "Unclassified")
+                    for e in daily_data.get("entries", [])
+                }
+                weekly_themes = [
+                    theme_lookup.get(row.get("ticker", ""), "Unclassified")
+                    for _, row in wdf.iterrows()
+                ]
+                wtheme_counts = (
+                    pd.Series(weekly_themes)
+                    .value_counts()
+                    .reset_index()
+                )
+                wtheme_counts.columns = ["Theme", "Count"]
+                wtheme_counts = wtheme_counts[wtheme_counts["Theme"] != "Unclassified"]
+
+                if not wtheme_counts.empty:
+                    fig_wtheme = px.pie(
+                        wtheme_counts,
+                        values="Count",
+                        names="Theme",
+                        hole=0.55,
+                        title="Theme Breakdown — Weekly Screen",
+                        color_discrete_sequence=[
+                            "#f5a623", "#4caf7d", "#5b8dee", "#e05c5c",
+                            "#c97d1e", "#9b7ed1", "#2ecc71", "#e74c3c",
+                            "#3498db", "#f39c12", "#1abc9c", "#e91e63",
+                        ],
+                    )
+                    fig_wtheme.update_traces(
+                        textposition="inside",
+                        textinfo="percent+label",
+                        textfont=dict(family="Fira Code, monospace", size=10),
+                    )
+                    fig_wtheme.update_layout(
+                        **PL,
+                        height=max(300, len(wind_counts.head(20)) * 28),
+                        showlegend=False,
+                        margin=dict(l=0, r=0, t=35, b=0),
+                    )
+                    st.plotly_chart(fig_wtheme, use_container_width=True)
+
+            # Cluster alert
+            wclustered = wind_counts[wind_counts["Count"] >= 3].sort_values("Count", ascending=False)
+            if not wclustered.empty:
+                w_items = "  ·  ".join(
+                    f"<span style='color:var(--accent);font-weight:700;'>{r['Industry']}</span> "
+                    f"<span style='color:var(--text);'>({r['Count']})</span>"
+                    for _, r in wclustered.iterrows()
+                )
+                st.markdown(f"""
+<div style='background:rgba(245,166,35,0.08);border-left:3px solid var(--accent);
+     padding:.7rem 1rem;font-family:var(--mono);font-size:.78rem;margin-top:.5rem;'>
+  <span style='font-family:var(--display);font-size:.55rem;color:var(--muted);
+       letter-spacing:.15em;text-transform:uppercase;'>Cluster Alert — Industries with ≥ 3 names: </span>
+  {w_items}
+</div>
+                """, unsafe_allow_html=True)
+        else:
+            st.caption("Industry data appears once daily screener has run.")
 
         # ── Scatter chart ──────────────────────────────────────────────────────
         if "bbuw_score" in wdf.columns and "trend_template_score" in wdf.columns:
