@@ -690,7 +690,6 @@ with tab4:
                         showlegend=False,
                         coloraxis_showscale=False,
                         height=max(300, len(ind_counts.head(20)) * 28),
-                        margin=dict(l=0, r=0, t=35, b=0),
                     )
                     fig_ind.update_yaxes(categoryorder="total ascending")
                     st.plotly_chart(fig_ind, use_container_width=True)
@@ -719,7 +718,6 @@ with tab4:
                         **PL,
                         height=max(300, len(ind_counts.head(20)) * 28),
                         showlegend=False,
-                        margin=dict(l=0, r=0, t=35, b=0),
                     )
                     st.plotly_chart(fig_theme, use_container_width=True)
 
@@ -1028,7 +1026,6 @@ with tab5:
                     showlegend=False,
                     coloraxis_showscale=False,
                     height=max(300, len(wind_counts.head(20)) * 28),
-                    margin=dict(l=0, r=0, t=35, b=0),
                 )
                 fig_wind.update_yaxes(categoryorder="total ascending")
                 st.plotly_chart(fig_wind, use_container_width=True)
@@ -1073,7 +1070,6 @@ with tab5:
                         **PL,
                         height=max(300, len(wind_counts.head(20)) * 28),
                         showlegend=False,
-                        margin=dict(l=0, r=0, t=35, b=0),
                     )
                     st.plotly_chart(fig_wtheme, use_container_width=True)
 
