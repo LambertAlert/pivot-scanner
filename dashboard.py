@@ -130,6 +130,11 @@ def load_industry_ranks():
     from data_layer import get_industry_ranks_full
     return get_industry_ranks_full()
 
+@st.cache_data(ttl=300)
+def load_volume_surges():
+    from data_layer import get_volume_surges
+    return get_volume_surges()
+
 @st.cache_data(ttl=60)
 def _triggers(): return get_today_triggers()
 
@@ -145,6 +150,7 @@ theme_data     = load_theme()
 radar_data     = load_radar()
 index_read     = load_index_read()
 industry_ranks = load_industry_ranks()
+volume_data    = load_volume_surges()
 today_triggers = _triggers()
 daily_data     = _daily()
 weekly_data    = _weekly()
@@ -208,9 +214,10 @@ st.markdown(f"""
 """, unsafe_allow_html=True)
 
 # ── Tabs ──────────────────────────────────────────────────────────────────────
-tab1,tab_index,tab2,tab3,tab4,tab_radar,tab5,tab6 = st.tabs([
+tab1,tab_index,tab2,tab3,tab4,tab_radar,tab5,tab6,tab_vol = st.tabs([
     "◈ MACRO VIEW","◈ INDEX READ","◈ SECTOR THEMES","◈ ACTIVE TRIGGERS",
-    "◈ DAILY WATCHLIST","◈ SETUPS RADAR","◈ WEEKLY SCREEN","◈ TRIGGER HISTORY",
+    "◈ DAILY WATCHLIST","◈ SETUPS RADAR","◈ WEEKLY SCREEN",
+    "◈ TRIGGER HISTORY","◈ VOLUME LOG",
 ])
 
 # ─── TAB 1: MACRO VIEW ────────────────────────────────────────────────────────
@@ -1023,6 +1030,221 @@ with tab6:
         if "scan_time" in hdf.columns:
             hdf["scan_time"] = pd.to_datetime(hdf["scan_time"]).dt.strftime("%Y-%m-%d %H:%M")
         st.dataframe(hdf[hcols], use_container_width=True, height=500, hide_index=True)
+
+# ─── TAB VOLUME LOG ───────────────────────────────────────────────────────────
+with tab_vol:
+    vol_events = volume_data.get("events", [])
+
+    st.caption(
+        f"Generated: {volume_data.get('generated_at', '—')} · "
+        f"{len(vol_events)} surge events in log · "
+        f"Universe: Stage 1/2 names from weekly screen · "
+        f"Retained 180 days"
+    )
+
+    if not vol_events:
+        st.info("No volume surge data yet. Trigger the Daily Screen schedule to populate.")
+    else:
+        # ── Summary KPIs ─────────────────────────────────────────────────────
+        n_daily   = sum(1 for e in vol_events if e.get("surge_type") == "DAILY")
+        n_weekly  = sum(1 for e in vol_events if e.get("surge_type") == "WEEKLY")
+        n_fresh   = sum(1 for e in vol_events if e.get("is_fresh"))
+        n_up      = sum(1 for e in vol_events if e.get("price_chg_since_pct", 0) > 0)
+
+        st.markdown(f"""
+<div class='kpi-strip' style='grid-template-columns:repeat(4,1fr);'>
+  <div class='kpi-cell amber'>
+    <div class='kpi-lbl'>📊 Total Events</div>
+    <div class='kpi-val amber'>{len(vol_events)}</div>
+    <div class='kpi-sub'>{n_daily} daily · {n_weekly} weekly</div>
+  </div>
+  <div class='kpi-cell green'>
+    <div class='kpi-lbl'>✅ Still Fresh</div>
+    <div class='kpi-val green'>{n_fresh}</div>
+    <div class='kpi-sub'>within staleness window</div>
+  </div>
+  <div class='kpi-cell blue'>
+    <div class='kpi-lbl'>📈 Up Since Surge</div>
+    <div class='kpi-val'>{n_up}</div>
+    <div class='kpi-sub'>price higher than surge day</div>
+  </div>
+  <div class='kpi-cell red'>
+    <div class='kpi-lbl'>📉 Down Since Surge</div>
+    <div class='kpi-val red'>{len(vol_events) - n_up}</div>
+    <div class='kpi-sub'>price below surge day</div>
+  </div>
+</div>
+        """, unsafe_allow_html=True)
+
+        # ── Filters ───────────────────────────────────────────────────────────
+        vf1, vf2, vf3, vf4 = st.columns([1, 1, 1, 1])
+        with vf1:
+            type_filter = st.multiselect(
+                "Surge type", ["DAILY", "WEEKLY"],
+                default=["DAILY", "WEEKLY"], key="vol_type"
+            )
+        with vf2:
+            fresh_only = st.checkbox("Fresh only", value=False, key="vol_fresh",
+                                      help="Hide events older than staleness window")
+        with vf3:
+            pivot_filter = st.multiselect(
+                "8W Pivot tier",
+                ["STRONG", "STANDARD", "PROXIMITY", "WEAK", "NONE"],
+                default=[], key="vol_pivot",
+                help="Empty = show all"
+            )
+        with vf4:
+            theme_filter_vol = st.multiselect(
+                "Theme",
+                sorted({e.get("theme", "Unclassified") for e in vol_events}),
+                key="vol_theme"
+            )
+
+        # Apply filters
+        filtered_events = [
+            e for e in vol_events
+            if e.get("surge_type") in type_filter
+            and (not fresh_only or e.get("is_fresh"))
+            and (not pivot_filter or e.get("pivot_8w_tier") in pivot_filter)
+            and (not theme_filter_vol or e.get("theme") in theme_filter_vol)
+        ]
+
+        st.caption(f"Showing {len(filtered_events)} events")
+
+        # ── Render cards ──────────────────────────────────────────────────────
+        for e in filtered_events:
+            surge_type  = e.get("surge_type", "")
+            is_fresh    = e.get("is_fresh", False)
+            price_chg   = e.get("price_chg_since_pct", 0) or 0
+            rvol        = e.get("rvol", 0) or 0
+            pivot_tier  = e.get("pivot_8w_tier", "NONE")
+            stage       = e.get("stage")
+            bbuw        = e.get("bbuw_score", 0) or 0
+
+            # Card color by type
+            border_color = "var(--accent)" if surge_type == "WEEKLY" else "var(--blue)"
+            type_label   = "🗓 WEEKLY SURGE" if surge_type == "WEEKLY" else "📅 DAILY SURGE"
+            type_color   = "var(--accent)" if surge_type == "WEEKLY" else "var(--blue)"
+
+            # Price change color
+            chg_color = "var(--green)" if price_chg >= 0 else "var(--red)"
+            chg_sign  = "+" if price_chg >= 0 else ""
+
+            # Fresh badge
+            freshness = "✅ FRESH" if is_fresh else "⏳ AGING"
+            fresh_col = "var(--green)" if is_fresh else "var(--muted)"
+
+            # Staleness details
+            if surge_type == "WEEKLY":
+                age_str = f"{e.get('weeks_since_surge', 0)}w ago"
+            else:
+                age_str = f"{e.get('days_since_surge', 0)}d ago"
+
+            # Candle quality
+            candle_pos = e.get("candle_position", 0.5) or 0.5
+            if candle_pos >= 0.8:
+                candle_lbl = "Closed strong (top 20%)"
+            elif candle_pos >= 0.6:
+                candle_lbl = "Closed upper half"
+            elif candle_pos >= 0.4:
+                candle_lbl = "Mid-range close"
+            else:
+                candle_lbl = "Closed weak"
+
+            # 8W pivot
+            pivot_emoji = {
+                "STRONG": "🔥", "STANDARD": "✅",
+                "PROXIMITY": "👀", "WEAK": "⚠️", "NONE": "—"
+            }.get(pivot_tier, "—")
+
+            stage_labels = {1: "1·Basing", 2: "2·Advancing",
+                            3: "3·Topping", 4: "4·Declining"}
+            stage_lbl = stage_labels.get(stage, "—")
+
+            st.markdown(f"""
+<div style='background:linear-gradient(135deg,#0f0f17 0%,#09090e 100%);
+     border:1px solid var(--border);border-left:3px solid {border_color};
+     padding:1.1rem;margin-bottom:.8rem;border-radius:4px;'>
+
+  <!-- Header row -->
+  <div style='display:flex;justify-content:space-between;align-items:flex-start;'>
+    <div>
+      <div class='t-ticker'>{e.get("ticker","")}</div>
+      <div class='t-meta'>{e.get("theme","")} · {e.get("industry","")} · Stage {stage_lbl}</div>
+    </div>
+    <div style='text-align:right;'>
+      <div style='font-family:var(--display);font-size:.65rem;font-weight:700;
+           color:{type_color};letter-spacing:.12em;'>{type_label}</div>
+      <div style='font-family:var(--display);font-size:.55rem;
+           color:{fresh_col};margin-top:.25rem;'>{freshness} · {age_str}</div>
+    </div>
+  </div>
+
+  <!-- Metrics grid -->
+  <div class='t-grid' style='margin-top:.9rem;'>
+    <div>
+      <div class='t-field-lbl'>Surge Date</div>
+      <div class='t-field-val'>{e.get("surge_date","—")}</div>
+    </div>
+    <div>
+      <div class='t-field-lbl'>RVOL (vs avg)</div>
+      <div class='t-field-val' style='color:{type_color};'>{rvol:.2f}×</div>
+    </div>
+    <div>
+      <div class='t-field-lbl'>Surge Price</div>
+      <div class='t-field-val'>${e.get("surge_price",0):.2f}</div>
+    </div>
+    <div>
+      <div class='t-field-lbl'>Price Now vs Surge</div>
+      <div class='t-field-val' style='color:{chg_color};'>
+        ${e.get("current_price",0):.2f} ({chg_sign}{price_chg:.1f}%)
+      </div>
+    </div>
+  </div>
+
+  <!-- Secondary row -->
+  <div class='t-grid' style='margin-top:.6rem;'>
+    <div>
+      <div class='t-field-lbl'>Candle Quality</div>
+      <div class='t-field-val' style='font-size:.8rem;'>{candle_lbl}</div>
+    </div>
+    <div>
+      <div class='t-field-lbl'>21 EMA Dist</div>
+      <div class='t-field-val'>{e.get("pct_from_21ema",0):+.1f}%</div>
+    </div>
+    <div>
+      <div class='t-field-lbl'>8W Pivot</div>
+      <div class='t-field-val'>{pivot_emoji} {pivot_tier}</div>
+    </div>
+    <div>
+      <div class='t-field-lbl'>BBUW Score</div>
+      <div class='t-field-val blue'>{bbuw:.0f}</div>
+    </div>
+  </div>
+
+  <!-- Interpretation note -->
+  <div style='margin-top:.7rem;font-family:var(--mono);font-size:.72rem;
+       color:var(--muted);border-top:1px solid var(--border2);padding-top:.5rem;'>
+    {"🔥 <span style='color:var(--accent);'>WEEKLY surge</span> — rare, high-weight institutional signal. Watch for coil + 30-min pivot to fire." if surge_type == "WEEKLY" else "📅 Daily volume climax — institutional accumulation signal. Monitor for BBUW compression and pivot trigger."}
+    &nbsp;|&nbsp; Trend Template: {e.get("trend_template","—")}/8
+  </div>
+</div>
+            """, unsafe_allow_html=True)
+
+        # ── Full table view ───────────────────────────────────────────────────
+        st.markdown("<div class='sec-bar'><div class='sec-bar-line'></div><div class='sec-bar-label'>Full Log — Sortable Table</div><div class='sec-bar-line'></div></div>", unsafe_allow_html=True)
+
+        table_cols = [
+            "ticker", "surge_type", "surge_date", "rvol", "is_fresh",
+            "surge_price", "current_price", "price_chg_since_pct",
+            "days_since_surge", "pct_from_21ema",
+            "pivot_8w_tier", "bbuw_score", "stage",
+            "theme", "industry",
+        ]
+        vol_df = pd.DataFrame(filtered_events)
+        disp_cols = [c for c in table_cols if c in vol_df.columns]
+        st.dataframe(vol_df[disp_cols], use_container_width=True,
+                     height=400, hide_index=True)
 
 # ── Footer ────────────────────────────────────────────────────────────────────
 st.markdown("""

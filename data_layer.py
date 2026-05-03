@@ -21,6 +21,7 @@ DAILY_JSON               = "data/daily_watchlist.json"
 LATEST_TRIGGERS_JSON     = "data/latest_triggers.json"
 SECTOR_THEMES_JSON       = "data/sector_themes.json"
 INDUSTRY_RANKS_JSON      = "data/industry_ranks.json"
+VOLUME_SURGES_JSON       = "data/volume_surges.json"
 
 
 # ═══════════════════════════════════════════════════════════════════════════════
@@ -289,9 +290,6 @@ def get_today_triggers():
 def save_industry_ranks(ranks: list):
     """
     Persist weekly industry ranking to JSON.
-    ranks: list of dicts sorted rank 1..N, each containing:
-      industry, rank, ticker_count, avg_bbuw, avg_rs_pct,
-      pct_above_ema21, pct_stage2, pct_8w_active, composite_score
     """
     write_json(INDUSTRY_RANKS_JSON, {
         "generated_at": datetime.now().isoformat(),
@@ -301,17 +299,36 @@ def save_industry_ranks(ranks: list):
 
 
 def get_industry_ranks() -> dict:
-    """
-    Returns a fast {industry_name: rank_int} lookup dict for
-    use in daily_screener conviction scoring.
-    """
+    """Fast {industry_name: rank_int} lookup for conviction scoring."""
     data = read_json(INDUSTRY_RANKS_JSON, default={"ranks": []})
     return {r["industry"]: r["rank"] for r in data.get("ranks", [])}
 
 
 def get_industry_ranks_full() -> dict:
-    """Returns the full industry rank data for dashboard display."""
+    """Full industry rank records for dashboard display."""
     return read_json(INDUSTRY_RANKS_JSON, default={"ranks": [], "generated_at": None})
+
+
+def save_volume_surges(events: list):
+    """
+    Persist the full volume surge event log.
+    events: list of dicts — each is a daily or weekly surge record.
+    Append-only pattern is handled in volume_surge_prep.py.
+    """
+    write_json(VOLUME_SURGES_JSON, {
+        "generated_at": datetime.now().isoformat(),
+        "count":        len(events),
+        "events":       events,
+    })
+
+
+def get_volume_surges() -> dict:
+    """Load the full volume surge log for dashboard display."""
+    return read_json(VOLUME_SURGES_JSON, default={
+        "generated_at": None,
+        "count":        0,
+        "events":       [],
+    })
 
 
 def get_trigger_history(days: int = 30, conviction: Optional[str] = None,
