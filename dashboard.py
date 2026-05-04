@@ -923,19 +923,23 @@ with tab5:
         if "stage" in wdf.columns:
             wdf["Stage"] = wdf["stage"].map(stage_labels).fillna("—")
 
-        # Extract RS vs SPY score from bbuw_components (0-100, 50=neutral)
-        # Then convert to a percentile rank so higher = stronger RS
+        # ── RS Rating (1-99 percentile, IBD-style) ────────────────────────────
+        # Computed on the FULL weekly universe BEFORE any tier/filter is applied
+        # so the percentile reflects true relative strength across all Stage 1/2 names.
+        # 99 = strongest RS vs SPY, 1 = weakest. Matches IBD RS Rating convention.
         if "bbuw_components" in wdf.columns:
             wdf["rs_vs_spy_score"] = wdf["bbuw_components"].apply(
                 lambda c: c.get("rs_vs_spy", 50) if isinstance(c, dict) else 50
             )
-            # Rank 1 = weakest RS, N = strongest RS (so high rank = leading)
-            wdf["rs_rank"] = wdf["rs_vs_spy_score"].rank(
-                ascending=True, method="min", na_option="bottom"
-            ).astype(int)
+            n_total = len(wdf)
+            ordinal_rank = wdf["rs_vs_spy_score"].rank(
+                ascending=True, method="average", na_option="bottom"
+            )
+            # Convert to 1-99 scale: percentile = rank / total * 99
+            wdf["rs_rating"] = (ordinal_rank / n_total * 99).round(0).clip(1, 99).astype(int)
         else:
             wdf["rs_vs_spy_score"] = 50
-            wdf["rs_rank"] = 0
+            wdf["rs_rating"] = 50
 
         # 8W Pivot tier emoji column
         tier_emoji_map = {
@@ -993,7 +997,7 @@ with tab5:
 
         # ── Table ──────────────────────────────────────────────────────────────
         wd = [c for c in [
-            "ticker", "Stage", "8W Pivot", "ema8", "pct_from_ema8",
+            "ticker", "Stage", "8W Pivot", "rs_rating", "ema8", "pct_from_ema8",
             "ema8_rising", "pivot_8w_volume_spike",
             "trend_template_score", "bbuw_score",
         ] if c in wdf.columns]
@@ -1107,8 +1111,8 @@ with tab5:
             st.caption("Industry data appears once daily screener has run.")
 
         # ── Scatter chart ──────────────────────────────────────────────────────
-        if "bbuw_score" in wdf.columns and "rs_rank" in wdf.columns:
-            st.markdown("<div class='sec-bar'><div class='sec-bar-line'></div><div class='sec-bar-label'>BBUW vs RS Rank (Colored by 8W Pivot Tier)</div><div class='sec-bar-line'></div></div>", unsafe_allow_html=True)
+        if "bbuw_score" in wdf.columns and "rs_rating" in wdf.columns:
+            st.markdown("<div class='sec-bar'><div class='sec-bar-line'></div><div class='sec-bar-label'>BBUW vs RS Rating (Colored by 8W Pivot Tier)</div><div class='sec-bar-line'></div></div>", unsafe_allow_html=True)
             tier_color_map = {
                 "STRONG":    "#f5a623",
                 "STANDARD":  "#4caf7d",
@@ -1123,23 +1127,31 @@ with tab5:
                 else {"color_continuous_scale": ["#e05c5c","#f5a623","#4caf7d"]}
             )
             fig_s = px.scatter(
-                wdf, x="rs_rank", y="bbuw_score",
+                wdf, x="rs_rating", y="bbuw_score",
                 text="ticker", color=color_arg,
-                hover_data={"rs_vs_spy_score": True, "trend_template_score": True,
-                            "rs_rank": True, "bbuw_score": True},
-                title="BBUW Score vs RS Rank (higher rank = stronger RS vs SPY)",
+                hover_data={"rs_rating": True, "rs_vs_spy_score": True,
+                            "trend_template_score": True, "bbuw_score": True},
+                title="BBUW Score vs RS Rating (1–99, percentile vs SPY over 26W)",
                 **color_kwargs,
             )
             fig_s.update_traces(textposition="top center", textfont_size=9)
             fig_s.update_layout(
                 **PL, showlegend=(color_arg == "pivot_8w_tier"),
                 coloraxis_showscale=False, height=420,
-                xaxis_title="RS Rank (higher = stronger RS vs SPY)",
+                xaxis_title="RS Rating (1–99  ·  higher = stronger RS vs SPY)",
                 yaxis_title="Weekly BBUW",
                 legend=dict(font=dict(size=9), title_text="8W Pivot Tier"),
             )
-            fig_s.add_vline(x=6, line_dash="dash", line_color="rgba(245,166,35,0.3)")
-            fig_s.add_hline(y=60, line_dash="dash", line_color="rgba(245,166,35,0.3)")
+            # RS 80 = @1ChartMaster minimum threshold, RS 90 = elite tier
+            fig_s.add_vline(x=80, line_dash="dash", line_color="rgba(245,166,35,0.3)",
+                            annotation_text="RS 80", annotation_font_size=9,
+                            annotation_font_color="rgba(245,166,35,0.6)")
+            fig_s.add_vline(x=90, line_dash="dash", line_color="rgba(76,175,125,0.3)",
+                            annotation_text="RS 90", annotation_font_size=9,
+                            annotation_font_color="rgba(76,175,125,0.6)")
+            fig_s.add_hline(y=60, line_dash="dash", line_color="rgba(245,166,35,0.3)",
+                            annotation_text="BBUW 60", annotation_font_size=9,
+                            annotation_font_color="rgba(245,166,35,0.6)")
             st.plotly_chart(fig_s, use_container_width=True)
 
         # ── Industry Rankings ──────────────────────────────────────────────────
