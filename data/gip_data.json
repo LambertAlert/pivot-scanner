@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-05-08T17:37:08.537791",
+  "generated_at": "2026-05-08T17:50:05.618803",
   "composite": NaN,
   "regime": {
     "label": "Restrictive / Risk-Off",
@@ -12,13 +12,13 @@
       "score": NaN,
       "components": {
         "lei": NaN,
-        "icsa": 0.0,
+        "icsa": 1.225,
         "ism": NaN
       },
       "stale": true,
       "stale_detail": {
         "lei": true,
-        "icsa": true,
+        "icsa": false,
         "ism": true
       }
     },
@@ -41,12 +41,12 @@
       }
     },
     "liquidity": {
-      "score": NaN,
+      "score": 0.964,
       "components": {
         "net_liq": 0.0,
         "hy_oas": 3.856,
-        "m2": NaN,
-        "sofr": -0.021
+        "m2": 0.0,
+        "sofr": 0.0
       },
       "stale": true,
       "stale_detail": {
@@ -55,15 +55,15 @@
         "rrp": false,
         "hy": false,
         "m2": true,
-        "sofr": false
+        "sofr": true
       }
     },
     "curve": {
-      "score": 1.248,
+      "score": 1.249,
       "components": {
         "curve_spread": 1.481,
         "real10y": -2.514,
-        "move_proxy": 6.308
+        "move_proxy": 6.313
       },
       "steepener_adj": -0.7,
       "stale": false,
