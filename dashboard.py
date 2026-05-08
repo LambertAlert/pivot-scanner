@@ -315,6 +315,8 @@ with tab1:
         st.info("GIP data not available. Add FRED_API_KEY and run macro_prep_v2.py.")
     else:
         composite  = float(gip_data.get("composite", 0) or 0)
+        if composite != composite:  # NaN check
+            composite = 0.0
         regime     = gip_data.get("regime", {})
         pillars    = gip_data.get("pillars", {})
         any_stale  = gip_data.get("any_stale", False)
@@ -327,7 +329,7 @@ with tab1:
 
         with gc1:
             # Gauge-style display for composite score
-            bar_width = int((composite + 10) / 20 * 100)   # map −10..+10 to 0..100%
+            bar_width = max(0, min(100, int((composite + 10) / 20 * 100)))
             bar_color = regime_color_map.get(regime.get("color", "amber"), "var(--accent)")
             stale_warn = "⚠️ STALE DATA" if any_stale else ""
             st.markdown(f"""
@@ -369,7 +371,7 @@ with tab1:
                 p = pillars.get(key, {})
                 score = float(p.get("score", 0) or 0)
                 stale = "⚠" if p.get("stale") else ""
-                bar_w = int((score + 10) / 20 * 100)
+                bar_w = max(0, min(100, int((score + 10) / 20 * 100)))
                 bar_c = "var(--green)" if score > 0 else "var(--red)"
                 bars_html += f"""
 <div style='margin-bottom:.9rem;'>

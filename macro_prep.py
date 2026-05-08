@@ -495,11 +495,16 @@ def compute_gip() -> dict:
     liquidity = compute_liquidity_pillar()
     curve     = compute_curve_pillar()
 
+    # NaN-safe weighted average — replace any NaN pillar scores with 0
+    def safe_score(d):
+        s = d.get("score", 0)
+        return 0.0 if (s is None or s != s) else float(s)
+
     composite = (
-        growth["score"]    * 0.30 +
-        inflation["score"] * 0.25 +
-        liquidity["score"] * 0.30 +
-        curve["score"]     * 0.15
+        safe_score(growth)    * 0.30 +
+        safe_score(inflation) * 0.25 +
+        safe_score(liquidity) * 0.30 +
+        safe_score(curve)     * 0.15
     )
     composite = float(np.clip(composite, -SCORE_RANGE, SCORE_RANGE))
     regime    = classify_gip_regime(composite)
