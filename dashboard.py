@@ -105,9 +105,18 @@ PL = dict(
 
 @st.cache_data(ttl=300)
 def load_macro():
+    """
+    Load price-tape macro data. macro_data.json is now optional —
+    the new macro_prep.py is the v2 GIP engine. Fall back to
+    vol_compression.json for VIX and return a minimal cur dict
+    so the masthead KPI strip still renders.
+    """
     p = "data/macro_data.json"
-    if not os.path.exists(p): return {}
-    with open(p) as f: return json.load(f)
+    if os.path.exists(p):
+        with open(p) as f:
+            return json.load(f)
+    # Graceful fallback — masthead will show placeholder values
+    return {}
 
 @st.cache_data(ttl=300)
 def load_theme():
@@ -118,6 +127,30 @@ def load_theme():
 @st.cache_data(ttl=120)
 def load_radar():
     p = "data/radar_data.json"
+    if not os.path.exists(p): return {}
+    with open(p) as f: return json.load(f)
+
+@st.cache_data(ttl=3600)
+def load_gip():
+    p = "data/gip_data.json"
+    if not os.path.exists(p): return {}
+    with open(p) as f: return json.load(f)
+
+@st.cache_data(ttl=3600)
+def load_narrative():
+    p = "data/narrative_data.json"
+    if not os.path.exists(p): return {}
+    with open(p) as f: return json.load(f)
+
+@st.cache_data(ttl=3600)
+def load_gate():
+    p = "data/gate_state.json"
+    if not os.path.exists(p): return {}
+    with open(p) as f: return json.load(f)
+
+@st.cache_data(ttl=3600)
+def load_vol_compression():
+    p = "data/vol_compression.json"
     if not os.path.exists(p): return {}
     with open(p) as f: return json.load(f)
 
@@ -151,6 +184,10 @@ radar_data     = load_radar()
 index_read     = load_index_read()
 industry_ranks = load_industry_ranks()
 volume_data    = load_volume_surges()
+gip_data       = load_gip()
+narrative_data = load_narrative()
+gate_data      = load_gate()
+vol_data       = load_vol_compression()
 today_triggers = _triggers()
 daily_data     = _daily()
 weekly_data    = _weekly()
@@ -166,8 +203,8 @@ st.markdown(f"""
   <div class='masthead-title'>◈ PIVOT SCANNER <span>WAR ROOM</span></div>
   <div class='masthead-meta'>
     <span class='live-dot'>LIVE</span>
-    <span>REGIME: {str(cur.get('combined_regime','—'))[:28]}</span>
-    <span>VIX {cur.get('VIX','—')}</span>
+    <span>REGIME: {gip_data.get('regime',{}).get('label', str(cur.get('combined_regime','—')))[:28]}</span>
+    <span>VIX {vol_data.get('vix', cur.get('VIX','—'))}</span>
     <span>SPY ${cur.get('SPY','—')}</span>
     <span>{now.strftime('%Y-%m-%d %H:%M')}</span>
   </div>
@@ -220,68 +257,355 @@ tab1,tab_index,tab2,tab3,tab4,tab_radar,tab5,tab6,tab_vol = st.tabs([
     "◈ TRIGGER HISTORY","◈ VOLUME LOG",
 ])
 
-# ─── TAB 1: MACRO VIEW ────────────────────────────────────────────────────────
+# ─── TAB 1: MACRO VIEW (v2) ───────────────────────────────────────────────────
 with tab1:
-    if not macro:
-        st.info("No macro data. Run macro_prep.py.")
+
+    has_gip       = bool(gip_data)
+    has_narrative = bool(narrative_data)
+    has_gate      = bool(gate_data)
+
+    # ── GATE BANNER ───────────────────────────────────────────────────────────
+    if has_gate:
+        gate_open = gate_data.get("gate_open", False)
+        conds     = gate_data.get("conditions", {})
+        sizing    = gate_data.get("vix_sizing", "—")
+        phase_note = gate_data.get("phase2_note", "")
+
+        gate_color  = "var(--green)" if gate_open else "var(--red)"
+        gate_bg     = "rgba(76,175,125,0.10)" if gate_open else "rgba(224,92,92,0.10)"
+        gate_label  = "▶ GATE OPEN" if gate_open else "■ GATE CLOSED"
+
+        def cond_light(val):
+            if val is True:   return f"<span style='color:var(--green);'>●</span>"
+            if val is False:  return f"<span style='color:var(--red);'>●</span>"
+            return f"<span style='color:var(--muted);'>○</span>"  # None = pending
+
+        c1 = cond_light(conds.get("c1_gip_ge_4"))
+        c2 = cond_light(conds.get("c2_narrative_not_bearish"))
+        c3 = cond_light(conds.get("c3_vol_compression"))
+        c4 = cond_light(conds.get("c4_vix_contango"))
+        c5 = cond_light(conds.get("c5_spy_above_smas"))
+
+        st.markdown(f"""
+<div style='background:{gate_bg};border:1px solid {gate_color};border-radius:4px;
+     padding:.9rem 1.4rem;margin-bottom:1.2rem;display:flex;
+     justify-content:space-between;align-items:center;'>
+  <div style='font-family:var(--display);font-size:1.1rem;font-weight:900;
+       color:{gate_color};letter-spacing:.15em;'>{gate_label}</div>
+  <div style='font-family:var(--mono);font-size:.78rem;color:var(--text);
+       display:flex;gap:1.4rem;align-items:center;'>
+    <span>{c1} GIP ≥ +4</span>
+    <span>{c2} Narrative OK</span>
+    <span>{c3} Vol Compress</span>
+    <span>{c4} VIX Contango</span>
+    <span>{c5} SPY > SMAs</span>
+  </div>
+  <div style='font-family:var(--display);font-size:.6rem;color:{gate_color};
+       text-align:right;letter-spacing:.1em;'>
+    SIZE: {sizing}<br>
+    <span style='color:var(--muted);font-size:.5rem;'>○ = Phase 2 pending</span>
+  </div>
+</div>
+        """, unsafe_allow_html=True)
+
+    # ── LAYER 1: GIP COMPOSITE ────────────────────────────────────────────────
+    st.markdown("<div class='sec-bar'><div class='sec-bar-line'></div><div class='sec-bar-label'>Layer 1 — GIP Composite (Fundamental Regime)</div><div class='sec-bar-line'></div></div>", unsafe_allow_html=True)
+
+    if not has_gip:
+        st.info("GIP data not available. Add FRED_API_KEY and run macro_prep_v2.py.")
     else:
-        st.markdown("<div class='sec-bar'><div class='sec-bar-line'></div><div class='sec-bar-label'>Macro Indicators</div><div class='sec-bar-line'></div></div>", unsafe_allow_html=True)
-        mc1,mc2,mc3,mc4,mc5 = st.columns(5)
-        with mc1: st.metric("10Y Yield",f"{cur.get('US10Y','—')}%")
-        with mc2: st.metric("DXY",str(cur.get("DXY","—")))
-        with mc3: st.metric("Gold",f"${cur.get('GOLD','—')}")
-        with mc4: st.metric("Oil (WTI)",f"${cur.get('OIL','—')}")
-        with mc5: st.metric("Yield Curve 10Y-2Y",f"{cur.get('Yield_Curve','—')}%")
+        composite  = gip_data.get("composite", 0)
+        regime     = gip_data.get("regime", {})
+        pillars    = gip_data.get("pillars", {})
+        any_stale  = gip_data.get("any_stale", False)
 
-        st.markdown("<div class='sec-bar'><div class='sec-bar-line'></div><div class='sec-bar-label'>Current Regime</div><div class='sec-bar-line'></div></div>", unsafe_allow_html=True)
-        rc1,rc2 = st.columns([1,2])
-        with rc1:
+        regime_color_map = {"green": "var(--green)", "amber": "var(--accent)", "red": "var(--red)"}
+        reg_color = regime_color_map.get(regime.get("color", "amber"), "var(--accent)")
+
+        # Composite gauge + pillar bars side by side
+        gc1, gc2 = st.columns([1, 2])
+
+        with gc1:
+            # Gauge-style display for composite score
+            bar_width = int((composite + 10) / 20 * 100)   # map −10..+10 to 0..100%
+            bar_color = regime_color_map.get(regime.get("color", "amber"), "var(--accent)")
+            stale_warn = "⚠️ STALE DATA" if any_stale else ""
             st.markdown(f"""
-            <div style='background:var(--panel);border:1px solid var(--border);border-left:3px solid var(--accent);padding:1.2rem;'>
-              <div style='font-family:var(--display);font-size:.52rem;color:var(--muted);letter-spacing:.15em;text-transform:uppercase;'>Price Regime</div>
-              <div style='font-family:var(--display);font-size:1.1rem;font-weight:700;color:var(--accent);margin:.4rem 0;'>{cur.get('price_regime','—')}</div>
-              <div style='font-family:var(--display);font-size:.52rem;color:var(--muted);'>VIX: {str(cur.get('vix_regime','—'))[:30]}</div>
-              <div style='font-family:var(--mono);font-size:.7rem;color:var(--muted);margin-top:.6rem;'>SPY 20d: {"+" if cur.get("SPY_20d",0)>=0 else ""}{cur.get("SPY_20d",0):.1f}% &nbsp;|&nbsp; Vol21: {cur.get("SPY_vol_21",0):.1f}%</div>
-            </div>""", unsafe_allow_html=True)
-        with rc2:
-            sector_snap = macro.get("sector_snapshot",[])
+<div style='background:var(--panel);border:1px solid var(--border);
+     border-left:3px solid {reg_color};padding:1.2rem;height:100%;'>
+  <div style='font-family:var(--display);font-size:.52rem;color:var(--muted);
+       letter-spacing:.15em;text-transform:uppercase;'>GIP Composite</div>
+  <div style='font-family:var(--display);font-size:2.8rem;font-weight:900;
+       color:{reg_color};line-height:1;margin:.4rem 0;'>
+    {composite:+.2f}
+  </div>
+  <div style='font-family:var(--mono);font-size:.75rem;color:var(--text);
+       margin-bottom:.8rem;'>{regime.get('label','—')}</div>
+  <div style='background:var(--panel-2);border-radius:3px;overflow:hidden;height:8px;margin-bottom:.4rem;'>
+    <div style='width:{bar_width}%;height:100%;
+         background:linear-gradient(90deg,{bar_color}88,{bar_color});
+         border-radius:3px;transition:width .5s;'></div>
+  </div>
+  <div style='display:flex;justify-content:space-between;
+       font-family:var(--display);font-size:.45rem;color:var(--muted);'>
+    <span>−10 Risk-Off</span><span>0</span><span>+10 Melt-Up</span>
+  </div>
+  <div style='font-family:var(--display);font-size:.5rem;color:var(--muted);
+       margin-top:.6rem;'>Generated: {gip_data.get('generated_at','—')[:16]}</div>
+  {f"<div style='color:var(--red);font-family:var(--display);font-size:.5rem;margin-top:.3rem;'>{stale_warn}</div>" if stale_warn else ""}
+</div>
+            """, unsafe_allow_html=True)
+
+        with gc2:
+            # Four pillar bars
+            pillar_order = [
+                ("growth",    "Growth",    0.30, "var(--green)"),
+                ("inflation", "Inflation", 0.25, "var(--blue)"),
+                ("liquidity", "Liquidity", 0.30, "var(--accent)"),
+                ("curve",     "Curve",     0.15, "var(--red)"),
+            ]
+            bars_html = ""
+            for key, label, weight, color in pillar_order:
+                p = pillars.get(key, {})
+                score = p.get("score", 0)
+                stale = "⚠" if p.get("stale") else ""
+                bar_w = int((score + 10) / 20 * 100)
+                bar_c = "var(--green)" if score > 0 else "var(--red)"
+                bars_html += f"""
+<div style='margin-bottom:.9rem;'>
+  <div style='display:flex;justify-content:space-between;align-items:center;
+       margin-bottom:.3rem;'>
+    <div style='font-family:var(--display);font-size:.55rem;
+         letter-spacing:.12em;color:var(--text);text-transform:uppercase;'>
+      {label} <span style='color:var(--muted);'>({weight:.0%})</span>
+      {f"<span style='color:var(--red);font-size:.5rem;'>{stale}</span>" if stale else ""}
+    </div>
+    <div style='font-family:var(--display);font-size:.9rem;font-weight:700;
+         color:{bar_c};'>{score:+.2f}</div>
+  </div>
+  <div style='background:var(--panel-2);border-radius:3px;overflow:hidden;height:10px;'>
+    <div style='width:{bar_w}%;height:100%;
+         background:linear-gradient(90deg,{bar_c}55,{bar_c});
+         border-radius:3px;'></div>
+  </div>
+</div>"""
+
+            st.markdown(f"""
+<div style='background:var(--panel);border:1px solid var(--border);
+     padding:1.2rem;height:100%;'>
+  <div style='font-family:var(--display);font-size:.52rem;color:var(--muted);
+       letter-spacing:.15em;text-transform:uppercase;margin-bottom:.8rem;'>
+    Pillar Breakdown
+  </div>
+  {bars_html}
+</div>
+            """, unsafe_allow_html=True)
+
+        # Pillar component details (expandable)
+        with st.expander("📊 Pillar Component Detail", expanded=False):
+            pc1, pc2, pc3, pc4 = st.columns(4)
+            for col, (key, label, _, _) in zip([pc1, pc2, pc3, pc4], pillar_order):
+                p = pillars.get(key, {})
+                with col:
+                    st.markdown(f"**{label}** — {p.get('score', 0):+.2f}")
+                    for comp_name, comp_val in p.get("components", {}).items():
+                        st.markdown(f"`{comp_name.replace('_',' ')}` {comp_val:+.2f}")
+
+    # ── LAYER 2: CROSS-ASSET NARRATIVE ───────────────────────────────────────
+    st.markdown("<div class='sec-bar'><div class='sec-bar-line'></div><div class='sec-bar-label'>Layer 2 — Cross-Asset Narrative (Daily Tactical)</div><div class='sec-bar-line'></div></div>", unsafe_allow_html=True)
+
+    if not has_narrative:
+        st.info("Narrative data not available. Run macro_prep_v2.py.")
+    else:
+        today_n   = narrative_data.get("today", {})
+        dominant  = narrative_data.get("dominant_10d", {})
+        all_narr  = narrative_data.get("all_narratives", [])
+        history   = narrative_data.get("history_60d", [])
+        bearish_d = narrative_data.get("bearish_days_10", 0)
+
+        n_color_map = {"green": "var(--green)", "amber": "var(--accent)", "red": "var(--red)"}
+        today_color = n_color_map.get(today_n.get("color", "amber"), "var(--accent)")
+        dom_color   = n_color_map.get(dominant.get("color", "amber"), "var(--accent)")
+
+        nc1, nc2 = st.columns([1, 1])
+
+        with nc1:
+            # Today's state card
+            spx_d = today_n.get("spx_dir", "—")
+            dxy_d = today_n.get("dxy_dir", "—")
+            tnx_d = today_n.get("tnx_dir", "—")
+            spx_c = "var(--green)" if spx_d == "↑" else "var(--red)"
+            dxy_c = "var(--green)" if dxy_d == "↑" else "var(--red)"
+            tnx_c = "var(--green)" if tnx_d == "↑" else "var(--red)"
+
+            st.markdown(f"""
+<div style='background:var(--panel);border:1px solid var(--border);
+     border-left:3px solid {today_color};padding:1.2rem;'>
+  <div style='font-family:var(--display);font-size:.52rem;color:var(--muted);
+       letter-spacing:.15em;text-transform:uppercase;'>Today's Narrative</div>
+  <div style='font-family:var(--display);font-size:1.2rem;font-weight:900;
+       color:{today_color};margin:.4rem 0;'>
+    State {today_n.get('state_id','?')} — {today_n.get('name','—')}
+  </div>
+  <div style='font-family:var(--mono);font-size:.82rem;color:var(--text);margin-bottom:.6rem;'>
+    <span style='color:{spx_c};font-weight:700;'>SPX {spx_d}</span> &nbsp;·&nbsp;
+    <span style='color:{dxy_c};font-weight:700;'>DXY {dxy_d}</span> &nbsp;·&nbsp;
+    <span style='color:{tnx_c};font-weight:700;'>Rates {tnx_d}</span>
+  </div>
+  <div style='font-family:var(--mono);font-size:.75rem;color:var(--muted);'>
+    Sector tilt: {today_n.get('sector_tilt','—')}
+  </div>
+  <div style='font-family:var(--mono);font-size:.72rem;color:{"var(--red)" if bearish_d >= 5 else "var(--muted)"};
+       margin-top:.5rem;'>
+    Bearish regime {bearish_d}/10 last trading days
+    {"  ⚠️ Gate condition C2 failing" if bearish_d >= 5 else "  ✅ Gate C2 passing"}
+  </div>
+</div>
+            """, unsafe_allow_html=True)
+
+        with nc2:
+            # Dominant narrative over 10 days
+            dom_freq = dominant.get("freq_10d_pct", 0)
+            dom_bar  = int(dom_freq)
+            st.markdown(f"""
+<div style='background:var(--panel);border:1px solid var(--border);
+     border-left:3px solid {dom_color};padding:1.2rem;'>
+  <div style='font-family:var(--display);font-size:.52rem;color:var(--muted);
+       letter-spacing:.15em;text-transform:uppercase;'>Dominant — Last 10 Days</div>
+  <div style='font-family:var(--display);font-size:1.2rem;font-weight:900;
+       color:{dom_color};margin:.4rem 0;'>
+    State {dominant.get('state_id','?')} — {dominant.get('name','—')}
+  </div>
+  <div style='font-family:var(--mono);font-size:.75rem;color:var(--muted);margin-bottom:.6rem;'>
+    {dominant.get('sector_tilt','—')}
+  </div>
+  <div style='background:var(--panel-2);border-radius:3px;overflow:hidden;height:8px;'>
+    <div style='width:{dom_bar}%;height:100%;
+         background:linear-gradient(90deg,{dom_color}55,{dom_color});border-radius:3px;'></div>
+  </div>
+  <div style='font-family:var(--display);font-size:.5rem;color:var(--muted);margin-top:.3rem;'>
+    {dom_freq:.0f}% frequency over last 10 days
+  </div>
+</div>
+            """, unsafe_allow_html=True)
+
+        # All 8 narrative frequencies — horizontal bar chart
+        if all_narr:
+            st.markdown("<div style='margin-top:.8rem;'></div>", unsafe_allow_html=True)
+            narr_df = pd.DataFrame([{
+                "Narrative": f"S{n['id']} {n['name']}",
+                "10d %": n["freq_10d_pct"],
+                "5d %": n["freq_5d_pct"],
+                "20d %": n["freq_20d_pct"],
+                "Base Rate %": n["base_rate_pct"],
+                "Bullish": n["bullish"],
+            } for n in all_narr])
+
+            fig_narr = px.bar(
+                narr_df, x="10d %", y="Narrative",
+                orientation="h",
+                color="Bullish",
+                color_discrete_map={True: "#4caf7d", False: "#e05c5c"},
+                title="Narrative Frequency — Rolling 10 Days",
+            )
+            fig_narr.update_layout(**PL, showlegend=False, height=280)
+            fig_narr.update_yaxes(categoryorder="total ascending")
+            st.plotly_chart(fig_narr, use_container_width=True)
+
+        # 60-day narrative heatmap
+        if history:
+            st.markdown("<div class='sec-bar'><div class='sec-bar-line'></div><div class='sec-bar-label'>60-Day Narrative History</div><div class='sec-bar-line'></div></div>", unsafe_allow_html=True)
+
+            color_lookup = {
+                "Goldilocks": "#4caf7d",
+                "Reflation": "#2ecc71",
+                "US Exceptionalism": "#3498db",
+                "Soft Landing": "#5b8dee",
+                "Risk-Off / Flight to Quality": "#e05c5c",
+                "Stagflation / Hawkish Pain": "#c0392b",
+                "Slowdown / Easing Anticipation": "#f5a623",
+                "Inflation Resurgence": "#e67e22",
+                "Unknown": "#3a3a4a",
+            }
+
+            tiles_html = "<div style='display:flex;flex-wrap:wrap;gap:3px;'>"
+            for h in history:
+                color = color_lookup.get(h["narrative_name"], "#3a3a4a")
+                tiles_html += f"""<div title='{h["date"]} · {h["narrative_name"]}'
+                  style='width:14px;height:28px;background:{color};border-radius:2px;
+                  cursor:pointer;'></div>"""
+            tiles_html += "</div>"
+
+            # Legend
+            legend_html = "<div style='display:flex;flex-wrap:wrap;gap:10px;margin-top:.5rem;font-family:var(--mono);font-size:.65rem;color:var(--muted);'>"
+            for name, color in color_lookup.items():
+                if name != "Unknown":
+                    legend_html += f"<span><span style='display:inline-block;width:10px;height:10px;background:{color};border-radius:2px;margin-right:3px;'></span>{name}</span>"
+            legend_html += "</div>"
+
+            st.markdown(tiles_html + legend_html, unsafe_allow_html=True)
+
+        # Narrative transition matrix
+        transitions = narrative_data.get("transitions", {})
+        if transitions:
+            with st.expander("🔄 Narrative Transition Matrix (1-year)", expanded=False):
+                narr_labels = {str(v["id"]): v["name"] for v in NARRATIVE_MAP_DASH.values()} if False else {
+                    "1": "Goldilocks", "2": "Reflation", "3": "US Except.",
+                    "4": "Soft Land.", "5": "Risk-Off", "6": "Stagflation",
+                    "7": "Slowdown", "8": "Inflation↑",
+                }
+                t_rows = []
+                for from_id in sorted(transitions.keys(), key=int):
+                    row = {"From → To": f"S{from_id} {narr_labels.get(from_id,'')}"}
+                    for to_id in sorted(transitions[from_id].keys(), key=int):
+                        row[f"→S{to_id}"] = f"{transitions[from_id][to_id]:.0%}"
+                    t_rows.append(row)
+                if t_rows:
+                    st.dataframe(pd.DataFrame(t_rows).set_index("From → To"),
+                                 use_container_width=True)
+
+    # ── LAYER 3 STUB: VOL COMPRESSION ────────────────────────────────────────
+    st.markdown("<div class='sec-bar'><div class='sec-bar-line'></div><div class='sec-bar-label'>Layer 3 — Vol Compression (Phase 2)</div><div class='sec-bar-line'></div></div>", unsafe_allow_html=True)
+
+    if vol_data:
+        vix_val  = vol_data.get("vix", 20)
+        vix_pct  = vol_data.get("vix_pct_5y", 50)
+        ovx_val  = vol_data.get("ovx", 35)
+        tlt_rv   = vol_data.get("tlt_rv", 10)
+
+        vc1, vc2, vc3, vc4 = st.columns(4)
+        with vc1: st.metric("VIX", f"{vix_val:.1f}", help="Equity vol")
+        with vc2: st.metric("VIX 5Y %ile", f"{vix_pct:.0f}th", help="Where VIX sits vs 5-year history")
+        with vc3: st.metric("OVX (Crude Vol)", f"{ovx_val:.1f}", help="Oil vol")
+        with vc4: st.metric("TLT 30d RV", f"{tlt_rv:.1f}%", help="Rate vol proxy (MOVE)")
+
+        st.caption("⚡ Full vol compression scoring + Macro Gate activation coming in Phase 2. "
+                   "Set FRED_API_KEY in GitLab CI variables and Streamlit Cloud secrets to activate GIP pillars.")
+
+    # ── PRICE TAPE FOOTER ────────────────────────────────────────────────────
+    st.markdown("<div class='sec-bar'><div class='sec-bar-line'></div><div class='sec-bar-label'>Price Tape (Legacy — Demoted to Footer)</div><div class='sec-bar-line'></div></div>", unsafe_allow_html=True)
+
+    with st.expander("SPY/QQQ/VIX Regime (v1 price-derived)", expanded=False):
+        if macro:
+            fc1, fc2, fc3, fc4, fc5 = st.columns(5)
+            with fc1: st.metric("10Y Yield", f"{cur.get('US10Y','—')}%")
+            with fc2: st.metric("DXY", str(cur.get("DXY","—")))
+            with fc3: st.metric("Gold", f"${cur.get('GOLD','—')}")
+            with fc4: st.metric("Oil", f"${cur.get('OIL','—')}")
+            with fc5: st.metric("Yield Curve", f"{cur.get('Yield_Curve','—')}%")
+
+            sector_snap = macro.get("sector_snapshot", [])
             if sector_snap:
-                sdf = pd.DataFrame(sector_snap).sort_values("vs_SPY_20d",ascending=False)
-                fig = px.bar(sdf, x="ticker", y="vs_SPY_20d", color="vs_SPY_20d",
-                             color_continuous_scale=["#e05c5c","#09090e","#4caf7d"],
-                             color_continuous_midpoint=0,
-                             title="Sector ETF vs SPY (20-day)")
-                fig.update_layout(**PL, showlegend=False, coloraxis_showscale=False, height=280)
-                st.plotly_chart(fig, use_container_width=True)
-
-        st.markdown("<div class='sec-bar'><div class='sec-bar-line'></div><div class='sec-bar-label'>Recent Regime History</div><div class='sec-bar-line'></div></div>", unsafe_allow_html=True)
-        rh = macro.get("regime_history",[])
-        if rh:
-            rh_df = pd.DataFrame(rh)
-            fig2 = px.line(rh_df, x="date", y="SPY", color="combined_regime",
-                           title="SPY Price — Colored by Regime")
-            fig2.update_layout(**PL, height=280, legend=dict(font=dict(size=9)))
-            st.plotly_chart(fig2, use_container_width=True)
-
-        rs = macro.get("regime_stats",{})
-        if rs:
-            st.markdown("<div class='sec-bar'><div class='sec-bar-line'></div><div class='sec-bar-label'>Regime-Sector Forward Returns</div><div class='sec-bar-line'></div></div>", unsafe_allow_html=True)
-            rp = st.selectbox("Select regime", list(rs.keys()), key="regime_pick")
-            if rp in rs:
-                st.dataframe(pd.DataFrame(rs[rp]).T, use_container_width=True, height=350)
-
-        tr = macro.get("transitions",{})
-        if tr:
-            st.markdown("<div class='sec-bar'><div class='sec-bar-line'></div><div class='sec-bar-label'>Regime Transition Matrix</div><div class='sec-bar-line'></div></div>", unsafe_allow_html=True)
-            horizon = st.radio("Horizon", ["1d","5d","10d"], horizontal=True)
-            t_data = tr.get(horizon,{})
-            if t_data:
-                t_df = pd.DataFrame(t_data).T
-                fig3 = px.imshow(t_df, text_auto=".2f", aspect="auto",
-                                 color_continuous_scale=["#09090e","#f5a623"],
-                                 title=f"Transition Probabilities ({horizon})")
-                fig3.update_layout(**PL, height=350)
-                st.plotly_chart(fig3, use_container_width=True)
+                sdf = pd.DataFrame(sector_snap).sort_values("vs_SPY_20d", ascending=False)
+                fig_ft = px.bar(sdf, x="ticker", y="vs_SPY_20d",
+                                color="vs_SPY_20d",
+                                color_continuous_scale=["#e05c5c","#09090e","#4caf7d"],
+                                color_continuous_midpoint=0,
+                                title="Sector ETF vs SPY (20-day)")
+                fig_ft.update_layout(**PL, showlegend=False, coloraxis_showscale=False, height=240)
+                st.plotly_chart(fig_ft, use_container_width=True)
+        else:
+            st.info("Run macro_prep.py to populate price tape.")
 
 # ─── TAB INDEX: KELL-STYLE INDEX READ ─────────────────────────────────────────
 with tab_index:
