@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-05-08T20:26:45.687259",
+  "generated_at": "2026-05-08T20:34:42.886839",
   "composite": 0.873,
   "regime": {
     "label": "Neutral",
@@ -11,14 +11,14 @@
     "growth": {
       "score": NaN,
       "components": {
-        "lei": NaN,
-        "icsa": 1.225,
+        "lei": 0.0,
+        "icsa": 0.0,
         "ism": NaN
       },
       "stale": true,
       "stale_detail": {
         "lei": true,
-        "icsa": false,
+        "icsa": true,
         "ism": true
       }
     },
@@ -41,21 +41,21 @@
       }
     },
     "liquidity": {
-      "score": 0.964,
+      "score": 0.962,
       "components": {
         "net_liq": 0.0,
         "hy_oas": 3.856,
         "m2": 0.0,
-        "sofr": 0.0
+        "sofr": -0.021
       },
       "stale": true,
       "stale_detail": {
-        "walcl": true,
+        "walcl": false,
         "tga": false,
-        "rrp": false,
+        "rrp": true,
         "hy": false,
         "m2": true,
-        "sofr": true
+        "sofr": false
       }
     },
     "curve": {
