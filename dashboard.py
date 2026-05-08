@@ -314,7 +314,7 @@ with tab1:
     if not has_gip:
         st.info("GIP data not available. Add FRED_API_KEY and run macro_prep_v2.py.")
     else:
-        composite  = gip_data.get("composite", 0)
+        composite  = float(gip_data.get("composite", 0) or 0)
         regime     = gip_data.get("regime", {})
         pillars    = gip_data.get("pillars", {})
         any_stale  = gip_data.get("any_stale", False)
@@ -367,7 +367,7 @@ with tab1:
             bars_html = ""
             for key, label, weight, color in pillar_order:
                 p = pillars.get(key, {})
-                score = p.get("score", 0)
+                score = float(p.get("score", 0) or 0)
                 stale = "⚠" if p.get("stale") else ""
                 bar_w = int((score + 10) / 20 * 100)
                 bar_c = "var(--green)" if score > 0 else "var(--red)"
