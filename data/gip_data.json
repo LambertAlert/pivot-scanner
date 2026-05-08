@@ -1,10 +1,10 @@
 {
-  "generated_at": "2026-05-08T20:08:03.402214",
-  "composite": NaN,
+  "generated_at": "2026-05-08T20:26:45.687259",
+  "composite": 0.873,
   "regime": {
-    "label": "Restrictive / Risk-Off",
-    "color": "red",
-    "tier": 1
+    "label": "Neutral",
+    "color": "amber",
+    "tier": 3
   },
   "any_stale": true,
   "pillars": {
@@ -41,36 +41,36 @@
       }
     },
     "liquidity": {
-      "score": NaN,
+      "score": 0.964,
       "components": {
-        "net_liq": -2.111,
+        "net_liq": 0.0,
         "hy_oas": 3.856,
-        "m2": NaN,
-        "sofr": -0.021
+        "m2": 0.0,
+        "sofr": 0.0
       },
       "stale": true,
       "stale_detail": {
-        "walcl": false,
+        "walcl": true,
         "tga": false,
         "rrp": false,
         "hy": false,
         "m2": true,
-        "sofr": false
+        "sofr": true
       }
     },
     "curve": {
-      "score": 1.952,
+      "score": 1.43,
       "components": {
-        "curve_spread": 2.881,
-        "real10y": -2.514,
+        "curve_spread": 1.881,
+        "real10y": -2.586,
         "move_proxy": 6.327
       },
-      "steepener_adj": 0.0,
-      "stale": true,
+      "steepener_adj": -0.5,
+      "stale": false,
       "stale_detail": {
         "t10y2y": false,
         "dgs2": false,
-        "dgs10": true,
+        "dgs10": false,
         "dfii10": false,
         "move_proxy": false
       }
