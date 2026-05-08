@@ -118,6 +118,36 @@ def z_to_score(z: pd.Series) -> pd.Series:
     return (z / Z_CLIP) * SCORE_RANGE
 
 
+def safe_val(x, default: float = 0.0) -> float:
+    """
+    Safely extract a scalar float from any source.
+    Handles NaN, None, pandas Series/scalar, numpy scalars.
+    Returns default if value is NaN, None, or not convertible.
+    """
+    try:
+        if x is None:
+            return default
+        v = float(x)
+        if v != v:  # NaN check (NaN != NaN is always True)
+            return default
+        import math
+        if math.isinf(v):
+            return default
+        return v
+    except (TypeError, ValueError):
+        return default
+
+
+def safe_last(series: pd.Series, default: float = 0.0) -> float:
+    """Safely get the last non-NaN value from a Series."""
+    if series is None or series.empty:
+        return default
+    clean = series.dropna()
+    if clean.empty:
+        return default
+    return safe_val(clean.iloc[-1], default)
+
+
 def inflation_u_score(yoy: float, target: float = 2.0,
                        above_cost: float = 3.5, below_cost: float = 6.0) -> float:
     """
@@ -180,7 +210,7 @@ def compute_growth_pillar() -> dict:
     if not lei_raw.empty:
         lei_yoy = safe_pct_change_yoy(lei_raw)
         lei_z   = z_score_series(lei_yoy)
-        scores["lei"] = z_to_score(lei_z).iloc[-1]
+        scores["lei"] = safe_last(z_to_score(lei_z))
     else:
         scores["lei"] = 0.0
 
@@ -191,7 +221,7 @@ def compute_growth_pillar() -> dict:
     if not icsa_raw.empty:
         icsa_4wk = icsa_raw.rolling(4, min_periods=1).mean()
         icsa_z   = z_score_series(icsa_4wk)
-        scores["icsa"] = z_to_score(-icsa_z).iloc[-1]  # inverted
+        scores["icsa"] = safe_last(z_to_score(-icsa_z))  # inverted
     else:
         scores["icsa"] = 0.0
 
@@ -203,7 +233,7 @@ def compute_growth_pillar() -> dict:
     if not ism_proxy.empty:
         ism_mom = ism_proxy.pct_change(periods=3) * 100   # 3-month trend
         ism_z   = z_score_series(ism_mom)
-        scores["ism"] = z_to_score(ism_z).iloc[-1]
+        scores["ism"] = safe_last(z_to_score(ism_z))
     else:
         scores["ism"] = 0.0
 
@@ -219,7 +249,7 @@ def compute_growth_pillar() -> dict:
              f"(ISM={scores['ism']:.1f}, LEI={scores['lei']:.1f}, ICSA={scores['icsa']:.1f})")
     return {
         "score":      round(pillar, 3),
-        "components": {k: round(float(v), 3) for k, v in scores.items()},
+        "components": {k: safe_val(v) for k, v in scores.items()},
         "stale":      any(stale.values()),
         "stale_detail": stale,
     }
@@ -255,14 +285,14 @@ def compute_inflation_pillar() -> dict:
 
         if key == "t5y5y":
             # T5YIFR is already a rate level — use directly
-            latest_val = float(raw.dropna().iloc[-1])
+            latest_val = safe_last(raw)
         else:
             # Monthly series — compute YoY
             yoy = safe_pct_change_yoy(raw).dropna()
             if yoy.empty:
                 scores[key] = 0.0
                 continue
-            latest_val = float(yoy.iloc[-1])
+            latest_val = safe_last(yoy)
 
         scores[key] = inflation_u_score(latest_val, target, above_cost, below_cost)
 
@@ -274,7 +304,7 @@ def compute_inflation_pillar() -> dict:
              f"PCE={scores.get('pce_yoy',0):.1f}, T5Y5Y={scores.get('t5y5y',0):.1f})")
     return {
         "score":      round(pillar, 3),
-        "components": {k: round(float(v), 3) for k, v in scores.items()},
+        "components": {k: safe_val(v) for k, v in scores.items()},
         "stale":      any(stale.values()),
         "stale_detail": stale,
     }
@@ -316,7 +346,7 @@ def compute_liquidity_pillar() -> dict:
         net_liq_8w_z = z_score_series(net_liq_8w)
 
         net_liq_score = z_to_score((net_liq_z + net_liq_8w_z) / 2)
-        scores["net_liq"] = float(net_liq_score.iloc[-1])
+        scores["net_liq"] = safe_last(net_liq_score)
     else:
         scores["net_liq"] = 0.0
 
@@ -326,7 +356,7 @@ def compute_liquidity_pillar() -> dict:
     stale["hy"] = stale_check(hy, FFILL["daily"])
     if not hy.empty:
         hy_z = z_score_series(hy)
-        scores["hy_oas"] = float(z_to_score(-hy_z).iloc[-1])  # inverted
+        scores["hy_oas"] = safe_last(z_to_score(-hy_z))  # inverted
     else:
         scores["hy_oas"] = 0.0
 
@@ -337,7 +367,7 @@ def compute_liquidity_pillar() -> dict:
     if not m2.empty:
         m2_yoy = safe_pct_change_yoy(m2)
         m2_z   = z_score_series(m2_yoy)
-        scores["m2"] = float(z_to_score(m2_z).iloc[-1])
+        scores["m2"] = safe_last(z_to_score(m2_z))
     else:
         scores["m2"] = 0.0
 
@@ -347,7 +377,7 @@ def compute_liquidity_pillar() -> dict:
     stale["sofr"] = stale_check(sofr, FFILL["daily"])
     if not sofr.empty:
         sofr_z = z_score_series(sofr)
-        scores["sofr"] = float(z_to_score(-sofr_z).iloc[-1])
+        scores["sofr"] = safe_last(z_to_score(-sofr_z))
     else:
         scores["sofr"] = 0.0
 
@@ -364,7 +394,7 @@ def compute_liquidity_pillar() -> dict:
              f"M2={scores['m2']:.1f}, SOFR={scores['sofr']:.1f})")
     return {
         "score":      round(pillar, 3),
-        "components": {k: round(float(v), 3) for k, v in scores.items()},
+        "components": {k: safe_val(v) for k, v in scores.items()},
         "stale":      any(stale.values()),
         "stale_detail": stale,
     }
@@ -410,7 +440,7 @@ def compute_curve_pillar() -> dict:
         t10y2y_ff = ffill_limited(t10y2y, FFILL["daily"])
         spread_z  = z_score_series(t10y2y_ff)
         # Combine spread z-score with steepener adjustment
-        spread_score = float(z_to_score(spread_z).iloc[-1]) + steepener_adj * 2
+        spread_score = safe_last(z_to_score(spread_z)) + steepener_adj * 2
         scores["curve_spread"] = float(np.clip(spread_score, -SCORE_RANGE, SCORE_RANGE))
     else:
         scores["curve_spread"] = 0.0
@@ -421,7 +451,7 @@ def compute_curve_pillar() -> dict:
     stale["dfii10"] = stale_check(dfii10, FFILL["daily"])
     if not dfii10.empty:
         real10_z = z_score_series(dfii10)
-        scores["real10y"] = float(z_to_score(-real10_z).iloc[-1])  # inverted
+        scores["real10y"] = safe_last(z_to_score(-real10_z))  # inverted
     else:
         scores["real10y"] = 0.0
 
@@ -432,7 +462,7 @@ def compute_curve_pillar() -> dict:
         tlt_30d_rv = tlt_ret.rolling(21).std() * np.sqrt(252) * 100
         stale["move_proxy"] = stale_check(tlt_30d_rv, FFILL["daily"])
         rv_z = z_score_series(tlt_30d_rv)
-        scores["move_proxy"] = float(z_to_score(-rv_z).iloc[-1])  # inverted
+        scores["move_proxy"] = safe_last(z_to_score(-rv_z))  # inverted
     else:
         scores["move_proxy"] = 0.0
         stale["move_proxy"] = True
@@ -449,7 +479,7 @@ def compute_curve_pillar() -> dict:
              f"MOVE={scores['move_proxy']:.1f})")
     return {
         "score":           round(pillar, 3),
-        "components":      {k: round(float(v), 3) for k, v in scores.items()},
+        "components":      {k: safe_val(v) for k, v in scores.items()},
         "steepener_adj":   steepener_adj,
         "stale":           any(stale.values()),
         "stale_detail":    stale,
@@ -898,26 +928,40 @@ def main():
 
     # ── GIP Composite ────────────────────────────────────────────────────────
     gip = compute_gip()
+
+    def clean_for_json(obj):
+        """Replace NaN/Inf with None so JSON is valid and dashboard handles gracefully."""
+        import math
+        if isinstance(obj, float):
+            if math.isnan(obj) or math.isinf(obj):
+                return None
+            return obj
+        if isinstance(obj, dict):
+            return {k: clean_for_json(v) for k, v in obj.items()}
+        if isinstance(obj, list):
+            return [clean_for_json(v) for v in obj]
+        return obj
+
     with open(GIP_JSON, "w") as f:
-        json.dump(gip, f, indent=2, default=str)
-    log.info(f"✅ GIP saved → {GIP_JSON}  composite={gip['composite']:.2f}  regime={gip['regime']['label']}")
+        json.dump(clean_for_json(gip), f, indent=2)
+    log.info(f"✅ GIP saved → {GIP_JSON}  composite={gip['composite']}  regime={gip['regime']['label']}")
 
     # ── Narrative Tracker ────────────────────────────────────────────────────
     narrative = compute_narrative()
     with open("data/narrative_data.json", "w") as f:
-        json.dump(narrative, f, indent=2, default=str)
+        json.dump(clean_for_json(narrative), f, indent=2)
     log.info(f"✅ Narrative saved → data/narrative_data.json  "
              f"today={narrative.get('today', {}).get('name', '?')}")
 
     # ── Vol Compression (Phase 2 stub) ───────────────────────────────────────
     vol = compute_vol_compression_stub()
     with open("data/vol_compression.json", "w") as f:
-        json.dump(vol, f, indent=2, default=str)
+        json.dump(clean_for_json(vol), f, indent=2)
 
     # ── Gate State (Phase 2 stub) ────────────────────────────────────────────
     gate = compute_gate_stub(gip, narrative, vol)
     with open("data/gate_state.json", "w") as f:
-        json.dump(gate, f, indent=2, default=str)
+        json.dump(clean_for_json(gate), f, indent=2)
 
     log.info(f"✅ Gate state: {'OPEN' if gate['gate_open'] else 'CLOSED'}  "
              f"(Phase 1 conditions only — C3/C4 pending Phase 2)")
