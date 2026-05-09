@@ -35,8 +35,14 @@ daily_screener:
   rules:
     - if: '$CI_PIPELINE_SOURCE == "schedule" && $JOB_TYPE == "daily"'
     - if: '$CI_PIPELINE_SOURCE == "web" && $JOB_TYPE == "daily"'
-  before_script: [pip install --quiet yfinance pandas numpy]
-  script: [python daily_screener.py, python radar_prep.py, python volume_surge_prep.py, *commit_data]
+  before_script: [pip install --quiet yfinance pandas numpy pyarrow]
+  script:
+    - python daily_screener.py
+    - python radar_prep.py
+    - python volume_surge_prep.py
+    - python tactical_macro_prep.py
+    - python speculative_theme_prep.py
+    - *commit_data
 
 macro_theme:
   stage: run
