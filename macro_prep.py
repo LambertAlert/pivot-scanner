@@ -41,7 +41,7 @@ GIP_JSON       = "data/gip_data.json"
 NARRATIVE_JSON = "data/narrative_data.json"
 
 # ── Normalisation constants ─────────────────────────────────────────────────
-Z_LOOKBACK     = 1260   # ~5 trading years
+Z_LOOKBACK     = 756    # ~3 trading years (was 1260 — too long, caused NaN on shorter series)
 Z_CLIP         = 2.5    # saturate at ±2.5 sigma
 SCORE_RANGE    = 10.0   # pillars and composite both live in [−10, +10]
 
@@ -58,11 +58,11 @@ FFILL = {
 #  FRED FETCHER
 # ═══════════════════════════════════════════════════════════════════════════════
 
-def fred_series(series_id: str, start: str = "2015-01-01") -> pd.Series:
+def fred_series(series_id: str, start: str = "2010-01-01") -> pd.Series:
     """
-    Pull a FRED series via fredapi if key is available,
-    else fall back to a direct FRED API URL request.
+    Pull a FRED series via fredapi if key is available.
     Returns a daily-indexed pd.Series with forward-fill applied.
+    Extended start date to 2010 to ensure enough history for z-score windows.
     """
     if not FRED_API_KEY:
         log.warning(f"FRED_API_KEY not set — skipping {series_id}")
@@ -72,7 +72,12 @@ def fred_series(series_id: str, start: str = "2015-01-01") -> pd.Series:
         from fredapi import Fred
         fred = Fred(api_key=FRED_API_KEY)
         s = fred.get_series(series_id, observation_start=start)
+        if s is None or len(s) == 0:
+            log.warning(f"FRED {series_id}: returned empty series")
+            return pd.Series(dtype=float, name=series_id)
         s.name = series_id
+        log.info(f"    FRED {series_id}: {len(s)} obs, "
+                 f"last={s.dropna().index[-1].date() if not s.dropna().empty else 'all NaN'}")
         return s
     except Exception as e:
         log.warning(f"FRED {series_id}: {e}")
@@ -107,8 +112,9 @@ def safe_pct_change_yoy(s: pd.Series) -> pd.Series:
 
 def z_score_series(s: pd.Series, lookback: int = Z_LOOKBACK) -> pd.Series:
     """Rolling z-score vs trailing lookback window, clipped at ±Z_CLIP."""
-    mu  = s.rolling(lookback, min_periods=max(60, lookback // 4)).mean()
-    sig = s.rolling(lookback, min_periods=max(60, lookback // 4)).std()
+    min_p = max(60, lookback // 6)   # was //4 — more lenient to avoid NaN tail
+    mu  = s.rolling(lookback, min_periods=min_p).mean()
+    sig = s.rolling(lookback, min_periods=min_p).std()
     z   = (s - mu) / sig.replace(0, np.nan)
     return z.clip(-Z_CLIP, Z_CLIP)
 

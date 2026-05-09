@@ -1,6 +1,6 @@
 {
-  "generated_at": "2026-05-08T20:50:39.714368",
-  "composite": 0.965,
+  "generated_at": "2026-05-08T15:57:50.801685",
+  "composite": 0.166,
   "regime": {
     "label": "Neutral",
     "color": "amber",
@@ -9,27 +9,27 @@
   "any_stale": true,
   "pillars": {
     "growth": {
-      "score": 0.306,
+      "score": 0.0,
       "components": {
         "lei": 0.0,
-        "icsa": 1.224921471679707,
+        "icsa": 0.0,
         "ism": 0.0
       },
       "stale": true,
       "stale_detail": {
         "lei": true,
-        "icsa": false,
+        "icsa": true,
         "ism": true
       }
     },
     "inflation": {
-      "score": 1.479,
+      "score": 0.0,
       "components": {
         "cpi_yoy": 0.0,
         "core_yoy": 0.0,
         "pce_yoy": 0.0,
         "ppi_yoy": 0.0,
-        "t5y5y": 9.86
+        "t5y5y": 0.0
       },
       "stale": true,
       "stale_detail": {
@@ -37,41 +37,41 @@
         "core_yoy": true,
         "pce_yoy": true,
         "ppi_yoy": true,
-        "t5y5y": false
+        "t5y5y": true
       }
     },
     "liquidity": {
-      "score": 0.962,
+      "score": 0.0,
       "components": {
         "net_liq": 0.0,
-        "hy_oas": 3.855820161137819,
+        "hy_oas": 0.0,
         "m2": 0.0,
-        "sofr": -0.020581052759974176
+        "sofr": 0.0
       },
       "stale": true,
       "stale_detail": {
         "walcl": true,
-        "tga": false,
-        "rrp": false,
-        "hy": false,
+        "tga": true,
+        "rrp": true,
+        "hy": true,
         "m2": true,
-        "sofr": false
+        "sofr": true
       }
     },
     "curve": {
-      "score": 1.43,
+      "score": 1.108,
       "components": {
-        "curve_spread": 1.8811001012476565,
-        "real10y": -2.5858770098584087,
-        "move_proxy": 6.326803852441129
+        "curve_spread": 0.0,
+        "real10y": 0.0,
+        "move_proxy": 5.5392399104435
       },
-      "steepener_adj": -0.5,
-      "stale": false,
+      "steepener_adj": 0.0,
+      "stale": true,
       "stale_detail": {
-        "t10y2y": false,
-        "dgs2": false,
-        "dgs10": false,
-        "dfii10": false,
+        "t10y2y": true,
+        "dgs2": true,
+        "dgs10": true,
+        "dfii10": true,
         "move_proxy": false
       }
     }
