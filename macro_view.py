@@ -49,13 +49,13 @@ STATE_COLORS = {
 
 NARRATIVE_COLORS = {
     1: GREEN,             # Goldilocks
-    2: "#00cc88",         # Reflation
+    2: "#00cc88",         # Broad Risk-On
     3: "#88aaff",         # US Exceptionalism
-    4: "#aacc88",         # Soft Landing
-    5: "#ff8866",         # Risk-Off
-    6: RED,               # Stagflation
-    7: AMBER,             # Slowdown / Easing
-    8: "#cc4488",         # Inflation Resurgence
+    4: "#aacc88",         # Soft Landing Print
+    5: "#ff8866",         # Flight to Safety
+    6: RED,               # Hawkish Squeeze
+    7: AMBER,             # Growth Scare
+    8: "#cc4488",         # Supply Shock
     0: GREY,              # Unknown
 }
 
@@ -176,23 +176,21 @@ def render_regime_banner(metrics):
     """Top of tab — large composite regime label + 4 condition lights."""
     label = metrics.get("regime_label", "MIXED / CHOPPY")
 
-    # Color the regime label by category
     if label in ("HEALTHY RISK-ON", "GROWTH-LED RISK-ON", "CYCLICAL EXPANSION", "INFLATION REFLATION"):
         label_color = GREEN
     elif label in ("MEGA-CAP MIRAGE", "STEALTH RISK-OFF", "OVERBOUGHT DISTRIBUTION"):
         label_color = AMBER
     elif label == "CAPITULATION SETUP":
-        label_color = "#88ddff"  # capitulation = potential bounce, neutral-positive
+        label_color = "#88ddff"
     else:
         label_color = GREY
 
-    # Group score lights
     g_spec = metrics["group_scores"].get("Speculative_Risk_On", {})
-    g_cyc = metrics["group_scores"].get("Cyclical_Expansion", {})
-    g_com = metrics["group_scores"].get("Commodity_Confirmation", {})
-    g_idi = metrics["group_scores"].get("Idiosyncratic", {})
+    g_cyc  = metrics["group_scores"].get("Cyclical_Expansion", {})
+    g_com  = metrics["group_scores"].get("Commodity_Confirmation", {})
+    g_idi  = metrics["group_scores"].get("Idiosyncratic", {})
 
-    def light(label_text, score_dict):
+    def light_html(label_text, score_dict):
         c = score_dict.get("confirmed", 0)
         t = score_dict.get("total", 0)
         if t == 0:
@@ -203,42 +201,39 @@ def render_regime_banner(metrics):
             color = AMBER
         else:
             color = RED
-        return f"""
-            <div style='display:inline-block;margin:0 16px;text-align:center'>
-                <div style='font-family:Fira Code,monospace;font-size:9px;color:{COPPER};letter-spacing:1px'>
-                    {label_text}
-                </div>
-                <div style='color:{color};font-family:Orbitron,monospace;font-size:18px;font-weight:700;margin-top:4px'>
-                    ●  {c}/{t}
-                </div>
-            </div>
-        """
+        return (
+            f"<div style='display:inline-block;margin:0 16px;text-align:center'>"
+            f"<div style='font-family:Fira Code,monospace;font-size:9px;"
+            f"color:{COPPER};letter-spacing:1px'>{label_text}</div>"
+            f"<div style='color:{color};font-family:Orbitron,monospace;"
+            f"font-size:18px;font-weight:700;margin-top:4px'>&#9679; {c}/{t}</div>"
+            f"</div>"
+        )
 
-    as_of = metrics.get("as_of")
+    as_of     = metrics.get("as_of")
     as_of_str = as_of.strftime("%Y-%m-%d") if as_of is not None else "—"
 
-    st.markdown(f"""
-        <div style='
-            background:{PANEL_BG};
-            border:2px solid {AMBER};
-            padding:24px;
-            margin-bottom:24px;
-            clip-path:polygon(0 0, calc(100% - 16px) 0, 100% 16px, 100% 100%, 16px 100%, 0 calc(100% - 16px));
-        '>
-            <div style='color:{COPPER};font-family:Fira Code,monospace;font-size:10px;letter-spacing:3px;margin-bottom:8px'>
-                ◉ COMPOSITE ROTATION REGIME — AS OF {as_of_str}
-            </div>
-            <div style='color:{label_color};font-family:Orbitron,monospace;font-size:36px;font-weight:900;letter-spacing:6px;margin-bottom:18px'>
-                {label}
-            </div>
-            <div style='border-top:1px solid {GRID};padding-top:16px;text-align:center'>
-                {light("SPECULATIVE", g_spec)}
-                {light("CYCLICAL", g_cyc)}
-                {light("COMMODITY", g_com)}
-                {light("IDIOSYNCRATIC", g_idi)}
-            </div>
-        </div>
-    """, unsafe_allow_html=True)
+    lights = (
+        light_html("SPECULATIVE", g_spec) +
+        light_html("CYCLICAL",    g_cyc)  +
+        light_html("COMMODITY",   g_com)  +
+        light_html("IDIOSYNCRATIC", g_idi)
+    )
+
+    html = (
+        f"<div style='background:{PANEL_BG};border:2px solid {AMBER};"
+        f"padding:24px;margin-bottom:24px;'>"
+        f"<div style='color:{COPPER};font-family:Fira Code,monospace;"
+        f"font-size:10px;letter-spacing:3px;margin-bottom:8px'>"
+        f"&#9685; COMPOSITE ROTATION REGIME &mdash; AS OF {as_of_str}</div>"
+        f"<div style='color:{label_color};font-family:Orbitron,monospace;"
+        f"font-size:36px;font-weight:900;letter-spacing:6px;margin-bottom:18px'>"
+        f"{label}</div>"
+        f"<div style='border-top:1px solid {GRID};padding-top:16px;text-align:center'>"
+        f"{lights}</div>"
+        f"</div>"
+    )
+    st.markdown(html, unsafe_allow_html=True)
 
 
 def render_narrative_and_breadth(metrics):

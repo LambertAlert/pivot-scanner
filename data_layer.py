@@ -21,6 +21,7 @@ DAILY_JSON               = "data/daily_watchlist.json"
 LATEST_TRIGGERS_JSON     = "data/latest_triggers.json"
 SECTOR_THEMES_JSON       = "data/sector_themes.json"
 INDUSTRY_RANKS_JSON      = "data/industry_ranks.json"
+VOLUME_SURGES_JSON       = "data/volume_surges.json"
 EP_EVENTS_JSON           = "data/ep_events.json"
 
 

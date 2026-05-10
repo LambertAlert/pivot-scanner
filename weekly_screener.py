@@ -16,6 +16,29 @@ import yfinance as yf
 from data_layer import save_weekly_watchlist, save_industry_ranks, save_ep_events
 
 
+def compute_raw_rs_factor(close_series: pd.Series) -> float:
+    """
+    IBD Relative Strength raw factor (reverse-engineered):
+      0.4*(C/C63) + 0.2*(C/C126) + 0.2*(C/C189) + 0.2*(C/C252)
+    Returns NaN if insufficient history.
+    """
+    s = close_series.dropna()
+    n = len(s)
+    if n < 63:
+        return np.nan
+    c = float(s.iloc[-1])
+    def safe_ratio(p):
+        if n <= p: return np.nan
+        past = float(s.iloc[-(p+1)])
+        return c / past if past > 0 else np.nan
+    components = [(safe_ratio(63), 0.40), (safe_ratio(126), 0.20),
+                  (safe_ratio(189), 0.20), (safe_ratio(252), 0.20)]
+    valid = [(v, w) for v, w in components if pd.notna(v)]
+    if not valid: return np.nan
+    tw = sum(w for _, w in valid)
+    return sum(v * w for v, w in valid) / tw
+
+
 # ═══════════════════════════════════════════════════════════════════════════════
 #  EPISODIC PIVOT CONFIG
 # ═══════════════════════════════════════════════════════════════════════════════
@@ -539,7 +562,10 @@ def main():
         pivot_8w = detect_8week_pivot(df_weekly)
         ep = detect_episodic_pivot(df_weekly)
 
-        # Every scanned ticker goes into full_results for industry ranking
+        # IBD RS raw factor — ranked across universe after loop completes
+        daily_close = df_daily["close"] if "close" in df_daily.columns else df_daily["Close"]
+        rs_raw = compute_raw_rs_factor(daily_close)
+
         result = {
             "ticker":                ticker,
             "stage":                 stage,
@@ -553,7 +579,6 @@ def main():
             "pct_from_ema8":         pivot_8w.get("pct_from_ema8"),
             "ema8_rising":           pivot_8w.get("ema_rising", False),
             "pivot_8w_volume_spike": pivot_8w.get("bull_volume_spike", False),
-            # EP fields
             "ep_fired":              ep["ep_fired"],
             "ep_tier":               ep["ep_tier"],
             "ep_score":              ep["ep_score"],
@@ -561,6 +586,8 @@ def main():
             "ep_rvol":               ep["ep_rvol"],
             "ep_4w_pct":             ep["ep_4w_pct"],
             "ep_above_50sma":        ep["ep_above_50sma"],
+            "rs_raw_factor":         round(float(rs_raw), 6) if pd.notna(rs_raw) else None,
+            "rs_rating":             None,  # filled in after loop
         }
         full_results.append(result)
 
@@ -584,6 +611,23 @@ def main():
                      f"/ score={ep['ep_score']:.1f}")
 
         time.sleep(RATE_LIMIT_PAUSE)
+
+    # ── IBD RS Rating — rank all scanned tickers 1-99 ────────────────────────
+    # Uses the full universe (all 599+ tickers) so the percentile is meaningful.
+    # Tickers with None rs_raw_factor get rating 1.
+    raw_pairs = [(r["ticker"], r["rs_raw_factor"])
+                 for r in full_results if r.get("rs_raw_factor") is not None]
+    raw_pairs.sort(key=lambda x: x[1])
+    n_ranked = len(raw_pairs)
+    rs_lookup = {}
+    for i, (tk, _) in enumerate(raw_pairs):
+        pct = round((i / max(n_ranked - 1, 1)) * 98 + 1)
+        rs_lookup[tk] = int(min(99, max(1, pct)))
+    # Assign back
+    for r in full_results:
+        r["rs_rating"] = rs_lookup.get(r["ticker"], 1)
+
+    log.info(f"  IBD RS rated {n_ranked} tickers (universe percentile)")
 
     # Sort: STRONG/STANDARD 8W pivots first, then by BBUW score
     tier_order = {"STRONG": 0, "STANDARD": 1, "WEAK": 2, "PROXIMITY": 3, "NONE": 4}

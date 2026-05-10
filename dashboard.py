@@ -516,47 +516,183 @@ with tab2:
     if not theme_data:
         st.info("No theme data. Run theme_prep.py.")
     else:
-        meta = theme_data.get("metadata",{})
-        st.caption(f"As of {meta.get('as_of','—')} · {meta.get('total_etfs','—')} ETFs · {meta.get('total_themes','—')} themes · Momentum Engine v3.0")
+        meta = theme_data.get("metadata", {})
+        st.caption(f"As of {meta.get('as_of','—')} · {meta.get('total_etfs','—')} ETFs · "
+                   f"{meta.get('total_themes','—')} themes · {meta.get('version','RS Engine v4.0')}")
 
-        theme_df = pd.DataFrame(theme_data.get("theme_rankings",[]))
-        etf_df   = pd.DataFrame(theme_data.get("etf_rankings",[]))
+        theme_df = pd.DataFrame(theme_data.get("theme_rankings", []))
+        etf_df   = pd.DataFrame(theme_data.get("etf_rankings",   []))
 
         if not theme_df.empty:
-            st.markdown("<div class='sec-bar'><div class='sec-bar-line'></div><div class='sec-bar-label'>Theme Rankings</div><div class='sec-bar-line'></div></div>", unsafe_allow_html=True)
-            top20 = theme_df.head(20)
-            if "Avg_Mom_Score" in top20.columns:
-                fig_t = px.bar(top20, x="Theme", y="Avg_Mom_Score",
-                               color="Avg_Mom_Score",
-                               color_continuous_scale=["#e05c5c","#f5a623","#4caf7d"],
-                               range_color=[0,10],
-                               title="Top 20 Themes — Avg Momentum Score")
-                fig_t.update_layout(**PL, showlegend=False, coloraxis_showscale=False,
-                                    height=300, xaxis_tickangle=-45)
+            st.markdown("<div class='sec-bar'><div class='sec-bar-line'></div>"
+                        "<div class='sec-bar-label'>Theme Rankings — RS vs SPY (1–99)</div>"
+                        "<div class='sec-bar-line'></div></div>", unsafe_allow_html=True)
+
+            # ── RS bar chart ───────────────────────────────────────────────────
+            rs_col = "Avg_RS_Pct" if "Avg_RS_Pct" in theme_df.columns else None
+            if rs_col:
+                top20 = theme_df.head(20).copy()
+                fig_t = px.bar(
+                    top20, x="Theme", y=rs_col,
+                    color=rs_col,
+                    color_continuous_scale=["#e05c5c", "#f5a623", "#4caf7d"],
+                    range_color=[20, 80],
+                    title="Top 20 Themes — RS Percentile vs SPY (higher = stronger)",
+                )
+                fig_t.add_hline(y=70, line_dash="dash",
+                                line_color="rgba(245,166,35,0.4)",
+                                annotation_text="RS 70",
+                                annotation_font_color="rgba(245,166,35,0.7)",
+                                annotation_font_size=9)
+                fig_t.add_hline(y=80, line_dash="dash",
+                                line_color="rgba(76,175,125,0.4)",
+                                annotation_text="RS 80",
+                                annotation_font_color="rgba(76,175,125,0.7)",
+                                annotation_font_size=9)
+                fig_t.update_layout(**PL, showlegend=False,
+                                    coloraxis_showscale=False,
+                                    height=320, xaxis_tickangle=-45,
+                                    yaxis_title="RS Percentile vs SPY",
+                                    yaxis_range=[0, 100])
                 st.plotly_chart(fig_t, use_container_width=True)
 
-            dcols = [c for c in ["Theme","ETF_Count","Avg_Theme_Rank","Avg_Mom_Score",
-                                   "Leading_Count","Improving_Count","Bull_Stack_Pct","MACD_Bull_Pct"]
+            # ── Theme table ────────────────────────────────────────────────────
+            tcols = [c for c in ["Theme","ETF_Count","Avg_RS_Pct","Median_RS",
+                                  "Top_ETF","Top_ETF_RS","N_Above_80","N_Above_70",
+                                  "Ret_1M_%","Ret_3M_%","Ret_12M_%"]
                      if c in theme_df.columns]
-            st.dataframe(theme_df[dcols], use_container_width=True, height=400, hide_index=True)
+
+            def rs_bg(v):
+                if v is None or pd.isna(v): return "background-color:#1a1a1a;color:#555"
+                if v >= 90: return "background-color:#0d3320;color:#00ff88;font-weight:700"
+                if v >= 80: return "background-color:#0a2a1a;color:#00cc66;font-weight:700"
+                if v >= 70: return "background-color:#111a14;color:#00aa55"
+                if v >= 50: return "background-color:#111111;color:#cccccc"
+                if v >= 30: return "background-color:#1a1408;color:#cc8800"
+                return              "background-color:#1a0e0e;color:#cc4444"
+
+            def ret_bg(v):
+                if v is None or pd.isna(v): return "background-color:#1a1a1a;color:#555"
+                if v > 10:  return "background-color:#0d3320;color:#00ff88;font-weight:700"
+                if v > 0:   return "background-color:#111a14;color:#00aa55"
+                if v > -5:  return "background-color:#1a1408;color:#cc8800"
+                return              "background-color:#1a0e0e;color:#cc4444"
+
+            rs_styled_cols = [c for c in ["Avg_RS_Pct","Median_RS","Top_ETF_RS"] if c in theme_df.columns]
+            ret_styled_cols = [c for c in ["Ret_1M_%","Ret_3M_%","Ret_12M_%"] if c in theme_df.columns]
+
+            t_styled = (
+                theme_df[tcols].style
+                .map(rs_bg,  subset=rs_styled_cols  if rs_styled_cols  else [])
+                .map(ret_bg, subset=ret_styled_cols if ret_styled_cols else [])
+                .format({
+                    "Avg_RS_Pct":  lambda x: f"{x:.0f}" if pd.notna(x) else "—",
+                    "Median_RS":   lambda x: f"{x:.0f}" if pd.notna(x) else "—",
+                    "Top_ETF_RS":  lambda x: f"{x:.0f}" if pd.notna(x) else "—",
+                    "Ret_1M_%":    lambda x: f"{x:+.1f}%" if pd.notna(x) else "—",
+                    "Ret_3M_%":    lambda x: f"{x:+.1f}%" if pd.notna(x) else "—",
+                    "Ret_12M_%":   lambda x: f"{x:+.1f}%" if pd.notna(x) else "—",
+                })
+                .set_properties(**{
+                    "background-color": "#111111",
+                    "color": "#cccccc",
+                    "border": "1px solid #2a2a2a",
+                    "font-family": "Fira Code, monospace",
+                    "font-size": "12px",
+                    "padding": "5px 10px",
+                })
+                .set_properties(subset=["Theme"], **{
+                    "color": "#FFA500",
+                    "font-family": "Fira Code, monospace",
+                    "font-weight": "500",
+                })
+                .set_properties(subset=["Top_ETF"], **{
+                    "color": "#00ff88",
+                    "font-family": "Orbitron, monospace",
+                    "font-size": "11px",
+                })
+                .set_table_styles([
+                    {"selector": "thead th", "props": [
+                        ("background-color", "#0a0a0a"), ("color", "#FFA500"),
+                        ("font-family", "Orbitron, monospace"), ("font-size", "10px"),
+                        ("letter-spacing", "2px"), ("border-bottom", "2px solid #FFA500"),
+                        ("padding", "7px 10px"),
+                    ]},
+                    {"selector": "tbody tr:nth-child(even) td", "props": [
+                        ("background-color", "#0f0f0f"),
+                    ]},
+                ])
+            )
+            st.dataframe(t_styled, use_container_width=True, height=600, hide_index=True)
 
         if not etf_df.empty:
-            st.markdown("<div class='sec-bar'><div class='sec-bar-line'></div><div class='sec-bar-label'>ETF Rankings</div><div class='sec-bar-line'></div></div>", unsafe_allow_html=True)
-            ef1,ef2 = st.columns([1,2])
+            st.markdown("<div class='sec-bar'><div class='sec-bar-line'></div>"
+                        "<div class='sec-bar-label'>ETF Rankings — RS vs SPY</div>"
+                        "<div class='sec-bar-line'></div></div>", unsafe_allow_html=True)
+
+            ef1, ef2 = st.columns([1, 2])
             with ef1:
-                mom_f = st.multiselect("Momentum",["🔥 Leading","✅ Improving","➡ Flat","⚠ Fading","🔴 Broken"],
-                                       default=["🔥 Leading","✅ Improving"], key="etf_mom")
+                rs_filter = st.selectbox("Min RS Percentile",
+                                         ["All", "≥ 70", "≥ 80", "≥ 90"],
+                                         key="etf_rs_filter")
             with ef2:
-                th_f = st.multiselect("Theme", sorted(etf_df["Theme"].unique()) if "Theme" in etf_df.columns else [], key="etf_th")
+                th_f = st.multiselect(
+                    "Theme",
+                    sorted(etf_df["Theme"].unique()) if "Theme" in etf_df.columns else [],
+                    key="etf_th")
 
             ef = etf_df.copy()
-            if mom_f and "Momentum_Label" in ef.columns: ef = ef[ef["Momentum_Label"].isin(mom_f)]
-            if th_f and "Theme" in ef.columns: ef = ef[ef["Theme"].isin(th_f)]
+            rs_min = {"≥ 70": 70, "≥ 80": 80, "≥ 90": 90}.get(rs_filter, 0)
+            if rs_min and "RS_Pct" in ef.columns:
+                ef = ef[ef["RS_Pct"] >= rs_min]
+            if th_f and "Theme" in ef.columns:
+                ef = ef[ef["Theme"].isin(th_f)]
 
-            ecols = [c for c in ["Ticker","Theme","Weighted_RS_Rank","Momentum_Score","Momentum_Label",
-                                   "Score_A","Score_B","Score_C","Score_D","Score_E",
-                                   "Full_Bull_Stack","Dist_52wHigh_%"] if c in ef.columns]
-            st.dataframe(ef[ecols], use_container_width=True, height=500, hide_index=True)
+            ecols = [c for c in ["Ticker","Theme","RS_Pct","RS_vs_SPY",
+                                  "Ret_1M_%","Ret_3M_%","Ret_6M_%","Ret_12M_%",
+                                  "Dist_52wHigh_%"] if c in ef.columns]
+
+            e_styled = (
+                ef[ecols].style
+                .map(rs_bg,  subset=["RS_Pct"] if "RS_Pct" in ef.columns else [])
+                .map(ret_bg, subset=[c for c in ["Ret_1M_%","Ret_3M_%","Ret_6M_%","Ret_12M_%"] if c in ef.columns])
+                .format({
+                    "RS_Pct":         lambda x: f"{x:.0f}" if pd.notna(x) else "—",
+                    "RS_vs_SPY":      lambda x: f"{x:.3f}" if pd.notna(x) else "—",
+                    "Ret_1M_%":       lambda x: f"{x:+.1f}%" if pd.notna(x) else "—",
+                    "Ret_3M_%":       lambda x: f"{x:+.1f}%" if pd.notna(x) else "—",
+                    "Ret_6M_%":       lambda x: f"{x:+.1f}%" if pd.notna(x) else "—",
+                    "Ret_12M_%":      lambda x: f"{x:+.1f}%" if pd.notna(x) else "—",
+                    "Dist_52wHigh_%": lambda x: f"{x:.1f}%" if pd.notna(x) else "—",
+                })
+                .set_properties(**{
+                    "background-color": "#111111",
+                    "color": "#cccccc",
+                    "border": "1px solid #2a2a2a",
+                    "font-family": "Fira Code, monospace",
+                    "font-size": "12px",
+                    "padding": "5px 10px",
+                })
+                .set_properties(subset=["Ticker"], **{
+                    "color": "#FFA500",
+                    "font-family": "Orbitron, monospace",
+                    "font-size": "11px",
+                    "font-weight": "700",
+                })
+                .set_properties(subset=["Theme"], **{"color": "#B87333", "font-size": "11px"})
+                .set_table_styles([
+                    {"selector": "thead th", "props": [
+                        ("background-color", "#0a0a0a"), ("color", "#FFA500"),
+                        ("font-family", "Orbitron, monospace"), ("font-size", "10px"),
+                        ("letter-spacing", "2px"), ("border-bottom", "2px solid #FFA500"),
+                        ("padding", "7px 10px"),
+                    ]},
+                    {"selector": "tbody tr:nth-child(even) td", "props": [
+                        ("background-color", "#0f0f0f"),
+                    ]},
+                ])
+            )
+            st.dataframe(e_styled, use_container_width=True, height=600, hide_index=True)
 
 # ─── TAB SPEC: SPECULATIVE THEMES ─────────────────────────────────────────────
 with tab_spec:
@@ -653,7 +789,57 @@ with tab4:
             "ema8", "pct_from_ema8",
             "near_resistance", "resistance_level", "resistance_distance_pct",
         ] if c in df.columns]
-        st.dataframe(df[dcols], use_container_width=True, height=550, hide_index=True)
+
+        conviction_colors = {
+            "HIGH": "background-color:#0d3320;color:#00ff88;font-weight:700",
+            "MED":  "background-color:#1a1408;color:#FFA500;font-weight:700",
+            "LOW":  "background-color:#1a0e0e;color:#cc4444",
+        }
+        ep_tier_colors = {
+            "STRONG":   "background-color:#1a1200;color:#FFA500;font-weight:700",
+            "STANDARD": "background-color:#0d3320;color:#00ff88;font-weight:700",
+            "WATCH":    "background-color:#111a14;color:#5b8dee",
+            "NONE":     "background-color:#111111;color:#555",
+        }
+        def dl_bg(v):
+            if pd.isna(v) or v is None: return "background-color:#111111;color:#555"
+            try:
+                v = float(v)
+                if v >= 80: return "background-color:#0d3320;color:#00ff88;font-weight:700"
+                if v >= 60: return "background-color:#111a14;color:#00aa55"
+                if v >= 40: return "background-color:#111111;color:#cccccc"
+                return "background-color:#1a0e0e;color:#cc4444"
+            except: return ""
+        dl_styled = (
+            df[dcols].style
+            .map(lambda v: conviction_colors.get(str(v), ""), subset=["conviction"] if "conviction" in df.columns else [])
+            .map(lambda v: ep_tier_colors.get(str(v), ""), subset=["ep_tier"] if "ep_tier" in dcols else [])
+            .map(dl_bg, subset=[c for c in ["weekly_bbuw","daily_bbuw","trend_template","industry_rank","ep_score"] if c in dcols])
+            .set_properties(**{
+                "background-color": "#111111",
+                "color": "#cccccc",
+                "border": "1px solid #2a2a2a",
+                "font-family": "Fira Code, monospace",
+                "font-size": "12px",
+                "padding": "5px 10px",
+            })
+            .set_properties(subset=["ticker"] if "ticker" in dcols else [], **{
+                "color": "#FFA500", "font-family": "Orbitron, monospace",
+                "font-size": "11px", "font-weight": "700",
+            })
+            .set_table_styles([
+                {"selector": "thead th", "props": [
+                    ("background-color", "#0a0a0a"), ("color", "#FFA500"),
+                    ("font-family", "Orbitron, monospace"), ("font-size", "10px"),
+                    ("letter-spacing", "2px"), ("border-bottom", "2px solid #FFA500"),
+                    ("padding", "7px 10px"),
+                ]},
+                {"selector": "tbody tr:nth-child(even) td", "props": [
+                    ("background-color", "#0f0f0f"),
+                ]},
+            ])
+        )
+        st.dataframe(dl_styled, use_container_width=True, height=550, hide_index=True)
 
         # ── Industry Clustering Charts ─────────────────────────────────────────
         st.markdown("<div class='sec-bar'><div class='sec-bar-line'></div><div class='sec-bar-label'>Industry Clustering</div><div class='sec-bar-line'></div></div>", unsafe_allow_html=True)
@@ -1004,7 +1190,45 @@ with tab5:
             "ema8_rising", "pivot_8w_volume_spike",
             "trend_template_score", "bbuw_score",
         ] if c in wdf.columns]
-        st.dataframe(wdf[wd], use_container_width=True, height=500, hide_index=True)
+
+        wk_styled = (
+            wdf[wd].style
+            .set_properties(**{
+                "background-color": "#111111",
+                "color": "#cccccc",
+                "border": "1px solid #2a2a2a",
+                "font-family": "Fira Code, monospace",
+                "font-size": "12px",
+                "padding": "5px 10px",
+            })
+            .set_properties(subset=["ticker"] if "ticker" in wdf.columns else [], **{
+                "color": "#FFA500", "font-family": "Orbitron, monospace",
+                "font-size": "11px", "font-weight": "700",
+            })
+            .map(lambda v: (
+                "background-color:#1a1200;color:#FFA500;font-weight:700" if v == "STRONG" else
+                "background-color:#0d3320;color:#00ff88;font-weight:700" if v == "STANDARD" else
+                "background-color:#1a1408;color:#cc8800" if v == "WEAK" else
+                "background-color:#111111;color:#5b8dee" if v == "PROXIMITY" else ""
+            ), subset=["8W Pivot"] if "8W Pivot" in wdf.columns else [])
+            .map(lambda v: (
+                "background-color:#0d3320;color:#00ff88;font-weight:700" if isinstance(v,float) and v>=80 else
+                "background-color:#111a14;color:#00aa55" if isinstance(v,float) and v>=60 else
+                "background-color:#1a0e0e;color:#cc4444" if isinstance(v,float) and v<40 else ""
+            ), subset=[c for c in ["bbuw_score","rs_rating"] if c in wdf.columns])
+            .set_table_styles([
+                {"selector": "thead th", "props": [
+                    ("background-color", "#0a0a0a"), ("color", "#FFA500"),
+                    ("font-family", "Orbitron, monospace"), ("font-size", "10px"),
+                    ("letter-spacing", "2px"), ("border-bottom", "2px solid #FFA500"),
+                    ("padding", "7px 10px"),
+                ]},
+                {"selector": "tbody tr:nth-child(even) td", "props": [
+                    ("background-color", "#0f0f0f"),
+                ]},
+            ])
+        )
+        st.dataframe(wk_styled, use_container_width=True, height=500, hide_index=True)
 
         # ── Industry Clustering — Weekly Screen ───────────────────────────────
         st.markdown("<div class='sec-bar'><div class='sec-bar-line'></div><div class='sec-bar-label'>Industry Clustering — Stage 1/2 Names</div><div class='sec-bar-line'></div></div>", unsafe_allow_html=True)

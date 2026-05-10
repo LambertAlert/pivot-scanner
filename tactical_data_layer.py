@@ -77,14 +77,14 @@ PAIR_THRESHOLD = 0.005  # 0.5%
 # =============================================================================
 
 NARRATIVE_STATES = {
-    ( 1, -1, -1): (1, "Goldilocks",            "Growth, semis, software, biotech"),
-    ( 1, -1,  1): (2, "Reflation",             "Energy, materials, industrials, banks"),
-    ( 1,  1,  1): (3, "US Exceptionalism",     "Large-cap quality, mega-caps"),
-    ( 1,  1, -1): (4, "Soft Landing",          "Broad equity, consumer disc"),
-    (-1,  1, -1): (5, "Risk-Off",              "Defensive — utilities, staples, gold"),
-    (-1,  1,  1): (6, "Stagflation",           "Cash; no longs"),
-    (-1, -1, -1): (7, "Slowdown / Easing",     "Gold, duration, defensive value"),
-    (-1, -1,  1): (8, "Inflation Resurgence",  "Real assets, gold miners"),
+    ( 1, -1, -1): (1, "Goldilocks",         "Growth, semis, software, biotech — ideal backdrop"),
+    ( 1, -1,  1): (2, "Broad Risk-On",      "Energy, materials, commodities, industrials — risk + growth bid together"),
+    ( 1,  1,  1): (3, "US Exceptionalism",  "Large-cap quality, mega-caps, USD-earners — US is the destination"),
+    ( 1,  1, -1): (4, "Soft Landing Print", "Broad equity, consumer disc — Goldilocks with stronger dollar"),
+    (-1,  1, -1): (5, "Flight to Safety",   "Defensive — Treasuries, utilities, staples, gold"),
+    (-1,  1,  1): (6, "Hawkish Squeeze",    "Cash; no longs — Fed tightening pain, stocks AND bonds selling"),
+    (-1, -1, -1): (7, "Growth Scare",       "Gold, duration, defensive value — market pricing in weakness"),
+    (-1, -1,  1): (8, "Supply Shock",       "Real assets, gold miners, commodities — dollar weak but rates rising"),
 }
 
 
