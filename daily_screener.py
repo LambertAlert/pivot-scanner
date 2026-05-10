@@ -171,7 +171,8 @@ def load_sector_themes(csv_path: str) -> dict:
 # ═══════════════════════════════════════════════════════════════════════════════
 
 def assign_conviction(weekly_bbuw, daily_bbuw, trend_template, industry_rank: int,
-                       pivot_8w_tier: str = "NONE") -> str:
+                       pivot_8w_tier: str = "NONE",
+                       ep_tier: str = "NONE") -> str:
     """
     Tiered conviction scoring (max 10 points).
 
@@ -180,8 +181,8 @@ def assign_conviction(weekly_bbuw, daily_bbuw, trend_template, industry_rank: in
       • Daily  BBUW    ≥ 60 → +1, ≥ 75 → +1              (max 2)
       • Trend Template ≥ 6  → +1, = 8  → +1              (max 2)
       • Industry Rank  ≤ 10 → +1, ≤ 3  → +1              (max 2)
-        (dynamic weekly rank from actual watchlist performance)
       • 8W Pivot STANDARD → +1, STRONG → +2              (max 2)
+      • EP Tier  WATCH → +1, STANDARD → +2, STRONG → +3  (bonus — can push above 10)
 
     Tiers:
       HIGH ≥ 7
@@ -201,6 +202,11 @@ def assign_conviction(weekly_bbuw, daily_bbuw, trend_template, industry_rank: in
     # 8-Week Pivot bonus
     if pivot_8w_tier == "STANDARD": points += 1
     elif pivot_8w_tier == "STRONG": points += 2
+
+    # Episodic Pivot bonus — EPs are high-conviction catalyst events
+    if ep_tier == "WATCH":    points += 1
+    elif ep_tier == "STANDARD": points += 2
+    elif ep_tier == "STRONG":   points += 3
 
     if points >= 7: return "HIGH"
     if points >= 4: return "MED"
@@ -258,6 +264,7 @@ def main():
             entry.get("trend_template_score", 0),
             industry_rank,
             pivot_8w_tier=pivot_8w_tier,
+            ep_tier=entry.get("ep_tier", "NONE"),
         )
 
         qualified.append({
@@ -272,7 +279,11 @@ def main():
             "theme": theme_info["theme"],
             "theme_rank": theme_info["rank"],
             "industry": theme_info.get("industry", ""),
-            "industry_rank": industry_rank,            # dynamic weekly rank
+            "industry_rank": industry_rank,
+            # EP fields passthrough
+            "ep_tier":     entry.get("ep_tier", "NONE"),
+            "ep_score":    entry.get("ep_score", 0),
+            "ep_week_pct": entry.get("ep_week_pct"),
             # 8-Week Pivot passthrough from weekly screener
             "pivot_8w_fired":        entry.get("pivot_8w_fired", False),
             "pivot_8w_tier":         pivot_8w_tier,

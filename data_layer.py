@@ -21,7 +21,7 @@ DAILY_JSON               = "data/daily_watchlist.json"
 LATEST_TRIGGERS_JSON     = "data/latest_triggers.json"
 SECTOR_THEMES_JSON       = "data/sector_themes.json"
 INDUSTRY_RANKS_JSON      = "data/industry_ranks.json"
-VOLUME_SURGES_JSON       = "data/volume_surges.json"
+EP_EVENTS_JSON           = "data/ep_events.json"
 
 
 # ═══════════════════════════════════════════════════════════════════════════════
@@ -307,6 +307,27 @@ def get_industry_ranks() -> dict:
 def get_industry_ranks_full() -> dict:
     """Full industry rank records for dashboard display."""
     return read_json(INDUSTRY_RANKS_JSON, default={"ranks": [], "generated_at": None})
+
+
+def save_ep_events(events: list):
+    """
+    Persist weekly Episodic Pivot events.
+    events: list of ticker result dicts with ep_* fields, sorted by ep_score desc.
+    """
+    write_json(EP_EVENTS_JSON, {
+        "generated_at": datetime.now().isoformat(),
+        "count":        len(events),
+        "events":       events,
+    })
+
+
+def get_ep_events() -> dict:
+    """Load the latest EP events for dashboard display."""
+    return read_json(EP_EVENTS_JSON, default={
+        "generated_at": None,
+        "count":        0,
+        "events":       [],
+    })
 
 
 def save_volume_surges(events: list):

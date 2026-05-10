@@ -13,7 +13,26 @@ import pandas as pd
 import numpy as np
 import yfinance as yf
 
-from data_layer import save_weekly_watchlist, save_industry_ranks
+from data_layer import save_weekly_watchlist, save_industry_ranks, save_ep_events
+
+
+# ═══════════════════════════════════════════════════════════════════════════════
+#  EPISODIC PIVOT CONFIG
+# ═══════════════════════════════════════════════════════════════════════════════
+
+# Standard EP thresholds (weekly timeframe)
+EP_WEEKLY_PCT_MIN    = 15.0   # minimum weekly % gain to qualify
+EP_RVOL_MIN          = 1.5    # minimum relative volume vs 20-week avg
+EP_4W_POSITIVE       = True   # 4-week return must be positive
+EP_ABOVE_50SMA       = True   # must be above 50-week SMA
+
+# Strong EP thresholds
+EP_STRONG_PCT_MIN    = 25.0
+EP_STRONG_RVOL_MIN   = 2.0
+
+# Watch tier (below standard but worth monitoring)
+EP_WATCH_PCT_MIN     = 8.0
+EP_WATCH_RVOL_MIN    = 1.3
 
 
 # ═══════════════════════════════════════════════════════════════════════════════
@@ -273,6 +292,103 @@ def detect_8week_pivot(df: pd.DataFrame) -> dict:
 
 
 # ═══════════════════════════════════════════════════════════════════════════════
+#  EPISODIC PIVOT DETECTION
+# ═══════════════════════════════════════════════════════════════════════════════
+
+def detect_episodic_pivot(df_weekly: pd.DataFrame) -> dict:
+    """
+    Detect Episodic Pivot (EP) conditions on the most recent completed week.
+
+    An EP is a fundamental re-rating event: a massive weekly price surge driven
+    by a catalyst (earnings beat, contract win, product launch, etc.), confirmed
+    by volume expansion and momentum continuation.
+
+    Weekly EP criteria (from Qullamaggie / Stockbee framework):
+      • Last week's return ≥ EP_WEEKLY_PCT_MIN (default 15%)
+      • Last week's volume ≥ EP_RVOL_MIN × 20-week avg volume
+      • 4-week return positive (momentum continuation, not one-week wonder)
+      • Above 50-week SMA (trend confirmation)
+
+    EP Score = weekly_pct × rvol  (higher = stronger re-rating signal)
+
+    Returns dict with ep_fired, ep_tier, ep_score, and component values.
+    """
+    default = {
+        "ep_fired":    False,
+        "ep_tier":     "NONE",
+        "ep_score":    0.0,
+        "ep_week_pct": None,
+        "ep_rvol":     None,
+        "ep_4w_pct":   None,
+        "ep_above_50sma": False,
+        "ep_current_price": None,
+    }
+
+    if df_weekly is None or len(df_weekly) < 25:
+        return default
+
+    close  = df_weekly["close"] if "close" in df_weekly.columns else df_weekly["Close"]
+    volume = df_weekly["volume"] if "volume" in df_weekly.columns else df_weekly["Volume"]
+
+    # Last completed week return
+    if len(close) < 2:
+        return default
+    week_pct = ((close.iloc[-1] / close.iloc[-2]) - 1) * 100
+
+    # 4-week return
+    four_w_pct = ((close.iloc[-1] / close.iloc[-5]) - 1) * 100 if len(close) >= 5 else None
+
+    # Relative volume — last week vs 20-week avg (excluding last week)
+    avg_vol_20w = volume.iloc[-21:-1].mean() if len(volume) >= 21 else volume.iloc[:-1].mean()
+    rvol = float(volume.iloc[-1] / avg_vol_20w) if avg_vol_20w > 0 else 0.0
+
+    # 50-week SMA
+    sma_50w = close.rolling(50, min_periods=25).mean().iloc[-1]
+    above_50sma = bool(close.iloc[-1] > sma_50w) if not np.isnan(sma_50w) else False
+
+    current_price = float(close.iloc[-1])
+
+    # EP Score — the key ranking metric
+    ep_score = week_pct * rvol if week_pct > 0 else 0.0
+
+    # Classify tier
+    four_w_ok = (four_w_pct is not None and four_w_pct > 0)
+
+    if (week_pct >= EP_STRONG_PCT_MIN and
+            rvol >= EP_STRONG_RVOL_MIN and
+            four_w_ok and above_50sma):
+        tier = "STRONG"
+        fired = True
+
+    elif (week_pct >= EP_WEEKLY_PCT_MIN and
+              rvol >= EP_RVOL_MIN and
+              four_w_ok and above_50sma):
+        tier = "STANDARD"
+        fired = True
+
+    elif (week_pct >= EP_WATCH_PCT_MIN and
+              rvol >= EP_WATCH_RVOL_MIN):
+        # Watch tier — doesn't require 4W or 50SMA, just initial signal
+        tier = "WATCH"
+        fired = True
+
+    else:
+        tier = "NONE"
+        fired = False
+
+    return {
+        "ep_fired":         fired,
+        "ep_tier":          tier,
+        "ep_score":         round(ep_score, 2),
+        "ep_week_pct":      round(week_pct, 2),
+        "ep_rvol":          round(rvol, 2),
+        "ep_4w_pct":        round(four_w_pct, 2) if four_w_pct is not None else None,
+        "ep_above_50sma":   above_50sma,
+        "ep_current_price": round(current_price, 2),
+    }
+
+
+# ═══════════════════════════════════════════════════════════════════════════════
 #  INDUSTRY RANKING  — computed from the full ticker universe
 # ═══════════════════════════════════════════════════════════════════════════════
 
@@ -421,6 +537,7 @@ def main():
         template = minervini_trend_template(df_daily)
         bbuw = calc_bbuw_weekly(df_weekly, df_spy)
         pivot_8w = detect_8week_pivot(df_weekly)
+        ep = detect_episodic_pivot(df_weekly)
 
         # Every scanned ticker goes into full_results for industry ranking
         result = {
@@ -436,6 +553,14 @@ def main():
             "pct_from_ema8":         pivot_8w.get("pct_from_ema8"),
             "ema8_rising":           pivot_8w.get("ema_rising", False),
             "pivot_8w_volume_spike": pivot_8w.get("bull_volume_spike", False),
+            # EP fields
+            "ep_fired":              ep["ep_fired"],
+            "ep_tier":               ep["ep_tier"],
+            "ep_score":              ep["ep_score"],
+            "ep_week_pct":           ep["ep_week_pct"],
+            "ep_rvol":               ep["ep_rvol"],
+            "ep_4w_pct":             ep["ep_4w_pct"],
+            "ep_above_50sma":        ep["ep_above_50sma"],
         }
         full_results.append(result)
 
@@ -448,8 +573,15 @@ def main():
                 "PROXIMITY": "👀",
                 "NONE":      "  ",
             }.get(pivot_8w["pivot_tier"], "  ")
+            ep_tag = f" | EP:{ep['ep_tier']} score={ep['ep_score']}" if ep["ep_fired"] else ""
             log.info(f"  ✅ {ticker}: Stage {stage}, Trend {template['score']}/8, "
-                     f"BBUW {bbuw['score']}, 8W-Pivot {tier_emoji} {pivot_8w['pivot_tier']}")
+                     f"BBUW {bbuw['score']}, 8W-Pivot {tier_emoji} {pivot_8w['pivot_tier']}{ep_tag}")
+
+        # Log EP events regardless of stage/BBUW (EPs can fire on any setup)
+        if ep["ep_fired"] and ep["ep_tier"] in ("STRONG", "STANDARD"):
+            log.info(f"  📊 EP {ep['ep_tier']}: {ticker} "
+                     f"+{ep['ep_week_pct']:.1f}% / {ep['ep_rvol']:.1f}×vol "
+                     f"/ score={ep['ep_score']:.1f}")
 
         time.sleep(RATE_LIMIT_PAUSE)
 
@@ -461,22 +593,42 @@ def main():
     ))
     save_weekly_watchlist(qualified)
 
-    # ── Industry ranking — uses ALL scanned results, not just qualified ───────
-    # Pass full_results so unqualified tickers still contribute to their industry score
+    # ── Industry ranking ──────────────────────────────────────────────────────
     industry_ranks = compute_industry_ranks(full_results)
     save_industry_ranks(industry_ranks)
 
-    # Tier summary
+    # ── Episodic Pivot events — save ALL tickers with ep_fired=True ────────────
+    # Includes tickers outside Stage 1/2 — EPs can fire anywhere
+    ep_events = sorted(
+        [r for r in full_results if r.get("ep_fired")],
+        key=lambda x: x.get("ep_score", 0),
+        reverse=True,
+    )
+    save_ep_events(ep_events)
+
+    # Summary
     tier_counts = {}
     for q in qualified:
         t = q.get("pivot_8w_tier", "NONE")
         tier_counts[t] = tier_counts.get(t, 0) + 1
+
+    ep_strong   = sum(1 for e in ep_events if e["ep_tier"] == "STRONG")
+    ep_standard = sum(1 for e in ep_events if e["ep_tier"] == "STANDARD")
+    ep_watch    = sum(1 for e in ep_events if e["ep_tier"] == "WATCH")
 
     log.info(f"\n  WEEKLY SCREEN COMPLETE — {len(qualified)} qualified out of {len(tickers)}")
     log.info(f"    8W Pivots: 🔥 STRONG={tier_counts.get('STRONG', 0)}  "
              f"✅ STANDARD={tier_counts.get('STANDARD', 0)}  "
              f"⚠️ WEAK={tier_counts.get('WEAK', 0)}  "
              f"👀 PROXIMITY={tier_counts.get('PROXIMITY', 0)}")
+    log.info(f"    EPs: 🚀 STRONG={ep_strong}  ✅ STANDARD={ep_standard}  "
+             f"👀 WATCH={ep_watch}  (total={len(ep_events)})")
+    if ep_events[:5]:
+        log.info("    Top 5 EPs by score:")
+        for e in ep_events[:5]:
+            log.info(f"      {e['ticker']:<6} score={e['ep_score']:>7.1f}  "
+                     f"+{e['ep_week_pct']:.1f}%w  {e['ep_rvol']:.1f}×vol  "
+                     f"[{e['ep_tier']}]")
 
 
 if __name__ == "__main__":

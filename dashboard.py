@@ -28,6 +28,7 @@ from data_layer import (
     get_trigger_history,
     get_industry_ranks_full,
     get_volume_surges,
+    get_ep_events,
 )
 
 # ── New tactical macro + speculative theme modules ────────────────────────────
@@ -176,6 +177,10 @@ def load_industry_ranks():
 def load_volume_surges():
     return get_volume_surges()
 
+@st.cache_data(ttl=3600)
+def load_ep_events():
+    return get_ep_events()
+
 @st.cache_data(ttl=60)
 def _triggers(): return get_today_triggers()
 
@@ -192,6 +197,7 @@ radar_data     = load_radar()
 index_read     = load_index_read()
 industry_ranks = load_industry_ranks()
 volume_data    = load_volume_surges()
+ep_data        = load_ep_events()
 gip_data       = load_gip()
 narrative_data = load_narrative()
 gate_data      = load_gate()
@@ -640,8 +646,8 @@ with tab4:
             df["8W Pivot"] = df["pivot_8w_tier"].map(tier_emoji_map).fillna("—")
 
         dcols = [c for c in [
-            "ticker", "conviction", "8W Pivot", "theme", "industry",
-            "industry_rank", "theme_rank",
+            "ticker", "conviction", "8W Pivot", "ep_tier", "ep_score",
+            "theme", "industry", "industry_rank", "theme_rank",
             "weekly_stage", "daily_stage", "trend_template",
             "weekly_bbuw", "daily_bbuw",
             "ema8", "pct_from_ema8",
@@ -1106,6 +1112,159 @@ with tab5:
                 """, unsafe_allow_html=True)
         else:
             st.caption("Industry data appears once daily screener has run.")
+
+        # ── Episodic Pivot Radar ────────────────────────────────────────────────
+        st.markdown("<div class='sec-bar'><div class='sec-bar-line'></div><div class='sec-bar-label'>Episodic Pivot Radar — Weekly Re-Rating Events</div><div class='sec-bar-line'></div></div>", unsafe_allow_html=True)
+
+        ep_events_list = ep_data.get("events", [])
+        if not ep_events_list:
+            st.caption("No EP data yet. Run the Weekly Screen schedule to populate.")
+        else:
+            st.caption(
+                f"Generated: {ep_data.get('generated_at','—')[:16]} · "
+                f"{len(ep_events_list)} EP events detected · "
+                f"Score = Weekly % × Relative Volume · Manual catalyst check required"
+            )
+
+            # KPI strip
+            n_strong   = sum(1 for e in ep_events_list if e.get("ep_tier") == "STRONG")
+            n_standard = sum(1 for e in ep_events_list if e.get("ep_tier") == "STANDARD")
+            n_watch    = sum(1 for e in ep_events_list if e.get("ep_tier") == "WATCH")
+            top_score  = ep_events_list[0].get("ep_score", 0) if ep_events_list else 0
+
+            st.markdown(f"""
+<div class='kpi-strip' style='grid-template-columns:repeat(4,1fr);'>
+  <div class='kpi-cell amber'>
+    <div class='kpi-lbl'>🚀 Strong EPs</div>
+    <div class='kpi-val amber'>{n_strong}</div>
+    <div class='kpi-sub'>≥25% · ≥2.0× vol</div>
+  </div>
+  <div class='kpi-cell green'>
+    <div class='kpi-lbl'>✅ Standard EPs</div>
+    <div class='kpi-val green'>{n_standard}</div>
+    <div class='kpi-sub'>≥15% · ≥1.5× vol</div>
+  </div>
+  <div class='kpi-cell blue'>
+    <div class='kpi-lbl'>👀 Watch</div>
+    <div class='kpi-val'>{n_watch}</div>
+    <div class='kpi-sub'>≥8% · ≥1.3× vol</div>
+  </div>
+  <div class='kpi-cell amber'>
+    <div class='kpi-lbl'>Top EP Score</div>
+    <div class='kpi-val amber'>{top_score:.0f}</div>
+    <div class='kpi-sub'>{ep_events_list[0]["ticker"] if ep_events_list else "—"}</div>
+  </div>
+</div>
+            """, unsafe_allow_html=True)
+
+            # Filter controls
+            ep_f1, ep_f2 = st.columns([1, 2])
+            with ep_f1:
+                ep_tier_filter = st.multiselect(
+                    "EP Tier",
+                    ["STRONG", "STANDARD", "WATCH"],
+                    default=["STRONG", "STANDARD"],
+                    key="ep_tier_filter",
+                )
+            with ep_f2:
+                ep_stage_only = st.checkbox(
+                    "Stage 1/2 only (overlaps with weekly screen)",
+                    value=False,
+                    key="ep_stage_filter",
+                    help="Filter to EPs that also passed the Stage + BBUW filter"
+                )
+
+            ep_filtered = [
+                e for e in ep_events_list
+                if e.get("ep_tier") in ep_tier_filter
+                and (not ep_stage_only or e.get("stage") in [1, 2])
+            ]
+
+            # EP table
+            if ep_filtered:
+                ep_df = pd.DataFrame([{
+                    "Ticker":     e["ticker"],
+                    "EP Tier":    e.get("ep_tier", "—"),
+                    "EP Score":   e.get("ep_score", 0),
+                    "Week %":     e.get("ep_week_pct"),
+                    "RVOL":       e.get("ep_rvol"),
+                    "4W %":       e.get("ep_4w_pct"),
+                    ">50W SMA":   "✓" if e.get("ep_above_50sma") else "✗",
+                    "Stage":      e.get("stage", "—"),
+                    "BBUW":       e.get("bbuw_score"),
+                    "8W Pivot":   e.get("pivot_8w_tier", "—"),
+                } for e in ep_filtered])
+
+                def ep_tier_bg(v):
+                    if v == "STRONG":   return "background-color:#1a1200;color:#FFA500;font-weight:700"
+                    if v == "STANDARD": return "background-color:#0d3320;color:#00ff88;font-weight:700"
+                    return "background-color:#111111;color:#5b8dee"
+
+                def ep_score_bg(v):
+                    try:
+                        v = float(v)
+                        if v >= 100: return "background-color:#1a1200;color:#FFA500;font-weight:700"
+                        if v >= 50:  return "background-color:#0a2a1a;color:#00cc66"
+                        if v >= 25:  return "background-color:#111a14;color:#00aa55"
+                        return "background-color:#111111;color:#cccccc"
+                    except: return ""
+
+                def ep_pct_bg(v):
+                    if v is None or pd.isna(v): return "color:#555"
+                    if v >= 25:  return "background-color:#0d3320;color:#00ff88;font-weight:700"
+                    if v >= 15:  return "background-color:#111a14;color:#00aa55"
+                    if v >= 0:   return "background-color:#111111;color:#aaccaa"
+                    return "background-color:#1a0e0e;color:#cc4444"
+
+                ep_styled = (
+                    ep_df.style
+                    .map(ep_tier_bg, subset=["EP Tier"])
+                    .map(ep_score_bg, subset=["EP Score"])
+                    .map(ep_pct_bg, subset=["Week %", "4W %"])
+                    .format({
+                        "EP Score": "{:.1f}",
+                        "Week %":   lambda x: f"{x:+.1f}%" if pd.notna(x) else "—",
+                        "4W %":     lambda x: f"{x:+.1f}%" if pd.notna(x) else "—",
+                        "RVOL":     lambda x: f"{x:.2f}×" if pd.notna(x) else "—",
+                        "BBUW":     lambda x: f"{x:.0f}" if pd.notna(x) else "—",
+                    })
+                    .set_properties(**{
+                        "background-color": "#111111",
+                        "color": "#cccccc",
+                        "border": "1px solid #2a2a2a",
+                        "font-family": "Fira Code, monospace",
+                        "font-size": "12px",
+                        "padding": "5px 10px",
+                    })
+                    .set_properties(subset=["Ticker"], **{
+                        "color": "#FFA500", "font-family": "Orbitron, monospace",
+                        "font-size": "11px", "font-weight": "700",
+                    })
+                    .set_table_styles([
+                        {"selector": "thead th", "props": [
+                            ("background-color", "#0a0a0a"), ("color", "#FFA500"),
+                            ("font-family", "Orbitron, monospace"), ("font-size", "10px"),
+                            ("letter-spacing", "2px"), ("border-bottom", "2px solid #FFA500"),
+                            ("padding", "7px 10px"),
+                        ]},
+                        {"selector": "tbody tr:nth-child(even) td", "props": [
+                            ("background-color", "#0f0f0f"),
+                        ]},
+                    ])
+                )
+                st.dataframe(ep_styled, use_container_width=True,
+                             height=min(600, 50 + len(ep_filtered) * 35),
+                             hide_index=True)
+
+                st.markdown("""
+<div style='font-family:var(--mono);font-size:.72rem;color:var(--muted);
+     border-left:2px solid var(--accent);padding:.5rem .8rem;margin-top:.5rem;'>
+  <strong style='color:var(--accent);'>EP Score = Weekly % × Relative Volume</strong> — 
+  Higher score = stronger re-rating signal. This scanner finds the move.
+  <em>Always verify the catalyst manually</em> — earnings beat, contract win, product launch, etc.
+  EPs require patience: hold 2–8 weeks if weekly structure (10/20-week SMA) is respected.
+</div>
+                """, unsafe_allow_html=True)
 
         # ── Scatter chart ──────────────────────────────────────────────────────
         if "bbuw_score" in wdf.columns and "rs_rating" in wdf.columns:
