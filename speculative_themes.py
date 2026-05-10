@@ -210,8 +210,7 @@ def render_macro_group_view(theme_records, macro_metrics):
                         <span style='color:{COPPER};font-size:11px'>{tname.replace("_", " ")}</span>
                         <span style='color:{vc};font-size:12px;font-weight:700'>{vstr}</span>
                     </div>
-                """)
-
+                """, unsafe_allow_html=True)
             html_parts.append("</div>")
             st.markdown("".join(html_parts), unsafe_allow_html=True)
 
