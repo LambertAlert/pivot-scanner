@@ -148,8 +148,15 @@ def main():
             "diff_10d": p.get("diff_10d"),
             "diff_20d": p.get("diff_20d"),
             "state":    p.get("state", "Unknown"),
-            # Store ratio history as JSON string
-            "ratio_series_60d": json.dumps(p.get("ratio_series_60d") or []),
+            # Store ratio history as JSON string — convert Timestamps to str
+            "ratio_series_60d": json.dumps(
+                [
+                    {k: str(v) if hasattr(v, 'isoformat') else v
+                     for k, v in item.items()}
+                    if isinstance(item, dict) else item
+                    for item in (p.get("ratio_series_60d") or [])
+                ]
+            ),
         }
         pair_rows.append(row)
 
