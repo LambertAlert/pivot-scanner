@@ -754,126 +754,98 @@ with tab3:
             dist_e8 = t.get("dist_ema8w_%")
             ep_tier = t.get("ep_tier", "NONE")
             rs_rat  = t.get("rs_rating")
+            ttype   = t.get("trigger_type", "PIVOT")  # PIVOT or ORB
 
-            # Card border color by score
-            if score >= 10:   border = "var(--green)"
+            # Card border — ORB gets distinct blue border
+            if ttype == "ORB":
+                border = "var(--blue)"
+            elif score >= 10: border = "var(--green)"
             elif score >= 7:  border = "var(--accent)"
             else:             border = "var(--border)"
 
-            # Direction badge
             dir_color = "var(--green)" if d == "bullish" else "var(--red)"
             dir_label = "▲ BULL" if d == "bullish" else "▼ BEAR"
-
-            # Conviction badge
             conv_color = {"HIGH": "var(--green)", "MED": "var(--accent)", "LOW": "var(--muted)"}.get(conv, "var(--muted)")
 
-            # R-ratio color and label
+            # R-ratio display
             if r_ratio is None:
-                r_display = "—"
-                r_color   = "var(--muted)"
+                r_display, r_color = "—", "var(--muted)"
             elif r_ratio >= R_ELITE:
-                r_display = f"{r_ratio:.1f}R ⭐"
-                r_color   = "var(--green)"
+                r_display, r_color = f"{r_ratio:.1f}R ⭐", "var(--green)"
             elif r_ratio >= R_GOOD:
-                r_display = f"{r_ratio:.1f}R"
-                r_color   = "var(--green)"
+                r_display, r_color = f"{r_ratio:.1f}R", "var(--green)"
             elif r_ratio >= R_MINIMUM:
-                r_display = f"{r_ratio:.1f}R"
-                r_color   = "var(--accent)"
+                r_display, r_color = f"{r_ratio:.1f}R", "var(--accent)"
             else:
-                r_display = f"{r_ratio:.1f}R ⚠"
-                r_color   = "var(--red)"
+                r_display, r_color = f"{r_ratio:.1f}R ⚠", "var(--red)"
 
-            # RVOL color
             rvol_color = "var(--green)" if rvol >= 2.0 else "var(--accent)" if rvol >= 1.5 else "var(--muted)"
-
-            # Session high distance
-            sh_str = f"{dist_sh:+.1f}%" if dist_sh is not None else "—"
+            sh_str   = f"{dist_sh:+.1f}%" if dist_sh is not None else "—"
             sh_color = "var(--green)" if (dist_sh is not None and dist_sh >= -1) else "var(--muted)"
-
-            # 8W EMA distance
-            e8_str = f"{dist_e8:+.1f}%" if dist_e8 is not None else "—"
+            e8_str   = f"{dist_e8:+.1f}%" if dist_e8 is not None else "—"
             e8_color = "var(--green)" if (dist_e8 is not None and 0 < dist_e8 < 8) else "var(--muted)"
 
-            # EP badge
             ep_badge = ""
             if ep_tier == "STRONG":   ep_badge = "<span style='color:var(--accent);font-size:.6rem;font-family:var(--display);'>🚀 EP STRONG</span>"
             elif ep_tier == "STANDARD": ep_badge = "<span style='color:var(--green);font-size:.6rem;font-family:var(--display);'>✅ EP</span>"
 
-            pk = "pivot_high" if d == "bullish" else "pivot_low"
+            # ── ORB-specific extra row ─────────────────────────────────────
+            orb_row = ""
+            if ttype == "ORB":
+                or_h = t.get("or_high", 0)
+                or_l = t.get("or_low", 0)
+                or_r = t.get("or_range", 0)
+                brk  = t.get("breakout_pct", 0)
+                orb_row = (
+                    f"<div style='background:rgba(91,141,238,0.08);border-left:2px solid var(--blue);"
+                    f"padding:.5rem .8rem;margin:.5rem 0;font-family:var(--mono);font-size:.75rem;'>"
+                    f"<span style='color:var(--blue);font-family:var(--display);font-size:.55rem;"
+                    f"letter-spacing:.12em;'>🎯 OPENING RANGE BREAKOUT</span>&nbsp;&nbsp;"
+                    f"OR: ${or_l:.2f} – ${or_h:.2f} ({or_r:.2f} range) &nbsp;·&nbsp;"
+                    f"Breakout: <span style='color:{dir_color};font-weight:700;'>+{brk:.1f}%</span>"
+                    f"</div>"
+                )
+
+            tf_label = t.get("timeframe", "")
+            streak_info = f"Streak {t.get('streak_len','')} bars" if ttype != "ORB" else "Opening Range Break"
 
             st.markdown(f"""
 <div style='background:linear-gradient(135deg,#0f0f17 0%,#09090e 100%);
      border:1px solid var(--border);border-left:3px solid {border};
      padding:1.2rem;margin-bottom:.8rem;border-radius:4px;'>
 
-  <!-- Header row -->
   <div style='display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:.8rem;'>
     <div>
       <div class='t-ticker'>{t.get("ticker","")}</div>
       <div class='t-meta' style='margin-top:.2rem;'>
-        {t.get("theme","")} · {t.get("industry","")} · Streak {t.get("streak_len","")} bars
-        {ep_badge}
+        {t.get("theme","")} · {t.get("industry","")} · {streak_info} {ep_badge}
       </div>
     </div>
     <div style='text-align:right;display:flex;flex-direction:column;gap:.3rem;align-items:flex-end;'>
-      <div style='font-family:var(--display);font-size:.65rem;font-weight:700;
-           color:{conv_color};letter-spacing:.1em;'>{conv}</div>
-      <div style='font-family:var(--display);font-size:.65rem;
-           color:{dir_color};font-weight:700;'>{dir_label} · {t.get("timeframe","")}</div>
-      <div style='font-family:var(--display);font-size:.55rem;
-           color:{"var(--green)" if score>=10 else "var(--accent)"};'>
-        SCORE {score}
-      </div>
+      <div style='font-family:var(--display);font-size:.65rem;font-weight:700;color:{conv_color};letter-spacing:.1em;'>{conv}</div>
+      <div style='font-family:var(--display);font-size:.65rem;color:{dir_color};font-weight:700;'>{dir_label} · {tf_label}</div>
+      <div style='font-family:var(--display);font-size:.55rem;color:{"var(--green)" if score>=10 else "var(--blue)" if ttype=="ORB" else "var(--accent)"};'>SCORE {score}</div>
     </div>
   </div>
 
-  <!-- Primary metrics grid -->
+  {orb_row}
+
   <div class='t-grid' style='margin-bottom:.6rem;'>
-    <div>
-      <div class='t-field-lbl'>Trigger Close</div>
-      <div class='t-field-val'>${t.get("trigger_close",0):.2f}</div>
-    </div>
-    <div>
-      <div class='t-field-lbl'>Stop Level</div>
-      <div class='t-field-val red'>${t.get("stop_level",0):.2f}</div>
-    </div>
-    <div>
-      <div class='t-field-lbl'>R-Ratio</div>
-      <div class='t-field-val' style='color:{r_color};font-weight:700;'>{r_display}</div>
-    </div>
-    <div>
-      <div class='t-field-lbl'>RVOL (trigger bar)</div>
-      <div class='t-field-val' style='color:{rvol_color};'>{rvol:.2f}×</div>
-    </div>
+    <div><div class='t-field-lbl'>Trigger Close</div><div class='t-field-val'>${t.get("trigger_close",0):.2f}</div></div>
+    <div><div class='t-field-lbl'>Stop Level</div><div class='t-field-val red'>${t.get("stop_level",0):.2f}</div></div>
+    <div><div class='t-field-lbl'>R-Ratio</div><div class='t-field-val' style='color:{r_color};font-weight:700;'>{r_display}</div></div>
+    <div><div class='t-field-lbl'>RVOL</div><div class='t-field-val' style='color:{rvol_color};'>{rvol:.2f}×</div></div>
   </div>
 
-  <!-- Key levels grid -->
   <div class='t-grid' style='margin-bottom:.6rem;padding-top:.5rem;border-top:1px solid var(--border2);'>
-    <div>
-      <div class='t-field-lbl'>vs Session High</div>
-      <div class='t-field-val' style='color:{sh_color};'>{sh_str}</div>
-    </div>
-    <div>
-      <div class='t-field-lbl'>vs 8W EMA</div>
-      <div class='t-field-val' style='color:{e8_color};'>{e8_str}</div>
-    </div>
-    <div>
-      <div class='t-field-lbl'>ATR (14d)</div>
-      <div class='t-field-val'>${atr:.2f}</div>
-    </div>
-    <div>
-      <div class='t-field-lbl'>RS Rating</div>
-      <div class='t-field-val {"green" if (rs_rat or 0)>=80 else "amber" if (rs_rat or 0)>=60 else ""}'>{rs_rat or "—"}</div>
-    </div>
+    <div><div class='t-field-lbl'>vs Session High</div><div class='t-field-val' style='color:{sh_color};'>{sh_str}</div></div>
+    <div><div class='t-field-lbl'>vs 8W EMA</div><div class='t-field-val' style='color:{e8_color};'>{e8_str}</div></div>
+    <div><div class='t-field-lbl'>ATR (14d)</div><div class='t-field-val'>${atr:.2f}</div></div>
+    <div><div class='t-field-lbl'>RS Rating</div><div class='t-field-val {"green" if (rs_rat or 0)>=80 else "amber" if (rs_rat or 0)>=60 else ""}'>{rs_rat or "—"}</div></div>
   </div>
 
-  <!-- Footer context -->
-  <div style='font-family:var(--mono);font-size:.7rem;color:var(--muted);
-       padding-top:.4rem;border-top:1px solid var(--border2);'>
-    {t.get("entry_note","")} · Stage W{t.get("weekly_stage","")}/D{t.get("daily_stage","")} · 
-    Trend {t.get("trend_template","")}/8 · BBUW D{t.get("daily_bbuw",0):.0f}/W{t.get("weekly_bbuw",0):.0f} · 
-    {str(t.get("trigger_time",""))[:19]} UTC
+  <div style='font-family:var(--mono);font-size:.7rem;color:var(--muted);padding-top:.4rem;border-top:1px solid var(--border2);'>
+    {t.get("entry_note","")} · Stage W{t.get("weekly_stage","")}/D{t.get("daily_stage","")} · Trend {t.get("trend_template","")}/8 · BBUW D{t.get("daily_bbuw",0):.0f}/W{t.get("weekly_bbuw",0):.0f} · {str(t.get("trigger_time",""))[:19]} UTC
   </div>
 </div>
             """, unsafe_allow_html=True)

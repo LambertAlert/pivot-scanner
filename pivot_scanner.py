@@ -1,13 +1,10 @@
 """
-INTRADAY PIVOT SCANNER (v4) — R-ratio, key levels, composite score ranking.
+INTRADAY PIVOT SCANNER (v4.1) — R-ratio, key levels, RVOL, composite score, ORB.
 
-Enhancements over v3:
-  • ATR(14) daily → R-ratio = (trigger_close - stop) / ATR
-  • Trigger bar RVOL vs 20-period intraday average
-  • Distance from 8W EMA (from daily watchlist)
-  • Distance from intraday session high (daily high so far)
-  • Composite trigger score for ranking in dashboard
-  • Deduplication: same ticker on both timeframes → keep 65min
+Triggers:
+  1. Classic 30/65-min pivot (3+ bar streak reversal)
+  2. Opening Range Breakout (ORB) — HIGH conviction only
+     First 30-min bar sets range; second bar breaks out with volume confirmation.
 """
 
 import os
@@ -19,6 +16,7 @@ from typing import Optional
 import numpy as np
 import pandas as pd
 import yfinance as yf
+import pytz
 
 from data_layer import save_trigger, get_latest_daily_watchlist
 
@@ -31,12 +29,20 @@ MIN_STREAK       = 3
 RATE_LIMIT_PAUSE = 2
 SCAN_30MIN       = True
 SCAN_65MIN       = True
+SCAN_ORB         = True          # Opening Range Breakout scan
 ALERT_TIERS      = ["HIGH", "MED"]
+ORB_TIERS        = ["HIGH"]      # ORB only on HIGH conviction — tighter filter
 
 # R-ratio thresholds for scoring
-R_ELITE   = 3.0   # +2 score pts
-R_GOOD    = 2.0   # +1 score pt
-R_MINIMUM = 1.0   # trigger still valid but no bonus
+R_ELITE   = 3.0
+R_GOOD    = 2.0
+R_MINIMUM = 1.0
+
+# ORB config
+ORB_RVOL_MIN      = 1.5          # breakout bar must be ≥ 1.5× average volume
+ORB_OPEN_HOUR_CT  = 9            # market open hour (CT)
+ORB_OPEN_MIN_CT   = 30           # market open minute (CT)
+CT_TZ             = pytz.timezone("America/Chicago")
 
 logging.basicConfig(
     level=logging.INFO,
@@ -167,48 +173,129 @@ def compute_trigger_score(conviction: str, streak_len: int,
                            timeframe: str, dist_session_high: Optional[float],
                            direction: str) -> int:
     """
-    Composite score for ranking triggers in the dashboard.
-    Higher = more actionable. Max ~15 points.
-
-    Points:
-      Conviction   HIGH=4, MED=2
-      Streak       3=1, 4=2, 5+=3
-      R-ratio      ≥3.0=3, ≥2.0=2, ≥1.0=1, <1.0=0
-      RVOL         ≥2.0=2, ≥1.5=1
-      Timeframe    65-MIN=2, 30-MIN=1  (higher TF = more reliable)
-      Session high Bullish near/above session high = +1
+    Composite score for ranking triggers. Max ~15 points.
     """
     score = 0
-
-    # Conviction
     score += {"HIGH": 4, "MED": 2}.get(conviction, 0)
-
-    # Streak length
     if streak_len >= 5:   score += 3
     elif streak_len >= 4: score += 2
     else:                  score += 1
-
-    # R-ratio
     if r_ratio is not None:
-        if r_ratio >= R_ELITE:   score += 3
-        elif r_ratio >= R_GOOD:  score += 2
+        if r_ratio >= R_ELITE:     score += 3
+        elif r_ratio >= R_GOOD:    score += 2
         elif r_ratio >= R_MINIMUM: score += 1
-
-    # RVOL on trigger bar
     if rvol >= 2.0:   score += 2
     elif rvol >= 1.5: score += 1
-
-    # Timeframe quality
     score += 2 if "65" in timeframe else 1
-
-    # Near/above session high (bullish) or near/below session low (bearish)
     if dist_session_high is not None:
-        if direction == "bullish" and dist_session_high >= -1.0:
-            score += 1   # breaking out near session high — strong
-        elif direction == "bearish" and dist_session_high <= -5.0:
-            score += 1   # far from highs, trend day down
-
+        if direction == "bullish" and dist_session_high >= -1.0: score += 1
+        elif direction == "bearish" and dist_session_high <= -5.0: score += 1
     return score
+
+
+# ═══════════════════════════════════════════════════════════════════════════════
+#  OPENING RANGE BREAKOUT DETECTION
+# ═══════════════════════════════════════════════════════════════════════════════
+
+def detect_orb(df_30m: pd.DataFrame) -> Optional[dict]:
+    """
+    Opening Range Breakout on the 30-minute timeframe.
+
+    Definition:
+      • Bar 1 (9:30–10:00 CT) = the opening range. High = OR high, Low = OR low.
+      • Bar 2 (10:00–10:30 CT) = the trigger bar.
+        - Bullish ORB: bar 2 closes ABOVE bar 1's high AND volume ≥ ORB_RVOL_MIN × 20-bar avg
+        - Bearish ORB: bar 2 closes BELOW bar 1's low  AND volume ≥ ORB_RVOL_MIN × 20-bar avg
+
+    Only fires if we're currently in bar 2 (i.e. last bar IS bar 2 of today).
+    This prevents re-firing on subsequent bars after the ORB already triggered.
+
+    Returns dict with direction, range, breakout bar, and volume confirmation.
+    Returns None if no ORB or conditions not met.
+    """
+    if df_30m is None or len(df_30m) < 3:
+        return None
+
+    # Convert index to CT for open detection
+    try:
+        idx_ct = df_30m.index.tz_convert(CT_TZ)
+    except Exception:
+        idx_ct = df_30m.index
+
+    today_ct = datetime.now(CT_TZ).date()
+
+    # Find today's bars
+    today_mask = pd.Series([i.date() == today_ct for i in idx_ct], index=df_30m.index)
+    today_bars = df_30m[today_mask]
+
+    if len(today_bars) < 2:
+        return None  # Not enough today bars yet (pre-10:30 CT)
+
+    # Bar 1 = first 30-min bar of the day (9:30 CT open)
+    bar1 = today_bars.iloc[0]
+    bar1_time = idx_ct[today_mask][0]
+    if bar1_time.hour != ORB_OPEN_HOUR_CT or bar1_time.minute != ORB_OPEN_MIN_CT:
+        return None  # First bar doesn't start at 9:30 CT — data alignment issue
+
+    # Bar 2 = second 30-min bar (10:00 CT) — must be the LAST bar (current)
+    # If we have 3+ today bars, bar 2 has already passed and we don't re-fire
+    if len(today_bars) != 2:
+        return None  # ORB only fires in the 10:00–10:30 CT window
+
+    bar2 = today_bars.iloc[1]
+
+    or_high = float(bar1["high"])
+    or_low  = float(bar1["low"])
+    or_range = or_high - or_low
+
+    if or_range <= 0:
+        return None
+
+    # Volume confirmation
+    avg_vol_20 = df_30m["volume"].iloc[-22:-2].mean()
+    bar2_rvol  = float(bar2["volume"] / avg_vol_20) if avg_vol_20 > 0 else 1.0
+
+    if bar2_rvol < ORB_RVOL_MIN:
+        log.debug(f"  ORB: volume too low ({bar2_rvol:.2f}× < {ORB_RVOL_MIN}×) — skipping")
+        return None
+
+    bar2_close = float(bar2["close"])
+
+    # Bullish ORB
+    if bar2_close > or_high:
+        breakout_pct = (bar2_close - or_high) / or_high * 100
+        return {
+            "direction":     "bullish",
+            "or_high":       round(or_high, 2),
+            "or_low":        round(or_low, 2),
+            "or_range":      round(or_range, 2),
+            "breakout_pct":  round(breakout_pct, 2),
+            "bar1":          bar1,
+            "bar2":          bar2,
+            "bar1_time":     str(df_30m.index[today_mask][0]),
+            "bar2_time":     str(df_30m.index[today_mask][1]),
+            "rvol":          round(bar2_rvol, 2),
+            "stop_level":    round(or_low, 2),   # stop = bottom of opening range
+        }
+
+    # Bearish ORB
+    if bar2_close < or_low:
+        breakout_pct = (or_low - bar2_close) / or_low * 100
+        return {
+            "direction":     "bearish",
+            "or_high":       round(or_high, 2),
+            "or_low":        round(or_low, 2),
+            "or_range":      round(or_range, 2),
+            "breakout_pct":  round(breakout_pct, 2),
+            "bar1":          bar1,
+            "bar2":          bar2,
+            "bar1_time":     str(df_30m.index[today_mask][0]),
+            "bar2_time":     str(df_30m.index[today_mask][1]),
+            "rvol":          round(bar2_rvol, 2),
+            "stop_level":    round(or_high, 2),  # stop = top of opening range
+        }
+
+    return None  # Bar 2 inside the range — no ORB
 
 
 # ═══════════════════════════════════════════════════════════════════════════════
@@ -269,9 +356,181 @@ def detect_pivot(df: pd.DataFrame,
 #  PERSIST TRIGGER
 # ═══════════════════════════════════════════════════════════════════════════════
 
-def persist_trigger(entry: dict, timeframe: str, result: dict,
-                    df_daily: Optional[pd.DataFrame],
-                    df_intraday: pd.DataFrame):
+def persist_orb_trigger(entry: dict, result: dict,
+                         df_daily: Optional[pd.DataFrame]):
+    """Build and save an ORB trigger record."""
+    d  = result["direction"]
+    b2 = result["bar2"]
+
+    trigger_close = float(b2["close"])
+    stop_level    = result["stop_level"]
+
+    atr     = compute_atr(df_daily)
+    r_ratio = compute_r_ratio(trigger_close, stop_level, d, atr)
+
+    dist_sh = compute_session_high_distance(df_daily, trigger_close)
+    dist_e8 = compute_ema8w_distance(trigger_close, entry.get("ema8"))
+
+    # ORB score — starts higher because it's a cleaner, tighter setup
+    # Base: HIGH conviction = 5 (bonus over pivot), RVOL premium, R premium
+    orb_base = 5  # ORB on HIGH always starts higher than standard pivot
+    score = orb_base
+    if result["rvol"] >= 2.0:   score += 2
+    elif result["rvol"] >= 1.5: score += 1
+    if r_ratio is not None:
+        if r_ratio >= R_ELITE:     score += 3
+        elif r_ratio >= R_GOOD:    score += 2
+        elif r_ratio >= R_MINIMUM: score += 1
+    # Tight opening range = cleaner signal
+    or_pct = result["or_range"] / result["or_high"] * 100
+    if or_pct < 1.0: score += 2   # very tight range = strong conviction
+    elif or_pct < 2.0: score += 1
+
+    entry_note = (
+        "ORB — ITM/ATM weekly calls (stop: OR low)"
+        if d == "bullish"
+        else "ORB — ITM/ATM weekly puts (stop: OR high)"
+    )
+
+    trigger = {
+        "ticker":              entry["ticker"],
+        "timeframe":           "ORB-30",
+        "direction":           d,
+        "conviction":          entry["conviction"],
+        "trigger_type":        "ORB",          # distinguishes from pivot triggers
+        "theme":               entry.get("theme", ""),
+        "industry":            entry.get("industry", ""),
+        "industry_rank":       entry.get("industry_rank", 99),
+        "theme_rank":          entry.get("theme_rank", 99),
+        "weekly_stage":        entry.get("weekly_stage"),
+        "daily_stage":         entry.get("daily_stage"),
+        "trend_template":      entry.get("trend_template"),
+        "weekly_bbuw":         entry.get("weekly_bbuw"),
+        "daily_bbuw":          entry.get("daily_bbuw"),
+        "ep_tier":             entry.get("ep_tier", "NONE"),
+        "rs_rating":           entry.get("rs_rating"),
+        # ORB-specific fields
+        "streak_len":          0,              # N/A for ORB
+        "or_high":             result["or_high"],
+        "or_low":              result["or_low"],
+        "or_range":            result["or_range"],
+        "breakout_pct":        result["breakout_pct"],
+        # Bar data
+        "pivot_open":          float(result["bar1"]["open"]),
+        "pivot_high":          result["or_high"],
+        "pivot_low":           result["or_low"],
+        "pivot_close":         float(result["bar1"]["close"]),
+        "pivot_time":          result["bar1_time"],
+        "trigger_open":        float(b2["open"]),
+        "trigger_high":        float(b2["high"]),
+        "trigger_low":         float(b2["low"]),
+        "trigger_close":       trigger_close,
+        "trigger_time":        result["bar2_time"],
+        # Risk metrics
+        "stop_level":          stop_level,
+        "atr_14d":             round(atr, 4) if pd.notna(atr) else None,
+        "r_ratio":             r_ratio,
+        "rvol_trigger":        result["rvol"],
+        # Key levels
+        "dist_session_high_%": dist_sh,
+        "dist_ema8w_%":        dist_e8,
+        "trigger_score":       score,
+        "entry_note":          entry_note,
+    }
+
+    save_trigger(trigger)
+    r_str = f"  R={r_ratio:.1f}" if r_ratio is not None else ""
+    log.info(f"  🎯 ORB {d.upper()}: {entry['ticker']}"
+             f"  OR={result['or_high']:.2f}/{result['or_low']:.2f}"
+             f"  rvol={result['rvol']:.1f}×  +{result['breakout_pct']:.1f}%{r_str}"
+             f"  score={score}")
+
+
+# ═══════════════════════════════════════════════════════════════════════════════
+#  MAIN
+# ═══════════════════════════════════════════════════════════════════════════════
+
+def main():
+    log.info("Starting INTRADAY pivot scanner v4.1 (pivot + ORB)...")
+
+    daily_data = get_latest_daily_watchlist()
+    entries    = daily_data.get("entries", [])
+
+    orb_entries    = [e for e in entries if e["conviction"] in ORB_TIERS]
+    pivot_entries  = [e for e in entries if e["conviction"] in ALERT_TIERS]
+
+    if not pivot_entries:
+        log.error("No entries in daily watchlist. Run daily_screener.py first.")
+        return
+
+    log.info(f"Scanning {len(pivot_entries)} tickers for pivots ({ALERT_TIERS})")
+    log.info(f"Scanning {len(orb_entries)} tickers for ORB ({ORB_TIERS})")
+
+    fired_tickers_30min = set()
+    fired_tickers_65min = set()
+    fired_orb           = set()
+    trigger_count       = 0
+    orb_count           = 0
+
+    # ── ORB scan (HIGH conviction only) ───────────────────────────────────────
+    # Run first so ORB triggers appear at top of today's list
+    if SCAN_ORB:
+        log.info("─── ORB SCAN ───")
+        for i, entry in enumerate(orb_entries, 1):
+            ticker = entry["ticker"]
+            log.info(f"  ORB [{i}/{len(orb_entries)}] {ticker}")
+
+            df_30 = fetch_intraday_bars(ticker, "30m")
+            if df_30 is None:
+                continue
+
+            orb = detect_orb(df_30)
+            if orb:
+                df_daily = fetch_daily_bars(ticker)
+                persist_orb_trigger(entry, orb, df_daily)
+                fired_orb.add(ticker)
+                orb_count += 1
+
+            if i < len(orb_entries):
+                time.sleep(RATE_LIMIT_PAUSE)
+
+    # ── Pivot scan (HIGH + MED conviction) ───────────────────────────────────
+    log.info("─── PIVOT SCAN ───")
+    for i, entry in enumerate(pivot_entries, 1):
+        ticker = entry["ticker"]
+        log.info(f"  [{i}/{len(pivot_entries)}] {ticker} ({entry['conviction']})")
+
+        df_daily = fetch_daily_bars(ticker)
+
+        if SCAN_30MIN:
+            df_30 = fetch_intraday_bars(ticker, "30m")
+            if df_30 is not None:
+                r = detect_pivot(df_30)
+                if r:
+                    fired_tickers_30min.add(ticker)
+                    persist_trigger(entry, "30-MIN", r, df_daily, df_30)
+                    trigger_count += 1
+
+        if SCAN_65MIN:
+            df_60 = fetch_intraday_bars(ticker, "60m")
+            if df_60 is not None:
+                r = detect_pivot(df_60)
+                if r:
+                    fired_tickers_65min.add(ticker)
+                    persist_trigger(entry, "65-MIN", r, df_daily, df_60)
+                    trigger_count += 1
+
+        if i < len(pivot_entries):
+            time.sleep(RATE_LIMIT_PAUSE)
+
+    dupes = fired_tickers_30min & fired_tickers_65min
+    if dupes:
+        log.info(f"  Dupes (both TF): {', '.join(sorted(dupes))}")
+
+    log.info(f"\n  SCAN COMPLETE")
+    log.info(f"    ORB triggers   : {orb_count}")
+    log.info(f"    Pivot triggers : {trigger_count}")
+    log.info(f"    Total          : {orb_count + trigger_count}")
     """Build full trigger record with R-ratio, key levels, score and save."""
     pb = result["pivot_bar"]
     tb = result["trigger_bar"]
