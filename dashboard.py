@@ -21,6 +21,11 @@ import pandas as pd
 import plotly.express as px
 import streamlit as st
 
+# R-ratio thresholds (must match pivot_scanner.py)
+R_ELITE   = 3.0
+R_GOOD    = 2.0
+R_MINIMUM = 1.0
+
 from data_layer import (
     get_latest_weekly_watchlist,
     get_latest_daily_watchlist,
@@ -707,39 +712,171 @@ with tab3:
     if not today_triggers:
         st.markdown("<div style='font-family:var(--mono);color:var(--muted);padding:2rem;text-align:center;'>No triggers today — scanner runs at :01 and :31</div>", unsafe_allow_html=True)
     else:
-        tc1,tc2,tc3 = st.columns(3)
-        with tc1: conv_f = st.multiselect("Conviction",["HIGH","MED","LOW"],default=["HIGH","MED"],key="tc_conv")
-        with tc2: dir_f  = st.multiselect("Direction",["bullish","bearish"],default=["bullish","bearish"],key="tc_dir")
-        with tc3: tf_f   = st.multiselect("Timeframe",["30-MIN","65-MIN"],default=["30-MIN","65-MIN"],key="tc_tf")
+        tc1, tc2, tc3, tc4 = st.columns([1, 1, 1, 1])
+        with tc1: conv_f = st.multiselect("Conviction", ["HIGH","MED","LOW"], default=["HIGH","MED"], key="tc_conv")
+        with tc2: dir_f  = st.multiselect("Direction",  ["bullish","bearish"], default=["bullish","bearish"], key="tc_dir")
+        with tc3: tf_f   = st.multiselect("Timeframe",  ["30-MIN","65-MIN"], default=["30-MIN","65-MIN"], key="tc_tf")
+        with tc4: dedup  = st.checkbox("Deduplicate (65-MIN wins)", value=True, key="tc_dedup",
+                                        help="If same ticker fires on both timeframes, show only 65-MIN")
 
-        filtered = sorted(
-            [t for t in today_triggers if t.get("conviction") in conv_f
-             and t.get("direction") in dir_f and t.get("timeframe") in tf_f],
-            key=lambda t: ({"HIGH":0,"MED":1,"LOW":2}.get(t.get("conviction"),3), t.get("scan_time",""))
-        )
+        filtered = [
+            t for t in today_triggers
+            if t.get("conviction") in conv_f
+            and t.get("direction") in dir_f
+            and t.get("timeframe") in tf_f
+        ]
+
+        # Deduplication — 65-MIN wins over 30-MIN for same ticker+direction
+        if dedup:
+            seen_65 = {(t["ticker"], t.get("direction"))
+                       for t in filtered if t.get("timeframe") == "65-MIN"}
+            filtered = [
+                t for t in filtered
+                if not (t.get("timeframe") == "30-MIN" and
+                        (t["ticker"], t.get("direction")) in seen_65)
+            ]
+
+        # Sort by composite trigger score descending
+        filtered = sorted(filtered,
+                          key=lambda t: t.get("trigger_score", 0),
+                          reverse=True)
+
+        st.caption(f"{len(filtered)} trigger(s) · Sorted by trigger score (conviction + streak + R-ratio + RVOL + timeframe)")
 
         for t in filtered:
-            d    = t.get("direction","")
-            conv = t.get("conviction","LOW")
-            cc   = "trigger-card" + (" trigger-card-bear" if d=="bearish" else "") + (" trigger-card-high" if conv=="HIGH" else "")
-            bc   = {"HIGH":"badge-high","MED":"badge-med","LOW":"badge-low"}.get(conv,"badge-low")
-            db   = "<span class='badge-bull'>▲ BULL</span>" if d=="bullish" else "<span class='badge-bear'>▼ BEAR</span>"
-            pk   = "pivot_high" if d=="bullish" else "pivot_low"
+            d    = t.get("direction", "")
+            conv = t.get("conviction", "LOW")
+            score = t.get("trigger_score", 0)
+            r_ratio = t.get("r_ratio")
+            rvol    = t.get("rvol_trigger", 1.0) or 1.0
+            atr     = t.get("atr_14d")
+            dist_sh = t.get("dist_session_high_%")
+            dist_e8 = t.get("dist_ema8w_%")
+            ep_tier = t.get("ep_tier", "NONE")
+            rs_rat  = t.get("rs_rating")
+
+            # Card border color by score
+            if score >= 10:   border = "var(--green)"
+            elif score >= 7:  border = "var(--accent)"
+            else:             border = "var(--border)"
+
+            # Direction badge
+            dir_color = "var(--green)" if d == "bullish" else "var(--red)"
+            dir_label = "▲ BULL" if d == "bullish" else "▼ BEAR"
+
+            # Conviction badge
+            conv_color = {"HIGH": "var(--green)", "MED": "var(--accent)", "LOW": "var(--muted)"}.get(conv, "var(--muted)")
+
+            # R-ratio color and label
+            if r_ratio is None:
+                r_display = "—"
+                r_color   = "var(--muted)"
+            elif r_ratio >= R_ELITE:
+                r_display = f"{r_ratio:.1f}R ⭐"
+                r_color   = "var(--green)"
+            elif r_ratio >= R_GOOD:
+                r_display = f"{r_ratio:.1f}R"
+                r_color   = "var(--green)"
+            elif r_ratio >= R_MINIMUM:
+                r_display = f"{r_ratio:.1f}R"
+                r_color   = "var(--accent)"
+            else:
+                r_display = f"{r_ratio:.1f}R ⚠"
+                r_color   = "var(--red)"
+
+            # RVOL color
+            rvol_color = "var(--green)" if rvol >= 2.0 else "var(--accent)" if rvol >= 1.5 else "var(--muted)"
+
+            # Session high distance
+            sh_str = f"{dist_sh:+.1f}%" if dist_sh is not None else "—"
+            sh_color = "var(--green)" if (dist_sh is not None and dist_sh >= -1) else "var(--muted)"
+
+            # 8W EMA distance
+            e8_str = f"{dist_e8:+.1f}%" if dist_e8 is not None else "—"
+            e8_color = "var(--green)" if (dist_e8 is not None and 0 < dist_e8 < 8) else "var(--muted)"
+
+            # EP badge
+            ep_badge = ""
+            if ep_tier == "STRONG":   ep_badge = "<span style='color:var(--accent);font-size:.6rem;font-family:var(--display);'>🚀 EP STRONG</span>"
+            elif ep_tier == "STANDARD": ep_badge = "<span style='color:var(--green);font-size:.6rem;font-family:var(--display);'>✅ EP</span>"
+
+            pk = "pivot_high" if d == "bullish" else "pivot_low"
 
             st.markdown(f"""
-<div class='{cc}'>
-  <div style='display:flex;justify-content:space-between;align-items:flex-start;'>
-    <div><div class='t-ticker'>{t.get("ticker","")}</div><div class='t-meta'>{t.get("theme","")} · Rank {t.get("theme_rank","")} · Streak: {t.get("streak_len","")} bars</div></div>
-    <div style='text-align:right;'><span class='{bc}'>{conv}</span><div style='margin-top:.4rem;'>{db} · {t.get("timeframe","")}</div></div>
+<div style='background:linear-gradient(135deg,#0f0f17 0%,#09090e 100%);
+     border:1px solid var(--border);border-left:3px solid {border};
+     padding:1.2rem;margin-bottom:.8rem;border-radius:4px;'>
+
+  <!-- Header row -->
+  <div style='display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:.8rem;'>
+    <div>
+      <div class='t-ticker'>{t.get("ticker","")}</div>
+      <div class='t-meta' style='margin-top:.2rem;'>
+        {t.get("theme","")} · {t.get("industry","")} · Streak {t.get("streak_len","")} bars
+        {ep_badge}
+      </div>
+    </div>
+    <div style='text-align:right;display:flex;flex-direction:column;gap:.3rem;align-items:flex-end;'>
+      <div style='font-family:var(--display);font-size:.65rem;font-weight:700;
+           color:{conv_color};letter-spacing:.1em;'>{conv}</div>
+      <div style='font-family:var(--display);font-size:.65rem;
+           color:{dir_color};font-weight:700;'>{dir_label} · {t.get("timeframe","")}</div>
+      <div style='font-family:var(--display);font-size:.55rem;
+           color:{"var(--green)" if score>=10 else "var(--accent)"};'>
+        SCORE {score}
+      </div>
+    </div>
   </div>
-  <div class='t-grid'>
-    <div><div class='t-field-lbl'>Trigger Close</div><div class='t-field-val'>${t.get("trigger_close",0):.2f}</div></div>
-    <div><div class='t-field-lbl'>Pivot {"High" if d=="bullish" else "Low"}</div><div class='t-field-val'>${t.get(pk,0):.2f}</div></div>
-    <div><div class='t-field-lbl'>Stop Level</div><div class='t-field-val red'>${t.get("stop_level",0):.2f}</div></div>
-    <div><div class='t-field-lbl'>BBUW D/W</div><div class='t-field-val blue'>{t.get("daily_bbuw",0):.0f} / {t.get("weekly_bbuw",0):.0f}</div></div>
+
+  <!-- Primary metrics grid -->
+  <div class='t-grid' style='margin-bottom:.6rem;'>
+    <div>
+      <div class='t-field-lbl'>Trigger Close</div>
+      <div class='t-field-val'>${t.get("trigger_close",0):.2f}</div>
+    </div>
+    <div>
+      <div class='t-field-lbl'>Stop Level</div>
+      <div class='t-field-val red'>${t.get("stop_level",0):.2f}</div>
+    </div>
+    <div>
+      <div class='t-field-lbl'>R-Ratio</div>
+      <div class='t-field-val' style='color:{r_color};font-weight:700;'>{r_display}</div>
+    </div>
+    <div>
+      <div class='t-field-lbl'>RVOL (trigger bar)</div>
+      <div class='t-field-val' style='color:{rvol_color};'>{rvol:.2f}×</div>
+    </div>
   </div>
-  <div style='margin-top:.6rem;font-family:var(--mono);font-size:.7rem;color:var(--muted);'>{t.get("entry_note","")} · Stage W{t.get("weekly_stage","")}/D{t.get("daily_stage","")} · Trend {t.get("trend_template","")}/8 · {str(t.get("trigger_time",""))[:19]}</div>
-</div>""", unsafe_allow_html=True)
+
+  <!-- Key levels grid -->
+  <div class='t-grid' style='margin-bottom:.6rem;padding-top:.5rem;border-top:1px solid var(--border2);'>
+    <div>
+      <div class='t-field-lbl'>vs Session High</div>
+      <div class='t-field-val' style='color:{sh_color};'>{sh_str}</div>
+    </div>
+    <div>
+      <div class='t-field-lbl'>vs 8W EMA</div>
+      <div class='t-field-val' style='color:{e8_color};'>{e8_str}</div>
+    </div>
+    <div>
+      <div class='t-field-lbl'>ATR (14d)</div>
+      <div class='t-field-val'>${atr:.2f}</div>
+    </div>
+    <div>
+      <div class='t-field-lbl'>RS Rating</div>
+      <div class='t-field-val {"green" if (rs_rat or 0)>=80 else "amber" if (rs_rat or 0)>=60 else ""}'>{rs_rat or "—"}</div>
+    </div>
+  </div>
+
+  <!-- Footer context -->
+  <div style='font-family:var(--mono);font-size:.7rem;color:var(--muted);
+       padding-top:.4rem;border-top:1px solid var(--border2);'>
+    {t.get("entry_note","")} · Stage W{t.get("weekly_stage","")}/D{t.get("daily_stage","")} · 
+    Trend {t.get("trend_template","")}/8 · BBUW D{t.get("daily_bbuw",0):.0f}/W{t.get("weekly_bbuw",0):.0f} · 
+    {str(t.get("trigger_time",""))[:19]} UTC
+  </div>
+</div>
+            """, unsafe_allow_html=True)
 
 # ─── TAB 4: DAILY WATCHLIST ───────────────────────────────────────────────────
 with tab4:
