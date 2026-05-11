@@ -87,7 +87,18 @@ def fetch_weekly_bars(ticker: str, period: str = "2y") -> Optional[pd.DataFrame]
         if df.empty or len(df) < 30:
             return None
         df.columns = [c.lower() for c in df.columns]
-        return df[["open", "high", "low", "close", "volume"]].dropna()
+        df = df[["open", "high", "low", "close", "volume"]].dropna()
+        # Drop any partial current week bar — a week is complete if its
+        # index date is at least 4 days before today (i.e. not the current week)
+        today = pd.Timestamp.now().normalize()
+        if len(df) > 0:
+            last_bar_date = pd.Timestamp(df.index[-1]).normalize()
+            days_since_last = (today - last_bar_date).days
+            # If last bar started within the last 2 days it may be partial
+            # (yfinance weekly bars start on Monday — if today is Mon/Tue, drop it)
+            if days_since_last <= 1 and today.weekday() in (0, 1):
+                df = df.iloc[:-1]
+        return df if len(df) >= 30 else None
     except Exception as e:
         log.error(f"[{ticker}] Weekly fetch error: {e}")
         return None
@@ -99,7 +110,11 @@ def fetch_daily_bars_for_template(ticker: str) -> Optional[pd.DataFrame]:
         if df.empty or len(df) < 200:
             return None
         df.columns = [c.lower() for c in df.columns]
-        return df[["open", "high", "low", "close", "volume"]].dropna()
+        df = df[["open", "high", "low", "close", "volume"]].dropna()
+        # Ensure last bar is a completed trading day (not today if market mid-session)
+        # yfinance handles this but double-check close is non-zero
+        df = df[df["close"] > 0]
+        return df if len(df) >= 200 else None
     except Exception as e:
         log.error(f"[{ticker}] Daily fetch error: {e}")
         return None

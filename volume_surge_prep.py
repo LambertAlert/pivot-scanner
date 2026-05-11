@@ -171,9 +171,9 @@ def detect_daily_surge(df: pd.DataFrame) -> Optional[dict]:
     price_change_since = ((current_close / surge_close) - 1) * 100
 
     # Days since surge
-    today = df.index[-1]
+    last_trading_day = pd.Timestamp(df.index[-1]).normalize()
     surge_date = pd.Timestamp(max_vol_idx)
-    days_since = (today - surge_date).days
+    days_since = (last_trading_day - surge_date).days
 
     # Current metrics
     ema_21 = close.ewm(span=21, adjust=False).mean().iloc[-1]
@@ -257,9 +257,9 @@ def detect_weekly_surge(dfw: pd.DataFrame) -> Optional[dict]:
     current_close = close.iloc[-1]
     price_change_since = ((current_close / surge_close) - 1) * 100
 
-    today = dfw.index[-1]
+    last_trading_day = pd.Timestamp(dfw.index[-1]).normalize()
     surge_date = pd.Timestamp(max_vol_idx)
-    days_since = (today - surge_date).days
+    days_since = (last_trading_day - surge_date).days
     weeks_since = days_since // 7
 
     is_fresh = days_since <= WEEKLY_STALE_DAYS

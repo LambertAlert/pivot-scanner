@@ -43,7 +43,10 @@ def fetch_daily_bars(ticker: str, period: str = "1y") -> Optional[pd.DataFrame]:
         if df.empty or len(df) < 60:
             return None
         df.columns = [c.lower() for c in df.columns]
-        return df[["open", "high", "low", "close", "volume"]].dropna()
+        df = df[["open", "high", "low", "close", "volume"]].dropna()
+        # Drop zero-close bars (can occur for partial/holiday sessions)
+        df = df[df["close"] > 0]
+        return df if len(df) >= 60 else None
     except Exception as e:
         log.error(f"[{ticker}] Daily fetch error: {e}")
         return None
