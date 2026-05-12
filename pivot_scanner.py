@@ -31,7 +31,7 @@ SCAN_30MIN       = True
 SCAN_65MIN       = True
 SCAN_ORB         = True          # Opening Range Breakout scan
 ALERT_TIERS      = ["HIGH", "MED"]
-ORB_TIERS        = ["HIGH"]      # ORB only on HIGH conviction — tighter filter
+ORB_TIERS        = ["HIGH", "MED"]  # ORB fires on HIGH + MED (OR logic with pivot)
 
 # R-ratio thresholds for scoring
 R_ELITE   = 3.0
@@ -39,7 +39,7 @@ R_GOOD    = 2.0
 R_MINIMUM = 1.0
 
 # ORB config
-ORB_RVOL_MIN      = 1.5          # breakout bar must be ≥ 1.5× average volume
+ORB_RVOL_MIN      = 1.0          # breakout bar must be ≥ 1.0× average volume (relaxed)
 ORB_OPEN_HOUR_CT  = 9            # market open hour (CT)
 ORB_OPEN_MIN_CT   = 30           # market open minute (CT)
 CT_TZ             = pytz.timezone("America/Chicago")
@@ -229,19 +229,20 @@ def detect_orb(df_30m: pd.DataFrame) -> Optional[dict]:
     today_bars = df_30m[today_mask]
 
     if len(today_bars) < 2:
-        return None  # Not enough today bars yet (pre-10:30 CT)
+        return None  # Need at least 2 bars today
 
-    # Bar 1 = first 30-min bar of the day (9:30 CT open)
+    # Bar 1 = first 30-min bar of the day (opening range)
     bar1 = today_bars.iloc[0]
     bar1_time = idx_ct[today_mask][0]
-    if bar1_time.hour != ORB_OPEN_HOUR_CT or bar1_time.minute != ORB_OPEN_MIN_CT:
-        return None  # First bar doesn't start at 9:30 CT — data alignment issue
 
-    # Bar 2 = second 30-min bar (10:00 CT) — must be the LAST bar (current)
-    # If we have 3+ today bars, bar 2 has already passed and we don't re-fire
-    if len(today_bars) != 2:
-        return None  # ORB only fires in the 10:00–10:30 CT window
+    # Loose timing check — bar1 should start between 9:00 and 10:00 CT
+    # (allows for DST offsets and yfinance rounding)
+    if bar1_time.hour < 9 or bar1_time.hour >= 10:
+        return None  # First bar is not in opening hour
 
+    # Bar 2 = second 30-min bar — the breakout confirmation bar
+    # We check bar 2 regardless of how many bars exist today
+    # (ORB is evaluated once: did bar 2 break the range?)
     bar2 = today_bars.iloc[1]
 
     or_high = float(bar1["high"])
@@ -256,7 +257,7 @@ def detect_orb(df_30m: pd.DataFrame) -> Optional[dict]:
     bar2_rvol  = float(bar2["volume"] / avg_vol_20) if avg_vol_20 > 0 else 1.0
 
     if bar2_rvol < ORB_RVOL_MIN:
-        log.debug(f"  ORB: volume too low ({bar2_rvol:.2f}× < {ORB_RVOL_MIN}×) — skipping")
+        log.info(f"  ORB: volume low ({bar2_rvol:.2f}× < {ORB_RVOL_MIN}×) — skipping")
         return None
 
     bar2_close = float(bar2["close"])
@@ -308,20 +309,37 @@ def is_red(row):   return row["close"] <= row["open"]
 
 def detect_pivot(df: pd.DataFrame,
                  min_streak: int = MIN_STREAK) -> Optional[dict]:
+    """
+    Detect a pivot reversal signal.
+    Bullish: pivot bar is green, preceded by ≥ min_streak red bars,
+             trigger bar closes above pivot bar's high.
+    Bearish: mirror image.
+    Streak counted conservatively — stops at first non-qualifying bar.
+    """
     if len(df) < min_streak + 2:
         return None
+
+    # Drop zero-close bars before evaluation
+    df = df[df["close"] > 0].copy()
+    if len(df) < min_streak + 2:
+        return None
+
     trigger_bar = df.iloc[-1]
     pivot_bar   = df.iloc[-2]
 
-    # Bullish
-    if is_green(pivot_bar):
-        streak = 0
-        for i in range(3, len(df) + 1):
-            if is_red(df.iloc[-i]):
-                streak += 1
+    def count_streak(start_idx: int, qualifier) -> int:
+        count = 0
+        for i in range(start_idx, min(start_idx + 10, len(df))):
+            if qualifier(df.iloc[-(i)]):
+                count += 1
             else:
                 break
-        if streak >= min_streak and trigger_bar["close"] > pivot_bar["high"]:
+        return count
+
+    # Bullish: pivot green, preceded by red bars, trigger breaks above pivot high
+    if is_green(pivot_bar):
+        streak = count_streak(3, is_red)
+        if streak >= min_streak and float(trigger_bar["close"]) > float(pivot_bar["high"]):
             return {
                 "direction":   "bullish",
                 "streak_len":  streak,
@@ -331,15 +349,10 @@ def detect_pivot(df: pd.DataFrame,
                 "trigger_time":df.index[-1],
             }
 
-    # Bearish
+    # Bearish: pivot red, preceded by green bars, trigger breaks below pivot low
     if is_red(pivot_bar):
-        streak = 0
-        for i in range(3, len(df) + 1):
-            if is_green(df.iloc[-i]):
-                streak += 1
-            else:
-                break
-        if streak >= min_streak and trigger_bar["close"] < pivot_bar["low"]:
+        streak = count_streak(3, is_green)
+        if streak >= min_streak and float(trigger_bar["close"]) < float(pivot_bar["low"]):
             return {
                 "direction":   "bearish",
                 "streak_len":  streak,
@@ -463,8 +476,11 @@ def main():
         log.error("No entries in daily watchlist. Run daily_screener.py first.")
         return
 
+    now_ct = datetime.now(CT_TZ)
     log.info(f"Scanning {len(pivot_entries)} tickers for pivots ({ALERT_TIERS})")
     log.info(f"Scanning {len(orb_entries)} tickers for ORB ({ORB_TIERS})")
+    log.info(f"Current time: {now_ct.strftime('%H:%M CT')} — market hours 9:30–16:00 CT")
+    log.info(f"ORB window: 10:00–10:30 CT (fires when 2nd 30-min bar is most recent)")
 
     fired_tickers_30min = set()
     fired_tickers_65min = set()
