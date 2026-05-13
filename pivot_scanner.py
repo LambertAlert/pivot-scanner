@@ -369,6 +369,78 @@ def detect_pivot(df: pd.DataFrame,
 #  PERSIST TRIGGER
 # ═══════════════════════════════════════════════════════════════════════════════
 
+
+def persist_trigger(entry: dict, timeframe: str, result: dict,
+                    df_daily, df_intraday):
+    """Build full trigger record for a classic pivot and save it."""
+    pb = result["pivot_bar"]
+    tb = result["trigger_bar"]
+    d  = result["direction"]
+
+    stop_level    = float(pb["low"]) if d == "bullish" else float(pb["high"])
+    trigger_close = float(tb["close"])
+
+    atr     = compute_atr(df_daily)
+    r_ratio = compute_r_ratio(trigger_close, stop_level, d, atr)
+    rvol    = compute_intraday_rvol(df_intraday)
+    dist_sh = compute_session_high_distance(df_daily, trigger_close)
+    dist_e8 = compute_ema8w_distance(trigger_close, entry.get("ema8"))
+
+    score = compute_trigger_score(
+        conviction=entry["conviction"],
+        streak_len=result["streak_len"],
+        r_ratio=r_ratio,
+        rvol=rvol,
+        timeframe=timeframe,
+        dist_session_high=dist_sh,
+        direction=d,
+    )
+
+    trigger = {
+        "ticker":              entry["ticker"],
+        "timeframe":           timeframe,
+        "direction":           d,
+        "conviction":          entry["conviction"],
+        "trigger_type":        "PIVOT",
+        "theme":               entry.get("theme", ""),
+        "industry":            entry.get("industry", ""),
+        "industry_rank":       entry.get("industry_rank", 99),
+        "theme_rank":          entry.get("theme_rank", 99),
+        "weekly_stage":        entry.get("weekly_stage"),
+        "daily_stage":         entry.get("daily_stage"),
+        "trend_template":      entry.get("trend_template"),
+        "weekly_bbuw":         entry.get("weekly_bbuw"),
+        "daily_bbuw":          entry.get("daily_bbuw"),
+        "ep_tier":             entry.get("ep_tier", "NONE"),
+        "rs_rating":           entry.get("rs_rating"),
+        "streak_len":          result["streak_len"],
+        "pivot_open":          float(pb["open"]),
+        "pivot_high":          float(pb["high"]),
+        "pivot_low":           float(pb["low"]),
+        "pivot_close":         float(pb["close"]),
+        "pivot_time":          str(result["pivot_time"]),
+        "trigger_open":        float(tb["open"]),
+        "trigger_high":        float(tb["high"]),
+        "trigger_low":         float(tb["low"]),
+        "trigger_close":       trigger_close,
+        "trigger_time":        str(result["trigger_time"]),
+        "stop_level":          stop_level,
+        "atr_14d":             round(float(atr), 4) if pd.notna(atr) else None,
+        "r_ratio":             r_ratio,
+        "rvol_trigger":        rvol,
+        "dist_session_high_%": dist_sh,
+        "dist_ema8w_%":        dist_e8,
+        "trigger_score":       score,
+        "entry_note":          "ITM/ATM weekly calls" if d == "bullish" else "ITM/ATM weekly puts",
+    }
+
+    save_trigger(trigger)
+    r_str = f"  R={r_ratio:.1f}" if r_ratio is not None else ""
+    log.info(f"  💾 {entry['ticker']} {timeframe} {d.upper()}"
+             f"  score={score}{r_str}  rvol={rvol:.1f}×"
+             f"  streak={result['streak_len']}")
+
+
 def persist_orb_trigger(entry: dict, result: dict,
                          df_daily: Optional[pd.DataFrame]):
     """Build and save an ORB trigger record."""
