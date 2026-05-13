@@ -627,22 +627,71 @@ def main():
 
         time.sleep(RATE_LIMIT_PAUSE)
 
-    # ── IBD RS Rating — rank all scanned tickers 1-99 ────────────────────────
-    # Uses the full universe (all 599+ tickers) so the percentile is meaningful.
-    # Tickers with None rs_raw_factor get rating 1.
-    raw_pairs = [(r["ticker"], r["rs_raw_factor"])
-                 for r in full_results if r.get("rs_raw_factor") is not None]
-    raw_pairs.sort(key=lambda x: x[1])
-    n_ranked = len(raw_pairs)
-    rs_lookup = {}
-    for i, (tk, _) in enumerate(raw_pairs):
-        pct = round((i / max(n_ranked - 1, 1)) * 98 + 1)
-        rs_lookup[tk] = int(min(99, max(1, pct)))
-    # Assign back
-    for r in full_results:
-        r["rs_rating"] = rs_lookup.get(r["ticker"], 1)
+    # ── IBD RS Rating — batch download for accurate ranking ──────────────────
+    # Fetch all tickers in one batch call (much more reliable than per-ticker
+    # fetches inside the loop, which can have alignment/caching issues).
+    # Formula: 0.4*(C/C63) + 0.2*(C/C126) + 0.2*(C/C189) + 0.2*(C/C252)
+    log.info("Computing IBD RS Ratings via batch download...")
+    try:
+        all_tk = [r["ticker"] for r in full_results]
+        raw_dl = yf.download(
+            all_tk, period="400d", interval="1d",
+            auto_adjust=True, progress=False, group_by="ticker"
+        )
 
-    log.info(f"  IBD RS rated {n_ranked} tickers (universe percentile)")
+        # Build close matrix
+        if isinstance(raw_dl.columns, pd.MultiIndex):
+            # MultiIndex: (field, ticker) — extract Close
+            close_batch = raw_dl.xs("Close", axis=1, level=0)
+        else:
+            # Single ticker returned as flat DataFrame
+            close_batch = raw_dl[["Close"]].copy()
+            close_batch.columns = [all_tk[0]]
+
+        close_batch = close_batch.ffill().dropna(how="all")
+
+        # Compute raw RS factor for every ticker
+        rs_raw_batch = {}
+        for tk in close_batch.columns:
+            s = close_batch[tk].dropna()
+            rs_raw_batch[tk] = compute_raw_rs_factor(s)
+
+        # Rank 1-99 across full universe
+        valid_pairs = sorted(
+            [(tk, v) for tk, v in rs_raw_batch.items() if pd.notna(v)],
+            key=lambda x: x[1]
+        )
+        n_ranked = len(valid_pairs)
+        rs_lookup = {}
+        for i, (tk, _) in enumerate(valid_pairs):
+            pct = round((i / max(n_ranked - 1, 1)) * 98 + 1)
+            rs_lookup[tk] = int(min(99, max(1, pct)))
+
+        # Apply back to all results
+        for r in full_results:
+            r["rs_rating"] = rs_lookup.get(r["ticker"], 1)
+
+        log.info(f"  IBD RS: ranked {n_ranked}/{len(all_tk)} tickers")
+        rated = [r["rs_rating"] for r in full_results if r.get("rs_rating")]
+        if rated:
+            log.info(f"  RS distribution: min={min(rated)} median={sorted(rated)[len(rated)//2]} max={max(rated)}")
+            top5 = sorted(full_results, key=lambda x: x.get("rs_rating", 0), reverse=True)[:5]
+            log.info(f"  Top 5 RS: {[(r['ticker'], r['rs_rating']) for r in top5]}")
+
+    except Exception as e:
+        log.warning(f"  Batch RS download failed ({e}) — falling back to per-ticker factors")
+        # Fall back to the per-ticker rs_raw_factor computed in the loop
+        raw_pairs = [(r["ticker"], r["rs_raw_factor"])
+                     for r in full_results if r.get("rs_raw_factor") is not None]
+        raw_pairs.sort(key=lambda x: x[1])
+        n_ranked = len(raw_pairs)
+        rs_lookup = {}
+        for i, (tk, _) in enumerate(raw_pairs):
+            pct = round((i / max(n_ranked - 1, 1)) * 98 + 1)
+            rs_lookup[tk] = int(min(99, max(1, pct)))
+        for r in full_results:
+            r["rs_rating"] = rs_lookup.get(r["ticker"], 1)
+        log.info(f"  IBD RS fallback: rated {n_ranked} tickers")
 
     # Sort: STRONG/STANDARD 8W pivots first, then by BBUW score
     tier_order = {"STRONG": 0, "STANDARD": 1, "WEAK": 2, "PROXIMITY": 3, "NONE": 4}
