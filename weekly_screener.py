@@ -628,36 +628,56 @@ def main():
 
         time.sleep(RATE_LIMIT_PAUSE)
 
-    # ── IBD RS Rating — batch download for accurate ranking ──────────────────
-    # Fetch all tickers in one batch call (much more reliable than per-ticker
-    # fetches inside the loop, which can have alignment/caching issues).
+    # ── IBD RS Rating — batch download, 252-day rolling window ───────────────
+    # Uses last 252 trading days only (true 52-week RS per IBD definition).
     # Formula: 0.4*(C/C63) + 0.2*(C/C126) + 0.2*(C/C189) + 0.2*(C/C252)
-    log.info("Computing IBD RS Ratings via batch download...")
+    log.info("Computing IBD RS Ratings via batch download (252-day window)...")
     try:
         all_tk = [r["ticker"] for r in full_results]
+
+        # Download WITHOUT group_by so MultiIndex is (field, ticker) = level 0 is field
         raw_dl = yf.download(
             all_tk, period="400d", interval="1d",
-            auto_adjust=True, progress=False, group_by="ticker"
+            auto_adjust=True, progress=False
         )
 
-        # Build close matrix
+        # Extract Close matrix — MultiIndex (field, ticker), level=0 is field
         if isinstance(raw_dl.columns, pd.MultiIndex):
-            # MultiIndex: (field, ticker) — extract Close
-            close_batch = raw_dl.xs("Close", axis=1, level=0)
+            close_batch = raw_dl["Close"].copy()
         else:
-            # Single ticker returned as flat DataFrame
+            # Single ticker fallback
             close_batch = raw_dl[["Close"]].copy()
             close_batch.columns = [all_tk[0]]
 
+        # Strip timezone
+        if close_batch.index.tzinfo is not None:
+            close_batch.index = close_batch.index.tz_localize(None)
+
         close_batch = close_batch.ffill().dropna(how="all")
 
-        # Compute raw RS factor for every ticker
+        log.info(f"  Batch close matrix: {close_batch.shape[0]} days × {close_batch.shape[1]} tickers")
+
+        # Compute RS factor using ONLY last 252 trading days per ticker
+        def rs_factor_252(s: pd.Series) -> float:
+            """IBD RS on last 252 days only — strict 52-week window."""
+            s = s.dropna().iloc[-253:]  # 252 + current = 253 bars max
+            if len(s) < 63:
+                return np.nan
+            c = float(s.iloc[-1])
+            def r(p):
+                if len(s) <= p: return np.nan
+                past = float(s.iloc[-(p + 1)])
+                return c / past if past > 0 else np.nan
+            parts = [(r(63), 0.40), (r(126), 0.20), (r(189), 0.20), (r(252), 0.20)]
+            valid = [(v, w) for v, w in parts if pd.notna(v)]
+            if not valid: return np.nan
+            tw = sum(w for _, w in valid)
+            return sum(v * w for v, w in valid) / tw
+
         rs_raw_batch = {}
         for tk in close_batch.columns:
-            s = close_batch[tk].dropna()
-            rs_raw_batch[tk] = compute_raw_rs_factor(s)
+            rs_raw_batch[tk] = rs_factor_252(close_batch[tk])
 
-        # Rank 1-99 across full universe
         valid_pairs = sorted(
             [(tk, v) for tk, v in rs_raw_batch.items() if pd.notna(v)],
             key=lambda x: x[1]
@@ -668,11 +688,10 @@ def main():
             pct = round((i / max(n_ranked - 1, 1)) * 98 + 1)
             rs_lookup[tk] = int(min(99, max(1, pct)))
 
-        # Apply back to all results
         for r in full_results:
             r["rs_rating"] = rs_lookup.get(r["ticker"], 1)
 
-        log.info(f"  IBD RS: ranked {n_ranked}/{len(all_tk)} tickers")
+        log.info(f"  IBD RS: ranked {n_ranked}/{len(all_tk)} tickers (252-day window)")
         rated = [r["rs_rating"] for r in full_results if r.get("rs_rating")]
         if rated:
             log.info(f"  RS distribution: min={min(rated)} median={sorted(rated)[len(rated)//2]} max={max(rated)}")
@@ -681,7 +700,6 @@ def main():
 
     except Exception as e:
         log.warning(f"  Batch RS download failed ({e}) — falling back to per-ticker factors")
-        # Fall back to the per-ticker rs_raw_factor computed in the loop
         raw_pairs = [(r["ticker"], r["rs_raw_factor"])
                      for r in full_results if r.get("rs_raw_factor") is not None]
         raw_pairs.sort(key=lambda x: x[1])
