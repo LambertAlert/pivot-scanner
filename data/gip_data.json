@@ -1,6 +1,6 @@
 {
-  "generated_at": "2026-05-13T23:21:36.341530",
-  "composite": 1.172,
+  "generated_at": "2026-05-14T23:12:54.180106",
+  "composite": 1.286,
   "regime": {
     "label": "Neutral",
     "color": "amber",
@@ -9,16 +9,16 @@
   "any_stale": true,
   "pillars": {
     "growth": {
-      "score": 0.283,
+      "score": 0.281,
       "components": {
         "lei": 0.0,
-        "icsa": 1.3681494482336773,
+        "icsa": 1.3610804491626811,
         "ism": -0.14694020736667723
       },
       "stale": true,
       "stale_detail": {
         "lei": true,
-        "icsa": true,
+        "icsa": false,
         "ism": true
       }
     },
@@ -41,12 +41,12 @@
       }
     },
     "liquidity": {
-      "score": 1.378,
+      "score": 1.757,
       "components": {
-        "net_liq": -0.4289998433468303,
-        "hy_oas": 3.593066022362363,
+        "net_liq": 0.32676808744968966,
+        "hy_oas": 3.5844652544069144,
         "m2": 0.0,
-        "sofr": 6.939397607296592
+        "sofr": 6.979375476721781
       },
       "stale": true,
       "stale_detail": {
@@ -59,11 +59,11 @@
       }
     },
     "curve": {
-      "score": 2.006,
+      "score": 2.014,
       "components": {
         "curve_spread": 2.408751779687919,
-        "real10y": -0.9144398388884296,
-        "move_proxy": 5.379087690783896
+        "real10y": -0.9044271176687255,
+        "move_proxy": 5.4059845904356045
       },
       "steepener_adj": -0.5,
       "stale": false,

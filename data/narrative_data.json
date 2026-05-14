@@ -1,21 +1,21 @@
 {
-  "generated_at": "2026-05-13T23:21:41.301139",
+  "generated_at": "2026-05-14T23:12:57.228874",
   "today": {
     "spx_dir": "\u2191",
     "dxy_dir": "\u2191",
-    "tnx_dir": "\u2191",
-    "state_id": 3,
-    "name": "US Exceptionalism",
-    "label": "Stocks \u2191 \u00b7 Dollar \u2191 \u00b7 Rates \u2191",
-    "sector_tilt": "Large-cap quality, tech mega-caps",
+    "tnx_dir": "\u2193",
+    "state_id": 4,
+    "name": "Soft Landing",
+    "label": "Stocks \u2191 \u00b7 Dollar \u2191 \u00b7 Rates \u2193",
+    "sector_tilt": "Broad equity, consumer discretionary",
     "color": "green",
     "bullish": true
   },
   "dominant_10d": {
-    "state_id": 1,
-    "name": "Goldilocks",
+    "state_id": 4,
+    "name": "Soft Landing",
     "color": "green",
-    "sector_tilt": "Growth, semis, software, biotech",
+    "sector_tilt": "Broad equity, consumer discretionary",
     "freq_10d_pct": 30.0
   },
   "bearish_days_10": 3,
@@ -28,7 +28,7 @@
       "color": "green",
       "bullish": true,
       "freq_5d_pct": 20.0,
-      "freq_10d_pct": 30.0,
+      "freq_10d_pct": 20.0,
       "freq_20d_pct": 25.0,
       "base_rate_pct": 17.7
     },
@@ -53,7 +53,7 @@
       "bullish": true,
       "freq_5d_pct": 40.0,
       "freq_10d_pct": 20.0,
-      "freq_20d_pct": 20.0,
+      "freq_20d_pct": 15.0,
       "base_rate_pct": 13.9
     },
     {
@@ -63,10 +63,10 @@
       "sector_tilt": "Broad equity, consumer discretionary",
       "color": "green",
       "bullish": true,
-      "freq_5d_pct": 0.0,
-      "freq_10d_pct": 20.0,
-      "freq_20d_pct": 10.0,
-      "base_rate_pct": 8.7
+      "freq_5d_pct": 20.0,
+      "freq_10d_pct": 30.0,
+      "freq_20d_pct": 15.0,
+      "base_rate_pct": 8.8
     },
     {
       "id": 5,
@@ -78,7 +78,7 @@
       "freq_5d_pct": 0.0,
       "freq_10d_pct": 0.0,
       "freq_20d_pct": 0.0,
-      "base_rate_pct": 9.1
+      "base_rate_pct": 9.0
     },
     {
       "id": 6,
@@ -87,7 +87,7 @@
       "sector_tilt": "Cash \u2014 no longs",
       "color": "red",
       "bullish": false,
-      "freq_5d_pct": 40.0,
+      "freq_5d_pct": 20.0,
       "freq_10d_pct": 30.0,
       "freq_20d_pct": 35.0,
       "base_rate_pct": 17.8
@@ -121,8 +121,8 @@
     "1": 17.7,
     "2": 11.3,
     "3": 13.9,
-    "4": 8.7,
-    "5": 9.1,
+    "4": 8.8,
+    "5": 9.0,
     "6": 17.8,
     "7": 14.9,
     "8": 6.6
@@ -149,24 +149,24 @@
       "8": 0.071
     },
     "3": {
-      "1": 0.171,
-      "2": 0.143,
-      "3": 0.086,
-      "4": 0.086,
-      "5": 0.143,
-      "6": 0.2,
-      "7": 0.143,
-      "8": 0.029
+      "1": 0.167,
+      "2": 0.139,
+      "3": 0.083,
+      "4": 0.111,
+      "5": 0.139,
+      "6": 0.194,
+      "7": 0.139,
+      "8": 0.028
     },
     "4": {
-      "1": 0.19,
-      "2": 0.095,
-      "3": 0.143,
-      "4": 0.048,
+      "1": 0.2,
+      "2": 0.1,
+      "3": 0.15,
+      "4": 0.05,
       "5": 0.0,
-      "6": 0.143,
-      "7": 0.333,
-      "8": 0.048
+      "6": 0.1,
+      "7": 0.35,
+      "8": 0.05
     },
     "5": {
       "1": 0.167,
@@ -210,15 +210,6 @@
     }
   },
   "history_60d": [
-    {
-      "date": "2026-02-19",
-      "state_id": 5,
-      "narrative_name": "Risk-Off / Flight to Quality",
-      "color": "red",
-      "spx": "\u2193",
-      "dxy": "\u2191",
-      "tnx": "\u2193"
-    },
     {
       "date": "2026-02-20",
       "state_id": 2,
@@ -749,6 +740,15 @@
       "spx": "\u2191",
       "dxy": "\u2191",
       "tnx": "\u2191"
+    },
+    {
+      "date": "2026-05-14",
+      "state_id": 4,
+      "narrative_name": "Soft Landing",
+      "color": "green",
+      "spx": "\u2191",
+      "dxy": "\u2191",
+      "tnx": "\u2193"
     }
   ]
 }
