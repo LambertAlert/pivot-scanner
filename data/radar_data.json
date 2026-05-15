@@ -1,11 +1,6 @@
 {
-<<<<<<< Updated upstream
-  "generated_at": "2026-05-14T22:37:08.372707",
-  "count": 47,
-=======
-  "generated_at": "2026-05-14T22:40:19.979967",
+  "generated_at": "2026-05-15T01:54:32.437928",
   "count": 63,
->>>>>>> Stashed changes
   "entries": [
     {
       "ticker": "OBE",
@@ -21,17 +16,18 @@
       "ema8": 11.631,
       "pct_from_ema8": 11.77,
       "state": "QUIET",
-      "in_motion_score": 16.0,
+      "in_motion_score": 41.0,
       "in_motion_components": {
         "pct_chg": 40,
         "rvol": 0,
-        "trigger": 0,
+        "trigger": 100,
         "breakout": 0,
         "candle": 40
       },
       "in_motion_reasons": [
         "Up 1.1% today",
         "Volume 0.3\u00d7 \u2014 light",
+        "30-min pivot triggered today",
         "Mid-range close"
       ],
       "loading_score": 48.0,
@@ -57,7 +53,7 @@
       "vol_ratio": 0.4,
       "ema21_dist_pct": 4.99,
       "dist_high_5d_pct": -1.42,
-      "had_trigger_today": false
+      "had_trigger_today": true
     },
     {
       "ticker": "KALV",
@@ -127,18 +123,17 @@
       "ema8": 77.4353,
       "pct_from_ema8": 6.54,
       "state": "QUIET",
-      "in_motion_score": 29.5,
+      "in_motion_score": 4.5,
       "in_motion_components": {
         "pct_chg": 0,
         "rvol": 0,
-        "trigger": 100,
+        "trigger": 0,
         "breakout": 30,
         "candle": 0
       },
       "in_motion_reasons": [
         "Down -0.3% today",
         "Volume 0.8\u00d7 \u2014 light",
-        "30-min pivot triggered today",
         "Approaching 10-day high",
         "Closed weak in lower half"
       ],
@@ -167,7 +162,7 @@
       "vol_ratio": 0.81,
       "ema21_dist_pct": 2.3,
       "dist_high_5d_pct": -1.11,
-      "had_trigger_today": true
+      "had_trigger_today": false
     },
     {
       "ticker": "NSA",
