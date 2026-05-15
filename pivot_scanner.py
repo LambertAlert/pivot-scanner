@@ -1,16 +1,12 @@
 """
-INTRADAY PIVOT SCANNER (v4.2) — batch downloads, ORB restored, rate-limit fix.
+INTRADAY PIVOT SCANNER (v4.3) — 30-min pivot only, batch downloads.
 
-Changes over v4.1:
-  - Replaced serial per-ticker yfinance calls with batch yf.download() for
-    daily, 30m, and 60m intervals.  189 API calls → 3.  No more rate-limit wall.
-  - Removed duplicate main() that was silently overriding v4.1 ORB logic.
-  - Single clean main() with ORB scan fully operational.
+Changes over v4.2:
+  - ORB removed (noise reduction).
+  - 65-min scan already removed in v4.2.
+  - 2 batch downloads per run: daily bars + 30m bars.
 
-Triggers:
-  1. Classic 30/65-min pivot (3+ bar streak reversal)
-  2. Opening Range Breakout (ORB) — HIGH + MED conviction
-     First 30-min bar sets range; second bar breaks out with volume confirmation.
+Trigger: Classic 30-min pivot (3+ bar streak reversal, HIGH + MED conviction).
 """
 
 import os
@@ -22,7 +18,6 @@ from typing import Optional
 import numpy as np
 import pandas as pd
 import yfinance as yf
-import pytz
 
 from data_layer import save_trigger, get_latest_daily_watchlist
 
@@ -32,25 +27,16 @@ from data_layer import save_trigger, get_latest_daily_watchlist
 # ═══════════════════════════════════════════════════════════════════════════════
 
 MIN_STREAK       = 3
-RATE_LIMIT_PAUSE = 2          # seconds between batch downloads (only 3 calls total now)
+RATE_LIMIT_PAUSE = 2
 SCAN_30MIN       = True
-SCAN_65MIN       = False   # removed — 30m batch is sufficient; saves one batch download
-SCAN_ORB         = True
 ALERT_TIERS      = ["HIGH", "MED"]
-ORB_TIERS        = ["HIGH", "MED"]
 
 # R-ratio thresholds
 R_ELITE   = 3.0
 R_GOOD    = 2.0
 R_MINIMUM = 1.0
 
-# ORB config
-ORB_RVOL_MIN      = 1.0
-ORB_OPEN_HOUR_CT  = 9
-ORB_OPEN_MIN_CT   = 30
-CT_TZ             = pytz.timezone("America/Chicago")
-
-# Batch download chunk size — yfinance handles ~200 tickers fine; split if larger
+# Batch download chunk size
 BATCH_CHUNK = 200
 
 logging.basicConfig(
@@ -228,87 +214,6 @@ def compute_trigger_score(conviction: str, streak_len: int,
 
 
 # ═══════════════════════════════════════════════════════════════════════════════
-#  OPENING RANGE BREAKOUT DETECTION
-# ═══════════════════════════════════════════════════════════════════════════════
-
-def detect_orb(df_30m: pd.DataFrame) -> Optional[dict]:
-    """
-    Opening Range Breakout on the 30-minute timeframe.
-    Bar 1 (9:30–10:00 CT) = opening range.
-    Bar 2 closes above OR high (bullish) or below OR low (bearish) with RVOL confirmation.
-    """
-    if df_30m is None or len(df_30m) < 3:
-        return None
-
-    try:
-        idx_ct = df_30m.index.tz_convert(CT_TZ)
-    except Exception:
-        idx_ct = df_30m.index
-
-    today_ct = datetime.now(CT_TZ).date()
-    today_mask = pd.Series([i.date() == today_ct for i in idx_ct], index=df_30m.index)
-    today_bars = df_30m[today_mask]
-
-    if len(today_bars) < 2:
-        return None
-
-    bar1 = today_bars.iloc[0]
-    bar1_time = idx_ct[today_mask][0]
-
-    if bar1_time.hour < 9 or bar1_time.hour >= 10:
-        return None
-
-    bar2 = today_bars.iloc[1]
-    or_high = float(bar1["high"])
-    or_low  = float(bar1["low"])
-    or_range = or_high - or_low
-
-    if or_range <= 0:
-        return None
-
-    avg_vol_20 = df_30m["volume"].iloc[-22:-2].mean()
-    bar2_rvol  = float(bar2["volume"] / avg_vol_20) if avg_vol_20 > 0 else 1.0
-
-    if bar2_rvol < ORB_RVOL_MIN:
-        log.info(f"  ORB: volume low ({bar2_rvol:.2f}× < {ORB_RVOL_MIN}×) — skipping")
-        return None
-
-    bar2_close = float(bar2["close"])
-
-    if bar2_close > or_high:
-        return {
-            "direction":     "bullish",
-            "or_high":       round(or_high, 2),
-            "or_low":        round(or_low, 2),
-            "or_range":      round(or_range, 2),
-            "breakout_pct":  round((bar2_close - or_high) / or_high * 100, 2),
-            "bar1":          bar1,
-            "bar2":          bar2,
-            "bar1_time":     str(df_30m.index[today_mask][0]),
-            "bar2_time":     str(df_30m.index[today_mask][1]),
-            "rvol":          round(bar2_rvol, 2),
-            "stop_level":    round(or_low, 2),
-        }
-
-    if bar2_close < or_low:
-        return {
-            "direction":     "bearish",
-            "or_high":       round(or_high, 2),
-            "or_low":        round(or_low, 2),
-            "or_range":      round(or_range, 2),
-            "breakout_pct":  round((or_low - bar2_close) / or_low * 100, 2),
-            "bar1":          bar1,
-            "bar2":          bar2,
-            "bar1_time":     str(df_30m.index[today_mask][0]),
-            "bar2_time":     str(df_30m.index[today_mask][1]),
-            "rvol":          round(bar2_rvol, 2),
-            "stop_level":    round(or_high, 2),
-        }
-
-    return None
-
-
-# ═══════════════════════════════════════════════════════════════════════════════
 #  PIVOT DETECTION
 # ═══════════════════════════════════════════════════════════════════════════════
 
@@ -438,177 +343,52 @@ def persist_trigger(entry: dict, timeframe: str, result: dict,
              f"  streak={result['streak_len']}")
 
 
-def persist_orb_trigger(entry: dict, result: dict,
-                         df_daily: Optional[pd.DataFrame]):
-    """Build and save an ORB trigger record."""
-    d  = result["direction"]
-    b2 = result["bar2"]
-
-    trigger_close = float(b2["close"])
-    stop_level    = result["stop_level"]
-
-    atr     = compute_atr(df_daily)
-    r_ratio = compute_r_ratio(trigger_close, stop_level, d, atr)
-    dist_sh = compute_session_high_distance(df_daily, trigger_close)
-    dist_e8 = compute_ema8w_distance(trigger_close, entry.get("ema8"))
-
-    orb_base = 5
-    score = orb_base
-    if result["rvol"] >= 2.0:   score += 2
-    elif result["rvol"] >= 1.5: score += 1
-    if r_ratio is not None:
-        if r_ratio >= R_ELITE:     score += 3
-        elif r_ratio >= R_GOOD:    score += 2
-        elif r_ratio >= R_MINIMUM: score += 1
-    or_pct = result["or_range"] / result["or_high"] * 100
-    if or_pct < 1.0:   score += 2
-    elif or_pct < 2.0: score += 1
-
-    entry_note = (
-        "ORB — ITM/ATM weekly calls (stop: OR low)"
-        if d == "bullish"
-        else "ORB — ITM/ATM weekly puts (stop: OR high)"
-    )
-
-    trigger = {
-        "ticker":              entry["ticker"],
-        "timeframe":           "ORB-30",
-        "direction":           d,
-        "conviction":          entry["conviction"],
-        "trigger_type":        "ORB",
-        "theme":               entry.get("theme", ""),
-        "industry":            entry.get("industry", ""),
-        "industry_rank":       entry.get("industry_rank", 99),
-        "theme_rank":          entry.get("theme_rank", 99),
-        "weekly_stage":        entry.get("weekly_stage"),
-        "daily_stage":         entry.get("daily_stage"),
-        "trend_template":      entry.get("trend_template"),
-        "weekly_bbuw":         entry.get("weekly_bbuw"),
-        "daily_bbuw":          entry.get("daily_bbuw"),
-        "ep_tier":             entry.get("ep_tier", "NONE"),
-        "rs_rating":           entry.get("rs_rating"),
-        "streak_len":          0,
-        "or_high":             result["or_high"],
-        "or_low":              result["or_low"],
-        "or_range":            result["or_range"],
-        "breakout_pct":        result["breakout_pct"],
-        "pivot_open":          float(result["bar1"]["open"]),
-        "pivot_high":          result["or_high"],
-        "pivot_low":           result["or_low"],
-        "pivot_close":         float(result["bar1"]["close"]),
-        "pivot_time":          result["bar1_time"],
-        "trigger_open":        float(b2["open"]),
-        "trigger_high":        float(b2["high"]),
-        "trigger_low":         float(b2["low"]),
-        "trigger_close":       trigger_close,
-        "trigger_time":        result["bar2_time"],
-        "stop_level":          stop_level,
-        "atr_14d":             round(atr, 4) if pd.notna(atr) else None,
-        "r_ratio":             r_ratio,
-        "rvol_trigger":        result["rvol"],
-        "dist_session_high_%": dist_sh,
-        "dist_ema8w_%":        dist_e8,
-        "trigger_score":       score,
-        "entry_note":          entry_note,
-    }
-
-    save_trigger(trigger)
-    r_str = f"  R={r_ratio:.1f}" if r_ratio is not None else ""
-    log.info(f"  🎯 ORB {d.upper()}: {entry['ticker']}"
-             f"  OR={result['or_high']:.2f}/{result['or_low']:.2f}"
-             f"  rvol={result['rvol']:.1f}×  +{result['breakout_pct']:.1f}%{r_str}"
-             f"  score={score}")
-
-
 # ═══════════════════════════════════════════════════════════════════════════════
-#  MAIN  (single definition — v4.2)
+#  MAIN  (v4.3 — 30-min pivot only)
 # ═══════════════════════════════════════════════════════════════════════════════
 
 def main():
-    log.info("Starting INTRADAY pivot scanner v4.2 (batch downloads + ORB)...")
+    log.info("Starting INTRADAY pivot scanner v4.3 (30-min pivot, batch downloads)...")
 
     daily_data    = get_latest_daily_watchlist()
     entries       = daily_data.get("entries", [])
-    orb_entries   = [e for e in entries if e["conviction"] in ORB_TIERS]
     pivot_entries = [e for e in entries if e["conviction"] in ALERT_TIERS]
 
     if not pivot_entries:
         log.error("No entries in daily watchlist. Run daily_screener.py first.")
         return
 
-    now_ct = datetime.now(CT_TZ)
-    log.info(f"Watchlist: {len(pivot_entries)} pivot tickers, {len(orb_entries)} ORB tickers")
-    log.info(f"Current time: {now_ct.strftime('%H:%M CT')}")
+    log.info(f"Watchlist: {len(pivot_entries)} tickers ({ALERT_TIERS})")
 
     tickers = list({e["ticker"] for e in pivot_entries})
-    entry_map = {e["ticker"]: e for e in pivot_entries}
 
-    # ── 3 batch downloads replace 189 serial calls ────────────────────────
+    # ── 2 batch downloads ─────────────────────────────────────────────────
     log.info("Batch downloading daily bars...")
     daily_bars = batch_fetch_daily(tickers)
     time.sleep(RATE_LIMIT_PAUSE)
 
     log.info("Batch downloading 30m bars...")
-    bars_30m = batch_fetch_intraday(tickers, "30m") if SCAN_30MIN or SCAN_ORB else {}
-    time.sleep(RATE_LIMIT_PAUSE)
+    bars_30m = batch_fetch_intraday(tickers, "30m")
 
-    bars_60m: dict = {}   # 65-min scan removed
-
-    # ── ORB scan ──────────────────────────────────────────────────────────
-    fired_orb   = set()
-    orb_count   = 0
-
-    if SCAN_ORB:
-        log.info(f"─── ORB SCAN ({len(orb_entries)} tickers) ───")
-        for entry in orb_entries:
-            ticker = entry["ticker"]
-            df_30  = bars_30m.get(ticker)
-            if df_30 is None:
-                log.info(f"  ORB [{ticker}] no 30m data — skip")
-                continue
-            orb = detect_orb(df_30)
-            if orb:
-                persist_orb_trigger(entry, orb, daily_bars.get(ticker))
-                fired_orb.add(ticker)
-                orb_count += 1
-
-    # ── Pivot scan ────────────────────────────────────────────────────────
-    fired_30 = set()
-    fired_65 = set()
+    # ── 30-min pivot scan ─────────────────────────────────────────────────
+    fired        = set()
     trigger_count = 0
 
     log.info(f"─── PIVOT SCAN ({len(pivot_entries)} tickers) ───")
     for entry in pivot_entries:
-        ticker   = entry["ticker"]
-        df_daily = daily_bars.get(ticker)
-
-        if SCAN_30MIN:
-            df_30 = bars_30m.get(ticker)
-            if df_30 is not None:
-                r = detect_pivot(df_30)
-                if r:
-                    fired_30.add(ticker)
-                    persist_trigger(entry, "30-MIN", r, df_daily, df_30)
-                    trigger_count += 1
-
-        if SCAN_65MIN:
-            df_60 = bars_60m.get(ticker)
-            if df_60 is not None:
-                r = detect_pivot(df_60)
-                if r:
-                    fired_65.add(ticker)
-                    persist_trigger(entry, "65-MIN", r, df_daily, df_60)
-                    trigger_count += 1
-
-    dupes = fired_30 & fired_65
-    if dupes:
-        log.info(f"  Both TF fired: {', '.join(sorted(dupes))}")
+        ticker = entry["ticker"]
+        df_30  = bars_30m.get(ticker)
+        if df_30 is None:
+            continue
+        r = detect_pivot(df_30)
+        if r:
+            fired.add(ticker)
+            persist_trigger(entry, "30-MIN", r, daily_bars.get(ticker), df_30)
+            trigger_count += 1
 
     log.info(f"\n  SCAN COMPLETE")
-    log.info(f"    ORB triggers   : {orb_count}")
-    log.info(f"    Pivot triggers : {trigger_count}  (30m={len(fired_30)}  65m={len(fired_65)})")
-    log.info(f"    Total          : {orb_count + trigger_count}")
-    log.info(f"    API calls made : ~3 batch downloads (was ~{len(tickers) * 3} serial)")
+    log.info(f"    Triggers : {trigger_count}")
+    log.info(f"    API calls: 2 batch downloads (daily + 30m)")
 
 
 if __name__ == "__main__":
