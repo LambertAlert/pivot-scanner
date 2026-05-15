@@ -34,7 +34,7 @@ from data_layer import save_trigger, get_latest_daily_watchlist
 MIN_STREAK       = 3
 RATE_LIMIT_PAUSE = 2          # seconds between batch downloads (only 3 calls total now)
 SCAN_30MIN       = True
-SCAN_65MIN       = True
+SCAN_65MIN       = False   # removed — 30m batch is sufficient; saves one batch download
 SCAN_ORB         = True
 ALERT_TIERS      = ["HIGH", "MED"]
 ORB_TIERS        = ["HIGH", "MED"]
@@ -552,8 +552,7 @@ def main():
     bars_30m = batch_fetch_intraday(tickers, "30m") if SCAN_30MIN or SCAN_ORB else {}
     time.sleep(RATE_LIMIT_PAUSE)
 
-    log.info("Batch downloading 60m bars...")
-    bars_60m = batch_fetch_intraday(tickers, "60m") if SCAN_65MIN else {}
+    bars_60m: dict = {}   # 65-min scan removed
 
     # ── ORB scan ──────────────────────────────────────────────────────────
     fired_orb   = set()
