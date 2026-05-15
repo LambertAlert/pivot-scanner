@@ -1,22 +1,19 @@
 """
-volume_surge_prep.py — Volume Surge / Climax Detection
-========================================================
-Scans Stage 1/2 tickers from the weekly watchlist for:
-  • Daily surge  — today's volume = highest day in last 60 trading days
-                   AND ≥ 2.0× the 20-day average
-  • Weekly surge — this week's volume = highest week in last 52 weeks
-                   AND ≥ 1.5× the 20-week average
+volume_surge_prep.py — Weekly Volume Surge / Climax Detection (v2)
+==================================================================
+Scans Stage 1/2 tickers from the weekly watchlist for weekly volume surges only.
+
+v2 changes:
+  - Daily surge detection removed — daily volume is noisy and false-signal-prone.
+    Weekly volume is the Weinstein confirmation signal (institutional accumulation).
+  - Replaced serial fetch_weekly() per ticker with a single batch yf.download()
+    call for all tickers.  439 API calls → 1 batch call.
 
 Philosophy:
-  A volume surge/climax in a constructive setup is a LAGGING but HIGH-CONFIDENCE
-  signal of institutional accumulation. It is NOT a buy trigger on its own.
-  It creates a "loading dock" entry — watch for the BBUW coil and 30-min pivot
-  to fire on these names in the following days/weeks.
-
-  Key tracking fields:
-    • Price at surge vs price now (did it continue or break down?)
-    • Days/weeks since surge (freshness)
-    • Current BBUW, stage, 8W pivot tier (is the setup intact?)
+  A WEEKLY volume surge/climax in a constructive Stage 1/2 setup is a lagging
+  but high-confidence signal of institutional accumulation. Not a buy trigger
+  on its own — it creates a "loading dock" entry to watch for BBUW coil and
+  30-min pivot in the following days/weeks.
 
 Output: data/volume_surges.json
 Schedule: runs as part of the daily job (after daily_screener.py)
@@ -49,172 +46,97 @@ logging.basicConfig(
 )
 log = logging.getLogger(__name__)
 
+
 # ═══════════════════════════════════════════════════════════════════════════════
 #  CONFIG
 # ═══════════════════════════════════════════════════════════════════════════════
 
-THEMES_CSV        = "sector_themes.csv"
-RATE_LIMIT_PAUSE  = 1.0
-
-# Daily surge thresholds
-DAILY_LOOKBACK    = 60     # trading days to look back for the "highest day"
-DAILY_RVOL_MIN    = 2.0    # must be at least 2× the 20-day average to qualify
+THEMES_CSV         = "sector_themes.csv"
+BATCH_CHUNK        = 200    # tickers per yf.download() call
 
 # Weekly surge thresholds
-WEEKLY_LOOKBACK   = 52     # weeks to look back for the "highest week"
-WEEKLY_RVOL_MIN   = 1.5    # must be at least 1.5× the 20-week average
+WEEKLY_LOOKBACK    = 52     # weeks to look back for the "highest week"
+WEEKLY_RVOL_MIN    = 1.5    # must be ≥ 1.5× the 20-week average
+WEEKLY_STALE_DAYS  = 60     # ~12 weeks before marked stale in the log
 
-# How many days a surge stays "fresh" in the log before marked as stale
-DAILY_STALE_DAYS  = 20     # ~4 weeks of trading
-WEEKLY_STALE_DAYS = 60     # ~12 weeks
-
-
-# ═══════════════════════════════════════════════════════════════════════════════
-#  DATA FETCHING
-# ═══════════════════════════════════════════════════════════════════════════════
-
-def fetch_daily(ticker: str) -> Optional[pd.DataFrame]:
-    """Pull 6 months of daily OHLCV — covers 60-day lookback + current metrics."""
-    try:
-        df = yf.Ticker(ticker).history(period="6mo", interval="1d", auto_adjust=True)
-        if df.empty or len(df) < 30:
-            return None
-        df.columns = [c.lower() for c in df.columns]
-        df.index = pd.to_datetime(df.index)
-        if df.index.tz is not None:
-            df.index = df.index.tz_localize(None)
-        return df[["open", "high", "low", "close", "volume"]].dropna()
-    except Exception as e:
-        log.warning(f"[{ticker}] daily fetch: {e}")
-        return None
-
-
-def fetch_weekly(ticker: str) -> Optional[pd.DataFrame]:
-    """Pull 2 years of weekly OHLCV — covers 52-week lookback."""
-    try:
-        df = yf.Ticker(ticker).history(period="2y", interval="1wk", auto_adjust=True)
-        if df.empty or len(df) < 20:
-            return None
-        df.columns = [c.lower() for c in df.columns]
-        df.index = pd.to_datetime(df.index)
-        if df.index.tz is not None:
-            df.index = df.index.tz_localize(None)
-        return df[["open", "high", "low", "close", "volume"]].dropna()
-    except Exception as e:
-        log.warning(f"[{ticker}] weekly fetch: {e}")
-        return None
+# History retention
+LOG_RETENTION_DAYS = 180
 
 
 # ═══════════════════════════════════════════════════════════════════════════════
-#  DAILY SURGE DETECTION
+#  BATCH DATA FETCHING
 # ═══════════════════════════════════════════════════════════════════════════════
 
-def detect_daily_surge(df: pd.DataFrame) -> Optional[dict]:
+def batch_fetch_weekly(tickers: list) -> dict:
     """
-    Find the most recent daily volume surge in the trailing DAILY_LOOKBACK days.
-    Returns None if no qualifying surge exists.
-
-    A daily surge qualifies if:
-      1. That day's volume is the highest in the trailing DAILY_LOOKBACK bars
-      2. That day's volume ≥ DAILY_RVOL_MIN × 20-day average volume
-      3. The surge happened on a UP day (close > open) — buying climax, not panic selling
-         OR on a DOWN day that reversed intraday (close > low by > 50% of range) — absorption
-
-    Returns the most recent qualifying surge only.
+    Download 2 years of weekly bars for all tickers in one yf.download() call.
+    Returns {ticker: DataFrame} — tickers with < 20 usable rows are absent.
     """
-    if len(df) < max(DAILY_LOOKBACK, 25):
-        return None
+    result = {}
+    tickers = list(set(tickers))
 
-    vol   = df["volume"]
-    close = df["close"]
-    open_ = df["open"]
-    high  = df["high"]
-    low   = df["low"]
+    for i in range(0, len(tickers), BATCH_CHUNK):
+        chunk = tickers[i: i + BATCH_CHUNK]
+        try:
+            raw = yf.download(
+                chunk,
+                period="2y",
+                interval="1wk",
+                auto_adjust=True,
+                progress=False,
+                threads=True,
+            )
+            if raw.empty:
+                log.warning(f"Weekly batch chunk {i//BATCH_CHUNK + 1}: empty result")
+                continue
 
-    # Look at the last DAILY_LOOKBACK bars
-    window = df.tail(DAILY_LOOKBACK).copy()
-    window_vol = window["volume"]
+            for tk in chunk:
+                try:
+                    if isinstance(raw.columns, pd.MultiIndex):
+                        df = raw.xs(tk, axis=1, level=1).copy()
+                    else:
+                        df = raw.copy()
 
-    # Highest volume day in the window
-    max_vol_idx = window_vol.idxmax()
-    max_vol     = window_vol.max()
+                    df.columns = [c.lower() for c in df.columns]
+                    needed = [c for c in ["open", "high", "low", "close", "volume"]
+                              if c in df.columns]
+                    df = df[needed].dropna(how="all")
 
-    # 20-day average at the time of the surge
-    loc = df.index.get_loc(max_vol_idx)
-    avg_vol_20 = vol.iloc[max(0, loc - 20):loc].mean()
-    if avg_vol_20 <= 0:
-        return None
+                    # Strip timezone so date comparisons stay clean
+                    if df.index.tz is not None:
+                        df.index = df.index.tz_localize(None)
+                    df.index = pd.to_datetime(df.index)
 
-    rvol = max_vol / avg_vol_20
+                    df = df[df["close"] > 0]
+                    if len(df) >= 20:
+                        result[tk] = df
+                except Exception:
+                    pass
 
-    # Must meet minimum RVOL threshold
-    if rvol < DAILY_RVOL_MIN:
-        return None
+        except Exception as e:
+            log.warning(f"Weekly batch fetch error: {e}")
 
-    # Candle quality — bullish absorption or buying climax
-    surge_close = close.loc[max_vol_idx]
-    surge_open  = open_.loc[max_vol_idx]
-    surge_high  = high.loc[max_vol_idx]
-    surge_low   = low.loc[max_vol_idx]
-    surge_range = surge_high - surge_low
+        if i + BATCH_CHUNK < len(tickers):
+            time.sleep(2)
 
-    is_up_day  = surge_close > surge_open
-    # Absorption: even if it opened and sold off, it closed back up off the lows
-    candle_pos = (surge_close - surge_low) / surge_range if surge_range > 0 else 0.5
-    is_absorption = candle_pos > 0.5   # closed in upper half of range
-
-    if not (is_up_day or is_absorption):
-        return None   # pure distribution day — not what we want
-
-    # Current price context
-    current_close = close.iloc[-1]
-    price_change_since = ((current_close / surge_close) - 1) * 100
-
-    # Days since surge
-    last_trading_day = pd.Timestamp(df.index[-1]).normalize()
-    surge_date = pd.Timestamp(max_vol_idx)
-    days_since = (last_trading_day - surge_date).days
-
-    # Current metrics
-    ema_21 = close.ewm(span=21, adjust=False).mean().iloc[-1]
-    pct_from_21ema = ((current_close - ema_21) / ema_21) * 100
-
-    # Is still fresh?
-    is_fresh = days_since <= DAILY_STALE_DAYS
-
-    return {
-        "surge_type":         "DAILY",
-        "surge_date":         surge_date.strftime("%Y-%m-%d"),
-        "surge_volume":       int(max_vol),
-        "avg_vol_20d":        int(avg_vol_20),
-        "rvol":               round(rvol, 2),
-        "surge_price":        round(float(surge_close), 2),
-        "surge_open":         round(float(surge_open), 2),
-        "surge_high":         round(float(surge_high), 2),
-        "surge_low":          round(float(surge_low), 2),
-        "candle_position":    round(float(candle_pos), 2),
-        "is_up_day":          bool(is_up_day),
-        "current_price":      round(float(current_close), 2),
-        "price_chg_since_pct": round(float(price_change_since), 2),
-        "days_since_surge":   int(days_since),
-        "is_fresh":           bool(is_fresh),
-        "pct_from_21ema":     round(float(pct_from_21ema), 2),
-    }
+    log.info(f"Weekly batch fetch: {len(result)}/{len(tickers)} tickers with ≥20 rows")
+    return result
 
 
 # ═══════════════════════════════════════════════════════════════════════════════
-#  WEEKLY SURGE DETECTION
+#  WEEKLY SURGE DETECTION — unchanged logic
 # ═══════════════════════════════════════════════════════════════════════════════
 
 def detect_weekly_surge(dfw: pd.DataFrame) -> Optional[dict]:
     """
     Find the most recent weekly volume surge in the trailing WEEKLY_LOOKBACK weeks.
-    Returns None if no qualifying surge exists.
 
-    A weekly surge qualifies if:
+    Qualifies if:
       1. That week's volume is the highest in the trailing WEEKLY_LOOKBACK weeks
-      2. That week's volume ≥ WEEKLY_RVOL_MIN × 20-week average volume
-      3. The week closed up (bullish absorption or buying into strength)
+      2. Volume ≥ WEEKLY_RVOL_MIN × 20-week average
+      3. Week closed constructively (up OR absorbed — closed in upper half of range)
+
+    Returns the most recent qualifying surge, or None.
     """
     if len(dfw) < max(WEEKLY_LOOKBACK, 25):
         return None
@@ -237,7 +159,6 @@ def detect_weekly_surge(dfw: pd.DataFrame) -> Optional[dict]:
         return None
 
     rvol = max_vol / avg_vol_20w
-
     if rvol < WEEKLY_RVOL_MIN:
         return None
 
@@ -247,25 +168,24 @@ def detect_weekly_surge(dfw: pd.DataFrame) -> Optional[dict]:
     surge_low   = low.loc[max_vol_idx]
     surge_range = surge_high - surge_low
 
-    is_up_week = surge_close > surge_open
-    candle_pos = (surge_close - surge_low) / surge_range if surge_range > 0 else 0.5
+    is_up_week    = surge_close > surge_open
+    candle_pos    = (surge_close - surge_low) / surge_range if surge_range > 0 else 0.5
     is_absorption = candle_pos > 0.5
 
     if not (is_up_week or is_absorption):
-        return None
+        return None   # distribution week — skip
 
-    current_close = close.iloc[-1]
+    current_close      = close.iloc[-1]
     price_change_since = ((current_close / surge_close) - 1) * 100
 
-    last_trading_day = pd.Timestamp(dfw.index[-1]).normalize()
+    last_bar   = pd.Timestamp(dfw.index[-1]).normalize()
     surge_date = pd.Timestamp(max_vol_idx)
-    days_since = (last_trading_day - surge_date).days
+    days_since  = (last_bar - surge_date).days
     weeks_since = days_since // 7
 
     is_fresh = days_since <= WEEKLY_STALE_DAYS
 
-    # Weekly EMA 21
-    ema_21w = close.ewm(span=21, adjust=False).mean().iloc[-1]
+    ema_21w        = close.ewm(span=21, adjust=False).mean().iloc[-1]
     pct_from_21ema = ((current_close - ema_21w) / ema_21w) * 100
 
     return {
@@ -290,11 +210,10 @@ def detect_weekly_surge(dfw: pd.DataFrame) -> Optional[dict]:
 
 
 # ═══════════════════════════════════════════════════════════════════════════════
-#  SECTOR THEME LOOKUP
+#  SECTOR THEME LOOKUP — unchanged
 # ═══════════════════════════════════════════════════════════════════════════════
 
 def load_themes(csv_path: str) -> dict:
-    """Returns {ticker: {theme, industry, theme_rank}}."""
     result = {}
     if not os.path.exists(csv_path):
         return result
@@ -315,119 +234,90 @@ def load_themes(csv_path: str) -> dict:
 # ═══════════════════════════════════════════════════════════════════════════════
 
 def main():
-    log.info("Starting VOLUME SURGE scanner...")
+    log.info("Starting VOLUME SURGE scanner (v2 — weekly only, batch download)...")
 
-    # Load Stage 1/2 names from weekly watchlist
-    weekly_data = get_latest_weekly_watchlist()
+    weekly_data    = get_latest_weekly_watchlist()
     weekly_entries = weekly_data.get("entries", [])
 
     if not weekly_entries:
         log.error("No weekly watchlist found. Run weekly_screener.py first.")
         return
 
-    log.info(f"Scanning {len(weekly_entries)} Stage 1/2 tickers for volume surges...")
+    log.info(f"Scanning {len(weekly_entries)} Stage 1/2 tickers for weekly volume surges...")
     themes = load_themes(THEMES_CSV)
 
-    # Load existing surge log to preserve history (append-only)
-    existing = get_volume_surges()
+    # Load existing log to preserve history (append-only)
+    existing        = get_volume_surges()
     existing_events = existing.get("events", [])
-
-    # Build a set of (ticker, surge_type, surge_date) already logged
-    already_logged = {
+    already_logged  = {
         (e["ticker"], e["surge_type"], e["surge_date"])
         for e in existing_events
     }
 
-    new_events    = []
-    daily_count   = 0
-    weekly_count  = 0
+    # ── One batch download for all weekly bars ─────────────────────────────
+    tickers = [e["ticker"] for e in weekly_entries]
+    log.info(f"Batch downloading weekly bars for {len(tickers)} tickers...")
+    weekly_bars = batch_fetch_weekly(tickers)
 
-    for i, entry in enumerate(weekly_entries, 1):
+    # ── Per-ticker detection (no API calls in loop) ────────────────────────
+    new_events   = []
+    weekly_count = 0
+
+    for entry in weekly_entries:
         ticker = entry["ticker"]
-        log.info(f"[{i}/{len(weekly_entries)}] {ticker}")
+        dfw    = weekly_bars.get(ticker)
+        if dfw is None:
+            continue
 
-        # Shared context from weekly screen
         context = {
-            "ticker":          ticker,
-            "stage":           entry.get("stage"),
-            "bbuw_score":      entry.get("bbuw_score"),
-            "trend_template":  entry.get("trend_template_score"),
-            "pivot_8w_tier":   entry.get("pivot_8w_tier", "NONE"),
-            "theme":           themes.get(ticker, {}).get("theme", "Unclassified"),
-            "industry":        themes.get(ticker, {}).get("industry", ""),
+            "ticker":         ticker,
+            "stage":          entry.get("stage"),
+            "bbuw_score":     entry.get("bbuw_score"),
+            "trend_template": entry.get("trend_template_score"),
+            "pivot_8w_tier":  entry.get("pivot_8w_tier", "NONE"),
+            "theme":          themes.get(ticker, {}).get("theme", "Unclassified"),
+            "industry":       themes.get(ticker, {}).get("industry", ""),
         }
 
-        # ── Daily surge ────────────────────────────────────────────────────
-        df_daily = fetch_daily(ticker)
-        if df_daily is not None:
-            daily_surge = detect_daily_surge(df_daily)
-            if daily_surge:
-                key = (ticker, "DAILY", daily_surge["surge_date"])
-                if key not in already_logged:
-                    event = {**context, **daily_surge,
-                             "logged_at": datetime.now().isoformat()}
-                    new_events.append(event)
-                    already_logged.add(key)
-                    daily_count += 1
-                    log.info(f"  📊 DAILY SURGE: {ticker} | "
-                             f"{daily_surge['rvol']:.1f}× avg | "
-                             f"{daily_surge['surge_date']} | "
-                             f"{'✅ fresh' if daily_surge['is_fresh'] else '⏳ aging'}")
+        surge = detect_weekly_surge(dfw)
+        if not surge:
+            continue
 
-        time.sleep(RATE_LIMIT_PAUSE * 0.5)   # shorter pause — we need weekly too
+        key = (ticker, "WEEKLY", surge["surge_date"])
+        if key in already_logged:
+            continue
 
-        # ── Weekly surge ───────────────────────────────────────────────────
-        df_weekly = fetch_weekly(ticker)
-        if df_weekly is not None:
-            weekly_surge = detect_weekly_surge(df_weekly)
-            if weekly_surge:
-                key = (ticker, "WEEKLY", weekly_surge["surge_date"])
-                if key not in already_logged:
-                    event = {**context, **weekly_surge,
-                             "logged_at": datetime.now().isoformat()}
-                    new_events.append(event)
-                    already_logged.add(key)
-                    weekly_count += 1
-                    log.info(f"  📊 WEEKLY SURGE: {ticker} | "
-                             f"{weekly_surge['rvol']:.1f}× avg | "
-                             f"{weekly_surge['surge_date']} | "
-                             f"{'✅ fresh' if weekly_surge['is_fresh'] else '⏳ aging'}")
+        event = {**context, **surge, "logged_at": datetime.now().isoformat()}
+        new_events.append(event)
+        already_logged.add(key)
+        weekly_count += 1
+        log.info(
+            f"  📊 WEEKLY SURGE: {ticker} | "
+            f"{surge['rvol']:.1f}× avg | "
+            f"{surge['surge_date']} | "
+            f"{'✅ fresh' if surge['is_fresh'] else '⏳ aging'}"
+        )
 
-        time.sleep(RATE_LIMIT_PAUSE * 0.5)
-
-    # ── Merge new events with existing log ────────────────────────────────
-    # Update current_price and staleness on existing events using today's data
-    # (simple approach: just prepend new, keep all history up to 180 days)
+    # ── Merge, deduplicate, trim, sort ─────────────────────────────────────
     all_events = new_events + existing_events
 
-    # Deduplicate by (ticker, surge_type, surge_date) — keep first occurrence
-    seen = set()
-    deduped = []
+    seen, deduped = set(), []
     for e in all_events:
         key = (e["ticker"], e["surge_type"], e["surge_date"])
         if key not in seen:
             seen.add(key)
             deduped.append(e)
 
-    # Trim to last 180 days
-    cutoff = (datetime.now() - timedelta(days=180)).strftime("%Y-%m-%d")
+    cutoff = (datetime.now() - timedelta(days=LOG_RETENTION_DAYS)).strftime("%Y-%m-%d")
     deduped = [e for e in deduped if e.get("surge_date", "0000") >= cutoff]
-
-    # Sort: freshest first, then by RVOL
-    deduped.sort(key=lambda e: (
-        0 if e.get("is_fresh") else 1,
-        e.get("surge_date", ""),
-        -e.get("rvol", 0),
-    ), reverse=False)
     deduped.sort(key=lambda e: e.get("surge_date", ""), reverse=True)
 
     save_volume_surges(deduped)
 
     log.info(f"\n  VOLUME SURGE SCAN COMPLETE")
-    log.info(f"    New daily surges  : {daily_count}")
     log.info(f"    New weekly surges : {weekly_count}")
     log.info(f"    Total in log      : {len(deduped)}")
-    log.info(f"    (Log retains 180 days of history)")
+    log.info(f"    (Log retains {LOG_RETENTION_DAYS} days of history)")
 
 
 if __name__ == "__main__":
