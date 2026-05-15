@@ -135,7 +135,27 @@ THEMES = {
     "Software": [
         "SNOW", "DDOG", "APP", "TTD", "NOW", "WIX", "ZETA", "DOCN"
     ],
-}
+    "trump_portfolio": [
+        "AAPL", "ADBE", "AMZN", "ARES", "AVB", "AVGO", "AXON", "BA",
+        "CDNS", "CDW", "COIN", "COMT", "COST", "CRM", "CVNA", "DELL",
+        "DVA", "EFA", "ETN", "FFIV", "FIS", "GOOGL", "GOVT", "HD",
+        "ICE", "IEMG", "IEX", "IWB", "JBL", "KLAC", "KRMN", "KRUS",
+        "MARA", "MSFT", "MSI", "MSTR", "NFLX", "NOW", "NVR", "NVDA",
+        "NWSA", "ORCL", "PG", "PNC", "RSP", "SNPS", "TDG", "TT",
+        "TXN", "UBER", "VOO", "VTI", "WDAY", "WM", "WST", "XEL",
+        "XLI", "XLK"
+    ],
+        "power_earning_gappers": [
+        "AAON", "AGL", "AIP", "AKAM", "AMBQ", "AMD", "AMKR", "BAND", "BE", "BLZE",
+        "BW", "CIFR", "CLFD", "COCO", "CRCL", "DDOG", "DOC", "DOCN", "FIVN", "FLEX",
+        "FLNC", "FTNT", "HIMX", "HUT", "IMDX", "INOD", "INTC", "IREN", "JOBY", "KFRC",
+        "MRAM", "MRDN", "MXL", "NBIS", "NVAX", "NVT", "NXPI", "ONDS", "OSS", "PCT",
+        "PDFS", "PENG", "PL", "PLUG", "PRMB", "QUBT", "QURE", "RDDT", "RKLB", "RXT",
+        "SEZL", "SIF", "SILC", "SIMO", "SITM", "SMCI", "STRL", "STX", "SYNA", "TEAM",
+        "TTMI", "TWLO", "UMC", "URI", "VECO", "VELO", "VIAV", "VPG", "VSTS", "WOLF",
+        "XMTR"
+    ],
+    }
 
 # =============================================================================
 # MACRO ROTATION GROUP TAGGING
@@ -157,6 +177,7 @@ THEME_TO_MACRO_GROUPS = {
     "Software":                     ["Speculative_Risk_On"],
     "Semiconductors":               ["Speculative_Risk_On"],
     "Most_Shorted":                 ["Speculative_Risk_On"],
+    "power_earning_gappers": ["Speculative_Risk_On"],
 
     # Cyclical Expansion — industrials, transports, builders, capital goods
     "Aerospace_Defense":            ["Cyclical_Expansion", "Idiosyncratic"],
@@ -178,6 +199,7 @@ THEME_TO_MACRO_GROUPS = {
     # Idiosyncratic — single-narrative themes
     "Cybersecurity_FounderLed":     ["Idiosyncratic"],
     "Insurance_InsureTech":         ["Idiosyncratic"],
+    "trump_portfolio": ["Idiosyncratic"],
 }
 
 # =============================================================================
