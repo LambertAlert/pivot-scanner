@@ -1,24 +1,24 @@
 {
-  "generated_at": "2026-05-14T23:12:57.228874",
+  "generated_at": "2026-05-15T23:12:37.613388",
   "today": {
-    "spx_dir": "\u2191",
+    "spx_dir": "\u2193",
     "dxy_dir": "\u2191",
-    "tnx_dir": "\u2193",
-    "state_id": 4,
-    "name": "Soft Landing",
-    "label": "Stocks \u2191 \u00b7 Dollar \u2191 \u00b7 Rates \u2193",
-    "sector_tilt": "Broad equity, consumer discretionary",
-    "color": "green",
-    "bullish": true
+    "tnx_dir": "\u2191",
+    "state_id": 6,
+    "name": "Stagflation / Hawkish Pain",
+    "label": "Stocks \u2193 \u00b7 Dollar \u2191 \u00b7 Rates \u2191",
+    "sector_tilt": "Cash \u2014 no longs",
+    "color": "red",
+    "bullish": false
   },
   "dominant_10d": {
-    "state_id": 4,
-    "name": "Soft Landing",
-    "color": "green",
-    "sector_tilt": "Broad equity, consumer discretionary",
-    "freq_10d_pct": 30.0
+    "state_id": 6,
+    "name": "Stagflation / Hawkish Pain",
+    "color": "red",
+    "sector_tilt": "Cash \u2014 no longs",
+    "freq_10d_pct": 40.0
   },
-  "bearish_days_10": 3,
+  "bearish_days_10": 4,
   "all_narratives": [
     {
       "id": 1,
@@ -27,9 +27,9 @@
       "sector_tilt": "Growth, semis, software, biotech",
       "color": "green",
       "bullish": true,
-      "freq_5d_pct": 20.0,
+      "freq_5d_pct": 0.0,
       "freq_10d_pct": 20.0,
-      "freq_20d_pct": 25.0,
+      "freq_20d_pct": 20.0,
       "base_rate_pct": 17.7
     },
     {
@@ -64,7 +64,7 @@
       "color": "green",
       "bullish": true,
       "freq_5d_pct": 20.0,
-      "freq_10d_pct": 30.0,
+      "freq_10d_pct": 20.0,
       "freq_20d_pct": 15.0,
       "base_rate_pct": 8.8
     },
@@ -87,9 +87,9 @@
       "sector_tilt": "Cash \u2014 no longs",
       "color": "red",
       "bullish": false,
-      "freq_5d_pct": 20.0,
-      "freq_10d_pct": 30.0,
-      "freq_20d_pct": 35.0,
+      "freq_5d_pct": 40.0,
+      "freq_10d_pct": 40.0,
+      "freq_20d_pct": 40.0,
       "base_rate_pct": 17.8
     },
     {
@@ -159,14 +159,14 @@
       "8": 0.028
     },
     "4": {
-      "1": 0.2,
-      "2": 0.1,
-      "3": 0.15,
-      "4": 0.05,
+      "1": 0.19,
+      "2": 0.095,
+      "3": 0.143,
+      "4": 0.048,
       "5": 0.0,
-      "6": 0.1,
-      "7": 0.35,
-      "8": 0.05
+      "6": 0.143,
+      "7": 0.333,
+      "8": 0.048
     },
     "5": {
       "1": 0.167,
@@ -179,14 +179,14 @@
       "8": 0.0
     },
     "6": {
-      "1": 0.265,
-      "2": 0.082,
-      "3": 0.122,
-      "4": 0.061,
-      "5": 0.122,
-      "6": 0.184,
-      "7": 0.143,
-      "8": 0.02
+      "1": 0.25,
+      "2": 0.083,
+      "3": 0.125,
+      "4": 0.062,
+      "5": 0.125,
+      "6": 0.188,
+      "7": 0.146,
+      "8": 0.021
     },
     "7": {
       "1": 0.167,
@@ -210,15 +210,6 @@
     }
   },
   "history_60d": [
-    {
-      "date": "2026-02-20",
-      "state_id": 2,
-      "narrative_name": "Reflation",
-      "color": "green",
-      "spx": "\u2191",
-      "dxy": "\u2193",
-      "tnx": "\u2191"
-    },
     {
       "date": "2026-02-23",
       "state_id": 7,
@@ -749,6 +740,15 @@
       "spx": "\u2191",
       "dxy": "\u2191",
       "tnx": "\u2193"
+    },
+    {
+      "date": "2026-05-15",
+      "state_id": 6,
+      "narrative_name": "Stagflation / Hawkish Pain",
+      "color": "red",
+      "spx": "\u2193",
+      "dxy": "\u2191",
+      "tnx": "\u2191"
     }
   ]
 }
