@@ -136,43 +136,57 @@ def load_macro():
 def load_theme():
     p = "data/theme_data.json"
     if not os.path.exists(p): return {}
-    with open(p) as f: return json.load(f)
+    try:
+        with open(p) as f: return json.load(f)
+    except Exception: return {}
 
 @st.cache_data(ttl=120)
 def load_radar():
     p = "data/radar_data.json"
     if not os.path.exists(p): return {}
-    with open(p) as f: return json.load(f)
+    try:
+        with open(p) as f: return json.load(f)
+    except Exception: return {}
 
 @st.cache_data(ttl=3600)
 def load_gip():
     p = "data/gip_data.json"
     if not os.path.exists(p): return {}
-    with open(p) as f: return json.load(f)
+    try:
+        with open(p) as f: return json.load(f)
+    except Exception: return {}
 
 @st.cache_data(ttl=3600)
 def load_narrative():
     p = "data/narrative_data.json"
     if not os.path.exists(p): return {}
-    with open(p) as f: return json.load(f)
+    try:
+        with open(p) as f: return json.load(f)
+    except Exception: return {}
 
 @st.cache_data(ttl=3600)
 def load_gate():
     p = "data/gate_state.json"
     if not os.path.exists(p): return {}
-    with open(p) as f: return json.load(f)
+    try:
+        with open(p) as f: return json.load(f)
+    except Exception: return {}
 
 @st.cache_data(ttl=3600)
 def load_vol_compression():
     p = "data/vol_compression.json"
     if not os.path.exists(p): return {}
-    with open(p) as f: return json.load(f)
+    try:
+        with open(p) as f: return json.load(f)
+    except Exception: return {}
 
 @st.cache_data(ttl=300)
 def load_index_read():
     p = "data/index_read.json"
     if not os.path.exists(p): return {}
-    with open(p) as f: return json.load(f)
+    try:
+        with open(p) as f: return json.load(f)
+    except Exception: return {}
 
 @st.cache_data(ttl=3600)
 def load_industry_ranks():

@@ -388,8 +388,11 @@ def main():
         "entries":      radar_records,
     }
 
-    with open(OUTPUT_JSON, "w") as f:
+    import tempfile, os as _os
+    tmp = OUTPUT_JSON + ".tmp"
+    with open(tmp, "w") as f:
         json.dump(output, f, indent=2, default=str)
+    _os.replace(tmp, OUTPUT_JSON)  # atomic rename — never leaves a partial file
 
     # Summary log
     n_motion  = sum(1 for r in radar_records if r["state"] in ("IN_MOTION","MOMENTUM_PRIMED","RUNNING"))
