@@ -753,15 +753,39 @@ def render_regime_history(metrics):
     st.markdown(legend_html, unsafe_allow_html=True)
 
 
+def _bar(value: float, color: str, width: int = 140) -> str:
+    """Inline progress bar — pure HTML, no intermediate variables."""
+    f = int(min(max(float(value), 0.0), 1.0) * width)
+    e = width - f
+    return (
+        "<span style='display:inline-block;height:7px;"
+        f"width:{f}px;background:{color};vertical-align:middle'></span>"
+        "<span style='display:inline-block;height:7px;"
+        f"width:{e}px;background:#2a2a2a;vertical-align:middle'></span>"
+    )
+
+
+def _metric_row(label: str, value_str: str, value_color: str, bar_html: str) -> str:
+    """Single labelled metric row with inline bar — returns HTML string."""
+    return (
+        f"<div style='margin-bottom:11px;font-family:Fira Code,monospace'>"
+        f"<div style='font-size:9px;color:#B87333;letter-spacing:1px;"
+        f"margin-bottom:3px'>{label}</div>"
+        f"<span style='font-size:13px;font-weight:700;color:{value_color}'>"
+        f"{value_str}</span>"
+        f"&nbsp;&nbsp;{bar_html}"
+        f"</div>"
+    )
+
+
 def render_posture_gauge(regime: dict) -> None:
     """
     Full-width posture gauge — the top-level actionable signal on the tab.
     Reads from narrative_regime.parquet (pre-computed by pipeline).
 
-    Layout:
-      Left col  — posture label + confidence + regime score bar
-      Mid col   — transition probabilities + momentum + streak
-      Right col — top 3 most likely next narrative states
+    All HTML is built as a single string per column using module-level helpers
+    (_bar, _metric_row) to avoid the Streamlit column rendering bug where
+    interpolated HTML variables inside f-strings are displayed as raw text.
     """
     section_header(
         "REGIME POSTURE",
@@ -772,200 +796,151 @@ def render_posture_gauge(regime: dict) -> None:
         st.markdown(
             f"<div style='color:{GREY};font-family:Fira Code,monospace;"
             f"padding:16px;border:1px solid {GRID};background:{PANEL_BG}'>"
-            f"⚠ Posture data unavailable — run tactical_macro_prep.py to generate."
+            f"&#9888; Posture data unavailable — run tactical_macro_prep.py to generate."
             f"</div>",
             unsafe_allow_html=True,
         )
         return
 
-    posture    = regime.get("posture", "NEUTRAL")
-    confidence = regime.get("posture_confidence", 0.0)
-    p_color    = POSTURE_COLORS.get(posture, AMBER)
-    p_icon     = POSTURE_ICONS.get(posture, "◈")
+    # ── Extract all values as plain Python scalars ─────────────────────────
+    posture       = str(regime.get("posture", "NEUTRAL"))
+    confidence    = float(regime.get("posture_confidence") or 0.0)
+    p_color       = POSTURE_COLORS.get(posture, AMBER)
+    p_icon        = POSTURE_ICONS.get(posture, "&#9672;")
+    posture_label = posture.replace("_", " ")
 
-    regime_score  = regime.get("regime_score", 0.0)
-    p_risk_on     = regime.get("p_risk_on_next", 0.0)
-    p_risk_off    = regime.get("p_risk_off_next", 0.0)
-    mom_10d       = regime.get("momentum_10d", 0.0)
-    mom_20d       = regime.get("momentum_20d", 0.0)
-    streak_days   = regime.get("streak_days", 0)
-    streak_class  = regime.get("streak_class", "unknown")
-    cur_state_id  = regime.get("current_state_id", 0)
-    cur_state     = regime.get("current_state_name", "Unknown")
-    cur_class     = regime.get("current_class", "unknown")
-    next_state    = regime.get("next_state_name", "Unknown")
-    next_prob     = regime.get("next_state_prob", 0.0)
-    top3          = regime.get("top3_transitions", [])
-    gen_at        = str(regime.get("generated_at", ""))[:16].replace("T", " ")
+    regime_score = float(regime.get("regime_score") or 0.0)
+    p_risk_on    = float(regime.get("p_risk_on_next") or 0.0)
+    p_risk_off   = float(regime.get("p_risk_off_next") or 0.0)
+    mom_10d      = float(regime.get("momentum_10d") or 0.0)
+    mom_20d      = float(regime.get("momentum_20d") or 0.0)
+    streak_days  = int(regime.get("streak_days") or 0)
+    streak_class = str(regime.get("streak_class") or "unknown")
+    cur_state_id = int(regime.get("current_state_id") or 0)
+    cur_state    = str(regime.get("current_state_name") or "Unknown")
+    cur_class    = str(regime.get("current_class") or "unknown")
+    next_state   = str(regime.get("next_state_name") or "Unknown")
+    next_state_id = int(regime.get("next_state_id") or 0)
+    next_prob    = float(regime.get("next_state_prob") or 0.0)
+    top3         = list(regime.get("top3_transitions") or [])
+    gen_at       = str(regime.get("generated_at") or "")[:16].replace("T", " ")
 
-    def score_bar(value: float, color: str, width_px: int = 160) -> str:
-        filled = int(min(max(value, 0.0), 1.0) * width_px)
-        empty  = width_px - filled
-        return (
-            f"<span style='display:inline-block;height:8px;width:{filled}px;"
-            f"background:{color};vertical-align:middle'></span>"
-            f"<span style='display:inline-block;height:8px;width:{empty}px;"
-            f"background:{GRID};vertical-align:middle'></span>"
+    p_buy_rip = float(regime.get("p_buy_rip") or 0.0)
+    p_buy_dip = float(regime.get("p_buy_dip") or 0.0)
+    p_avoid   = float(regime.get("p_avoid") or 0.0)
+
+    detail_key = ("P(BUY RIP)" if posture == "BUY_RIP" else
+                  "P(BUY DIP)" if posture == "BUY_DIP" else
+                  "P(AVOID)"   if posture == "AVOID"   else "CONFIDENCE")
+    detail_val = (p_buy_rip if posture == "BUY_RIP" else
+                  p_buy_dip if posture == "BUY_DIP" else
+                  p_avoid   if posture == "AVOID"   else confidence)
+
+    cur_color    = NARRATIVE_COLORS.get(cur_state_id, GREY)
+    streak_color = GREEN if streak_class == "risk-on" else RED
+    next_color   = NARRATIVE_COLORS.get(next_state_id, GREY)
+
+    # ── Build HTML strings using helper functions (no nesting in f-strings) ─
+    score_bar_html   = _bar(regime_score, p_color, 160)
+    on_bar_html      = _bar(p_risk_on, GREEN)
+    off_bar_html     = _bar(p_risk_off, RED)
+    m10_bar_html     = _bar(mom_10d, AMBER)
+    m20_bar_html     = _bar(mom_20d, COPPER)
+
+    on_row   = _metric_row("P(&#8594; RISK-ON)",  f"{p_risk_on:.0%}",  GREEN,  on_bar_html)
+    off_row  = _metric_row("P(&#8594; RISK-OFF)", f"{p_risk_off:.0%}", RED,    off_bar_html)
+    m10_row  = _metric_row("MOMENTUM 10D",        f"{mom_10d:.0%}",    AMBER,  m10_bar_html)
+    m20_row  = _metric_row("MOMENTUM 20D",        f"{mom_20d:.0%}",    COPPER, m20_bar_html)
+
+    # Top-3 transitions HTML
+    t_rows = ""
+    for t in top3[:3]:
+        sid    = int(t.get("state_id") or 0)
+        sname  = str(t.get("state_name") or f"State {sid}")
+        sclass = str(t.get("class") or "unknown")
+        prob   = float(t.get("probability") or 0.0)
+        sc     = NARRATIVE_COLORS.get(sid, GREY)
+        arrow  = "&#8599;" if sclass == "risk-on" else "&#8600;"
+        t_bar  = _bar(prob, sc, 130)
+        t_rows += (
+            f"<div style='margin-bottom:12px'>"
+            f"<div style='font-family:Fira Code,monospace;font-size:10px;"
+            f"margin-bottom:4px;color:{sc};font-weight:700'>"
+            f"{arrow} [{sid}] {sname} "
+            f"<span style='color:#B87333;font-weight:400'>{prob:.0%}</span>"
+            f"</div>"
+            f"{t_bar}"
+            f"</div>"
         )
 
-    streak_color = GREEN if streak_class == "risk-on" else RED
-
-    # ── Three columns ───────────────────────────────────────────────────────
+    # ── Render three columns ───────────────────────────────────────────────
     col_left, col_mid, col_right = st.columns([2, 2, 2])
 
-    # ── LEFT: posture label + score bar ────────────────────────────────────
     with col_left:
-        posture_label = posture.replace("_", " ")
-        p_buy_rip = regime.get("p_buy_rip", 0.0)
-        p_buy_dip = regime.get("p_buy_dip", 0.0)
-        p_avoid   = regime.get("p_avoid", 0.0)
+        st.markdown(
+            f"<div style='background:{PANEL_BG};border:2px solid {p_color};"
+            f"padding:22px;min-height:200px;"
+            f"clip-path:polygon(0 0,calc(100% - 10px) 0,100% 10px,"
+            f"100% 100%,10px 100%,0 calc(100% - 10px))'>"
+            f"<div style='color:#B87333;font-family:Fira Code,monospace;"
+            f"font-size:9px;letter-spacing:3px;margin-bottom:8px'>"
+            f"POSTURE SIGNAL &mdash; {gen_at}</div>"
+            f"<div style='color:{p_color};font-family:Orbitron,monospace;"
+            f"font-size:30px;font-weight:900;letter-spacing:4px;margin-bottom:10px'>"
+            f"{p_icon} {posture_label}</div>"
+            f"<div style='color:#B87333;font-family:Fira Code,monospace;"
+            f"font-size:11px;margin-bottom:14px'>"
+            f"{detail_key}: <span style='color:{p_color};font-weight:700'>"
+            f"{detail_val:.0%}</span></div>"
+            f"<div style='color:#B87333;font-family:Fira Code,monospace;"
+            f"font-size:9px;letter-spacing:2px;margin-bottom:5px'>"
+            f"REGIME SCORE &nbsp; {regime_score:.2f}</div>"
+            f"{score_bar_html}"
+            f"<div style='margin-top:12px;font-family:Fira Code,monospace;font-size:10px'>"
+            f"<span style='color:{cur_color}'>[{cur_state_id}] {cur_state}</span>"
+            f"<span style='color:#B87333'> &mdash; {cur_class}</span>"
+            f"</div></div>",
+            unsafe_allow_html=True,
+        )
 
-        detail_key  = "P(BUY RIP)" if posture == "BUY_RIP" else \
-                      "P(BUY DIP)" if posture == "BUY_DIP" else \
-                      "P(AVOID)"   if posture == "AVOID"   else "CONFIDENCE"
-        detail_val  = p_buy_rip if posture == "BUY_RIP" else \
-                      p_buy_dip if posture == "BUY_DIP" else \
-                      p_avoid   if posture == "AVOID"   else confidence
-
-        score_bar_html = score_bar(regime_score, p_color)
-
-        st.markdown(f"""
-            <div style='background:{PANEL_BG};border:2px solid {p_color};
-                        padding:22px;min-height:190px;
-                        clip-path:polygon(0 0, calc(100% - 10px) 0, 100% 10px,
-                                          100% 100%, 10px 100%, 0 calc(100% - 10px))'>
-                <div style='color:{COPPER};font-family:Fira Code,monospace;
-                            font-size:9px;letter-spacing:3px;margin-bottom:6px'>
-                    POSTURE SIGNAL &mdash; {gen_at}
-                </div>
-                <div style='color:{p_color};font-family:Orbitron,monospace;
-                            font-size:30px;font-weight:900;letter-spacing:4px;
-                            margin-bottom:10px'>
-                    {p_icon} {posture_label}
-                </div>
-                <div style='color:{COPPER};font-family:Fira Code,monospace;
-                            font-size:11px;margin-bottom:14px'>
-                    {detail_key}: <span style='color:{p_color};font-weight:700'>
-                    {detail_val:.0%}</span>
-                </div>
-                <div style='color:{COPPER};font-family:Fira Code,monospace;
-                            font-size:9px;letter-spacing:2px;margin-bottom:4px'>
-                    REGIME SCORE &nbsp; {regime_score:.2f}
-                </div>
-                {score_bar_html}
-                <div style='margin-top:12px;font-family:Fira Code,monospace;font-size:10px'>
-                    <span style='color:{NARRATIVE_COLORS.get(cur_state_id, GREY)}'>
-                        [{cur_state_id}] {cur_state}
-                    </span>
-                    <span style='color:{COPPER}'> &mdash; {cur_class}</span>
-                </div>
-            </div>
-        """, unsafe_allow_html=True)
-
-    # ── MID: probabilities + momentum + streak ──────────────────────────────
     with col_mid:
-        on_bar  = score_bar(p_risk_on,  GREEN, 120)
-        off_bar = score_bar(p_risk_off, RED,   120)
-        m10_bar = score_bar(mom_10d,    AMBER, 120)
-        m20_bar = score_bar(mom_20d,    COPPER, 120)
+        st.markdown(
+            f"<div style='background:{PANEL_BG};border:1px solid #2a2a2a;"
+            f"padding:22px;min-height:200px'>"
+            f"<div style='color:#B87333;font-family:Fira Code,monospace;"
+            f"font-size:9px;letter-spacing:2px;margin-bottom:14px'>"
+            f"TRANSITION PROBABILITIES</div>"
+            f"{on_row}{off_row}"
+            f"<div style='color:#B87333;font-family:Fira Code,monospace;"
+            f"font-size:9px;letter-spacing:2px;margin:12px 0 12px'>"
+            f"REGIME MOMENTUM</div>"
+            f"{m10_row}{m20_row}"
+            f"<div style='color:{streak_color};font-family:Fira Code,monospace;"
+            f"font-size:11px;margin-top:4px'>"
+            f"&#8635; STREAK &nbsp;"
+            f"<span style='font-weight:700'>{streak_days}d</span>"
+            f"<span style='color:#B87333'> in {streak_class}</span>"
+            f"</div></div>",
+            unsafe_allow_html=True,
+        )
 
-        st.markdown(f"""
-            <div style='background:{PANEL_BG};border:1px solid {GRID};
-                        padding:22px;min-height:190px'>
-                <div style='color:{COPPER};font-family:Fira Code,monospace;
-                            font-size:9px;letter-spacing:2px;margin-bottom:14px'>
-                    TRANSITION PROBABILITIES
-                </div>
-
-                <div style='font-family:Fira Code,monospace;font-size:11px;
-                            margin-bottom:10px'>
-                    <span style='color:{COPPER};font-size:9px'>P(→ RISK-ON)&nbsp;</span>
-                    <span style='color:{GREEN};font-weight:700'>{p_risk_on:.0%}</span>
-                    &nbsp;&nbsp;{on_bar}
-                </div>
-                <div style='font-family:Fira Code,monospace;font-size:11px;
-                            margin-bottom:16px'>
-                    <span style='color:{COPPER};font-size:9px'>P(→ RISK-OFF)</span>
-                    <span style='color:{RED};font-weight:700'>&nbsp;{p_risk_off:.0%}</span>
-                    &nbsp;&nbsp;{off_bar}
-                </div>
-
-                <div style='color:{COPPER};font-family:Fira Code,monospace;
-                            font-size:9px;letter-spacing:2px;margin-bottom:10px'>
-                    REGIME MOMENTUM
-                </div>
-                <div style='font-family:Fira Code,monospace;font-size:11px;
-                            margin-bottom:8px'>
-                    <span style='color:{COPPER};font-size:9px'>10D&nbsp;</span>
-                    <span style='color:{AMBER};font-weight:700'>{mom_10d:.0%}</span>
-                    &nbsp;&nbsp;{m10_bar}
-                </div>
-                <div style='font-family:Fira Code,monospace;font-size:11px;
-                            margin-bottom:14px'>
-                    <span style='color:{COPPER};font-size:9px'>20D&nbsp;</span>
-                    <span style='color:{COPPER};font-weight:700'>{mom_20d:.0%}</span>
-                    &nbsp;&nbsp;{m20_bar}
-                </div>
-
-                <div style='color:{streak_color};font-family:Fira Code,monospace;
-                            font-size:11px'>
-                    ⟳ STREAK &nbsp;
-                    <span style='font-weight:700'>{streak_days}d</span>
-                    <span style='color:{COPPER}'> in {streak_class}</span>
-                </div>
-            </div>
-        """, unsafe_allow_html=True)
-
-    # ── RIGHT: top 3 next-state transitions ────────────────────────────────
     with col_right:
-        rows_html = ""
-        for t in top3[:3]:
-            sid   = t.get("state_id", 0)
-            sname = t.get("state_name", f"State {sid}")
-            sclass = t.get("class", "unknown")
-            prob  = t.get("probability", 0.0)
-            scolor = NARRATIVE_COLORS.get(sid, GREY)
-            arrow  = "↗" if sclass == "risk-on" else "↘"
-            bar_w  = int(prob * 120)
-            bar_e  = 120 - bar_w
-            bar_html = (
-                f"<span style='display:inline-block;height:6px;width:{bar_w}px;"
-                f"background:{scolor};vertical-align:middle'></span>"
-                f"<span style='display:inline-block;height:6px;width:{bar_e}px;"
-                f"background:{GRID};vertical-align:middle'></span>"
-            )
-            rows_html += f"""
-                <div style='margin-bottom:12px'>
-                    <div style='font-family:Fira Code,monospace;font-size:10px;
-                                margin-bottom:3px'>
-                        <span style='color:{scolor};font-weight:700'>{arrow}
-                        [{sid}] {sname}</span>
-                        <span style='color:{COPPER};float:right'>{prob:.0%}</span>
-                    </div>
-                    {bar_html}
-                </div>
-            """
-
-        st.markdown(f"""
-            <div style='background:{PANEL_BG};border:1px solid {GRID};
-                        padding:22px;min-height:190px'>
-                <div style='color:{COPPER};font-family:Fira Code,monospace;
-                            font-size:9px;letter-spacing:2px;margin-bottom:14px'>
-                    MOST LIKELY NEXT STATES
-                </div>
-                {rows_html}
-                <div style='border-top:1px solid {GRID};padding-top:10px;
-                            margin-top:4px;font-family:Fira Code,monospace;font-size:9px;
-                            color:{COPPER}'>
-                    MOST LIKELY NEXT &nbsp;
-                    <span style='color:{NARRATIVE_COLORS.get(regime.get("next_state_id",0), GREY)};
-                                 font-weight:700'>
-                        [{regime.get("next_state_id","?")}] {next_state}
-                    </span>
-                    <span style='color:{AMBER}'> &nbsp;{next_prob:.0%}</span>
-                </div>
-            </div>
-        """, unsafe_allow_html=True)
+        st.markdown(
+            f"<div style='background:{PANEL_BG};border:1px solid #2a2a2a;"
+            f"padding:22px;min-height:200px'>"
+            f"<div style='color:#B87333;font-family:Fira Code,monospace;"
+            f"font-size:9px;letter-spacing:2px;margin-bottom:14px'>"
+            f"MOST LIKELY NEXT STATES</div>"
+            f"{t_rows}"
+            f"<div style='border-top:1px solid #2a2a2a;padding-top:10px;"
+            f"margin-top:4px;font-family:Fira Code,monospace;font-size:9px;"
+            f"color:#B87333'>MOST LIKELY NEXT &nbsp;"
+            f"<span style='color:{next_color};font-weight:700'>"
+            f"[{next_state_id}] {next_state}</span>"
+            f"<span style='color:#FFA500'> &nbsp;{next_prob:.0%}</span>"
+            f"</div></div>",
+            unsafe_allow_html=True,
+        )
 
 
 # =============================================================================
