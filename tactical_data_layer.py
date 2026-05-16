@@ -53,11 +53,17 @@ def all_macro_tickers():
 # =============================================================================
 
 LEADERSHIP_PAIRS = [
-    ("IGV",  "SOXX", "Software vs Semis",          "Speculative_Risk_On"),
-    ("CIBR", "XLK",  "Cyber vs Tech",              "Idiosyncratic"),
+    # ── Speculative Risk-On (5 pairs) ──────────────────────────────────────
+    # SOXX/SPY + IGV/SPY capture the full tech complex vs market directly —
+    # semis outperforming = hardware risk-on; software outperforming = growth risk-on.
+    # IBB/XLV replaces XBI/IBB — biotech vs total healthcare is a cleaner
+    # risk-appetite signal than small vs large biotech (too noisy internally).
+    ("SOXX", "SPY",  "Semis vs Market",            "Speculative_Risk_On"),
+    ("IGV",  "SPY",  "Software vs Market",         "Speculative_Risk_On"),
     ("KRE",  "XLF",  "Regional vs Total Banks",    "Speculative_Risk_On"),
-    ("XBI",  "IBB",  "Small vs Large Biotech",     "Speculative_Risk_On"),
+    ("IBB",  "XLV",  "Biotech vs Healthcare",      "Speculative_Risk_On"),
     ("XRT",  "XLY",  "Retail vs Total Disc",       "Speculative_Risk_On"),
+    ("CIBR", "XLK",  "Cyber vs Tech",              "Idiosyncratic"),
     ("ITB",  "XHB",  "Pure Builders vs Construction", "Cyclical_Expansion"),
     ("XOP",  "XLE",  "E&P vs Integrated Oil",      "Commodity_Confirmation"),
     ("OIH",  "XLE",  "Services vs Integrated",     "Cyclical_Expansion"),
