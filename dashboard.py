@@ -70,7 +70,7 @@ html,body,[class*="css"]{background-color:var(--bg)!important;color:var(--text)!
 .live-dot{color:var(--green);display:flex;align-items:center;gap:.4rem;}
 .live-dot::before{content:'●';animation:pulse-dot 2s ease-in-out infinite;}
 @keyframes pulse-dot{0%,100%{opacity:1}50%{opacity:.3}}
-.kpi-strip{display:grid;grid-template-columns:repeat(6,1fr);gap:8px;margin-bottom:1.2rem;}
+.kpi-strip{display:grid;grid-template-columns:repeat(7,1fr);gap:8px;margin-bottom:1.2rem;}
 .kpi-cell{background:var(--panel);border:1px solid var(--border);border-left:3px solid var(--accent2);padding:.7rem 1rem;clip-path:polygon(0 0,calc(100% - 8px) 0,100% 8px,100% 100%,0 100%);}
 .kpi-cell.green{border-left-color:var(--green);}.kpi-cell.red{border-left-color:var(--red);}.kpi-cell.blue{border-left-color:var(--blue);}.kpi-cell.amber{border-left-color:var(--accent);}
 .kpi-lbl{font-family:var(--display);font-size:.5rem;letter-spacing:.18em;color:var(--muted);text-transform:uppercase;margin-bottom:.3rem;}
@@ -200,6 +200,25 @@ def load_volume_surges():
 def load_ep_events():
     return get_ep_events()
 
+@st.cache_data(ttl=300)
+def load_posture() -> dict:
+    """Load pre-computed narrative regime posture from parquet."""
+    path = "data/narrative_regime.parquet"
+    if not os.path.exists(path):
+        return {}
+    try:
+        df = pd.read_parquet(path)
+        if df.empty:
+            return {}
+        row = df.iloc[0].to_dict()
+        # top3_transitions may come back as numpy array — normalise to list
+        raw = row.get("top3_transitions")
+        if raw is not None and hasattr(raw, "tolist"):
+            row["top3_transitions"] = raw.tolist()
+        return row
+    except Exception:
+        return {}
+
 @st.cache_data(ttl=60)
 def _triggers(): return get_today_triggers()
 
@@ -221,6 +240,7 @@ gip_data       = load_gip()
 narrative_data = load_narrative()
 gate_data      = load_gate()
 vol_data       = load_vol_compression()
+posture_data   = load_posture()
 today_triggers = _triggers()
 daily_data     = _daily()
 weekly_data    = _weekly()
@@ -229,6 +249,19 @@ now            = datetime.now()
 
 high_today = sum(1 for t in today_triggers if t.get("conviction")=="HIGH")
 med_today  = sum(1 for t in today_triggers if t.get("conviction")=="MED")
+
+# Posture card values
+_posture       = str(posture_data.get("posture", "—"))
+_posture_label = _posture.replace("_", " ")
+_posture_conf  = posture_data.get("posture_confidence") or 0.0
+_regime_score  = posture_data.get("regime_score") or 0.0
+_posture_class = {
+    "BUY_RIP":  "green",
+    "BUY_DIP":  "blue",
+    "AVOID":    "red",
+    "NEUTRAL":  "amber",
+}.get(_posture, "amber") if posture_data else "amber"
+_posture_sub = f"{float(_posture_conf):.0%} conf · score {float(_regime_score):.2f}" if posture_data else "awaiting data"
 
 # ── Masthead ──────────────────────────────────────────────────────────────────
 st.markdown(f"""
@@ -279,6 +312,11 @@ st.markdown(f"""
     <div class='kpi-lbl'>Weekly Screen</div>
     <div class='kpi-val'>{weekly_data.get("count",len(weekly_data.get("entries",[])))}</div>
     <div class='kpi-sub'>stage 1/2 names</div>
+  </div>
+  <div class='kpi-cell {_posture_class}'>
+    <div class='kpi-lbl'>Posture</div>
+    <div class='kpi-val {_posture_class}'>{_posture_label}</div>
+    <div class='kpi-sub'>{_posture_sub}</div>
   </div>
 </div>
 """, unsafe_allow_html=True)
@@ -859,7 +897,7 @@ with tab3:
   </div>
 
   <div style='font-family:var(--mono);font-size:.7rem;color:var(--muted);padding-top:.4rem;border-top:1px solid var(--border2);'>
-    {t.get("entry_note","")} · Stage W{t.get("weekly_stage","")}/D{t.get("daily_stage","")} · Trend {t.get("trend_template","")}/8 · BBUW D{t.get("daily_bbuw",0):.0f}/W{t.get("weekly_bbuw",0):.0f} · {str(t.get("trigger_time",""))[:19]} UTC
+    {t.get("entry_note","")} · Stage W{t.get("weekly_stage","")} · Trend {t.get("trend_template","")}/8 · BBUW D{t.get("daily_bbuw",0):.0f}/W{t.get("weekly_bbuw",0):.0f} · {str(t.get("trigger_time",""))[:19]} UTC
   </div>
 </div>
             """, unsafe_allow_html=True)
@@ -876,7 +914,7 @@ with tab4:
         with dl1:
             conv_p = st.multiselect("Conviction",["HIGH","MED","LOW"],default=["HIGH","MED"],key="dl_conv")
         with dl2:
-            stage_p = st.multiselect("Daily Stage",[1,2,3,4],default=[1,2],key="dl_stage")
+            stage_p = st.multiselect("Weekly Stage",[1,2,3,4],default=[1,2],key="dl_stage")
         with dl3:
             pivot_p = st.multiselect("8W Pivot tier",
                                        ["STRONG","STANDARD","WEAK","PROXIMITY","NONE"],
@@ -889,7 +927,7 @@ with tab4:
 
         df = pd.DataFrame(daily_entries)
         if conv_p  and "conviction"     in df.columns: df = df[df["conviction"].isin(conv_p)]
-        if stage_p and "daily_stage"    in df.columns: df = df[df["daily_stage"].isin(stage_p)]
+        if stage_p and "weekly_stage"   in df.columns: df = df[df["weekly_stage"].isin(stage_p)]
         if pivot_p and "pivot_8w_tier"  in df.columns: df = df[df["pivot_8w_tier"].isin(pivot_p)]
         if nr_only and "near_resistance" in df.columns: df = df[df["near_resistance"] == True]
 
@@ -907,7 +945,7 @@ with tab4:
         dcols = [c for c in [
             "ticker", "conviction", "8W Pivot", "ep_tier", "ep_score",
             "theme", "industry", "industry_rank", "theme_rank",
-            "weekly_stage", "daily_stage", "trend_template",
+            "weekly_stage", "trend_template",
             "weekly_bbuw", "daily_bbuw",
             "ema8", "pct_from_ema8",
             "near_resistance", "resistance_level", "resistance_distance_pct",
@@ -1184,7 +1222,7 @@ with tab_radar:
   <div style='display:flex;justify-content:space-between;align-items:flex-start;'>
     <div>
       <div class='t-ticker'>{section_emoji} {ticker}</div>
-      <div class='t-meta'>{theme} · Rank {theme_rank} · {tier_emoji} {pivot_tier} · Stage W{r.get("weekly_stage","")}/D{r.get("daily_stage","")}</div>
+      <div class='t-meta'>{theme} · Rank {theme_rank} · {tier_emoji} {pivot_tier} · Stage W{r.get("weekly_stage","")}</div>
     </div>
     <div style='text-align:right;'>
       <span class='{badge_cls}'>{conv}</span>
