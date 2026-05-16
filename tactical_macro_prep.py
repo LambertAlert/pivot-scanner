@@ -172,6 +172,23 @@ def main():
         hist_df.to_parquet(hist_path, index=False)
         log.info(f"✅ {hist_path}  ({len(hist_df)} days)")
 
+    # ── Save 4: Narrative regime posture (Markov transition model) ────────
+    try:
+        from narrative_regime_model import run as run_narrative_regime
+        regime_result = run_narrative_regime()
+        if regime_result:
+            log.info(
+                f"✅ narrative_regime.parquet  "
+                f"posture={regime_result['posture']} "
+                f"({regime_result['posture_confidence']:.0%} confidence) | "
+                f"regime_score={regime_result['regime_score']:.2f} | "
+                f"P(->risk-on)={regime_result['p_risk_on_next']:.2f}"
+            )
+        else:
+            log.warning("Narrative regime model returned no result.")
+    except Exception as e:
+        log.warning(f"Narrative regime model failed (non-fatal): {e}")
+
     regime = metrics.get("regime_label", "—")
     log.info(f"\n  MACRO PREP COMPLETE — Regime: {regime}")
     log.info(f"  Narrative today: {nar.get('today_state_name','?') if nar else '?'}")
