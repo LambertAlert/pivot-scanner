@@ -95,13 +95,20 @@ def load_narrative_regime() -> dict:
         if df.empty:
             return {}
         row = df.iloc[0].to_dict()
-        # Parse JSON fields back to Python objects
+        # Parquet may return list columns as numpy arrays or keep JSON strings —
+        # handle all cases for the serialized fields.
         for key in ("top3_transitions", "transition_row_json"):
-            if key in row and isinstance(row[key], str):
+            val = row.get(key)
+            if val is None:
+                continue
+            if isinstance(val, str):
                 try:
-                    row[key] = json.loads(row[key])
+                    row[key] = json.loads(val)
                 except Exception:
                     pass
+            elif hasattr(val, "tolist"):      # numpy array from parquet object col
+                row[key] = val.tolist()
+            # already a list/dict — leave as-is
         return row
     except Exception:
         return {}
@@ -822,7 +829,23 @@ def render_posture_gauge(regime: dict) -> None:
     next_state   = str(regime.get("next_state_name") or "Unknown")
     next_state_id = int(regime.get("next_state_id") or 0)
     next_prob    = float(regime.get("next_state_prob") or 0.0)
-    top3         = list(regime.get("top3_transitions") or [])
+    # Safe extraction — parquet may return numpy arrays, JSON strings, or plain lists
+    _top3_raw = regime.get("top3_transitions")
+    if _top3_raw is None:
+        top3 = []
+    elif hasattr(_top3_raw, "tolist"):   # numpy array
+        top3 = _top3_raw.tolist()
+    elif isinstance(_top3_raw, str):
+        try:
+            import json as _json
+            top3 = _json.loads(_top3_raw)
+        except Exception:
+            top3 = []
+    else:
+        try:
+            top3 = list(_top3_raw)
+        except Exception:
+            top3 = []
     gen_at       = str(regime.get("generated_at") or "")[:16].replace("T", " ")
 
     p_buy_rip = float(regime.get("p_buy_rip") or 0.0)
