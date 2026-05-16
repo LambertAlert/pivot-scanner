@@ -28,8 +28,7 @@ from data_layer import save_daily_watchlist, get_latest_weekly_watchlist, get_in
 
 THEMES_CSV              = "sector_themes.csv"
 LOG_LEVEL               = logging.INFO
-MIN_DAILY_BBUW_SCORE    = 50
-QUALIFYING_DAILY_STAGES = [1, 2]
+MIN_DAILY_BBUW_SCORE    = 40
 
 # Batch download config
 BATCH_CHUNK = 200   # yfinance handles ~200 tickers cleanly; splits if larger
@@ -103,28 +102,6 @@ def batch_fetch_daily(tickers: list, period: str = "1y") -> dict:
 # ═══════════════════════════════════════════════════════════════════════════════
 #  STAGE & BBUW (DAILY) — unchanged
 # ═══════════════════════════════════════════════════════════════════════════════
-
-def classify_daily_stage(df: pd.DataFrame) -> int:
-    close = df["close"]
-    ma_150 = close.rolling(150).mean()
-    if len(df) < 150 or pd.isna(ma_150.iloc[-1]):
-        return 0
-    ma_now = ma_150.iloc[-1]
-    ma_50d_ago = ma_150.iloc[-50] if len(ma_150) >= 50 else ma_150.iloc[0]
-    ma_slope_pct = ((ma_now - ma_50d_ago) / ma_50d_ago) * 100
-    price = close.iloc[-1]
-    above_ma = price > ma_now
-    pct_from_ma = ((price - ma_now) / ma_now) * 100
-    if above_ma and ma_slope_pct > 2.0:
-        return 2
-    if not above_ma and ma_slope_pct < -2.0:
-        return 4
-    if abs(pct_from_ma) < 7 and abs(ma_slope_pct) < 2.0:
-        return 1
-    if above_ma and ma_slope_pct < 2.0:
-        return 3
-    return 1
-
 
 def calc_bbuw_daily(df: pd.DataFrame, df_spy: pd.DataFrame = None) -> dict:
     if len(df) < 60:
@@ -267,7 +244,7 @@ def assign_conviction(weekly_bbuw, daily_bbuw, trend_template, industry_rank: in
 # ═══════════════════════════════════════════════════════════════════════════════
 
 def main():
-    log.info("Starting DAILY screener (v3 — batch downloads)...")
+    log.info("Starting DAILY screener (v4 — batch downloads, weekly stage trusted)...")
 
     weekly_data    = get_latest_weekly_watchlist()
     weekly_entries = weekly_data.get("entries", [])
@@ -290,10 +267,9 @@ def main():
         log.warning("SPY fetch failed — RS vs SPY component will default to 50")
 
     # ── Per-ticker evaluation (no API calls inside loop) ──────────────────
-    qualified = []
-    skipped_no_data  = 0
-    skipped_stage    = 0
-    skipped_bbuw     = 0
+    qualified       = []
+    skipped_no_data = 0
+    skipped_bbuw    = 0
 
     for i, entry in enumerate(weekly_entries, 1):
         ticker = entry["ticker"]
@@ -304,18 +280,13 @@ def main():
             log.debug(f"[{i}/{len(weekly_entries)}] {ticker} — no data")
             continue
 
-        daily_stage = classify_daily_stage(df_daily)
-        if daily_stage not in QUALIFYING_DAILY_STAGES:
-            skipped_stage += 1
-            continue
-
         daily_bbuw = calc_bbuw_daily(df_daily, df_spy)
         if daily_bbuw["score"] < MIN_DAILY_BBUW_SCORE:
             skipped_bbuw += 1
             continue
 
-        theme_info     = themes.get(ticker, {"theme": "Unclassified", "rank": 99, "industry": ""})
-        pivot_8w_tier  = entry.get("pivot_8w_tier", "NONE")
+        theme_info      = themes.get(ticker, {"theme": "Unclassified", "rank": 99, "industry": ""})
+        pivot_8w_tier   = entry.get("pivot_8w_tier", "NONE")
         ticker_industry = theme_info.get("industry", "")
         industry_rank   = industry_rank_lookup.get(ticker_industry, 99)
 
@@ -334,31 +305,29 @@ def main():
         }.get(pivot_8w_tier, "  ")
         log.info(f"  ✅ [{i}/{len(weekly_entries)}] {ticker}"
                  f" — {conviction} | DailyBBUW={daily_bbuw['score']:.0f}"
-                 f" | Stage={daily_stage}"
                  f" | Ind.Rank=#{industry_rank}"
                  f" | {tier_emoji}{pivot_8w_tier}")
 
         qualified.append({
-            "ticker":               ticker,
-            "conviction":           conviction,
-            "weekly_stage":         entry.get("stage"),
-            "daily_stage":          daily_stage,
-            "trend_template":       entry.get("trend_template_score"),
-            "weekly_bbuw":          entry.get("bbuw_score"),
-            "daily_bbuw":           daily_bbuw["score"],
+            "ticker":                ticker,
+            "conviction":            conviction,
+            "weekly_stage":          entry.get("stage"),
+            "trend_template":        entry.get("trend_template_score"),
+            "weekly_bbuw":           entry.get("bbuw_score"),
+            "daily_bbuw":            daily_bbuw["score"],
             "daily_bbuw_components": daily_bbuw["components"],
-            "theme":                theme_info["theme"],
-            "theme_rank":           theme_info["rank"],
-            "industry":             theme_info.get("industry", ""),
-            "industry_rank":        industry_rank,
-            "ep_tier":              entry.get("ep_tier", "NONE"),
-            "ep_score":             entry.get("ep_score", 0),
-            "ep_week_pct":          entry.get("ep_week_pct"),
-            "pivot_8w_fired":       entry.get("pivot_8w_fired", False),
-            "pivot_8w_tier":        pivot_8w_tier,
-            "ema8":                 entry.get("ema8"),
-            "pct_from_ema8":        entry.get("pct_from_ema8"),
-            "ema8_rising":          entry.get("ema8_rising", False),
+            "theme":                 theme_info["theme"],
+            "theme_rank":            theme_info["rank"],
+            "industry":              theme_info.get("industry", ""),
+            "industry_rank":         industry_rank,
+            "ep_tier":               entry.get("ep_tier", "NONE"),
+            "ep_score":              entry.get("ep_score", 0),
+            "ep_week_pct":           entry.get("ep_week_pct"),
+            "pivot_8w_fired":        entry.get("pivot_8w_fired", False),
+            "pivot_8w_tier":         pivot_8w_tier,
+            "ema8":                  entry.get("ema8"),
+            "pct_from_ema8":         entry.get("pct_from_ema8"),
+            "ema8_rising":           entry.get("ema8_rising", False),
             "pivot_8w_volume_spike": entry.get("pivot_8w_volume_spike", False),
         })
 
@@ -374,9 +343,7 @@ def main():
 
     log.info(f"\n  DAILY COMPLETE — {len(qualified)} qualified"
              f" ({high_count} HIGH, {med_count} MED)")
-    log.info(f"    Skipped: {skipped_no_data} no-data"
-             f" | {skipped_stage} wrong-stage"
-             f" | {skipped_bbuw} low-BBUW")
+    log.info(f"    Skipped: {skipped_no_data} no-data | {skipped_bbuw} low-BBUW")
     log.info(f"    8W Pivots: 🔥 STRONG={pivot_strong}"
              f"  ✅ STANDARD={pivot_std}  👀 PROXIMITY={pivot_prox}")
 
