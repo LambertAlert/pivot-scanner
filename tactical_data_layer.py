@@ -38,7 +38,9 @@ MACRO_PAIRS = ["IGV", "SOXX", "SMH", "CIBR", "KRE", "XBI", "IBB", "XRT",
 MACRO_STRESS = ["^VIX", "^VIX3M", "HYG", "LQD", "TLT", "GLD"]
 
 # Cross-asset narrative tracker
-MACRO_NARRATIVE = ["^GSPC", "DX-Y.NYB", "^TNX"]
+MACRO_NARRATIVE = ["^GSPC", "DX-Y.NYB", "^TNX", "^DFII10", "JPY=X"]
+# ^DFII10 = 10-year TIPS real yield (real rate signal, Capital Flows Layer)
+# JPY=X   = USD/JPY spot (carry trade proxy — sharp JPY strength = carry unwind)
 
 
 def all_macro_tickers():
@@ -243,9 +245,10 @@ def classify_pair_state(diff_5, diff_10, diff_20, threshold=PAIR_THRESHOLD):
 def compute_narrative(prices):
     """
     Compute today's narrative state and 10-day rolling frequencies.
+    Extended with real rate (DFII10) and carry (JPY) signals per Capital Flows framework.
     """
-    spx = prices.get("^GSPC")
-    dxy = prices.get("DX-Y.NYB")
+    spx   = prices.get("^GSPC")
+    dxy   = prices.get("DX-Y.NYB")
     rates = prices.get("^TNX")
 
     if spx is None or dxy is None or rates is None:
@@ -287,19 +290,64 @@ def compute_narrative(prices):
         sid = NARRATIVE_STATES.get(key, (0, "Unknown", ""))[0]
         state_history.append({"date": date, "state_id": sid})
 
+    # ── Real Rate Signal (Capital Flows: master liquidity variable) ────────
+    # 10Y TIPS yield (^DFII10): negative = liquidity expansion; rising = tightening
+    real_rate_10y = None
+    real_rate_direction = None
+    real_rate_label = None
+    try:
+        dfii = prices.get("^DFII10")
+        if dfii is not None and len(dfii) >= 10:
+            real_rate_10y = round(float(dfii.iloc[-1]), 3)
+            rr_5d_ago     = float(dfii.iloc[-6])
+            rr_change     = real_rate_10y - rr_5d_ago
+            if   rr_change <= -0.08: real_rate_direction = "FALLING"
+            elif rr_change >=  0.08: real_rate_direction = "RISING"
+            else:                     real_rate_direction = "FLAT"
+            if   real_rate_10y < 0.0:  real_rate_label = "NEGATIVE"
+            elif real_rate_10y < 0.50: real_rate_label = "NEAR ZERO"
+            elif real_rate_10y < 1.50: real_rate_label = "POSITIVE"
+            else:                       real_rate_label = "ELEVATED"
+    except Exception:
+        pass
+
+    # ── Carry Trade Signal (Capital Flows: JPY strength = carry unwind) ───
+    # JPY=X = USD per JPY. Rising = JPY strengthening = carry unwind risk.
+    # We express as 5-day JPY % change: positive = JPY stronger = risk-off.
+    carry_jpy_5d = None
+    carry_signal = None
+    try:
+        jpy = prices.get("JPY=X")
+        if jpy is not None and len(jpy) >= 6:
+            jpy_now    = float(jpy.iloc[-1])
+            jpy_5d_ago = float(jpy.iloc[-6])
+            # JPY=X is USD/JPY (inverted): falling = JPY strengthening
+            carry_jpy_5d = round(((jpy_5d_ago / jpy_now) - 1) * 100, 3)
+            if   carry_jpy_5d >= 1.5:  carry_signal = "UNWIND"
+            elif carry_jpy_5d <= -1.0: carry_signal = "EXPANSION"
+            else:                       carry_signal = "STABLE"
+    except Exception:
+        pass
+
     return {
-        "today_state_id": today_state[0],
-        "today_state_name": today_state[1],
+        "today_state_id":    today_state[0],
+        "today_state_name":  today_state[1],
         "today_sector_tilt": today_state[2],
-        "spx_dir": dirs["SPX"].iloc[-1],
-        "dxy_dir": dirs["DXY"].iloc[-1],
-        "rates_dir": dirs["RATES"].iloc[-1],
+        "spx_dir":           dirs["SPX"].iloc[-1],
+        "dxy_dir":           dirs["DXY"].iloc[-1],
+        "rates_dir":         dirs["RATES"].iloc[-1],
         "rolling_10_counts": state_counts,
-        "dominant_id": dominant_id,
-        "dominant_name": dominant_meta[1],
-        "dominant_tilt": dominant_meta[2],
-        "dominant_pct": dominant_count * 10,  # out of 10 days = pct
-        "history_60d": state_history,
+        "dominant_id":       dominant_id,
+        "dominant_name":     dominant_meta[1],
+        "dominant_tilt":     dominant_meta[2],
+        "dominant_pct":      dominant_count * 10,
+        "history_60d":       state_history,
+        # Capital Flows liquidity signals
+        "real_rate_10y":       real_rate_10y,
+        "real_rate_direction": real_rate_direction,
+        "real_rate_label":     real_rate_label,
+        "carry_jpy_5d":        carry_jpy_5d,
+        "carry_signal":        carry_signal,
     }
 
 

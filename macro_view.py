@@ -829,6 +829,33 @@ def render_posture_gauge(regime: dict) -> None:
     next_state   = str(regime.get("next_state_name") or "Unknown")
     next_state_id = int(regime.get("next_state_id") or 0)
     next_prob    = float(regime.get("next_state_prob") or 0.0)
+
+    # Acceleration (Capital Flows: velocity matters as much as level)
+    accel       = float(regime.get("narrative_acceleration") or 0.0)
+    accel_label = str(regime.get("acceleration_label") or "STABLE")
+    accel_color = (GREEN if accel_label in ("ACCELERATING", "IMPROVING")
+                   else RED if accel_label in ("DECELERATING", "DETERIORATING")
+                   else COPPER)
+    accel_arrow = "&#8679;" if accel > 0.08 else ("&#8681;" if accel < -0.08 else "&#8594;")
+
+    # Real rate (Capital Flows: master liquidity variable)
+    _rr_raw      = regime.get("real_rate_10y")
+    real_rate    = float(_rr_raw) if _rr_raw is not None and str(_rr_raw) not in ("nan","None","") else None
+    rr_dir       = str(regime.get("real_rate_direction") or "")
+    rr_label     = str(regime.get("real_rate_label") or "")
+    rr_color     = (GREEN if rr_label == "NEGATIVE"
+                    else AMBER if rr_label == "NEAR ZERO"
+                    else COPPER if rr_label == "POSITIVE"
+                    else RED)
+    rr_dir_color = GREEN if rr_dir == "FALLING" else (RED if rr_dir == "RISING" else COPPER)
+
+    # Carry (Capital Flows: JPY strength = carry unwind risk)
+    _carry_raw   = regime.get("carry_jpy_5d")
+    carry_5d     = float(_carry_raw) if _carry_raw is not None and str(_carry_raw) not in ("nan","None","") else None
+    carry_signal = str(regime.get("carry_signal") or "")
+    carry_color  = (RED if carry_signal == "UNWIND"
+                    else GREEN if carry_signal == "EXPANSION"
+                    else COPPER)
     # Safe extraction — parquet may return numpy arrays, JSON strings, or plain lists
     _top3_raw = regime.get("top3_transitions")
     if _top3_raw is None:
@@ -875,6 +902,54 @@ def render_posture_gauge(regime: dict) -> None:
     m10_row  = _metric_row("MOMENTUM 10D",        f"{mom_10d:.0%}",    AMBER,  m10_bar_html)
     m20_row  = _metric_row("MOMENTUM 20D",        f"{mom_20d:.0%}",    COPPER, m20_bar_html)
 
+    # Acceleration row
+    accel_bar_html = _bar(min(1.0, max(0.0, 0.5 + accel)), accel_color)
+    accel_row = _metric_row("ACCELERATION",
+                             f"{accel_arrow} {accel:+.2f}  {accel_label}",
+                             accel_color, accel_bar_html)
+
+    # Real rate block
+    if real_rate is not None:
+        rr_bar_html = _bar(min(1.0, max(0.0, (real_rate + 1.0) / 3.0)), rr_color)
+        rr_html = (
+            f"<div style='margin-bottom:11px;font-family:Fira Code,monospace'>"
+            f"<div style='font-size:9px;color:#B87333;letter-spacing:1px;margin-bottom:3px'>"
+            f"10Y REAL RATE (TIPS)</div>"
+            f"<span style='font-size:13px;font-weight:700;color:{rr_color}'>"
+            f"{real_rate:+.2f}%</span>"
+            f"<span style='font-size:9px;color:{rr_dir_color};margin-left:6px'>"
+            f"[{rr_label}] {rr_dir}</span>"
+            f"&nbsp;&nbsp;{rr_bar_html}"
+            f"</div>"
+        )
+    else:
+        rr_html = (
+            f"<div style='margin-bottom:11px;font-family:Fira Code,monospace;"
+            f"font-size:9px;color:#B87333'>10Y REAL RATE &nbsp;"
+            f"<span style='color:#3a3020'>awaiting data</span></div>"
+        )
+
+    # Carry block
+    if carry_5d is not None:
+        carry_bar_html = _bar(min(1.0, max(0.0, 0.5 + carry_5d / 4.0)), carry_color)
+        carry_html = (
+            f"<div style='margin-bottom:11px;font-family:Fira Code,monospace'>"
+            f"<div style='font-size:9px;color:#B87333;letter-spacing:1px;margin-bottom:3px'>"
+            f"CARRY (JPY 5D)</div>"
+            f"<span style='font-size:13px;font-weight:700;color:{carry_color}'>"
+            f"{carry_5d:+.2f}%</span>"
+            f"<span style='font-size:9px;color:{carry_color};margin-left:6px'>"
+            f"[{carry_signal}]</span>"
+            f"&nbsp;&nbsp;{carry_bar_html}"
+            f"</div>"
+        )
+    else:
+        carry_html = (
+            f"<div style='margin-bottom:11px;font-family:Fira Code,monospace;"
+            f"font-size:9px;color:#B87333'>CARRY (JPY) &nbsp;"
+            f"<span style='color:#3a3020'>awaiting data</span></div>"
+        )
+
     # Top-3 transitions HTML
     t_rows = ""
     for t in top3[:3]:
@@ -897,7 +972,7 @@ def render_posture_gauge(regime: dict) -> None:
         )
 
     # ── Render three columns ───────────────────────────────────────────────
-    col_left, col_mid, col_right = st.columns([2, 2, 2])
+    col_left, col_mid, col_right, col_flows = st.columns([2, 2, 2, 2])
 
     with col_left:
         st.markdown(
@@ -936,8 +1011,8 @@ def render_posture_gauge(regime: dict) -> None:
             f"{on_row}{off_row}"
             f"<div style='color:#B87333;font-family:Fira Code,monospace;"
             f"font-size:9px;letter-spacing:2px;margin:12px 0 12px'>"
-            f"REGIME MOMENTUM</div>"
-            f"{m10_row}{m20_row}"
+            f"REGIME MOMENTUM &amp; VELOCITY</div>"
+            f"{m10_row}{m20_row}{accel_row}"
             f"<div style='color:{streak_color};font-family:Fira Code,monospace;"
             f"font-size:11px;margin-top:4px'>"
             f"&#8635; STREAK &nbsp;"
@@ -947,7 +1022,24 @@ def render_posture_gauge(regime: dict) -> None:
             unsafe_allow_html=True,
         )
 
-    with col_right:
+    with col_flows:
+        st.markdown(
+            f"<div style='background:{PANEL_BG};border:1px solid #2a2a2a;"
+            f"padding:22px;min-height:200px'>"
+            f"<div style='color:#B87333;font-family:Fira Code,monospace;"
+            f"font-size:9px;letter-spacing:2px;margin-bottom:14px'>"
+            f"CAPITAL FLOWS SIGNALS</div>"
+            f"{rr_html}"
+            f"{carry_html}"
+            f"<div style='border-top:1px solid #2a2a2a;padding-top:10px;"
+            f"margin-top:4px;font-family:Fira Code,monospace;font-size:8px;"
+            f"color:#3a3020;line-height:14px'>"
+            f"REAL RATE: negative = liquidity<br/>expansion; falling = melt-up<br/>"
+            f"setup forming (Capital Flows)<br/><br/>"
+            f"CARRY: JPY surge = risk-off;<br/>JPY weak = carry expansion</div>"
+            f"</div>",
+            unsafe_allow_html=True,
+        )
         st.markdown(
             f"<div style='background:{PANEL_BG};border:1px solid #2a2a2a;"
             f"padding:22px;min-height:200px'>"

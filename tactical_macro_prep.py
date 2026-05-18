@@ -177,12 +177,36 @@ def main():
         from narrative_regime_model import run as run_narrative_regime
         regime_result = run_narrative_regime()
         if regime_result:
+            # Inject real rate + carry signals from narrative compute into the
+            # regime result so they're stored in narrative_regime.parquet
+            if nar:
+                for field in ("real_rate_10y", "real_rate_direction", "real_rate_label",
+                              "carry_jpy_5d", "carry_signal"):
+                    if regime_result.get(field) is None and nar.get(field) is not None:
+                        regime_result[field] = nar[field]
+
+            # Re-save with enriched fields
+            from narrative_regime_model import save_regime_snapshot
+            save_regime_snapshot(regime_result)
+
+            rr   = regime_result.get("real_rate_10y")
+            rrl  = regime_result.get("real_rate_label", "?")
+            rrd  = regime_result.get("real_rate_direction", "?")
+            cs   = regime_result.get("carry_signal", "?")
+            acl  = regime_result.get("acceleration_label", "?")
             log.info(
                 f"✅ narrative_regime.parquet  "
                 f"posture={regime_result['posture']} "
-                f"({regime_result['posture_confidence']:.0%} confidence) | "
-                f"regime_score={regime_result['regime_score']:.2f} | "
-                f"P(->risk-on)={regime_result['p_risk_on_next']:.2f}"
+                f"({regime_result['posture_confidence']:.0%}) | "
+                f"score={regime_result['regime_score']:.2f} | "
+                f"accel={acl} | "
+                f"real_rate={rr:.2f}% [{rrl} {rrd}] | "
+                f"carry={cs}"
+                if rr is not None else
+                f"✅ narrative_regime.parquet  "
+                f"posture={regime_result['posture']} | "
+                f"score={regime_result['regime_score']:.2f} | "
+                f"accel={acl}"
             )
         else:
             log.warning("Narrative regime model returned no result.")

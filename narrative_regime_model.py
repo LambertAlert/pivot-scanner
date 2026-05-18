@@ -297,18 +297,42 @@ def compute_regime_posture(history_path: str = NARRATIVE_HISTORY_PATH) -> Option
 
     momentum_10d = risk_on_pct(10)
     momentum_20d = risk_on_pct(20)
+    momentum_5d  = risk_on_pct(5)
+
+    # ── Narrative acceleration ─────────────────────────────────────────────
+    # Capital Flows insight: rate of change matters as much as level.
+    # Acceleration = short-window momentum minus longer-window baseline.
+    # Positive = regime improving faster than the trend (add exposure).
+    # Negative = regime deteriorating relative to trend (reduce exposure).
+    narrative_acceleration = round(momentum_10d - momentum_20d, 3)
+    if   narrative_acceleration >= 0.20:  acceleration_label = "ACCELERATING"
+    elif narrative_acceleration >= 0.08:  acceleration_label = "IMPROVING"
+    elif narrative_acceleration <= -0.20: acceleration_label = "DECELERATING"
+    elif narrative_acceleration <= -0.08: acceleration_label = "DETERIORATING"
+    else:                                  acceleration_label = "STABLE"
 
     # ── Posture classification ─────────────────────────────────────────────
+    # Acceleration modulates confidence: ACCELERATING boosts BUY_RIP conviction,
+    # DECELERATING lowers it and can flip NEUTRAL → early AVOID warning.
     posture, posture_confidence = classify_posture(
         current_state_id, p_risk_on_next, momentum_10d
     )
+    # Confidence modifier from acceleration
+    if acceleration_label in ("ACCELERATING", "IMPROVING") and posture == "BUY_RIP":
+        posture_confidence = min(1.0, round(posture_confidence + 0.06, 3))
+    elif acceleration_label in ("DECELERATING", "DETERIORATING") and posture in ("BUY_RIP", "NEUTRAL"):
+        posture_confidence = max(0.0, round(posture_confidence - 0.06, 3))
 
     # ── Regime score (0–1 composite) ───────────────────────────────────────
-    regime_score = (
+    # Acceleration adds a directional modifier: improving regimes score
+    # higher, deteriorating regimes score lower, capped at ±0.08.
+    accel_bonus = max(-0.08, min(0.08, narrative_acceleration * 0.4))
+    regime_score = round(min(1.0, max(0.0,
         W_TRANSITION   * p_risk_on_next
         + W_MOMENTUM_10D * momentum_10d
         + W_MOMENTUM_20D * momentum_20d
-    )
+        + accel_bonus
+    )), 3)
 
     # ── Streak ─────────────────────────────────────────────────────────────
     streak_days, streak_class = compute_streak(state_seq)
@@ -372,7 +396,11 @@ def compute_regime_posture(history_path: str = NARRATIVE_HISTORY_PATH) -> Option
         # Regime momentum
         "momentum_10d":        round(momentum_10d, 3),
         "momentum_20d":        round(momentum_20d, 3),
-        "regime_score":        round(regime_score, 3),
+        "momentum_5d":         round(momentum_5d, 3),
+        "regime_score":        regime_score,
+        # Narrative acceleration (Capital Flows: velocity matters as much as level)
+        "narrative_acceleration": narrative_acceleration,
+        "acceleration_label":     acceleration_label,
         # Streak
         "streak_days":         streak_days,
         "streak_class":        streak_class,
@@ -381,6 +409,13 @@ def compute_regime_posture(history_path: str = NARRATIVE_HISTORY_PATH) -> Option
         "next_state_name":     next_state_name,
         "next_state_prob":     next_state_prob,
         "top3_transitions":    top3_transitions,
+        # Real rates + carry — populated by tactical_data_layer when available,
+        # None when FRED/FX data is unavailable (graceful degradation)
+        "real_rate_10y":       None,   # DFII10: 10Y TIPS real yield
+        "real_rate_direction": None,   # "FALLING" / "RISING" / "FLAT"
+        "real_rate_label":     None,   # "NEGATIVE" / "NEAR ZERO" / "POSITIVE"
+        "carry_jpy_5d":        None,   # JPY/USD 5-day % change (carry proxy)
+        "carry_signal":        None,   # "UNWIND" / "STABLE" / "EXPANSION"
         # Full transition row for debug/display (from current state only)
         "transition_row_json": json.dumps(
             {STATE_NAMES.get(i + 1, f"State {i+1}"): round(float(p), 3)
@@ -448,13 +483,18 @@ def _print_summary(result: dict) -> None:
     bar_on  = "▓" * int(p_on  * 20)
     bar_off = "▓" * int(p_off * 20)
 
+    accel = result["narrative_acceleration"]
+    accel_arrow = "▲" if accel > 0.08 else ("▼" if accel < -0.08 else "→")
+
     print(f"\n  Current state  : [{result['current_state_id']}] {result['current_state_name']}"
           f"  ({result['current_class']})")
     print(f"  Streak         : {result['streak_days']} days in {result['streak_class']}")
     print(f"\n  P(→ risk-on)   : {p_on:.3f}  {bar_on}")
     print(f"  P(→ risk-off)  : {p_off:.3f}  {bar_off}")
-    print(f"\n  Momentum 10d   : {result['momentum_10d']:.1%}  of days risk-on")
-    print(f"  Momentum 20d   : {result['momentum_20d']:.1%}  of days risk-on")
+    print(f"\n  Momentum  5d   : {result['momentum_5d']:.1%}")
+    print(f"  Momentum 10d   : {result['momentum_10d']:.1%}")
+    print(f"  Momentum 20d   : {result['momentum_20d']:.1%}")
+    print(f"  Acceleration   : {accel:+.3f}  {accel_arrow}  {result['acceleration_label']}")
     print(f"  Regime score   : {result['regime_score']:.3f}  {state_bar}")
     print(f"\n  ──────────────────────────────────────────")
     print(f"  POSTURE        : {result['posture']}  (confidence {result['posture_confidence']:.1%})")
@@ -463,6 +503,11 @@ def _print_summary(result: dict) -> None:
     else:
         print(f"  P(buy the dip) : {result['p_buy_dip']:.3f}")
     print(f"  P(avoid)       : {result['p_avoid']:.3f}")
+    if result.get("real_rate_10y") is not None:
+        print(f"\n  Real Rate 10Y  : {result['real_rate_10y']:.2f}%  [{result['real_rate_label']}]"
+              f"  {result['real_rate_direction']}")
+    if result.get("carry_signal") is not None:
+        print(f"  Carry (JPY 5d) : {result['carry_jpy_5d']:+.2f}%  [{result['carry_signal']}]")
     print(f"\n  Top 3 next states:")
     for t in result["top3_transitions"]:
         bar = "▓" * int(t["probability"] * 20)
