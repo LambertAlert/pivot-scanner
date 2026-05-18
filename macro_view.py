@@ -1040,6 +1040,8 @@ def render_posture_gauge(regime: dict) -> None:
             f"</div>",
             unsafe_allow_html=True,
         )
+
+    with col_right:
         st.markdown(
             f"<div style='background:{PANEL_BG};border:1px solid #2a2a2a;"
             f"padding:22px;min-height:200px'>"
