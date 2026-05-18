@@ -155,6 +155,11 @@ THEMES = {
         "TTMI", "TWLO", "UMC", "URI", "VECO", "VELO", "VIAV", "VPG", "VSTS", "WOLF",
         "XMTR"
     ],
+        "leopold_holdings": [
+        "AMD", "APLD", "ASML", "BE", "BITF", "BTDR", "BW", "CLSK", "CORZ",
+        "CRWV", "GLW", "HIVE", "INTC", "IREN", "KEEL", "MU", "NVDA", "PSIX",
+        "PUMP", "RIOT", "SEI", "SHAZ", "SMH", "SNDK", "TE", "TSM", "WYFI"
+    ],
     }
 
 # =============================================================================
@@ -200,6 +205,7 @@ THEME_TO_MACRO_GROUPS = {
     "Cybersecurity_FounderLed":     ["Idiosyncratic"],
     "Insurance_InsureTech":         ["Idiosyncratic"],
     "trump_portfolio": ["Idiosyncratic"],
+    "leopold_holdings": ["Idiosyncratic"],
 }
 
 # =============================================================================
