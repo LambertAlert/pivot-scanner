@@ -20,7 +20,7 @@ import os
 import json
 import logging
 import warnings
-from datetime import datetime
+from datetime import datetime, timedelta
 
 import numpy as np
 import pandas as pd
@@ -30,6 +30,45 @@ logging.basicConfig(level=logging.INFO, format="%(asctime)s %(levelname)s %(mess
 log = logging.getLogger(__name__)
 
 os.makedirs("data", exist_ok=True)
+
+
+def fetch_real_rate_fred() -> dict:
+    """
+    Fetch 10-year TIPS real yield (DFII10) from FRED API.
+    Returns dict with real_rate_10y, real_rate_direction, real_rate_label.
+    Gracefully returns None values if FRED_API_KEY is missing or fetch fails.
+    """
+    result = {"real_rate_10y": None, "real_rate_direction": None, "real_rate_label": None}
+    api_key = os.environ.get("FRED_API_KEY", "")
+    if not api_key:
+        log.warning("FRED_API_KEY not set — real rate signal unavailable")
+        return result
+    try:
+        from fredapi import Fred
+        fred = Fred(api_key=api_key)
+        start = (datetime.now() - timedelta(days=30)).strftime("%Y-%m-%d")
+        series = fred.get_series("DFII10", observation_start=start).dropna()
+        if len(series) < 6:
+            return result
+        real_rate_10y = round(float(series.iloc[-1]), 3)
+        rr_5d_ago     = float(series.iloc[-6])
+        rr_change     = real_rate_10y - rr_5d_ago
+        if   rr_change <= -0.08: real_rate_direction = "FALLING"
+        elif rr_change >=  0.08: real_rate_direction = "RISING"
+        else:                     real_rate_direction = "FLAT"
+        if   real_rate_10y < 0.0:  real_rate_label = "NEGATIVE"
+        elif real_rate_10y < 0.50: real_rate_label = "NEAR ZERO"
+        elif real_rate_10y < 1.50: real_rate_label = "POSITIVE"
+        else:                       real_rate_label = "ELEVATED"
+        log.info(f"  DFII10 real rate: {real_rate_10y:.2f}% [{real_rate_label}] {real_rate_direction}")
+        return {
+            "real_rate_10y":       real_rate_10y,
+            "real_rate_direction": real_rate_direction,
+            "real_rate_label":     real_rate_label,
+        }
+    except Exception as e:
+        log.warning(f"FRED DFII10 fetch failed: {e}")
+        return result
 
 # ── Import from tactical data layer (no streamlit dependency needed here) ──
 # We patch st.cache_data to be a no-op so we can import without Streamlit
@@ -177,36 +216,32 @@ def main():
         from narrative_regime_model import run as run_narrative_regime
         regime_result = run_narrative_regime()
         if regime_result:
-            # Inject real rate + carry signals from narrative compute into the
-            # regime result so they're stored in narrative_regime.parquet
+            # Inject real rate from FRED (yfinance cannot fetch DFII10)
+            rr_data = fetch_real_rate_fred()
+            regime_result.update(rr_data)
+
+            # Inject carry signal from narrative compute (USDJPY=X via yfinance)
             if nar:
-                for field in ("real_rate_10y", "real_rate_direction", "real_rate_label",
-                              "carry_jpy_5d", "carry_signal"):
+                for field in ("carry_jpy_5d", "carry_signal"):
                     if regime_result.get(field) is None and nar.get(field) is not None:
                         regime_result[field] = nar[field]
 
-            # Re-save with enriched fields
+            # Re-save with fully enriched fields
             from narrative_regime_model import save_regime_snapshot
             save_regime_snapshot(regime_result)
 
-            rr   = regime_result.get("real_rate_10y")
-            rrl  = regime_result.get("real_rate_label", "?")
-            rrd  = regime_result.get("real_rate_direction", "?")
-            cs   = regime_result.get("carry_signal", "?")
-            acl  = regime_result.get("acceleration_label", "?")
+            rr  = regime_result.get("real_rate_10y")
+            rrl = regime_result.get("real_rate_label", "?")
+            rrd = regime_result.get("real_rate_direction", "?")
+            cs  = regime_result.get("carry_signal", "?")
+            acl = regime_result.get("acceleration_label", "?")
+            rr_str = f"real_rate={rr:.2f}% [{rrl} {rrd}]" if rr is not None else "real_rate=awaiting"
             log.info(
                 f"✅ narrative_regime.parquet  "
                 f"posture={regime_result['posture']} "
                 f"({regime_result['posture_confidence']:.0%}) | "
                 f"score={regime_result['regime_score']:.2f} | "
-                f"accel={acl} | "
-                f"real_rate={rr:.2f}% [{rrl} {rrd}] | "
-                f"carry={cs}"
-                if rr is not None else
-                f"✅ narrative_regime.parquet  "
-                f"posture={regime_result['posture']} | "
-                f"score={regime_result['regime_score']:.2f} | "
-                f"accel={acl}"
+                f"accel={acl} | {rr_str} | carry={cs}"
             )
         else:
             log.warning("Narrative regime model returned no result.")
