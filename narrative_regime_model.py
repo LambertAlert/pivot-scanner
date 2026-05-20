@@ -409,19 +409,177 @@ def compute_regime_posture(history_path: str = NARRATIVE_HISTORY_PATH) -> Option
         "next_state_name":     next_state_name,
         "next_state_prob":     next_state_prob,
         "top3_transitions":    top3_transitions,
-        # Real rates + carry — populated by tactical_data_layer when available,
-        # None when FRED/FX data is unavailable (graceful degradation)
+        # Capital flows signals — injected by tactical_macro_prep.py after FRED/FX fetch.
+        # None until injection; dashboard renders gracefully as "awaiting data".
         "real_rate_10y":       None,   # DFII10: 10Y TIPS real yield
         "real_rate_direction": None,   # "FALLING" / "RISING" / "FLAT"
-        "real_rate_label":     None,   # "NEGATIVE" / "NEAR ZERO" / "POSITIVE"
-        "carry_jpy_5d":        None,   # JPY/USD 5-day % change (carry proxy)
+        "real_rate_label":     None,   # "NEGATIVE" / "NEAR ZERO" / "POSITIVE" / "ELEVATED"
+        "carry_jpy_5d":        None,   # USDJPY=X 5-day % change (carry proxy)
         "carry_signal":        None,   # "UNWIND" / "STABLE" / "EXPANSION"
+        # Curve regime — injected by tactical_macro_prep.py from FRED T10Y2Y
+        "curve_regime":        None,   # "BEAR_STEEPENER" / "BULL_STEEPENER" / "FLATTENING" / "INVERTED" / "NEUTRAL"
+        "spread_2s10s":        None,   # 10Y-2Y spread in % (T10Y2Y)
+        "spread_5s30s":        None,   # 30Y-5Y spread in % (T30Y5Y)
+        "curve_direction":     None,   # "STEEPENING" / "FLATTENING" / "FLAT"
+        # Entry mode — computed by tactical_macro_prep.py after all injections.
+        # This is the single actionable output synthesizing all capital flows signals.
+        "entry_mode":          None,   # "CONTINUATION" / "TIGHT_MA" / "ANTICIPATION_ONLY" / "CASH"
+        "entry_mode_reason":   None,   # one-sentence plain-English rationale
         # Full transition row for debug/display (from current state only)
         "transition_row_json": json.dumps(
             {STATE_NAMES.get(i + 1, f"State {i+1}"): round(float(p), 3)
              for i, p in enumerate(p_row)}
         ),
     }
+
+
+# ═══════════════════════════════════════════════════════════════════════════════
+#  ENTRY MODE SYNTHESIS
+# ═══════════════════════════════════════════════════════════════════════════════
+
+# Thresholds matching Capital Flows framework from war room spec
+REAL_RATE_RESTRICTIVE = 1.50   # above this = tight liquidity, no chase
+CARRY_UNWIND_THRESHOLD = -1.5  # USDJPY 5d % drop ≥ this = reduce size 30-50%
+
+ENTRY_MODE_ICONS = {
+    "CONTINUATION":      "▲",
+    "TIGHT_MA":          "◆",
+    "ANTICIPATION_ONLY": "◈",
+    "CASH":              "■",
+}
+
+ENTRY_MODE_COLORS = {
+    "CONTINUATION":      "green",
+    "TIGHT_MA":          "amber",
+    "ANTICIPATION_ONLY": "blue",
+    "CASH":              "red",
+}
+
+
+def compute_entry_mode(regime: dict) -> tuple[str, str]:
+    """
+    Synthesize posture × acceleration × real rate × carry × curve into a single
+    actionable entry mode string and one-sentence reason.
+
+    Called by tactical_macro_prep.py AFTER real_rate and carry are injected
+    (those fields are None in compute_regime_posture output until injection).
+
+    Entry modes
+    -----------
+    CONTINUATION      — BUY_RIP confirmed, no liquidity headwinds; full-size
+                        continuation entries valid.
+    TIGHT_MA          — Valid longs exist but one or more liquidity constraints
+                        active; wait for 10/21 EMA pullback, no chasing extension.
+    ANTICIPATION_ONLY — BUY_DIP in progress or NEUTRAL with improving acceleration;
+                        early positioning only, half-size max, await confirmation.
+    CASH              — AVOID posture OR carry unwind active; stand aside entirely.
+
+    Returns
+    -------
+    (entry_mode: str, entry_mode_reason: str)
+    """
+    posture       = str(regime.get("posture", "NEUTRAL"))
+    accel_label   = str(regime.get("acceleration_label", "STABLE"))
+    carry_signal  = str(regime.get("carry_signal") or "STABLE")
+    curve_regime  = str(regime.get("curve_regime") or "UNKNOWN")
+
+    real_rate_raw = regime.get("real_rate_10y")
+    real_rate     = float(real_rate_raw) if real_rate_raw is not None else None
+
+    # ── Hard stops — override everything else ──────────────────────────────
+    if carry_signal == "UNWIND":
+        carry_5d = regime.get("carry_jpy_5d")
+        carry_str = f" (JPY {carry_5d:+.1f}%)" if carry_5d is not None else ""
+        return (
+            "CASH",
+            f"Carry unwind active{carry_str} — reduce size 30-50%, no new longs until JPY stabilises",
+        )
+
+    if posture == "AVOID":
+        return (
+            "CASH",
+            "Regime posture AVOID — narrative state deteriorating, stay out of longs",
+        )
+
+    # ── Liquidity constraint flags ─────────────────────────────────────────
+    rr_restrictive  = (real_rate is not None and real_rate > REAL_RATE_RESTRICTIVE)
+    bear_steepener  = (curve_regime == "BEAR_STEEPENER")
+    liquidity_tight = rr_restrictive or bear_steepener
+
+    def _rr_str():
+        if real_rate is not None:
+            return f"real rate {real_rate:+.2f}% (ELEVATED > {REAL_RATE_RESTRICTIVE:.1f}%)"
+        return "real rate elevated"
+
+    def _curve_str():
+        return "curve bear steepening (multiple compression risk)"
+
+    def _constraint_reasons():
+        parts = []
+        if rr_restrictive:
+            parts.append(_rr_str())
+        if bear_steepener:
+            parts.append(_curve_str())
+        return " + ".join(parts)
+
+    # ── BUY_RIP branch ─────────────────────────────────────────────────────
+    if posture == "BUY_RIP":
+        if liquidity_tight:
+            return (
+                "TIGHT_MA",
+                f"BUY_RIP but {_constraint_reasons()} — wait for 10/21 EMA test, no chase",
+            )
+        if accel_label in ("DECELERATING", "DETERIORATING"):
+            return (
+                "TIGHT_MA",
+                f"BUY_RIP but momentum {accel_label.lower()} — wait for MA pullback before adding",
+            )
+        # Clean BUY_RIP — acceleration neutral-to-positive, no liquidity headwinds
+        accel_note = (
+            "acceleration confirmed"
+            if accel_label in ("ACCELERATING", "IMPROVING")
+            else "momentum stable"
+        )
+        rr_note = (
+            f"real rate {real_rate:+.2f}% (below restrictive zone)"
+            if real_rate is not None
+            else "real rate data pending"
+        )
+        return (
+            "CONTINUATION",
+            f"BUY_RIP + {accel_note}, {rr_note}, carry {carry_signal.lower()} — full continuation entries valid",
+        )
+
+    # ── BUY_DIP branch ─────────────────────────────────────────────────────
+    if posture == "BUY_DIP":
+        if accel_label in ("ACCELERATING", "IMPROVING") and not liquidity_tight:
+            return (
+                "ANTICIPATION_ONLY",
+                f"BUY_DIP forming, acceleration turning positive — early positioning (half-size), await follow-through",
+            )
+        # BUY_DIP but still messy
+        constraints = []
+        if liquidity_tight:
+            constraints.append(_constraint_reasons())
+        if accel_label in ("DECELERATING", "DETERIORATING"):
+            constraints.append(f"acceleration {accel_label.lower()}")
+        constraint_note = "; ".join(constraints) if constraints else "conditions not yet confirmed"
+        return (
+            "ANTICIPATION_ONLY",
+            f"BUY_DIP signal but {constraint_note} — watch only, no full size yet",
+        )
+
+    # ── NEUTRAL fallback ───────────────────────────────────────────────────
+    # Check if we're trending toward a BUY_DIP setup
+    if accel_label in ("ACCELERATING", "IMPROVING"):
+        return (
+            "ANTICIPATION_ONLY",
+            f"NEUTRAL posture but acceleration {accel_label.lower()} — watch for BUY_DIP confirmation, no full commitment",
+        )
+    return (
+        "CASH",
+        "NEUTRAL regime — await posture clarity before committing capital",
+    )
 
 
 # ═══════════════════════════════════════════════════════════════════════════════

@@ -70,7 +70,93 @@ def fetch_real_rate_fred() -> dict:
         log.warning(f"FRED DFII10 fetch failed: {e}")
         return result
 
-# ── Import from tactical data layer (no streamlit dependency needed here) ──
+def fetch_curve_regime_fred() -> dict:
+    """
+    Fetch 10Y-2Y Treasury spread (T10Y2Y) and 30Y-5Y spread (T30Y5Y) from FRED.
+    Classifies the curve regime for use as an entry mode gate.
+
+    Bear steepener = spread widening AND 10Y yield rising = multiple compression.
+                     This gates BUY_RIP → TIGHT_MA (no chase, MA entries only).
+    Bull steepener = spread widening AND 10Y yield falling (short rates dropping).
+                     Recovery signal — positive for equities.
+    Flattening     = spread narrowing (rate normalisation or growth concern).
+    Inverted       = negative spread (growth scare / recession signal).
+    Neutral        = less than 5bp move in spread over 5 days.
+
+    Returns dict with curve_regime, spread_2s10s, spread_5s30s, curve_direction.
+    """
+    result = {
+        "curve_regime":    None,
+        "spread_2s10s":    None,
+        "spread_5s30s":    None,
+        "curve_direction": None,
+    }
+    api_key = os.environ.get("FRED_API_KEY", "")
+    if not api_key:
+        log.warning("FRED_API_KEY not set — curve regime signal unavailable")
+        return result
+    try:
+        from fredapi import Fred
+        fred  = Fred(api_key=api_key)
+        start = (datetime.now() - timedelta(days=45)).strftime("%Y-%m-%d")
+
+        # 10Y-2Y spread
+        t10y2y = fred.get_series("T10Y2Y", observation_start=start).dropna()
+        if len(t10y2y) < 6:
+            log.warning("T10Y2Y: insufficient data for curve regime")
+            return result
+
+        spread_now = float(t10y2y.iloc[-1])
+        spread_5d  = float(t10y2y.iloc[-6])
+        spread_chg = round(spread_now - spread_5d, 3)   # positive = steepening
+
+        # 10Y yield direction determines bear vs bull steepener
+        dgs10 = fred.get_series("DGS10", observation_start=start).dropna()
+        t10y_chg = None
+        if len(dgs10) >= 6:
+            t10y_chg = float(dgs10.iloc[-1]) - float(dgs10.iloc[-6])
+
+        # Classify
+        STEEPEN_THRESHOLD = 0.05   # 5bp change = meaningful
+        if abs(spread_chg) < STEEPEN_THRESHOLD:
+            curve_regime    = "INVERTED" if spread_now < 0 else "NEUTRAL"
+            curve_direction = "FLAT"
+        elif spread_chg > 0:
+            curve_direction = "STEEPENING"
+            if t10y_chg is not None and t10y_chg > 0.05:
+                # 10Y rising AND spread widening = bear steepener
+                curve_regime = "BEAR_STEEPENER"
+            else:
+                # Short rates falling faster OR 10Y flat = bull steepener
+                curve_regime = "BULL_STEEPENER"
+        else:
+            curve_direction = "FLATTENING"
+            curve_regime    = "INVERTED" if spread_now < 0 else "FLATTENING"
+
+        result.update({
+            "curve_regime":    curve_regime,
+            "spread_2s10s":    round(spread_now, 3),
+            "curve_direction": curve_direction,
+        })
+
+        # 30Y-5Y spread (T30Y5Y) — secondary curve read
+        try:
+            t30y5y = fred.get_series("T30Y5Y", observation_start=start).dropna()
+            if not t30y5y.empty:
+                result["spread_5s30s"] = round(float(t30y5y.iloc[-1]), 3)
+        except Exception:
+            pass
+
+        log.info(
+            f"  Curve regime: {curve_regime}  "
+            f"2s10s={spread_now:+.2f}%  5d_chg={spread_chg:+.3f}  "
+            f"direction={curve_direction}"
+        )
+    except Exception as e:
+        log.warning(f"FRED curve regime fetch failed: {e}")
+    return result
+
+
 # We patch st.cache_data to be a no-op so we can import without Streamlit
 import unittest.mock as mock
 import sys
@@ -226,6 +312,17 @@ def main():
                     if regime_result.get(field) is None and nar.get(field) is not None:
                         regime_result[field] = nar[field]
 
+            # Inject curve regime (T10Y2Y / T30Y5Y via FRED)
+            curve_data = fetch_curve_regime_fred()
+            regime_result.update(curve_data)
+
+            # Compute entry mode — requires posture + accel + real_rate + carry + curve
+            # Must run AFTER all injections above so all inputs are available.
+            from narrative_regime_model import compute_entry_mode
+            entry_mode, entry_mode_reason = compute_entry_mode(regime_result)
+            regime_result["entry_mode"]        = entry_mode
+            regime_result["entry_mode_reason"] = entry_mode_reason
+
             # Re-save with fully enriched fields
             from narrative_regime_model import save_regime_snapshot
             save_regime_snapshot(regime_result)
@@ -235,13 +332,16 @@ def main():
             rrd = regime_result.get("real_rate_direction", "?")
             cs  = regime_result.get("carry_signal", "?")
             acl = regime_result.get("acceleration_label", "?")
+            crv = regime_result.get("curve_regime", "?")
+            em  = regime_result.get("entry_mode", "?")
             rr_str = f"real_rate={rr:.2f}% [{rrl} {rrd}]" if rr is not None else "real_rate=awaiting"
             log.info(
                 f"✅ narrative_regime.parquet  "
                 f"posture={regime_result['posture']} "
                 f"({regime_result['posture_confidence']:.0%}) | "
                 f"score={regime_result['regime_score']:.2f} | "
-                f"accel={acl} | {rr_str} | carry={cs}"
+                f"accel={acl} | {rr_str} | carry={cs} | curve={crv} | "
+                f"entry_mode={em}"
             )
         else:
             log.warning("Narrative regime model returned no result.")

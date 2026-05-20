@@ -830,6 +830,13 @@ def render_posture_gauge(regime: dict) -> None:
     next_state_id = int(regime.get("next_state_id") or 0)
     next_prob    = float(regime.get("next_state_prob") or 0.0)
 
+    entry_mode        = str(regime.get("entry_mode") or "")
+    entry_mode_reason = str(regime.get("entry_mode_reason") or "")
+    curve_regime      = str(regime.get("curve_regime") or "")
+    spread_2s10s      = regime.get("spread_2s10s")
+    spread_5s30s      = regime.get("spread_5s30s")
+    curve_direction   = str(regime.get("curve_direction") or "")
+
     # Acceleration (Capital Flows: velocity matters as much as level)
     accel       = float(regime.get("narrative_acceleration") or 0.0)
     accel_label = str(regime.get("acceleration_label") or "STABLE")
@@ -971,6 +978,66 @@ def render_posture_gauge(regime: dict) -> None:
             f"</div>"
         )
 
+    # Curve regime block
+    CURVE_COLORS = {
+        "BEAR_STEEPENER": RED,
+        "BULL_STEEPENER": GREEN,
+        "FLATTENING":     COPPER,
+        "INVERTED":       RED,
+        "NEUTRAL":        AMBER,
+        "UNKNOWN":        GREY,
+        "":               GREY,
+    }
+    curve_color   = CURVE_COLORS.get(curve_regime, GREY)
+    crv_2s10s_str = f"{spread_2s10s:+.2f}%" if spread_2s10s is not None else "—"
+    crv_5s30s_str = f" · 5s30s {spread_5s30s:+.2f}%" if spread_5s30s is not None else ""
+    crv_dir_str   = f" [{curve_direction}]" if curve_direction else ""
+    crv_warn      = " · MULTIPLE COMPRESSION RISK" if curve_regime == "BEAR_STEEPENER" else (
+                    " · RECOVERY SIGNAL" if curve_regime == "BULL_STEEPENER" else "")
+    if curve_regime and curve_regime not in ("", "UNKNOWN"):
+        curve_html = (
+            f"<div style='margin-bottom:11px;font-family:Fira Code,monospace'>"
+            f"<div style='font-size:9px;color:#B87333;letter-spacing:1px;margin-bottom:3px'>"
+            f"CURVE REGIME (2S10S)</div>"
+            f"<span style='font-size:12px;font-weight:700;color:{curve_color}'>"
+            f"{curve_regime}</span>"
+            f"<span style='font-size:9px;color:{curve_color};margin-left:6px'>"
+            f"{crv_2s10s_str}{crv_5s30s_str}{crv_dir_str}{crv_warn}</span>"
+            f"</div>"
+        )
+    else:
+        curve_html = (
+            f"<div style='margin-bottom:11px;font-family:Fira Code,monospace;"
+            f"font-size:9px;color:#B87333'>CURVE REGIME (2S10S)&nbsp;"
+            f"<span style='color:#3a3020'>awaiting data</span></div>"
+        )
+
+    # Entry mode display assets (used in banner below 4-col section)
+    EM_COLORS = {
+        "CONTINUATION":      GREEN,
+        "TIGHT_MA":          AMBER,
+        "ANTICIPATION_ONLY": "#88ddff",
+        "CASH":              RED,
+        "":                  GREY,
+    }
+    EM_ICONS = {
+        "CONTINUATION":      "▲",
+        "TIGHT_MA":          "◆",
+        "ANTICIPATION_ONLY": "◈",
+        "CASH":              "■",
+        "":                  "?",
+    }
+    EM_BORDER = {
+        "CONTINUATION":      GREEN,
+        "TIGHT_MA":          AMBER,
+        "ANTICIPATION_ONLY": "#88ddff",
+        "CASH":              RED,
+        "":                  GREY,
+    }
+    em_color  = EM_COLORS.get(entry_mode, GREY)
+    em_icon   = EM_ICONS.get(entry_mode, "?")
+    em_border = EM_BORDER.get(entry_mode, GREY)
+
     # ── Render three columns ───────────────────────────────────────────────
     col_left, col_mid, col_right, col_flows = st.columns([2, 2, 2, 2])
 
@@ -1031,12 +1098,14 @@ def render_posture_gauge(regime: dict) -> None:
             f"CAPITAL FLOWS SIGNALS</div>"
             f"{rr_html}"
             f"{carry_html}"
+            f"{curve_html}"
             f"<div style='border-top:1px solid #2a2a2a;padding-top:10px;"
             f"margin-top:4px;font-family:Fira Code,monospace;font-size:8px;"
             f"color:#3a3020;line-height:14px'>"
-            f"REAL RATE: negative = liquidity<br/>expansion; falling = melt-up<br/>"
-            f"setup forming (Capital Flows)<br/><br/>"
-            f"CARRY: JPY surge = risk-off;<br/>JPY weak = carry expansion</div>"
+            f"REAL RATE: negative = liquidity expansion;<br/>"
+            f"falling = melt-up setup (Capital Flows)<br/><br/>"
+            f"CARRY: JPY surge = risk-off unwind;<br/>"
+            f"CURVE: bear steep = multiple compression</div>"
             f"</div>",
             unsafe_allow_html=True,
         )
@@ -1056,6 +1125,43 @@ def render_posture_gauge(regime: dict) -> None:
             f"[{next_state_id}] {next_state}</span>"
             f"<span style='color:#FFA500'> &nbsp;{next_prob:.0%}</span>"
             f"</div></div>",
+            unsafe_allow_html=True,
+        )
+
+    # ── Entry Mode Banner — full-width synthesis row ───────────────────────
+    # This is the single actionable output: posture × accel × real rate ×
+    # carry × curve → one instruction for the trading session.
+    if entry_mode:
+        em_label = entry_mode.replace("_", " ")
+        st.markdown(
+            f"<div style='background:{PANEL_BG};border:2px solid {em_border};"
+            f"border-left:6px solid {em_border};"
+            f"padding:18px 24px;margin-top:16px;"
+            f"clip-path:polygon(0 0,calc(100% - 10px) 0,100% 10px,100% 100%,0 100%)'>"
+            f"<div style='display:flex;justify-content:space-between;align-items:center;'>"
+            f"<div>"
+            f"<div style='color:#B87333;font-family:Fira Code,monospace;"
+            f"font-size:9px;letter-spacing:3px;margin-bottom:6px'>"
+            f"ENTRY MODE — CAPITAL FLOWS SYNTHESIS</div>"
+            f"<div style='color:{em_color};font-family:Orbitron,monospace;"
+            f"font-size:24px;font-weight:900;letter-spacing:4px;'>"
+            f"{em_icon} {em_label}</div>"
+            f"</div>"
+            f"<div style='font-family:Fira Code,monospace;font-size:12px;"
+            f"color:#ede8d9;max-width:60%;text-align:right;line-height:1.5;'>"
+            f"{entry_mode_reason}"
+            f"</div>"
+            f"</div>"
+            f"</div>",
+            unsafe_allow_html=True,
+        )
+    else:
+        st.markdown(
+            f"<div style='background:{PANEL_BG};border:1px solid #2a2a2a;"
+            f"padding:12px 24px;margin-top:16px;font-family:Fira Code,monospace;"
+            f"font-size:9px;color:#3a3020;letter-spacing:2px'>"
+            f"ENTRY MODE — awaiting capital flows data (run tactical_macro_prep.py)"
+            f"</div>",
             unsafe_allow_html=True,
         )
 
