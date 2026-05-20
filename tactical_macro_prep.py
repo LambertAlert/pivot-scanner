@@ -109,6 +109,7 @@ def fetch_fed_stance_fred() -> dict:
     return result
 
 
+def fetch_curve_regime_fred() -> dict:
     """
     Fetch 10Y-2Y Treasury spread (T10Y2Y) and 30Y-5Y spread (T30Y5Y) from FRED.
     Classifies the curve regime for use as an entry mode gate.
