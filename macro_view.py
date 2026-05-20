@@ -114,6 +114,66 @@ def load_narrative_regime() -> dict:
         return {}
 
 
+@st.cache_data(ttl=3600)
+def load_posture_history() -> list:
+    """
+    Load rolling 30-day regime_score history from narrative_regime_history.parquet.
+    Used for the sparkline in the posture gauge. Returns list of {date, regime_score} dicts.
+    """
+    import os
+    path = "data/narrative_regime_history.parquet"
+    if not os.path.exists(path):
+        return []
+    try:
+        import pandas as pd
+        df = pd.read_parquet(path)
+        if df.empty or "regime_score" not in df.columns:
+            return []
+        date_col = next((c for c in df.columns if "generated_at" in c or "date" in c.lower()), None)
+        if date_col:
+            df = df.sort_values(date_col).tail(30)
+            df["_date"] = pd.to_datetime(df[date_col]).dt.strftime("%m-%d")
+        else:
+            df = df.tail(30)
+            df["_date"] = range(len(df))
+        return [{"date": str(r["_date"]), "score": float(r["regime_score"])}
+                for _, r in df.iterrows() if pd.notna(r["regime_score"])]
+    except Exception:
+        return []
+    """
+    Load pre-computed narrative regime posture from parquet.
+    Written by narrative_regime_model.py (called from tactical_macro_prep.py).
+    Returns empty dict if file is missing — gauge renders gracefully as unavailable.
+    """
+    import os, json
+    path = "data/narrative_regime.parquet"
+    if not os.path.exists(path):
+        return {}
+    try:
+        import pandas as pd
+        df = pd.read_parquet(path)
+        if df.empty:
+            return {}
+        row = df.iloc[0].to_dict()
+        # Parquet may return list columns as numpy arrays or keep JSON strings —
+        # handle all cases for the serialized fields.
+        for key in ("top3_transitions", "transition_row_json"):
+            val = row.get(key)
+            if val is None:
+                continue
+            if isinstance(val, str):
+                try:
+                    row[key] = json.loads(val)
+                except Exception:
+                    pass
+            elif hasattr(val, "tolist"):      # numpy array from parquet object col
+                row[key] = val.tolist()
+            # already a list/dict — leave as-is
+        return row
+    except Exception:
+        return {}
+
+
 # =============================================================================
 # RENDERING HELPERS
 # =============================================================================
@@ -677,6 +737,25 @@ def render_stress_tape(metrics):
             delta_color="good" if (chg or 0) > 0 else "bad",
             value_color=color,
         ), unsafe_allow_html=True)
+        # Credit impulse — velocity of HYG/LQD (rate of change signals tightening/easing)
+        ci_signal = stress.get("credit_impulse_signal")
+        ci_5d     = stress.get("credit_impulse_5d")
+        ci_20d    = stress.get("credit_impulse_20d")
+        if ci_signal:
+            ci_color = GREEN if ci_signal == "EXPANDING" else RED if ci_signal == "CONTRACTING" else COPPER
+            ci_str   = f"{ci_5d:+.3f}% 5d / {ci_20d:+.3f}% 20d" if ci_5d is not None and ci_20d is not None else ""
+            st.markdown(
+                f"<div style='background:{PANEL_BG};border:1px solid #2a2a2a;"
+                f"border-left:3px solid {ci_color};padding:8px 12px;margin-top:6px'>"
+                f"<div style='color:#B87333;font-family:Fira Code,monospace;font-size:8px;"
+                f"letter-spacing:1px'>CREDIT IMPULSE</div>"
+                f"<div style='color:{ci_color};font-family:Orbitron,monospace;"
+                f"font-size:12px;font-weight:700;margin-top:2px'>{ci_signal}</div>"
+                f"<div style='color:#B87333;font-family:Fira Code,monospace;"
+                f"font-size:9px'>{ci_str}</div>"
+                f"</div>",
+                unsafe_allow_html=True,
+            )
         st.markdown(f"<div style='color:{COPPER};font-family:Fira Code,monospace;font-size:10px;padding:6px 0'>Credit appetite: rising = risk-on</div>", unsafe_allow_html=True)
 
     with c2:
@@ -836,6 +915,11 @@ def render_posture_gauge(regime: dict) -> None:
     spread_2s10s      = regime.get("spread_2s10s")
     spread_5s30s      = regime.get("spread_5s30s")
     curve_direction   = str(regime.get("curve_direction") or "")
+    dxy_5d            = regime.get("dxy_5d")
+    dxy_signal        = str(regime.get("dxy_signal") or "")
+    fed_rate          = regime.get("fed_rate")
+    fed_stance        = str(regime.get("fed_stance") or "")
+    fed_rate_change   = regime.get("fed_rate_change")
 
     # Acceleration (Capital Flows: velocity matters as much as level)
     accel       = float(regime.get("narrative_acceleration") or 0.0)
@@ -1038,6 +1122,51 @@ def render_posture_gauge(regime: dict) -> None:
     em_icon   = EM_ICONS.get(entry_mode, "?")
     em_border = EM_BORDER.get(entry_mode, GREY)
 
+    # DXY signal block
+    DXY_COLORS = {"WEAKENING": GREEN, "STRENGTHENING": RED, "STABLE": COPPER, "": GREY}
+    dxy_color = DXY_COLORS.get(dxy_signal, GREY)
+    if dxy_signal and dxy_5d is not None:
+        dxy_note = (" · liquidity expansion" if dxy_signal == "WEAKENING"
+                    else " · global tightening" if dxy_signal == "STRENGTHENING" else "")
+        dxy_html = (
+            f"<div style='margin-bottom:11px;font-family:Fira Code,monospace'>"
+            f"<div style='font-size:9px;color:#B87333;letter-spacing:1px;margin-bottom:3px'>"
+            f"DXY (5D)</div>"
+            f"<span style='font-size:13px;font-weight:700;color:{dxy_color}'>"
+            f"{dxy_signal}</span>"
+            f"<span style='font-size:9px;color:{dxy_color};margin-left:6px'>"
+            f"{dxy_5d:+.2f}%{dxy_note}</span>"
+            f"</div>"
+        )
+    else:
+        dxy_html = (
+            f"<div style='margin-bottom:11px;font-family:Fira Code,monospace;"
+            f"font-size:9px;color:#B87333'>DXY &nbsp;"
+            f"<span style='color:#3a3020'>awaiting data</span></div>"
+        )
+
+    # Fed stance block
+    FED_COLORS = {"HIKING": RED, "CUTTING": GREEN, "HOLDING": COPPER, "": GREY}
+    fed_color = FED_COLORS.get(fed_stance, GREY)
+    if fed_stance and fed_rate is not None:
+        fed_chg_str = f" ({fed_rate_change:+.2f}% 3m)" if fed_rate_change is not None else ""
+        fed_html = (
+            f"<div style='margin-bottom:11px;font-family:Fira Code,monospace'>"
+            f"<div style='font-size:9px;color:#B87333;letter-spacing:1px;margin-bottom:3px'>"
+            f"FED STANCE (FEDTARMD)</div>"
+            f"<span style='font-size:13px;font-weight:700;color:{fed_color}'>"
+            f"{fed_stance}</span>"
+            f"<span style='font-size:9px;color:{fed_color};margin-left:6px'>"
+            f"{fed_rate:.2f}%{fed_chg_str}</span>"
+            f"</div>"
+        )
+    else:
+        fed_html = (
+            f"<div style='margin-bottom:11px;font-family:Fira Code,monospace;"
+            f"font-size:9px;color:#B87333'>FED STANCE &nbsp;"
+            f"<span style='color:#3a3020'>awaiting data</span></div>"
+        )
+
     # ── Render three columns ───────────────────────────────────────────────
     col_left, col_mid, col_right, col_flows = st.columns([2, 2, 2, 2])
 
@@ -1099,13 +1228,15 @@ def render_posture_gauge(regime: dict) -> None:
             f"{rr_html}"
             f"{carry_html}"
             f"{curve_html}"
+            f"{dxy_html}"
+            f"{fed_html}"
             f"<div style='border-top:1px solid #2a2a2a;padding-top:10px;"
             f"margin-top:4px;font-family:Fira Code,monospace;font-size:8px;"
             f"color:#3a3020;line-height:14px'>"
             f"REAL RATE: negative = liquidity expansion;<br/>"
-            f"falling = melt-up setup (Capital Flows)<br/><br/>"
-            f"CARRY: JPY surge = risk-off unwind;<br/>"
-            f"CURVE: bear steep = multiple compression</div>"
+            f"falling = melt-up setup (Capital Flows)<br/>"
+            f"DXY weak + RR falling = max expansion<br/>"
+            f"FED CUTTING + CURVE BULL = recovery</div>"
             f"</div>",
             unsafe_allow_html=True,
         )
@@ -1129,8 +1260,6 @@ def render_posture_gauge(regime: dict) -> None:
         )
 
     # ── Entry Mode Banner — full-width synthesis row ───────────────────────
-    # This is the single actionable output: posture × accel × real rate ×
-    # carry × curve → one instruction for the trading session.
     if entry_mode:
         em_label = entry_mode.replace("_", " ")
         st.markdown(
@@ -1164,6 +1293,37 @@ def render_posture_gauge(regime: dict) -> None:
             f"</div>",
             unsafe_allow_html=True,
         )
+
+    # ── 30-day regime_score sparkline ─────────────────────────────────────
+    history = load_posture_history()
+    if history:
+        import plotly.graph_objects as go
+        hist_fig = go.Figure()
+        hist_fig.add_trace(go.Scatter(
+            x=[h["date"] for h in history],
+            y=[h["score"] for h in history],
+            mode="lines+markers",
+            line=dict(color=p_color, width=2),
+            marker=dict(size=4, color=p_color),
+            fill="tozeroy",
+            fillcolor=f"rgba{tuple(int(p_color.lstrip('#')[i:i+2],16) for i in (0,2,4)) + (0.08,)}"
+                      if p_color.startswith("#") else "rgba(255,165,0,0.08)",
+            hovertemplate="<b>%{x}</b><br>Score: %{y:.3f}<extra></extra>",
+        ))
+        hist_fig.add_hline(y=0.6, line=dict(color=GREEN, width=0.8, dash="dot"))
+        hist_fig.add_hline(y=0.4, line=dict(color=RED,   width=0.8, dash="dot"))
+        hist_fig.update_layout(
+            height=80,
+            margin=dict(l=0, r=0, t=18, b=0),
+            plot_bgcolor=PANEL_BG, paper_bgcolor=PANEL_BG,
+            showlegend=False,
+            title=dict(text="30D REGIME SCORE HISTORY",
+                       font=dict(family="Fira Code", size=9, color=COPPER), x=0),
+            xaxis=dict(visible=True, color=COPPER, tickfont=dict(size=8), showgrid=False),
+            yaxis=dict(visible=True, color=COPPER, tickfont=dict(size=8),
+                       range=[0, 1], showgrid=False),
+        )
+        st.plotly_chart(hist_fig, use_container_width=True)
 
 
 # =============================================================================

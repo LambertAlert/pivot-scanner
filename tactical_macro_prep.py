@@ -70,7 +70,45 @@ def fetch_real_rate_fred() -> dict:
         log.warning(f"FRED DFII10 fetch failed: {e}")
         return result
 
-def fetch_curve_regime_fred() -> dict:
+def fetch_fed_stance_fred() -> dict:
+    """
+    Fetch FEDTARMD (federal funds target rate, median) from FRED.
+    Classifies the Fed stance over a rolling 120-day window.
+
+    HIKING  = rate higher than 120 days ago by > 10bp
+    CUTTING = rate lower than 120 days ago by > 10bp
+    HOLDING = rate unchanged within ±10bp
+
+    Returns dict with fed_rate, fed_stance, fed_rate_change.
+    """
+    result = {"fed_rate": None, "fed_stance": None, "fed_rate_change": None}
+    api_key = os.environ.get("FRED_API_KEY", "")
+    if not api_key:
+        return result
+    try:
+        from fredapi import Fred
+        fred  = Fred(api_key=api_key)
+        start = (datetime.now() - timedelta(days=130)).strftime("%Y-%m-%d")
+        series = fred.get_series("FEDTARMD", observation_start=start).dropna()
+        if len(series) < 2:
+            return result
+        fed_rate       = round(float(series.iloc[-1]), 3)
+        rate_3m_ago    = round(float(series.iloc[0]),  3)
+        rate_change    = round(fed_rate - rate_3m_ago, 3)
+        if   rate_change >  0.10: fed_stance = "HIKING"
+        elif rate_change < -0.10: fed_stance = "CUTTING"
+        else:                      fed_stance = "HOLDING"
+        result.update({
+            "fed_rate":        fed_rate,
+            "fed_stance":      fed_stance,
+            "fed_rate_change": rate_change,
+        })
+        log.info(f"  FEDTARMD: {fed_rate:.2f}% [{fed_stance}] 3m_change={rate_change:+.2f}%")
+    except Exception as e:
+        log.warning(f"FRED FEDTARMD fetch failed: {e}")
+    return result
+
+
     """
     Fetch 10Y-2Y Treasury spread (T10Y2Y) and 30Y-5Y spread (T30Y5Y) from FRED.
     Classifies the curve regime for use as an entry mode gate.
@@ -306,11 +344,15 @@ def main():
             rr_data = fetch_real_rate_fred()
             regime_result.update(rr_data)
 
-            # Inject carry signal from narrative compute (USDJPY=X via yfinance)
+            # Inject carry + DXY from narrative compute (yfinance USDJPY=X, DX-Y.NYB)
             if nar:
-                for field in ("carry_jpy_5d", "carry_signal"):
+                for field in ("carry_jpy_5d", "carry_signal", "dxy_5d", "dxy_signal"):
                     if regime_result.get(field) is None and nar.get(field) is not None:
                         regime_result[field] = nar[field]
+
+            # Inject Fed stance (FEDTARMD via FRED)
+            fed_data = fetch_fed_stance_fred()
+            regime_result.update(fed_data)
 
             # Inject curve regime (T10Y2Y / T30Y5Y via FRED)
             curve_data = fetch_curve_regime_fred()
@@ -327,21 +369,23 @@ def main():
             from narrative_regime_model import save_regime_snapshot
             save_regime_snapshot(regime_result)
 
-            rr  = regime_result.get("real_rate_10y")
-            rrl = regime_result.get("real_rate_label", "?")
-            rrd = regime_result.get("real_rate_direction", "?")
-            cs  = regime_result.get("carry_signal", "?")
-            acl = regime_result.get("acceleration_label", "?")
-            crv = regime_result.get("curve_regime", "?")
-            em  = regime_result.get("entry_mode", "?")
+            rr   = regime_result.get("real_rate_10y")
+            rrl  = regime_result.get("real_rate_label", "?")
+            rrd  = regime_result.get("real_rate_direction", "?")
+            cs   = regime_result.get("carry_signal", "?")
+            acl  = regime_result.get("acceleration_label", "?")
+            crv  = regime_result.get("curve_regime", "?")
+            em   = regime_result.get("entry_mode", "?")
+            dxy  = regime_result.get("dxy_signal", "?")
+            fed  = regime_result.get("fed_stance", "?")
             rr_str = f"real_rate={rr:.2f}% [{rrl} {rrd}]" if rr is not None else "real_rate=awaiting"
             log.info(
                 f"✅ narrative_regime.parquet  "
                 f"posture={regime_result['posture']} "
                 f"({regime_result['posture_confidence']:.0%}) | "
                 f"score={regime_result['regime_score']:.2f} | "
-                f"accel={acl} | {rr_str} | carry={cs} | curve={crv} | "
-                f"entry_mode={em}"
+                f"accel={acl} | {rr_str} | carry={cs} | dxy={dxy} | "
+                f"fed={fed} | curve={crv} | entry_mode={em}"
             )
         else:
             log.warning("Narrative regime model returned no result.")

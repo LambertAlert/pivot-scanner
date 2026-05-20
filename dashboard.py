@@ -243,6 +243,15 @@ vol_data       = load_vol_compression()
 posture_data   = load_posture()
 today_triggers = _triggers()
 daily_data     = _daily()
+
+# Float/market cap lookup keyed by ticker (populated by daily_screener.py for HIGH/MED)
+_daily_float_lookup = {
+    e["ticker"]: {
+        "float_shares": e.get("float_shares"),
+        "market_cap":   e.get("market_cap"),
+    }
+    for e in daily_data.get("entries", [])
+}
 weekly_data    = _weekly()
 cur            = macro.get("current", {})
 now            = datetime.now()
@@ -262,6 +271,38 @@ _posture_class = {
     "NEUTRAL":  "amber",
 }.get(_posture, "amber") if posture_data else "amber"
 _posture_sub = f"{float(_posture_conf):.0%} conf · score {float(_regime_score):.2f}" if posture_data else "awaiting data"
+
+# Entry mode (Capital Flows synthesis — shown as gate banner on trading tabs)
+_entry_mode        = str(posture_data.get("entry_mode") or "") if posture_data else ""
+_entry_mode_reason = str(posture_data.get("entry_mode_reason") or "") if posture_data else ""
+_EM_COLORS = {
+    "CONTINUATION":      "var(--green)",
+    "TIGHT_MA":          "var(--accent)",
+    "ANTICIPATION_ONLY": "var(--blue)",
+    "CASH":              "var(--red)",
+}
+_EM_ICONS  = {"CONTINUATION":"▲","TIGHT_MA":"◆","ANTICIPATION_ONLY":"◈","CASH":"■"}
+_em_color  = _EM_COLORS.get(_entry_mode, "var(--muted)")
+_em_icon   = _EM_ICONS.get(_entry_mode, "")
+_em_label  = _entry_mode.replace("_", " ")
+
+
+def _entry_mode_gate_html(entry_mode, icon, color, reason):
+    """Compact full-width entry mode gate banner for trading tabs."""
+    if not entry_mode:
+        return ""
+    reason_escaped = str(reason).replace("'", "&#39;")
+    return (
+        f"<div style='background:rgba(10,10,14,0.9);border-left:4px solid {color};"
+        f"padding:.6rem 1.1rem;margin-bottom:1rem;display:flex;"
+        f"justify-content:space-between;align-items:center;'>"
+        f"<div style='font-family:var(--display);font-size:.75rem;font-weight:700;"
+        f"color:{color};letter-spacing:.1em;white-space:nowrap;'>"
+        f"{icon} {entry_mode.replace('_',' ')}</div>"
+        f"<div style='font-family:var(--mono);font-size:.68rem;color:var(--text);"
+        f"margin-left:1.2rem;text-align:right;opacity:.85;'>{reason_escaped}</div>"
+        f"</div>"
+    )
 
 # ── Masthead ──────────────────────────────────────────────────────────────────
 st.markdown(f"""
@@ -412,6 +453,32 @@ with tab_index:
     <div class='kpi-val red'>{phase_counts.get('EXHAUSTION', 0)}</div>
     <div class='kpi-sub'>distribution risk</div>
   </div>
+</div>
+        """, unsafe_allow_html=True)
+
+        # ── Cycle Phase Alignment Summary ──────────────────────────────────────
+        n_actionable   = phase_counts.get("EMA_CROSSBACK", 0) + phase_counts.get("TREND_CONTINUATION", 0)
+        n_total_phases = len(all_data)
+        pct_actionable = int(n_actionable / n_total_phases * 100) if n_total_phases else 0
+        align_color    = "green" if pct_actionable >= 60 else "amber" if pct_actionable >= 35 else "red"
+        align_label    = ("HIGH ALIGNMENT — broad entry window" if pct_actionable >= 60
+                          else "MIXED — selective entries only" if pct_actionable >= 35
+                          else "LOW ALIGNMENT — avoid new longs")
+        st.markdown(f"""
+<div style='background:var(--panel);border-left:4px solid var(--{align_color});
+     padding:.7rem 1.1rem;margin-bottom:1rem;display:flex;
+     justify-content:space-between;align-items:center;'>
+  <div>
+    <div style='font-family:var(--display);font-size:.5rem;color:var(--muted);
+         letter-spacing:.18em;text-transform:uppercase;margin-bottom:.25rem;'>
+      Kell Phase Alignment</div>
+    <div style='font-family:var(--display);font-size:.9rem;font-weight:700;
+         color:var(--{align_color});'>{n_actionable} / {n_total_phases} in actionable phase</div>
+  </div>
+  <div style='font-family:var(--mono);font-size:.72rem;color:var(--text);
+       opacity:.8;text-align:right;'>{align_label}</div>
+  <div style='font-family:var(--display);font-size:1.4rem;font-weight:900;
+       color:var(--{align_color});margin-left:1.5rem;'>{pct_actionable}%</div>
 </div>
         """, unsafe_allow_html=True)
 
@@ -760,6 +827,9 @@ with tab_spec:
 
 # ─── TAB 3: ACTIVE TRIGGERS ───────────────────────────────────────────────────
 with tab3:
+    # Entry mode gate — compact banner showing current capital flows posture
+    if _entry_mode:
+        st.markdown(_entry_mode_gate_html(_entry_mode, _em_icon, _em_color, _entry_mode_reason), unsafe_allow_html=True)
     st.markdown("<div class='sec-bar'><div class='sec-bar-line'></div><div class='sec-bar-label'>Today's Pivot Triggers</div><div class='sec-bar-line'></div></div>", unsafe_allow_html=True)
     if not today_triggers:
         st.markdown("<div style='font-family:var(--mono);color:var(--muted);padding:2rem;text-align:center;'>No triggers today — scanner runs at :01 and :31</div>", unsafe_allow_html=True)
@@ -807,6 +877,15 @@ with tab3:
             ep_tier = t.get("ep_tier", "NONE")
             rs_rat  = t.get("rs_rating")
             ttype   = t.get("trigger_type", "PIVOT")  # PIVOT or ORB
+            # Float from daily watchlist cross-reference
+            _fl     = _daily_float_lookup.get(t.get("ticker",""), {})
+            float_s = _fl.get("float_shares")
+            mktcap  = _fl.get("market_cap")
+            def _fmt_float(v):
+                if v is None: return "—"
+                if v >= 1_000_000_000: return f"{v/1_000_000_000:.1f}B"
+                if v >= 1_000_000:     return f"{v/1_000_000:.0f}M"
+                return f"{v:,}"
 
             # Card border — ORB gets distinct blue border
             if ttype == "ORB":
@@ -896,6 +975,12 @@ with tab3:
     <div><div class='t-field-lbl'>RS Rating</div><div class='t-field-val {"green" if (rs_rat or 0)>=80 else "amber" if (rs_rat or 0)>=60 else ""}'>{rs_rat or "—"}</div></div>
   </div>
 
+  <div class='t-grid' style='margin-bottom:.6rem;padding-top:.4rem;border-top:1px solid var(--border2);'>
+    <div><div class='t-field-lbl'>Float</div><div class='t-field-val blue'>{_fmt_float(float_s)}</div></div>
+    <div><div class='t-field-lbl'>Market Cap</div><div class='t-field-val'>{_fmt_float(mktcap)}</div></div>
+    <div></div><div></div>
+  </div>
+
   <div style='font-family:var(--mono);font-size:.7rem;color:var(--muted);padding-top:.4rem;border-top:1px solid var(--border2);'>
     {t.get("entry_note","")} · Stage W{t.get("weekly_stage","")} · Trend {t.get("trend_template","")}/8 · BBUW D{t.get("daily_bbuw",0):.0f}/W{t.get("weekly_bbuw",0):.0f} · {str(t.get("trigger_time",""))[:19]} UTC
   </div>
@@ -910,6 +995,10 @@ with tab4:
     if not daily_entries:
         st.info("No daily watchlist. Run daily_screener.py.")
     else:
+        # Entry mode gate
+        if _entry_mode:
+            st.markdown(_entry_mode_gate_html(_entry_mode, _em_icon, _em_color, _entry_mode_reason), unsafe_allow_html=True)
+
         dl1,dl2,dl3,dl4 = st.columns([1,1,1.5,1])
         with dl1:
             conv_p = st.multiselect("Conviction",["HIGH","MED","LOW"],default=["HIGH","MED"],key="dl_conv")
@@ -942,12 +1031,21 @@ with tab4:
         if "pivot_8w_tier" in df.columns:
             df["8W Pivot"] = df["pivot_8w_tier"].map(tier_emoji_map).fillna("—")
 
+        # Volume surge badge — cross-reference fresh surge log
+        fresh_surge_tickers = {
+            e.get("ticker","")
+            for e in volume_data.get("events", [])
+            if e.get("is_fresh")
+        }
+        if "ticker" in df.columns:
+            df["📊 Vol"] = df["ticker"].apply(lambda t: "📊" if t in fresh_surge_tickers else "")
+
         dcols = [c for c in [
-            "ticker", "conviction", "8W Pivot", "ep_tier", "ep_score",
+            "ticker", "conviction", "📊 Vol", "pct_from_ema8", "8W Pivot", "ep_tier", "ep_score",
             "theme", "industry", "industry_rank", "theme_rank",
             "weekly_stage", "trend_template",
             "weekly_bbuw", "daily_bbuw",
-            "ema8", "pct_from_ema8",
+            "ema8",
             "near_resistance", "resistance_level", "resistance_distance_pct",
         ] if c in df.columns]
 
@@ -971,11 +1069,23 @@ with tab4:
                 if v >= 40: return "background-color:#111111;color:#cccccc"
                 return "background-color:#1a0e0e;color:#cc4444"
             except: return ""
+
+        def ema_ext_bg(v):
+            """Color pct_from_ema8: red = extended >7%, amber = 4-7%, green = tight <4%."""
+            try:
+                v = float(v)
+                if v > 7.0:  return "background-color:#2a0e0e;color:#ff6666;font-weight:700"
+                if v > 4.0:  return "background-color:#1a1408;color:#FFA500"
+                if v >= 0:   return "background-color:#0a1a12;color:#00cc66"
+                return "background-color:#111111;color:#888"
+            except: return ""
+
         dl_styled = (
             df[dcols].style
             .map(lambda v: conviction_colors.get(str(v), ""), subset=["conviction"] if "conviction" in df.columns else [])
             .map(lambda v: ep_tier_colors.get(str(v), ""), subset=["ep_tier"] if "ep_tier" in dcols else [])
             .map(dl_bg, subset=[c for c in ["weekly_bbuw","daily_bbuw","trend_template","industry_rank","ep_score"] if c in dcols])
+            .map(ema_ext_bg, subset=["pct_from_ema8"] if "pct_from_ema8" in dcols else [])
             .set_properties(**{
                 "background-color": "#111111",
                 "color": "#cccccc",
@@ -1088,18 +1198,70 @@ with tab4:
 </div>
                 """, unsafe_allow_html=True)
 
-        # BBUW drill-down
-        st.markdown("<div class='sec-bar'><div class='sec-bar-line'></div><div class='sec-bar-label'>BBUW Component Drill-Down</div><div class='sec-bar-line'></div></div>", unsafe_allow_html=True)
+        # BBUW + Conviction Drill-Down
+        st.markdown("<div class='sec-bar'><div class='sec-bar-line'></div><div class='sec-bar-label'>Conviction + BBUW Component Drill-Down</div><div class='sec-bar-line'></div></div>", unsafe_allow_html=True)
         ins = st.selectbox("Inspect ticker",[e["ticker"] for e in daily_entries],key="dl_ins")
         sel = next((e for e in daily_entries if e["ticker"]==ins),None)
-        if sel and sel.get("daily_bbuw_components"):
-            cd = pd.DataFrame([{"Component":k.replace("_"," ").title(),"Score":v}
-                                for k,v in sel["daily_bbuw_components"].items()])
-            fig_c = px.bar(cd, x="Component", y="Score", color="Score",
-                           color_continuous_scale=["#e05c5c","#f5a623","#4caf7d"],
-                           range_color=[0,100], title=f"BBUW Components — {ins}")
-            fig_c.update_layout(**PL, showlegend=False, coloraxis_showscale=False, height=250)
-            st.plotly_chart(fig_c, use_container_width=True)
+        if sel:
+            ic1, ic2 = st.columns([1, 1])
+            with ic1:
+                # Conviction score breakdown using scoring formula
+                w_bbuw  = sel.get("weekly_bbuw",  0) or 0
+                d_bbuw  = sel.get("daily_bbuw",   0) or 0
+                tt      = sel.get("trend_template", 0) or 0
+                ir      = sel.get("industry_rank", 99) or 99
+                piv     = sel.get("pivot_8w_tier", "NONE") or "NONE"
+                ep      = sel.get("ep_tier", "NONE") or "NONE"
+                scoring_rows = [
+                    ("Weekly BBUW ≥60",   1 if w_bbuw >= 60 else 0, "+1 if ≥60"),
+                    ("Weekly BBUW ≥75",   1 if w_bbuw >= 75 else 0, "+1 if ≥75"),
+                    ("Daily BBUW ≥60",    1 if d_bbuw >= 60 else 0, "+1 if ≥60"),
+                    ("Daily BBUW ≥75",    1 if d_bbuw >= 75 else 0, "+1 if ≥75"),
+                    ("Trend Template ≥6", 1 if tt >= 6 else 0,       "+1 if ≥6"),
+                    ("Trend Template =8", 1 if tt == 8 else 0,        "+1 if =8"),
+                    ("Ind.Rank ≤10",      1 if ir <= 10 else 0,      "+1 if ≤10"),
+                    ("Ind.Rank ≤3",       1 if ir <= 3  else 0,       "+1 if ≤3"),
+                    ("8W Pivot STD",      1 if piv == "STANDARD" else 0, "+1 if STD"),
+                    ("8W Pivot STRONG",   2 if piv == "STRONG"   else 0, "+2 if STRONG"),
+                    ("EP WATCH",          1 if ep == "WATCH"     else 0, "+1 if WATCH"),
+                    ("EP STANDARD",       2 if ep == "STANDARD"  else 0, "+2 if STD"),
+                    ("EP STRONG",         3 if ep == "STRONG"    else 0, "+3 if STRONG"),
+                ]
+                total_pts = sum(r[1] for r in scoring_rows)
+                conv_label = "HIGH" if total_pts >= 7 else "MED" if total_pts >= 4 else "LOW"
+                conv_color = "#00ff88" if conv_label=="HIGH" else "#FFA500" if conv_label=="MED" else "#cc4444"
+                with st.expander(f"📊 Conviction Breakdown — {ins}  ({total_pts} pts → {conv_label})", expanded=True):
+                    rows_html = ""
+                    for name, pts, rule in scoring_rows:
+                        pt_color = "#00ff88" if pts > 0 else "#333"
+                        rows_html += (
+                            f"<div style='display:flex;justify-content:space-between;"
+                            f"padding:.2rem 0;border-bottom:1px solid #1a1a1a;"
+                            f"font-family:Fira Code,monospace;font-size:.75rem;'>"
+                            f"<span style='color:#888;'>{name}</span>"
+                            f"<span style='color:#555;font-size:.65rem;'>{rule}</span>"
+                            f"<span style='color:{pt_color};font-weight:700;min-width:2rem;text-align:right;'>"
+                            f"+{pts}</span></div>"
+                        )
+                    st.markdown(
+                        f"<div style='background:#0a0a0e;border:1px solid #2a2a2a;padding:.8rem;'>"
+                        f"{rows_html}"
+                        f"<div style='display:flex;justify-content:space-between;padding:.4rem 0 0 0;"
+                        f"font-family:Orbitron,monospace;font-size:.8rem;'>"
+                        f"<span style='color:#B87333;'>TOTAL</span>"
+                        f"<span style='color:{conv_color};font-weight:700;'>{total_pts} pts → {conv_label}</span>"
+                        f"</div></div>",
+                        unsafe_allow_html=True,
+                    )
+            with ic2:
+                if sel.get("daily_bbuw_components"):
+                    cd = pd.DataFrame([{"Component":k.replace("_"," ").title(),"Score":v}
+                                        for k,v in sel["daily_bbuw_components"].items()])
+                    fig_c = px.bar(cd, x="Component", y="Score", color="Score",
+                                   color_continuous_scale=["#e05c5c","#f5a623","#4caf7d"],
+                                   range_color=[0,100], title=f"BBUW Components — {ins}")
+                    fig_c.update_layout(**PL, showlegend=False, coloraxis_showscale=False, height=250)
+                    st.plotly_chart(fig_c, use_container_width=True)
 
 # ─── TAB RADAR: SETUPS RADAR ──────────────────────────────────────────────────
 with tab_radar:
@@ -1335,15 +1497,26 @@ with tab5:
             """, unsafe_allow_html=True)
 
         # ── Filter ─────────────────────────────────────────────────────────────
-        if "pivot_8w_tier" in wdf.columns:
-            tier_filter = st.multiselect(
-                "8W Pivot tier",
-                ["STRONG", "STANDARD", "WEAK", "PROXIMITY", "NONE"],
-                default=["STRONG", "STANDARD", "PROXIMITY"],
-                key="weekly_8w_filter",
+        wf1, wf2 = st.columns([1, 2])
+        with wf1:
+            # Weinstein: default to Stage 1/2 — declining names are noise
+            wstage_f = st.multiselect(
+                "Stage filter", [1, 2, 3, 4], default=[1, 2],
+                key="weekly_stage_filter",
+                help="Weinstein: Stage 1 = basing, Stage 2 = advancing. Stage 3/4 hidden by default.",
             )
-            if tier_filter:
-                wdf = wdf[wdf["pivot_8w_tier"].isin(tier_filter)]
+            if wstage_f and "stage" in wdf.columns:
+                wdf = wdf[wdf["stage"].isin(wstage_f)]
+        with wf2:
+            if "pivot_8w_tier" in wdf.columns:
+                tier_filter = st.multiselect(
+                    "8W Pivot tier",
+                    ["STRONG", "STANDARD", "WEAK", "PROXIMITY", "NONE"],
+                    default=["STRONG", "STANDARD", "PROXIMITY"],
+                    key="weekly_8w_filter",
+                )
+                if tier_filter:
+                    wdf = wdf[wdf["pivot_8w_tier"].isin(tier_filter)]
 
         # ── Table ──────────────────────────────────────────────────────────────
         wd = [c for c in [

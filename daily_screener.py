@@ -33,6 +33,32 @@ MIN_DAILY_BBUW_SCORE    = 40
 # Batch download config
 BATCH_CHUNK = 200   # yfinance handles ~200 tickers cleanly; splits if larger
 
+
+def fetch_float_data(tickers: list) -> dict:
+    """
+    Fetch float shares and market cap for a list of tickers via yfinance .info.
+    Used for HIGH/MED conviction names only — float is a key factor for EP setups.
+
+    Note: yfinance .info is serial (no batch equivalent for metadata). This is
+    intentionally called only on the final qualified list (~15-40 tickers) to
+    minimise request count. Move to weekly_screener.py once that file is wired.
+
+    Returns {ticker: {"float_shares": int|None, "market_cap": int|None}}
+    """
+    result = {}
+    for tk in tickers:
+        try:
+            info = yf.Ticker(tk).info
+            result[tk] = {
+                "float_shares": info.get("floatShares"),
+                "market_cap":   info.get("marketCap"),
+            }
+        except Exception:
+            result[tk] = {"float_shares": None, "market_cap": None}
+    return result
+
+
+
 logging.basicConfig(
     level=LOG_LEVEL,
     format="%(asctime)s  %(levelname)-8s  %(message)s",
@@ -333,6 +359,22 @@ def main():
 
     conviction_order = {"HIGH": 0, "MED": 1, "LOW": 2}
     qualified.sort(key=lambda x: (conviction_order[x["conviction"]], -x["daily_bbuw"]))
+
+    # ── Float / market cap fetch (HIGH+MED tickers only — serial .info calls) ─
+    high_med_tickers = [e["ticker"] for e in qualified if e["conviction"] in ("HIGH", "MED")]
+    if high_med_tickers:
+        log.info(f"Fetching float data for {len(high_med_tickers)} HIGH/MED tickers...")
+        float_data = fetch_float_data(high_med_tickers)
+        for entry in qualified:
+            fd = float_data.get(entry["ticker"], {})
+            entry["float_shares"] = fd.get("float_shares")
+            entry["market_cap"]   = fd.get("market_cap")
+    # LOW conviction: set None (don't fetch to save time)
+    for entry in qualified:
+        if "float_shares" not in entry:
+            entry["float_shares"] = None
+            entry["market_cap"]   = None
+
     save_daily_watchlist(qualified)
 
     high_count   = sum(1 for r in qualified if r["conviction"] == "HIGH")

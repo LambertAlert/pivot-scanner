@@ -411,11 +411,17 @@ def compute_regime_posture(history_path: str = NARRATIVE_HISTORY_PATH) -> Option
         "top3_transitions":    top3_transitions,
         # Capital flows signals — injected by tactical_macro_prep.py after FRED/FX fetch.
         # None until injection; dashboard renders gracefully as "awaiting data".
-        "real_rate_10y":       None,   # DFII10: 10Y TIPS real yield
-        "real_rate_direction": None,   # "FALLING" / "RISING" / "FLAT"
-        "real_rate_label":     None,   # "NEGATIVE" / "NEAR ZERO" / "POSITIVE" / "ELEVATED"
-        "carry_jpy_5d":        None,   # USDJPY=X 5-day % change (carry proxy)
-        "carry_signal":        None,   # "UNWIND" / "STABLE" / "EXPANSION"
+        "real_rate_10y":       None,
+        "real_rate_direction": None,
+        "real_rate_label":     None,
+        "carry_jpy_5d":        None,
+        "carry_signal":        None,
+        "dxy_5d":              None,   # DXY 5-day % change (injected from compute_narrative)
+        "dxy_signal":          None,   # "STRENGTHENING" / "WEAKENING" / "STABLE"
+        # Fed stance — injected by tactical_macro_prep.py from FRED FEDTARMD
+        "fed_rate":            None,   # current federal funds target rate (%)
+        "fed_stance":          None,   # "HIKING" / "CUTTING" / "HOLDING"
+        "fed_rate_change":     None,   # 3-month change in fed rate
         # Curve regime — injected by tactical_macro_prep.py from FRED T10Y2Y
         "curve_regime":        None,   # "BEAR_STEEPENER" / "BULL_STEEPENER" / "FLATTENING" / "INVERTED" / "NEUTRAL"
         "spread_2s10s":        None,   # 10Y-2Y spread in % (T10Y2Y)
@@ -482,6 +488,7 @@ def compute_entry_mode(regime: dict) -> tuple[str, str]:
     accel_label   = str(regime.get("acceleration_label", "STABLE"))
     carry_signal  = str(regime.get("carry_signal") or "STABLE")
     curve_regime  = str(regime.get("curve_regime") or "UNKNOWN")
+    dxy_signal    = str(regime.get("dxy_signal") or "STABLE")
 
     real_rate_raw = regime.get("real_rate_10y")
     real_rate     = float(real_rate_raw) if real_rate_raw is not None else None
@@ -545,9 +552,16 @@ def compute_entry_mode(regime: dict) -> tuple[str, str]:
             if real_rate is not None
             else "real rate data pending"
         )
+        dxy_note = (
+            ", DXY weakening (liquidity expansion tailwind)"
+            if dxy_signal == "WEAKENING"
+            else ", DXY strengthening (watch for EM/commodity drag)"
+            if dxy_signal == "STRENGTHENING"
+            else ""
+        )
         return (
             "CONTINUATION",
-            f"BUY_RIP + {accel_note}, {rr_note}, carry {carry_signal.lower()} — full continuation entries valid",
+            f"BUY_RIP + {accel_note}, {rr_note}{dxy_note}, carry {carry_signal.lower()} — full continuation entries valid",
         )
 
     # ── BUY_DIP branch ─────────────────────────────────────────────────────

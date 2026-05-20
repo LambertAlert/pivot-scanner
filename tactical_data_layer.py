@@ -311,11 +311,28 @@ def compute_narrative(prices):
         if jpy is not None and len(jpy) >= 6:
             jpy_now    = float(jpy.iloc[-1])
             jpy_5d_ago = float(jpy.iloc[-6])
-            # Positive = USD/JPY rising = JPY weakening = carry expanding
             carry_jpy_5d = round(((jpy_now / jpy_5d_ago) - 1) * 100, 3)
-            if   carry_jpy_5d <= -1.5: carry_signal = "UNWIND"      # JPY surging vs USD
-            elif carry_jpy_5d >=  1.0: carry_signal = "EXPANSION"   # USD/JPY rising = carry on
+            if   carry_jpy_5d <= -1.5: carry_signal = "UNWIND"
+            elif carry_jpy_5d >=  1.0: carry_signal = "EXPANSION"
             else:                       carry_signal = "STABLE"
+    except Exception:
+        pass
+
+    # ── DXY Direction Signal (Capital Flows: falling DXY = global liquidity expansion) ─
+    # DXY already fetched as part of narrative (DX-Y.NYB).
+    # Weakening DXY = USD losing strength = risk assets inflate = best backdrop for CONTINUATION.
+    # Strengthening DXY = USD rising = compresses EM and commodity flows = mild headwind.
+    dxy_5d     = None
+    dxy_signal = None
+    try:
+        dxy_p = prices.get("DX-Y.NYB")
+        if dxy_p is not None and len(dxy_p) >= 6:
+            dxy_now    = float(dxy_p.iloc[-1])
+            dxy_5d_ago = float(dxy_p.iloc[-6])
+            dxy_5d = round(((dxy_now / dxy_5d_ago) - 1) * 100, 3)
+            if   dxy_5d >=  0.8: dxy_signal = "STRENGTHENING"
+            elif dxy_5d <= -0.8: dxy_signal = "WEAKENING"
+            else:                 dxy_signal = "STABLE"
     except Exception:
         pass
 
@@ -338,6 +355,9 @@ def compute_narrative(prices):
         "real_rate_label":     real_rate_label,
         "carry_jpy_5d":        carry_jpy_5d,
         "carry_signal":        carry_signal,
+        # DXY direction (Capital Flows: liquidity expansion indicator)
+        "dxy_5d":              dxy_5d,
+        "dxy_signal":          dxy_signal,
     }
 
 
@@ -528,10 +548,25 @@ def compute_macro_metrics(prices):
         hyg, lqd = prices["HYG"].align(prices["LQD"], join="inner")
         ratio = (hyg / lqd).dropna()
         if len(ratio) > 50:
-            metrics["stress"]["hyg_lqd_ratio"] = float(ratio.iloc[-1])
-            metrics["stress"]["hyg_lqd_above_50"] = float(ratio.iloc[-1]) > float(ratio.rolling(50).mean().iloc[-1])
-            metrics["stress"]["hyg_lqd_5d_pct"] = (float(ratio.iloc[-1]) / float(ratio.iloc[-6]) - 1) * 100 if len(ratio) > 5 else np.nan
+            metrics["stress"]["hyg_lqd_ratio"]     = float(ratio.iloc[-1])
+            metrics["stress"]["hyg_lqd_above_50"]  = float(ratio.iloc[-1]) > float(ratio.rolling(50).mean().iloc[-1])
+            metrics["stress"]["hyg_lqd_5d_pct"]    = (float(ratio.iloc[-1]) / float(ratio.iloc[-6]) - 1) * 100 if len(ratio) > 5 else np.nan
             metrics["stress"]["hyg_lqd_series_60d"] = ratio.tail(60).reset_index().rename(columns={ratio.name: "ratio"}).to_dict("records") if hasattr(ratio, "name") else None
+            # Credit impulse: velocity of HYG/LQD ratio — rate of change signals tightening/easing
+            # Positive expanding = credit appetite improving faster than trend (risk-on confirmation)
+            # Negative contracting = credit conditions deteriorating (early warning)
+            ci_5d  = (float(ratio.iloc[-1]) / float(ratio.iloc[-6])  - 1) * 100 if len(ratio) > 5  else None
+            ci_20d = (float(ratio.iloc[-1]) / float(ratio.iloc[-21]) - 1) * 100 if len(ratio) > 20 else None
+            metrics["stress"]["credit_impulse_5d"]  = round(ci_5d,  4) if ci_5d  is not None else None
+            metrics["stress"]["credit_impulse_20d"] = round(ci_20d, 4) if ci_20d is not None else None
+            if ci_5d is not None and ci_20d is not None:
+                metrics["stress"]["credit_impulse_signal"] = (
+                    "EXPANDING"   if ci_5d > 0 and ci_5d > ci_20d else
+                    "CONTRACTING" if ci_5d < 0 and ci_5d < ci_20d else
+                    "STABLE"
+                )
+            else:
+                metrics["stress"]["credit_impulse_signal"] = None
 
     if "HYG" in prices:
         metrics["stress"]["hyg_above_50"] = above_ma(prices["HYG"], 50)
