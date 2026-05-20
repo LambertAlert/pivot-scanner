@@ -339,33 +339,50 @@ def main():
     try:
         from narrative_regime_model import run as run_narrative_regime
         regime_result = run_narrative_regime()
-        if regime_result:
-            # Inject real rate from FRED (yfinance cannot fetch DFII10)
-            rr_data = fetch_real_rate_fred()
-            regime_result.update(rr_data)
+        if not regime_result:
+            log.warning("Narrative regime model returned no result.")
+        else:
+            # Each injection step is independently try/excepted so that a failure
+            # in any one step (e.g. FRED rate limit, missing env var) cannot
+            # prevent the final save_regime_snapshot from running.
+            # run_narrative_regime() above already wrote the parquet with None
+            # placeholders — the goal here is to overwrite with real values.
 
-            # Inject carry + DXY from narrative compute (yfinance USDJPY=X, DX-Y.NYB)
-            if nar:
-                for field in ("carry_jpy_5d", "carry_signal", "dxy_5d", "dxy_signal"):
-                    if regime_result.get(field) is None and nar.get(field) is not None:
-                        regime_result[field] = nar[field]
+            try:
+                rr_data = fetch_real_rate_fred()
+                regime_result.update(rr_data)
+            except Exception as e:
+                log.warning(f"Real rate inject failed: {e}")
 
-            # Inject Fed stance (FEDTARMD via FRED)
-            fed_data = fetch_fed_stance_fred()
-            regime_result.update(fed_data)
+            try:
+                if nar:
+                    for field in ("carry_jpy_5d", "carry_signal", "dxy_5d", "dxy_signal"):
+                        if regime_result.get(field) is None and nar.get(field) is not None:
+                            regime_result[field] = nar[field]
+            except Exception as e:
+                log.warning(f"Carry/DXY inject failed: {e}")
 
-            # Inject curve regime (T10Y2Y / T30Y5Y via FRED)
-            curve_data = fetch_curve_regime_fred()
-            regime_result.update(curve_data)
+            try:
+                fed_data = fetch_fed_stance_fred()
+                regime_result.update(fed_data)
+            except Exception as e:
+                log.warning(f"Fed stance inject failed: {e}")
 
-            # Compute entry mode — requires posture + accel + real_rate + carry + curve
-            # Must run AFTER all injections above so all inputs are available.
-            from narrative_regime_model import compute_entry_mode
-            entry_mode, entry_mode_reason = compute_entry_mode(regime_result)
-            regime_result["entry_mode"]        = entry_mode
-            regime_result["entry_mode_reason"] = entry_mode_reason
+            try:
+                curve_data = fetch_curve_regime_fred()
+                regime_result.update(curve_data)
+            except Exception as e:
+                log.warning(f"Curve regime inject failed: {e}")
 
-            # Re-save with fully enriched fields
+            try:
+                from narrative_regime_model import compute_entry_mode
+                entry_mode, entry_mode_reason = compute_entry_mode(regime_result)
+                regime_result["entry_mode"]        = entry_mode
+                regime_result["entry_mode_reason"] = entry_mode_reason
+            except Exception as e:
+                log.warning(f"Entry mode compute failed: {e}")
+
+            # ── Final save — always runs regardless of which injections succeeded ──
             from narrative_regime_model import save_regime_snapshot
             save_regime_snapshot(regime_result)
 
@@ -387,8 +404,6 @@ def main():
                 f"accel={acl} | {rr_str} | carry={cs} | dxy={dxy} | "
                 f"fed={fed} | curve={crv} | entry_mode={em}"
             )
-        else:
-            log.warning("Narrative regime model returned no result.")
     except Exception as e:
         log.warning(f"Narrative regime model failed (non-fatal): {e}")
 
