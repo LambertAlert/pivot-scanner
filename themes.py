@@ -160,6 +160,65 @@ THEMES = {
         "CRWV", "GLW", "HIVE", "INTC", "IREN", "KEEL", "MU", "NVDA", "PSIX",
         "PUMP", "RIOT", "SEI", "SHAZ", "SMH", "SNDK", "TE", "TSM", "WYFI"
     ],
+
+    # ── T1: Agentic AI Applications ───────────────────────────────────────
+    # Software/applications layer — distinct from supply chain (hardware)
+    # and compute infra (hyperscalers). AI agents, copilots, workflow automation.
+    "Agentic_AI_Applications": [
+        "PLTR", "PATH", "AI", "BBAI", "SOUN", "APP", "SNOW", "DDOG", "CFLT",
+        "GTLB", "ZETA", "DOCN", "WIX", "AMBA", "VEEV", "NOW", "CRM", "HUBS",
+        "MNDY", "BILL", "MSTR", "AIOT", "PRCT", "ABST",
+    ],
+
+    # ── T2: GLP-1 / Metabolic Health ─────────────────────────────────────
+    # Ozempic/Wegovy wave + adjacent precision metabolic medicine.
+    # Distinct from Biotech_Health (broader pipeline-driven).
+    "GLP1_Metabolic_Health": [
+        "LLY", "NVO", "HIMS", "AMGN", "RGEN", "ALNY", "MDGL", "AKRO",
+        "RYTM", "ZFGN", "VRNA", "ALTM", "ELVA", "CGON", "RNAZ",
+    ],
+
+    # ── T3: Grid Electrification ──────────────────────────────────────────
+    # Utilities and grid hardware benefiting from AI/data center power demand.
+    # Different from Nuclear (fuel supply) and Power_Infrastructure (construction).
+    "Grid_Electrification": [
+        "VST", "CEG", "TLN", "NRG", "PEG", "EXC", "AES", "SO", "DUK",
+        "ETN", "HUBB", "AMPS", "GE", "CARR", "CSWI", "POWL", "EME",
+        "NVEE", "GTLS", "WTRG",
+    ],
+
+    # ── T4: Defense C4ISR & IT ────────────────────────────────────────────
+    # Intelligence, surveillance, reconnaissance and defense IT services.
+    # The "brains" side of defense spending — software/data, not platforms.
+    "Defense_C4ISR_IT": [
+        "BAH", "SAIC", "CACI", "LDOS", "PLTR", "KTOS", "MAXR", "DRS",
+        "ARIS", "BWXT", "VSEC", "KEYW", "PCTI", "CLPS",
+    ],
+
+    # ── T5: Genomics & Precision Medicine ─────────────────────────────────
+    # DNA sequencing, liquid biopsy, AI drug discovery.
+    # Platform technology companies — data and sequencing infra, not drug pipelines.
+    "Genomics_Precision_Medicine": [
+        "ILMN", "NTRA", "EXAS", "GH", "TEM", "PACB", "RXRX", "GRAL",
+        "WGS", "SEER", "OMIC", "BFLY", "TWST", "DNAY", "RLAY", "BNGO",
+    ],
+
+    # ── T6: Reshoring / Manufacturing Base ────────────────────────────────
+    # Domestic manufacturing revival — steel, construction, electrical equipment.
+    # Driven by CHIPS Act, IRA, defence supply chain onshoring.
+    "Reshoring_Manufacturing_Base": [
+        "NUE", "STLD", "CLF", "MLM", "VMC", "AGX", "POWL", "FIX", "EME",
+        "PWR", "MTZ", "AEIS", "MKS", "MKSI", "KLIC", "FORM", "ACLS",
+        "PRIM", "IESC", "MYRG",
+    ],
+
+    # ── T7: Maritime / Logistics / Shipping ───────────────────────────────
+    # Container shipping, tankers, port infrastructure.
+    # Leads/lags economic cycle inflections. Absent from prior universe.
+    "Maritime_Logistics_Shipping": [
+        "ZIM", "MATX", "SBLK", "GOGL", "EGLE", "DAC", "GNK", "NMM",
+        "CMRE", "GSL", "NMCI", "SB", "SALT", "EDRY",
+    ],
     }
 
 # =============================================================================
@@ -206,6 +265,15 @@ THEME_TO_MACRO_GROUPS = {
     "Insurance_InsureTech":         ["Idiosyncratic"],
     "trump_portfolio": ["Idiosyncratic"],
     "leopold_holdings": ["Idiosyncratic"],
+
+    # New themes T1-T7
+    "Agentic_AI_Applications":    ["Speculative_Risk_On"],
+    "GLP1_Metabolic_Health":      ["Speculative_Risk_On"],
+    "Grid_Electrification":       ["Cyclical_Expansion"],
+    "Defense_C4ISR_IT":           ["Idiosyncratic"],
+    "Genomics_Precision_Medicine": ["Speculative_Risk_On"],
+    "Reshoring_Manufacturing_Base": ["Cyclical_Expansion"],
+    "Maritime_Logistics_Shipping":  ["Cyclical_Expansion"],
 }
 
 # =============================================================================

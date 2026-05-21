@@ -68,10 +68,63 @@ def main():
     log.info("Computing theme metrics...")
     theme_records, ticker_metrics = compute_theme_metrics(prices, THEMES)
 
+    # ── D4: Per-ticker 5d vs 21d acceleration ────────────────────────────
+    # More responsive than 1M vs 3M. Captures week-vs-month momentum shifts.
+    # Positive = accelerating short-term; Negative = momentum fading.
+    from tactical_data_layer import fetch_universe as _fu
+    ticker_accel = {}
+    for tk in prices.columns:
+        s = prices[tk].dropna()
+        if len(s) < 22:
+            continue
+        r5d  = (float(s.iloc[-1]) / float(s.iloc[-6])  - 1) * 100
+        r21d = (float(s.iloc[-1]) / float(s.iloc[-22]) - 1) * 100
+        ticker_accel[tk] = r5d - r21d   # positive = recently accelerating
+
+    # ── Cross-reference EP events for D2 ─────────────────────────────────
+    ep_tickers = set()
+    try:
+        from data_layer import get_ep_events
+        ep_data = get_ep_events()
+        ep_tickers = {
+            e.get("ticker", "")
+            for e in ep_data.get("events", [])
+            if e.get("ep_tier") in ("STRONG", "STANDARD", "WATCH")
+        }
+        log.info(f"  EP events: {len(ep_tickers)} active tickers")
+    except Exception as e:
+        log.warning(f"EP events load failed: {e}")
+
+    # ── Cross-reference volume surges for D3 ─────────────────────────────
+    surge_tickers = set()
+    try:
+        from data_layer import get_volume_surges
+        vol_data = get_volume_surges()
+        surge_tickers = {
+            e.get("ticker", "")
+            for e in vol_data.get("events", [])
+            if e.get("is_fresh")
+        }
+        log.info(f"  Volume surges: {len(surge_tickers)} fresh tickers")
+    except Exception as e:
+        log.warning(f"Volume surges load failed: {e}")
+
     # ── Save 1: Per-theme aggregated state ───────────────────────────────
     theme_rows = []
     for r in theme_records:
         macro_groups = THEME_TO_MACRO_GROUPS.get(r["theme"], [])
+        theme_tickers_list = list(THEMES.get(r["theme"], []))
+
+        # D4: Theme-level acceleration = avg of (5d - 21d) per ticker in theme
+        accel_vals = [ticker_accel[t] for t in theme_tickers_list if t in ticker_accel]
+        acceleration = float(np.nanmean(accel_vals)) if accel_vals else None
+
+        # D2: Count of active EP events in this theme
+        ep_active_count = sum(1 for t in theme_tickers_list if t in ep_tickers)
+
+        # D3: Count of fresh volume surges in this theme
+        vol_surge_count = sum(1 for t in theme_tickers_list if t in surge_tickers)
+
         row = {
             "theme":             r["theme"],
             "n_tickers":         r["n_tickers"],
@@ -84,14 +137,39 @@ def main():
             "pct_up_1m":         r["pct_up_1m"],
             "top_mover_1m":      r["top_mover_1m"],
             "top_mover_1m_ret":  r["top_mover_1m_ret"],
-            "macro_groups":      json.dumps(macro_groups),  # stored as JSON string
+            "macro_groups":      json.dumps(macro_groups),
             "generated_at":      datetime.now().isoformat(),
-            # Acceleration for rotation detection
-            "acceleration":      (r["avg_1m"] - r["avg_3m"] / 3.0)
-                                 if r["avg_1m"] is not None and r["avg_3m"] is not None
-                                 else None,
+            "acceleration":      acceleration,          # D4: refined 5d vs 21d
+            "ep_active_count":   ep_active_count,       # D2
+            "vol_surge_count":   vol_surge_count,       # D3
+            "composite_score":   None,                  # D5: filled below
         }
         theme_rows.append(row)
+
+    # ── D5: Composite momentum score (0-100) ─────────────────────────────
+    # Percentile-rank each component then blend. Robust to outliers vs z-score.
+    # Components: level (1M return), breadth (% up), velocity (acceleration), activity (EP+vol)
+    if len(theme_rows) >= 3:
+        df_sc = pd.DataFrame(theme_rows)
+
+        def _pct_rank(series):
+            return series.rank(pct=True, na_option="keep").fillna(0.5) * 100
+
+        df_sc["_lvl"] = _pct_rank(df_sc["avg_1m"])
+        df_sc["_brd"] = _pct_rank(df_sc["pct_up_1m"])
+        df_sc["_vel"] = _pct_rank(df_sc["acceleration"])
+        df_sc["_act"] = _pct_rank(df_sc["ep_active_count"] + df_sc["vol_surge_count"])
+
+        df_sc["composite_score"] = (
+            0.35 * df_sc["_lvl"]
+            + 0.25 * df_sc["_brd"]
+            + 0.25 * df_sc["_vel"]
+            + 0.15 * df_sc["_act"]
+        ).round(1)
+
+        score_map = dict(zip(df_sc["theme"], df_sc["composite_score"]))
+        for row in theme_rows:
+            row["composite_score"] = float(score_map.get(row["theme"], 50.0))
 
     theme_path = "data/theme_state.parquet"
     pd.DataFrame(theme_rows).to_parquet(theme_path, index=False)
@@ -100,23 +178,25 @@ def main():
     # ── Save 2: Per-ticker metrics ────────────────────────────────────────
     ticker_rows = []
     for ticker, tm in ticker_metrics.items():
-        # Themes this ticker belongs to
         theme_memberships = [
             name for name, ticks in THEMES.items() if ticker in ticks
         ]
         row = {
-            "ticker":           ticker,
-            "last":             tm.get("last"),
-            "ret_1m":           tm.get("ret_1m"),
-            "ret_3m":           tm.get("ret_3m"),
-            "ret_6m":           tm.get("ret_6m"),
-            "ret_ytd":          tm.get("ret_ytd"),
-            "dist_52w_high":    tm.get("dist_52w_high"),
-            "above_50dma":      tm.get("above_50dma", False),
-            "above_200dma":     tm.get("above_200dma", False),
-            "n_themes":         len(theme_memberships),
+            "ticker":            ticker,
+            "last":              tm.get("last"),
+            "ret_1m":            tm.get("ret_1m"),
+            "ret_3m":            tm.get("ret_3m"),
+            "ret_6m":            tm.get("ret_6m"),
+            "ret_ytd":           tm.get("ret_ytd"),
+            "dist_52w_high":     tm.get("dist_52w_high"),
+            "above_50dma":       tm.get("above_50dma", False),
+            "above_200dma":      tm.get("above_200dma", False),
+            "n_themes":          len(theme_memberships),
             "theme_memberships": json.dumps(theme_memberships),
-            "generated_at":     datetime.now().isoformat(),
+            "has_ep":            ticker in ep_tickers,
+            "has_vol_surge":     ticker in surge_tickers,
+            "accel_5d_21d":      ticker_accel.get(ticker),
+            "generated_at":      datetime.now().isoformat(),
         }
         ticker_rows.append(row)
 
@@ -126,13 +206,22 @@ def main():
 
     # Summary
     top5 = sorted(
-        [r for r in theme_rows if r["avg_1m"] is not None],
-        key=lambda x: x["avg_1m"], reverse=True
+        [r for r in theme_rows if r["composite_score"] is not None],
+        key=lambda x: x["composite_score"], reverse=True
     )[:5]
-    log.info("\n  TOP 5 THEMES (1M avg return):")
+    log.info("\n  TOP 5 THEMES (composite score):")
     for r in top5:
-        log.info(f"    {r['theme']:<40} {r['avg_1m']:+.2f}%")
+        ep_str  = f"  EP:{r['ep_active_count']}" if r['ep_active_count'] else ""
+        vol_str = f"  VOL:{r['vol_surge_count']}" if r['vol_surge_count'] else ""
+        log.info(f"    {r['theme']:<40} score={r['composite_score']:.0f}"
+                 f"  1M={r['avg_1m']:+.1f}%  accel={r['acceleration']:+.2f}{ep_str}{vol_str}"
+                 if r['avg_1m'] is not None and r['acceleration'] is not None
+                 else f"    {r['theme']:<40} score={r['composite_score']:.0f}")
     log.info(f"\n  THEME PREP COMPLETE — {len(theme_rows)} themes, {len(ticker_rows)} tickers")
+
+
+if __name__ == "__main__":
+    main()
 
 
 if __name__ == "__main__":
