@@ -1,24 +1,24 @@
 {
-  "generated_at": "2026-05-20T23:39:47.809714",
+  "generated_at": "2026-05-21T23:17:43.919399",
   "today": {
     "spx_dir": "\u2191",
-    "dxy_dir": "\u2193",
-    "tnx_dir": "\u2193",
-    "state_id": 1,
-    "name": "Goldilocks",
-    "label": "Stocks \u2191 \u00b7 Dollar \u2193 \u00b7 Rates \u2193",
-    "sector_tilt": "Growth, semis, software, biotech",
+    "dxy_dir": "\u2191",
+    "tnx_dir": "\u2191",
+    "state_id": 3,
+    "name": "US Exceptionalism",
+    "label": "Stocks \u2191 \u00b7 Dollar \u2191 \u00b7 Rates \u2191",
+    "sector_tilt": "Large-cap quality, tech mega-caps",
     "color": "green",
     "bullish": true
   },
   "dominant_10d": {
-    "state_id": 6,
-    "name": "Stagflation / Hawkish Pain",
-    "color": "red",
-    "sector_tilt": "Cash \u2014 no longs",
-    "freq_10d_pct": 40.0
+    "state_id": 3,
+    "name": "US Exceptionalism",
+    "color": "green",
+    "sector_tilt": "Large-cap quality, tech mega-caps",
+    "freq_10d_pct": 30.0
   },
-  "bearish_days_10": 5,
+  "bearish_days_10": 4,
   "all_narratives": [
     {
       "id": 1,
@@ -51,10 +51,10 @@
       "sector_tilt": "Large-cap quality, tech mega-caps",
       "color": "green",
       "bullish": true,
-      "freq_5d_pct": 0.0,
-      "freq_10d_pct": 20.0,
-      "freq_20d_pct": 10.0,
-      "base_rate_pct": 13.8
+      "freq_5d_pct": 20.0,
+      "freq_10d_pct": 30.0,
+      "freq_20d_pct": 15.0,
+      "base_rate_pct": 13.9
     },
     {
       "id": 4,
@@ -63,10 +63,10 @@
       "sector_tilt": "Broad equity, consumer discretionary",
       "color": "green",
       "bullish": true,
-      "freq_5d_pct": 20.0,
+      "freq_5d_pct": 0.0,
       "freq_10d_pct": 10.0,
       "freq_20d_pct": 15.0,
-      "base_rate_pct": 8.8
+      "base_rate_pct": 8.7
     },
     {
       "id": 5,
@@ -88,8 +88,8 @@
       "color": "red",
       "bullish": false,
       "freq_5d_pct": 40.0,
-      "freq_10d_pct": 40.0,
-      "freq_20d_pct": 40.0,
+      "freq_10d_pct": 30.0,
+      "freq_20d_pct": 35.0,
       "base_rate_pct": 17.9
     },
     {
@@ -120,8 +120,8 @@
   "base_rates": {
     "1": 17.8,
     "2": 11.2,
-    "3": 13.8,
-    "4": 8.8,
+    "3": 13.9,
+    "4": 8.7,
     "5": 9.0,
     "6": 17.9,
     "7": 14.9,
@@ -129,14 +129,14 @@
   },
   "transitions": {
     "1": {
-      "1": 0.283,
-      "2": 0.132,
-      "3": 0.17,
-      "4": 0.094,
+      "1": 0.278,
+      "2": 0.13,
+      "3": 0.185,
+      "4": 0.093,
       "5": 0.0,
-      "6": 0.151,
-      "7": 0.094,
-      "8": 0.075
+      "6": 0.148,
+      "7": 0.093,
+      "8": 0.074
     },
     "2": {
       "1": 0.185,
@@ -159,14 +159,14 @@
       "8": 0.028
     },
     "4": {
-      "1": 0.19,
-      "2": 0.095,
-      "3": 0.143,
-      "4": 0.048,
+      "1": 0.15,
+      "2": 0.1,
+      "3": 0.15,
+      "4": 0.05,
       "5": 0.0,
-      "6": 0.143,
-      "7": 0.333,
-      "8": 0.048
+      "6": 0.15,
+      "7": 0.35,
+      "8": 0.05
     },
     "5": {
       "1": 0.176,
@@ -210,15 +210,6 @@
     }
   },
   "history_60d": [
-    {
-      "date": "2026-02-26",
-      "state_id": 5,
-      "narrative_name": "Risk-Off / Flight to Quality",
-      "color": "red",
-      "spx": "\u2193",
-      "dxy": "\u2191",
-      "tnx": "\u2193"
-    },
     {
       "date": "2026-02-27",
       "state_id": 7,
@@ -749,6 +740,15 @@
       "spx": "\u2191",
       "dxy": "\u2193",
       "tnx": "\u2193"
+    },
+    {
+      "date": "2026-05-21",
+      "state_id": 3,
+      "narrative_name": "US Exceptionalism",
+      "color": "green",
+      "spx": "\u2191",
+      "dxy": "\u2191",
+      "tnx": "\u2191"
     }
   ]
 }
