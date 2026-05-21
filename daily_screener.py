@@ -58,6 +58,34 @@ def compute_ibd_rs_factor(close_series: pd.Series) -> float:
     return sum(v * w for v, w in valid) / total_w
 
 
+def compute_daily_quick_metrics(df) -> dict:
+    """
+    Pre-compute intraday-scanner metrics from daily bars fetched by daily_screener.
+    Storing these in the watchlist JSON eliminates the batch_fetch_daily call
+    that pivot_scanner.py previously made on every intraday scan run.
+
+    Returns: atr_14d, prev_close, high_20d, low_20d
+    """
+    result = {"atr_14d": None, "prev_close": None, "high_20d": None, "low_20d": None}
+    try:
+        if df is None or len(df) < 15:
+            return result
+        close  = df["close"]
+        high   = df["high"]
+        low    = df["low"]
+        prev_c = close.shift(1)
+        tr = pd.concat([high - low, (high - prev_c).abs(), (low - prev_c).abs()], axis=1).max(axis=1)
+        atr = float(tr.ewm(span=14, adjust=False).mean().iloc[-1])
+        result["atr_14d"]    = round(atr, 4) if pd.notna(atr) else None
+        result["prev_close"] = round(float(close.iloc[-1]), 4)
+        if len(df) >= 20:
+            result["high_20d"] = round(float(high.iloc[-20:].max()), 4)
+            result["low_20d"]  = round(float(low.iloc[-20:].min()),  4)
+    except Exception:
+        pass
+    return result
+
+
 def compute_universe_rs_ratings(bars: dict) -> dict:
     """
     Compute IBD RS ratings (1-99 percentile) for all tickers in bars dict.
@@ -353,6 +381,9 @@ def main():
             skipped_bbuw += 1
             continue
 
+        # Pre-compute daily metrics for intraday scanner — avoids re-fetching daily bars
+        daily_metrics = compute_daily_quick_metrics(df_daily)
+
         theme_info      = themes.get(ticker, {"theme": "Unclassified", "rank": 99, "industry": ""})
         pivot_8w_tier   = entry.get("pivot_8w_tier", "NONE")
         ticker_industry = theme_info.get("industry", "")
@@ -400,6 +431,11 @@ def main():
             # IBD RS Rating (1-99 percentile, ranked vs full 435-ticker universe)
             "rs_rating":             universe_rs.get(ticker, {}).get("rs_rating"),
             "rs_factor":             universe_rs.get(ticker, {}).get("rs_factor"),
+            # Pre-computed daily metrics for intraday scanner (Speed 1 — no re-fetch)
+            "atr_14d":               daily_metrics.get("atr_14d"),
+            "prev_close":            daily_metrics.get("prev_close"),
+            "high_20d":              daily_metrics.get("high_20d"),
+            "low_20d":               daily_metrics.get("low_20d"),
         })
 
     conviction_order = {"HIGH": 0, "MED": 1, "LOW": 2}

@@ -23,6 +23,7 @@ SECTOR_THEMES_JSON       = "data/sector_themes.json"
 INDUSTRY_RANKS_JSON      = "data/industry_ranks.json"
 VOLUME_SURGES_JSON       = "data/volume_surges.json"
 EP_EVENTS_JSON           = "data/ep_events.json"
+TRIGGER_CONTINUATIONS_JSON = "data/trigger_continuations.json"
 
 
 # ═══════════════════════════════════════════════════════════════════════════════
@@ -351,6 +352,28 @@ def get_volume_surges() -> dict:
         "count":        0,
         "events":       [],
     })
+
+
+def save_trigger_continuations(data: dict):
+    """
+    Persist end-of-session continuation grades for today's triggers.
+    data: {"scan_time": str, "market_date": str,
+           "grades": {ticker_direction_key: grade_dict}}
+    Written by pivot_scanner.py continuation grader at ~21:00 UTC.
+    """
+    data["market_date"] = datetime.now().strftime("%Y-%m-%d")
+    write_json(TRIGGER_CONTINUATIONS_JSON, data)
+
+
+def get_trigger_continuations() -> dict:
+    """Load today's continuation grades. Returns empty dict if missing or stale."""
+    data = read_json(TRIGGER_CONTINUATIONS_JSON, default={
+        "scan_time": None, "market_date": None, "grades": {}
+    })
+    today = datetime.now().strftime("%Y-%m-%d")
+    if data.get("market_date") != today:
+        return {"scan_time": None, "market_date": today, "grades": {}}
+    return data
 
 
 def get_trigger_history(days: int = 30, conviction: Optional[str] = None,

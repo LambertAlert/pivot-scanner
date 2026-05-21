@@ -34,6 +34,7 @@ from data_layer import (
     get_industry_ranks_full,
     get_volume_surges,
     get_ep_events,
+    get_trigger_continuations,
 )
 
 # ── New tactical macro + speculative theme modules ────────────────────────────
@@ -222,6 +223,9 @@ def load_posture() -> dict:
 @st.cache_data(ttl=60)
 def _triggers(): return get_today_triggers()
 
+@st.cache_data(ttl=300)
+def _continuations(): return get_trigger_continuations()
+
 @st.cache_data(ttl=60)
 def _daily(): return get_latest_daily_watchlist()
 
@@ -241,8 +245,9 @@ narrative_data = load_narrative()
 gate_data      = load_gate()
 vol_data       = load_vol_compression()
 posture_data   = load_posture()
-today_triggers = _triggers()
-daily_data     = _daily()
+today_triggers   = _triggers()
+continuations    = _continuations()
+daily_data       = _daily()
 
 # Float/market cap lookup keyed by ticker (populated by daily_screener.py for HIGH/MED)
 _daily_float_lookup = {
@@ -827,48 +832,70 @@ with tab_spec:
 
 # ─── TAB 3: ACTIVE TRIGGERS ───────────────────────────────────────────────────
 with tab3:
-    # Entry mode gate — compact banner showing current capital flows posture
+    # Entry mode gate
     if _entry_mode:
         st.markdown(_entry_mode_gate_html(_entry_mode, _em_icon, _em_color, _entry_mode_reason), unsafe_allow_html=True)
-    st.markdown("<div class='sec-bar'><div class='sec-bar-line'></div><div class='sec-bar-label'>Today's Pivot Triggers</div><div class='sec-bar-line'></div></div>", unsafe_allow_html=True)
+
+    st.markdown("<div class='sec-bar'><div class='sec-bar-line'></div><div class='sec-bar-label'>Today's Trigger Signals</div><div class='sec-bar-line'></div></div>", unsafe_allow_html=True)
+
+    # ── Signal type color/icon legend ─────────────────────────────────────
+    SIGNAL_META = {
+        "PIVOT":        {"icon": "◆", "label": "30-MIN PIVOT",   "color": "var(--accent)", "border": "var(--accent)"},
+        "RANGE_BREAK":  {"icon": "🎯", "label": "RANGE BREAK",   "color": "var(--blue)",   "border": "var(--blue)"},
+    }
+    CONT_META = {
+        "STRONG":  {"icon": "▲", "color": "var(--green)"},
+        "HOLDING": {"icon": "◆", "color": "var(--accent)"},
+        "FAILED":  {"icon": "▼", "color": "var(--red)"},
+    }
+
+    # Continuation lookup keyed as ticker_direction
+    cont_lookup = continuations.get("grades", {})
+
+    # ── Section B: INTRADAY TRIGGERS (PIVOT + RANGE_BREAK) ────────────────
+    st.markdown(
+        "<div class='sec-bar'><div class='sec-bar-line'></div>"
+        "<div class='sec-bar-label'>◆ INTRADAY TRIGGERS</div>"
+        "<div class='sec-bar-line'></div></div>",
+        unsafe_allow_html=True)
+
     if not today_triggers:
         st.markdown("<div style='font-family:var(--mono);color:var(--muted);padding:2rem;text-align:center;'>No triggers today — scanner runs at :01 and :31</div>", unsafe_allow_html=True)
     else:
-        tc1, tc2, tc3, tc4 = st.columns([1, 1, 1, 1])
-        with tc1: conv_f = st.multiselect("Conviction", ["HIGH","MED","LOW"], default=["HIGH","MED"], key="tc_conv")
-        with tc2: dir_f  = st.multiselect("Direction",  ["bullish","bearish"], default=["bullish","bearish"], key="tc_dir")
-        with tc3: tf_f   = st.multiselect("Timeframe",  ["30-MIN","65-MIN"], default=["30-MIN","65-MIN"], key="tc_tf")
-        with tc4: dedup  = st.checkbox("Deduplicate (65-MIN wins)", value=True, key="tc_dedup",
-                                        help="If same ticker fires on both timeframes, show only 65-MIN")
+        tc1, tc2, tc3, tc4 = st.columns([1, 1, 1.2, 1])
+        with tc1: conv_f  = st.multiselect("Conviction",    ["HIGH","MED","LOW"], default=["HIGH","MED"], key="tc_conv")
+        with tc2: dir_f   = st.multiselect("Direction",     ["bullish","bearish"], default=["bullish","bearish"], key="tc_dir")
+        with tc3: stype_f = st.multiselect("Signal Type",   ["PIVOT","RANGE_BREAK"], default=["PIVOT","RANGE_BREAK"], key="tc_stype")
+        with tc4: dedup   = st.checkbox("Dedup same ticker+dir", value=True, key="tc_dedup",
+                                         help="Show only the highest-score trigger per ticker/direction pair")
 
         filtered = [
             t for t in today_triggers
             if t.get("conviction") in conv_f
             and t.get("direction") in dir_f
-            and t.get("timeframe") in tf_f
+            and t.get("trigger_type", "PIVOT") in stype_f
         ]
 
-        # Deduplication — 65-MIN wins over 30-MIN for same ticker+direction
+        # Deduplication — keep highest score per ticker+direction (across signal types)
         if dedup:
-            seen_65 = {(t["ticker"], t.get("direction"))
-                       for t in filtered if t.get("timeframe") == "65-MIN"}
-            filtered = [
-                t for t in filtered
-                if not (t.get("timeframe") == "30-MIN" and
-                        (t["ticker"], t.get("direction")) in seen_65)
-            ]
+            best = {}
+            for t in filtered:
+                key = (t["ticker"], t.get("direction"))
+                if key not in best or t.get("trigger_score", 0) > best[key].get("trigger_score", 0):
+                    best[key] = t
+            filtered = list(best.values())
 
-        # Sort by composite trigger score descending
-        filtered = sorted(filtered,
-                          key=lambda t: t.get("trigger_score", 0),
-                          reverse=True)
-
-        st.caption(f"{len(filtered)} trigger(s) · Sorted by trigger score (conviction + streak + R-ratio + RVOL + timeframe)")
+        filtered = sorted(filtered, key=lambda t: t.get("trigger_score", 0), reverse=True)
+        st.caption(f"{len(filtered)} trigger(s) · Sorted by trigger score · "
+                   f"PIVOT={sum(1 for t in filtered if t.get('trigger_type')=='PIVOT')} "
+                   f"RANGE_BREAK={sum(1 for t in filtered if t.get('trigger_type')=='RANGE_BREAK')}")
 
         for t in filtered:
-            d    = t.get("direction", "")
-            conv = t.get("conviction", "LOW")
-            score = t.get("trigger_score", 0)
+            d       = t.get("direction", "")
+            conv    = t.get("conviction", "LOW")
+            score   = t.get("trigger_score", 0)
+            ttype   = t.get("trigger_type", "PIVOT")
+            sm      = SIGNAL_META.get(ttype, SIGNAL_META["PIVOT"])
             r_ratio = t.get("r_ratio")
             rvol    = t.get("rvol_trigger", 1.0) or 1.0
             atr     = t.get("atr_14d")
@@ -876,8 +903,6 @@ with tab3:
             dist_e8 = t.get("dist_ema8w_%")
             ep_tier = t.get("ep_tier", "NONE")
             rs_rat  = t.get("rs_rating")
-            ttype   = t.get("trigger_type", "PIVOT")  # PIVOT or ORB
-            # Float from daily watchlist cross-reference
             _fl     = _daily_float_lookup.get(t.get("ticker",""), {})
             float_s = _fl.get("float_shares")
             mktcap  = _fl.get("market_cap")
@@ -887,28 +912,37 @@ with tab3:
                 if v >= 1_000_000:     return f"{v/1_000_000:.0f}M"
                 return f"{v:,}"
 
-            # Card border — ORB gets distinct blue border
-            if ttype == "ORB":
-                border = "var(--blue)"
-            elif score >= 10: border = "var(--green)"
-            elif score >= 7:  border = "var(--accent)"
-            else:             border = "var(--border)"
+            # Continuation grade enrichment
+            cont_key   = f"{t.get('ticker')}_{d}"
+            cont_grade = cont_lookup.get(cont_key)
+            cont_html  = ""
+            if cont_grade:
+                cm = CONT_META.get(cont_grade["grade"], {})
+                cont_html = (
+                    f"<div style='background:rgba(0,0,0,0.4);border-left:3px solid {cm.get('color','#888')};"
+                    f"padding:.4rem .8rem;margin:.4rem 0;font-family:var(--mono);font-size:.72rem;'>"
+                    f"<span style='color:{cm.get('color','#888')};font-family:var(--display);"
+                    f"font-size:.55rem;letter-spacing:.1em;font-weight:700;'>"
+                    f"EOD {cm.get('icon','')} {cont_grade['grade']}</span>"
+                    f"&nbsp;&nbsp;<span style='color:var(--text);'>{cont_grade['grade_note']}</span>"
+                    f"</div>"
+                )
+
+            # Border — signal type color
+            border    = sm["border"]
+            if score >= 10: border = "var(--green)"  # override to green for elite score
+            sig_color = sm["color"]
 
             dir_color = "var(--green)" if d == "bullish" else "var(--red)"
             dir_label = "▲ BULL" if d == "bullish" else "▼ BEAR"
-            conv_color = {"HIGH": "var(--green)", "MED": "var(--accent)", "LOW": "var(--muted)"}.get(conv, "var(--muted)")
+            conv_color = {"HIGH":"var(--green)","MED":"var(--accent)","LOW":"var(--muted)"}.get(conv, "var(--muted)")
 
-            # R-ratio display
             if r_ratio is None:
                 r_display, r_color = "—", "var(--muted)"
-            elif r_ratio >= R_ELITE:
-                r_display, r_color = f"{r_ratio:.1f}R ⭐", "var(--green)"
-            elif r_ratio >= R_GOOD:
-                r_display, r_color = f"{r_ratio:.1f}R", "var(--green)"
-            elif r_ratio >= R_MINIMUM:
-                r_display, r_color = f"{r_ratio:.1f}R", "var(--accent)"
-            else:
-                r_display, r_color = f"{r_ratio:.1f}R ⚠", "var(--red)"
+            elif r_ratio >= R_ELITE:   r_display, r_color = f"{r_ratio:.1f}R ⭐", "var(--green)"
+            elif r_ratio >= R_GOOD:    r_display, r_color = f"{r_ratio:.1f}R",    "var(--green)"
+            elif r_ratio >= R_MINIMUM: r_display, r_color = f"{r_ratio:.1f}R",    "var(--accent)"
+            else:                      r_display, r_color = f"{r_ratio:.1f}R ⚠",  "var(--red)"
 
             rvol_color = "var(--green)" if rvol >= 2.0 else "var(--accent)" if rvol >= 1.5 else "var(--muted)"
             sh_str   = f"{dist_sh:+.1f}%" if dist_sh is not None else "—"
@@ -920,25 +954,24 @@ with tab3:
             if ep_tier == "STRONG":   ep_badge = "<span style='color:var(--accent);font-size:.6rem;font-family:var(--display);'>🚀 EP STRONG</span>"
             elif ep_tier == "STANDARD": ep_badge = "<span style='color:var(--green);font-size:.6rem;font-family:var(--display);'>✅ EP</span>"
 
-            # ── ORB-specific extra row ─────────────────────────────────────
-            orb_row = ""
-            if ttype == "ORB":
+            # Signal-type-specific extra row
+            signal_row = ""
+            if ttype == "RANGE_BREAK":
                 or_h = t.get("or_high", 0)
                 or_l = t.get("or_low", 0)
                 or_r = t.get("or_range", 0)
                 brk  = t.get("breakout_pct", 0)
-                orb_row = (
+                signal_row = (
                     f"<div style='background:rgba(91,141,238,0.08);border-left:2px solid var(--blue);"
                     f"padding:.5rem .8rem;margin:.5rem 0;font-family:var(--mono);font-size:.75rem;'>"
                     f"<span style='color:var(--blue);font-family:var(--display);font-size:.55rem;"
-                    f"letter-spacing:.12em;'>🎯 OPENING RANGE BREAKOUT</span>&nbsp;&nbsp;"
-                    f"OR: ${or_l:.2f} – ${or_h:.2f} ({or_r:.2f} range) &nbsp;·&nbsp;"
+                    f"letter-spacing:.12em;'>🎯 FIRST-HOUR RANGE BREAK</span>&nbsp;&nbsp;"
+                    f"Range: ${or_l:.2f}–${or_h:.2f} ({or_r:.2f})&nbsp;·&nbsp;"
                     f"Breakout: <span style='color:{dir_color};font-weight:700;'>+{brk:.1f}%</span>"
                     f"</div>"
                 )
 
-            tf_label = t.get("timeframe", "")
-            streak_info = f"Streak {t.get('streak_len','')} bars" if ttype != "ORB" else "Opening Range Break"
+            streak_info = f"Streak {t.get('streak_len','')} bars" if ttype == "PIVOT" else "Range Break"
 
             st.markdown(f"""
 <div style='background:linear-gradient(135deg,#0f0f17 0%,#09090e 100%);
@@ -953,13 +986,17 @@ with tab3:
       </div>
     </div>
     <div style='text-align:right;display:flex;flex-direction:column;gap:.3rem;align-items:flex-end;'>
-      <div style='font-family:var(--display);font-size:.65rem;font-weight:700;color:{conv_color};letter-spacing:.1em;'>{conv}</div>
-      <div style='font-family:var(--display);font-size:.65rem;color:{dir_color};font-weight:700;'>{dir_label} · {tf_label}</div>
-      <div style='font-family:var(--display);font-size:.55rem;color:{"var(--green)" if score>=10 else "var(--blue)" if ttype=="ORB" else "var(--accent)"};'>SCORE {score}</div>
+      <div style='font-family:var(--display);font-size:.6rem;font-weight:700;color:{sig_color};
+           letter-spacing:.1em;border:1px solid {sig_color};padding:.1rem .4rem;border-radius:2px;'>
+           {sm["icon"]} {sm["label"]}</div>
+      <div style='font-family:var(--display);font-size:.65rem;font-weight:700;color:{conv_color};'>{conv}</div>
+      <div style='font-family:var(--display);font-size:.65rem;color:{dir_color};font-weight:700;'>{dir_label} · 30-MIN</div>
+      <div style='font-family:var(--display);font-size:.55rem;color:{"var(--green)" if score>=10 else "var(--accent)"};'>SCORE {score}</div>
     </div>
   </div>
 
-  {orb_row}
+  {signal_row}
+  {cont_html}
 
   <div class='t-grid' style='margin-bottom:.6rem;'>
     <div><div class='t-field-lbl'>Trigger Close</div><div class='t-field-val'>${t.get("trigger_close",0):.2f}</div></div>
@@ -971,7 +1008,7 @@ with tab3:
   <div class='t-grid' style='margin-bottom:.6rem;padding-top:.5rem;border-top:1px solid var(--border2);'>
     <div><div class='t-field-lbl'>vs Session High</div><div class='t-field-val' style='color:{sh_color};'>{sh_str}</div></div>
     <div><div class='t-field-lbl'>vs 8W EMA</div><div class='t-field-val' style='color:{e8_color};'>{e8_str}</div></div>
-    <div><div class='t-field-lbl'>ATR (14d)</div><div class='t-field-val'>${atr:.2f}</div></div>
+    <div><div class='t-field-lbl'>ATR (14d)</div><div class='t-field-val'>{"$"+str(round(atr,2)) if atr else "—"}</div></div>
     <div><div class='t-field-lbl'>RS Rating</div><div class='t-field-val {"green" if (rs_rat or 0)>=80 else "amber" if (rs_rat or 0)>=60 else ""}'>{rs_rat or "—"}</div></div>
   </div>
 
@@ -981,13 +1018,10 @@ with tab3:
     <div></div><div></div>
   </div>
 
-  <div style='font-family:var(--mono);font-size:.7rem;color:var(--muted);padding-top:.4rem;border-top:1px solid var(--border2);'>
-    {t.get("entry_note","")} · Stage W{t.get("weekly_stage","")} · Trend {t.get("trend_template","")}/8 · BBUW D{t.get("daily_bbuw",0):.0f}/W{t.get("weekly_bbuw",0):.0f} · {str(t.get("trigger_time",""))[:19]} UTC
-  </div>
-</div>
-            """, unsafe_allow_html=True)
+</div>""", unsafe_allow_html=True)
 
 # ─── TAB 4: DAILY WATCHLIST ───────────────────────────────────────────────────
+
 with tab4:
     daily_entries = daily_data.get("entries",[])
     st.caption(f"Last updated: {daily_data.get('scan_time','—')}")
