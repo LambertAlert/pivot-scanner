@@ -1354,13 +1354,22 @@ with tab4:
             )
             fig_rs.update_traces(textposition="top center", textfont_size=9)
             fig_rs.update_layout(
-                **PL, showlegend=True,
+                **{k: v for k, v in PL.items() if k not in ("xaxis", "yaxis")},
+                showlegend=True,
                 coloraxis_showscale=False, height=460,
-                xaxis_title="IBD RS Rating (1–99  ·  ranked vs full 435-ticker watchlist)",
-                yaxis_title="Daily BBUW",
+                xaxis=dict(
+                    range=[0, 100],
+                    title="IBD RS Rating (1–99  ·  ranked vs full 435-ticker watchlist)",
+                    gridcolor="rgba(245,166,35,0.08)",
+                    linecolor="rgba(245,166,35,0.22)",
+                ),
+                yaxis=dict(
+                    range=[0, 100],
+                    title="Daily BBUW",
+                    gridcolor="rgba(245,166,35,0.08)",
+                    linecolor="rgba(245,166,35,0.22)",
+                ),
                 legend=dict(font=dict(size=9), title_text="8W Pivot Tier"),
-                xaxis=dict(range=[0, 100]),
-                yaxis=dict(range=[0, 100]),
             )
             fig_rs.add_vline(x=80, line_dash="dash", line_color="rgba(245,166,35,0.35)",
                              annotation_text="RS 80", annotation_font_size=9,
