@@ -34,27 +34,62 @@ MIN_DAILY_BBUW_SCORE    = 40
 BATCH_CHUNK = 200   # yfinance handles ~200 tickers cleanly; splits if larger
 
 
-def fetch_float_data(tickers: list) -> dict:
+def compute_ibd_rs_factor(close_series: pd.Series) -> float:
     """
-    Fetch float shares and market cap for a list of tickers via yfinance .info.
-    Used for HIGH/MED conviction names only — float is a key factor for EP setups.
-
-    Note: yfinance .info is serial (no batch equivalent for metadata). This is
-    intentionally called only on the final qualified list (~15-40 tickers) to
-    minimise request count. Move to weekly_screener.py once that file is wired.
-
-    Returns {ticker: {"float_shares": int|None, "market_cap": int|None}}
+    Compute the IBD-style RS raw factor.
+    Formula: 0.4*(C/C63) + 0.2*(C/C126) + 0.2*(C/C189) + 0.2*(C/C252)
+    Returns nan if insufficient data.
     """
-    result = {}
+    s = close_series.dropna()
+    n = len(s)
+    if n < 63:
+        return float("nan")
+    c = float(s.iloc[-1])
+    def _r(p):
+        if n <= p:
+            return float("nan")
+        past = float(s.iloc[-(p + 1)])
+        return c / past if past > 0 else float("nan")
+    weights = [(_r(63), 0.40), (_r(126), 0.20), (_r(189), 0.20), (_r(252), 0.20)]
+    valid = [(v, w) for v, w in weights if not (v != v)]  # filter NaN
+    if not valid:
+        return float("nan")
+    total_w = sum(w for _, w in valid)
+    return sum(v * w for v, w in valid) / total_w
+
+
+def compute_universe_rs_ratings(bars: dict) -> dict:
+    """
+    Compute IBD RS ratings (1-99 percentile) for all tickers in bars dict.
+    Ranked against the full fetched universe so percentiles are meaningful.
+
+    Returns {ticker: {"rs_rating": int, "rs_factor": float}}
+    """
+    factors = {}
+    for tk, df in bars.items():
+        if tk == "SPY" or df is None or df.empty:
+            continue
+        if "close" not in df.columns:
+            continue
+        f = compute_ibd_rs_factor(df["close"])
+        if f == f:  # not NaN
+            factors[tk] = f
+
+    if not factors:
+        return {}
+
+    # Rank within universe → percentile 1-99
+    tickers = list(factors.keys())
+    values  = [factors[t] for t in tickers]
+    ranks   = pd.Series(values, index=tickers).rank(ascending=True, method="average")
+    n       = len(ranks)
+    result  = {}
     for tk in tickers:
-        try:
-            info = yf.Ticker(tk).info
-            result[tk] = {
-                "float_shares": info.get("floatShares"),
-                "market_cap":   info.get("marketCap"),
-            }
-        except Exception:
-            result[tk] = {"float_shares": None, "market_cap": None}
+        pct = int(round(ranks[tk] / n * 99))
+        result[tk] = {
+            "rs_rating": max(1, min(99, pct)),
+            "rs_factor": round(factors[tk], 5),
+        }
     return result
 
 
@@ -289,6 +324,13 @@ def main():
     bars = batch_fetch_daily(all_tickers)
 
     df_spy = bars.get("SPY")
+
+    # ── IBD RS ratings across full fetched universe ───────────────────────
+    # Computed BEFORE filtering so percentiles reflect the full 435-ticker pool.
+    # Formula: 0.4*(C/C63)+0.2*(C/C126)+0.2*(C/C189)+0.2*(C/C252)
+    log.info("Computing IBD RS ratings across full universe...")
+    universe_rs = compute_universe_rs_ratings(bars)
+    log.info(f"  RS ratings computed for {len(universe_rs)} tickers")
     if df_spy is None:
         log.warning("SPY fetch failed — RS vs SPY component will default to 50")
 
@@ -355,26 +397,13 @@ def main():
             "pct_from_ema8":         entry.get("pct_from_ema8"),
             "ema8_rising":           entry.get("ema8_rising", False),
             "pivot_8w_volume_spike": entry.get("pivot_8w_volume_spike", False),
+            # IBD RS Rating (1-99 percentile, ranked vs full 435-ticker universe)
+            "rs_rating":             universe_rs.get(ticker, {}).get("rs_rating"),
+            "rs_factor":             universe_rs.get(ticker, {}).get("rs_factor"),
         })
 
     conviction_order = {"HIGH": 0, "MED": 1, "LOW": 2}
     qualified.sort(key=lambda x: (conviction_order[x["conviction"]], -x["daily_bbuw"]))
-
-    # ── Float / market cap fetch (HIGH+MED tickers only — serial .info calls) ─
-    high_med_tickers = [e["ticker"] for e in qualified if e["conviction"] in ("HIGH", "MED")]
-    if high_med_tickers:
-        log.info(f"Fetching float data for {len(high_med_tickers)} HIGH/MED tickers...")
-        float_data = fetch_float_data(high_med_tickers)
-        for entry in qualified:
-            fd = float_data.get(entry["ticker"], {})
-            entry["float_shares"] = fd.get("float_shares")
-            entry["market_cap"]   = fd.get("market_cap")
-    # LOW conviction: set None (don't fetch to save time)
-    for entry in qualified:
-        if "float_shares" not in entry:
-            entry["float_shares"] = None
-            entry["market_cap"]   = None
-
     save_daily_watchlist(qualified)
 
     high_count   = sum(1 for r in qualified if r["conviction"] == "HIGH")

@@ -1263,6 +1263,89 @@ with tab4:
                     fig_c.update_layout(**PL, showlegend=False, coloraxis_showscale=False, height=250)
                     st.plotly_chart(fig_c, use_container_width=True)
 
+        # ── Daily BBUW vs IBD RS Rating scatter ───────────────────────────────
+        # Uses correct IBD RS formula (0.4*C/C63 + 0.2*C/C126 + 0.2*C/C189 + 0.2*C/C252)
+        # ranked vs full 435-ticker watchlist universe — not the small filtered subset.
+        # Y-axis: daily_bbuw (tightness of daily structure, not weekly).
+        scatter_df = pd.DataFrame([
+            e for e in daily_entries
+            if e.get("rs_rating") is not None and e.get("daily_bbuw") is not None
+        ])
+        if not scatter_df.empty:
+            st.markdown(
+                "<div class='sec-bar'><div class='sec-bar-line'></div>"
+                "<div class='sec-bar-label'>Daily BBUW vs IBD RS Rating (Colored by 8W Pivot Tier)</div>"
+                "<div class='sec-bar-line'></div></div>",
+                unsafe_allow_html=True)
+            st.caption(
+                "RS Rating: IBD formula (0.4×C/C63 + 0.2×C/C126 + 0.2×C/C189 + 0.2×C/C252) "
+                "ranked 1–99 vs full 435-ticker watchlist universe.  "
+                "Y-axis: daily BBUW (structure tightness).  "
+                "Best setups: top-right quadrant (RS ≥80, BBUW ≥60)."
+            )
+            tier_color_map = {
+                "STRONG":    "#f5a623",
+                "STANDARD":  "#4caf7d",
+                "PROXIMITY": "#5b8dee",
+                "WEAK":      "#e05c5c",
+                "NONE":      "#555555",
+            }
+            color_col = "pivot_8w_tier" if "pivot_8w_tier" in scatter_df.columns else "conviction"
+            color_kwargs = (
+                {"color_discrete_map": tier_color_map}
+                if color_col == "pivot_8w_tier"
+                else {}
+            )
+            # Size dots by conviction: HIGH=14, MED=10, LOW=7
+            size_map = {"HIGH": 14, "MED": 10, "LOW": 7}
+            if "conviction" in scatter_df.columns:
+                scatter_df["_dot_size"] = scatter_df["conviction"].map(size_map).fillna(8)
+            else:
+                scatter_df["_dot_size"] = 8
+
+            hover_cols = {c: True for c in
+                          ["rs_rating","daily_bbuw","weekly_bbuw","conviction",
+                           "trend_template","industry_rank","ep_tier"]
+                          if c in scatter_df.columns}
+            hover_cols["_dot_size"] = False
+
+            fig_rs = px.scatter(
+                scatter_df,
+                x="rs_rating", y="daily_bbuw",
+                text="ticker", color=color_col,
+                size="_dot_size", size_max=16,
+                hover_data=hover_cols,
+                title="Daily BBUW vs IBD RS Rating (1–99 · 435-ticker universe)",
+                **color_kwargs,
+            )
+            fig_rs.update_traces(textposition="top center", textfont_size=9)
+            fig_rs.update_layout(
+                **PL, showlegend=True,
+                coloraxis_showscale=False, height=460,
+                xaxis_title="IBD RS Rating (1–99  ·  ranked vs full 435-ticker watchlist)",
+                yaxis_title="Daily BBUW",
+                legend=dict(font=dict(size=9), title_text="8W Pivot Tier"),
+                xaxis=dict(range=[0, 100]),
+                yaxis=dict(range=[0, 100]),
+            )
+            fig_rs.add_vline(x=80, line_dash="dash", line_color="rgba(245,166,35,0.35)",
+                             annotation_text="RS 80", annotation_font_size=9,
+                             annotation_font_color="rgba(245,166,35,0.7)",
+                             annotation_position="top right")
+            fig_rs.add_vline(x=90, line_dash="dash", line_color="rgba(76,175,125,0.35)",
+                             annotation_text="RS 90", annotation_font_size=9,
+                             annotation_font_color="rgba(76,175,125,0.7)",
+                             annotation_position="top right")
+            fig_rs.add_hline(y=60, line_dash="dash", line_color="rgba(245,166,35,0.35)",
+                             annotation_text="BBUW 60", annotation_font_size=9,
+                             annotation_font_color="rgba(245,166,35,0.7)",
+                             annotation_position="bottom right")
+            fig_rs.add_hline(y=75, line_dash="dot", line_color="rgba(76,175,125,0.2)",
+                             annotation_text="BBUW 75", annotation_font_size=9,
+                             annotation_font_color="rgba(76,175,125,0.5)",
+                             annotation_position="bottom right")
+            st.plotly_chart(fig_rs, use_container_width=True)
+
 # ─── TAB RADAR: SETUPS RADAR ──────────────────────────────────────────────────
 with tab_radar:
     radar_entries = radar_data.get("entries", [])
@@ -1823,50 +1906,6 @@ with tab5:
   EPs require patience: hold 2–8 weeks if weekly structure (10/20-week SMA) is respected.
 </div>
                 """, unsafe_allow_html=True)
-
-        # ── Scatter chart ──────────────────────────────────────────────────────
-        if "bbuw_score" in wdf.columns and "rs_rating" in wdf.columns:
-            st.markdown("<div class='sec-bar'><div class='sec-bar-line'></div><div class='sec-bar-label'>BBUW vs RS Rating (Colored by 8W Pivot Tier)</div><div class='sec-bar-line'></div></div>", unsafe_allow_html=True)
-            tier_color_map = {
-                "STRONG":    "#f5a623",
-                "STANDARD":  "#4caf7d",
-                "PROXIMITY": "#5b8dee",
-                "WEAK":      "#e05c5c",
-                "NONE":      "#7a7060",
-            }
-            color_arg = "pivot_8w_tier" if "pivot_8w_tier" in wdf.columns else "bbuw_score"
-            color_kwargs = (
-                {"color_discrete_map": tier_color_map}
-                if color_arg == "pivot_8w_tier"
-                else {"color_continuous_scale": ["#e05c5c","#f5a623","#4caf7d"]}
-            )
-            fig_s = px.scatter(
-                wdf, x="rs_rating", y="bbuw_score",
-                text="ticker", color=color_arg,
-                hover_data={"rs_rating": True, "rs_vs_spy_score": True,
-                            "trend_template_score": True, "bbuw_score": True},
-                title="BBUW Score vs RS Rating (1–99, percentile vs SPY over 26W)",
-                **color_kwargs,
-            )
-            fig_s.update_traces(textposition="top center", textfont_size=9)
-            fig_s.update_layout(
-                **PL, showlegend=(color_arg == "pivot_8w_tier"),
-                coloraxis_showscale=False, height=420,
-                xaxis_title="RS Rating (1–99  ·  higher = stronger RS vs SPY)",
-                yaxis_title="Weekly BBUW",
-                legend=dict(font=dict(size=9), title_text="8W Pivot Tier"),
-            )
-            # RS 80 = @1ChartMaster minimum threshold, RS 90 = elite tier
-            fig_s.add_vline(x=80, line_dash="dash", line_color="rgba(245,166,35,0.3)",
-                            annotation_text="RS 80", annotation_font_size=9,
-                            annotation_font_color="rgba(245,166,35,0.6)")
-            fig_s.add_vline(x=90, line_dash="dash", line_color="rgba(76,175,125,0.3)",
-                            annotation_text="RS 90", annotation_font_size=9,
-                            annotation_font_color="rgba(76,175,125,0.6)")
-            fig_s.add_hline(y=60, line_dash="dash", line_color="rgba(245,166,35,0.3)",
-                            annotation_text="BBUW 60", annotation_font_size=9,
-                            annotation_font_color="rgba(245,166,35,0.6)")
-            st.plotly_chart(fig_s, use_container_width=True)
 
         # ── Industry Rankings ──────────────────────────────────────────────────
         st.markdown("<div class='sec-bar'><div class='sec-bar-line'></div><div class='sec-bar-label'>Industry Rankings (Dynamic · Updated Weekly)</div><div class='sec-bar-line'></div></div>", unsafe_allow_html=True)
