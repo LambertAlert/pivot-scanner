@@ -1,17 +1,61 @@
 {
-  "scan_time": "2026-05-21T22:47:36.484746",
+  "scan_time": "2026-05-22T21:17:32.763023",
   "grades": {
-    "RKLB_bullish": {
-      "ticker": "RKLB",
+    "OCC_bullish": {
+      "ticker": "OCC",
       "direction": "bullish",
-      "trigger_type": "PIVOT",
-      "trigger_close": 125.43499755859375,
-      "eod_close": 125.435,
-      "session_change_pct": 0.0,
+      "trigger_type": "RANGE_BREAK",
+      "trigger_close": 12.319999694824219,
+      "eod_close": 12.54,
+      "session_change_pct": 1.79,
       "held_trigger": true,
       "grade": "HOLDING",
-      "grade_note": "Above trigger level \u00b7 +0.0%"
+      "grade_note": "Above trigger level \u00b7 +1.8%"
+    },
+    "RELL_bullish": {
+      "ticker": "RELL",
+      "direction": "bullish",
+      "trigger_type": "PIVOT",
+      "trigger_close": 18.829999923706055,
+      "eod_close": 17.53,
+      "session_change_pct": -6.9,
+      "held_trigger": false,
+      "grade": "FAILED",
+      "grade_note": "Reversed through trigger \u00b7 -6.9%"
+    },
+    "LQDA_bearish": {
+      "ticker": "LQDA",
+      "direction": "bearish",
+      "trigger_type": "PIVOT",
+      "trigger_close": 61.849998474121094,
+      "eod_close": 60.97,
+      "session_change_pct": -1.42,
+      "held_trigger": true,
+      "grade": "STRONG",
+      "grade_note": "Held + closed at extreme \u00b7 -1.4%"
+    },
+    "ROKU_bearish": {
+      "ticker": "ROKU",
+      "direction": "bearish",
+      "trigger_type": "PIVOT",
+      "trigger_close": 126.19000244140625,
+      "eod_close": 125.58,
+      "session_change_pct": -0.48,
+      "held_trigger": true,
+      "grade": "STRONG",
+      "grade_note": "Held + closed at extreme \u00b7 -0.5%"
+    },
+    "AEHR_bearish": {
+      "ticker": "AEHR",
+      "direction": "bearish",
+      "trigger_type": "PIVOT",
+      "trigger_close": 94.99500274658203,
+      "eod_close": 95.02,
+      "session_change_pct": 0.03,
+      "held_trigger": false,
+      "grade": "FAILED",
+      "grade_note": "Reversed through trigger \u00b7 +0.0%"
     }
   },
-  "market_date": "2026-05-21"
+  "market_date": "2026-05-22"
 }
