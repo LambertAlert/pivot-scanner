@@ -24,6 +24,7 @@ INDUSTRY_RANKS_JSON      = "data/industry_ranks.json"
 VOLUME_SURGES_JSON       = "data/volume_surges.json"
 EP_EVENTS_JSON           = "data/ep_events.json"
 TRIGGER_CONTINUATIONS_JSON = "data/trigger_continuations.json"
+INTRADAY_UNIVERSE_JSON     = "data/intraday_universe.json"
 
 
 # ═══════════════════════════════════════════════════════════════════════════════
@@ -374,6 +375,30 @@ def get_trigger_continuations() -> dict:
     if data.get("market_date") != today:
         return {"scan_time": None, "market_date": today, "grades": {}}
     return data
+
+
+def save_intraday_universe(entries: list, top_n: int):
+    """
+    Persist the ranked intraday scan universe (top N entries from daily watchlist).
+    Written once per intraday run so the dashboard can show exactly which names
+    are being watched intraday and how they were ranked.
+    """
+    write_json(INTRADAY_UNIVERSE_JSON, {
+        "generated_at": datetime.now().isoformat(),
+        "top_n":        top_n,
+        "count":        len(entries),
+        "entries":      entries,
+    })
+
+
+def get_intraday_universe() -> dict:
+    """Load the latest intraday universe for dashboard display."""
+    return read_json(INTRADAY_UNIVERSE_JSON, default={
+        "generated_at": None,
+        "top_n":        50,
+        "count":        0,
+        "entries":      [],
+    })
 
 
 def get_trigger_history(days: int = 30, conviction: Optional[str] = None,

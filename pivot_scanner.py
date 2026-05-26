@@ -30,6 +30,7 @@ import yfinance as yf
 from data_layer import (
     save_trigger,
     save_trigger_continuations,
+    save_intraday_universe,
     get_today_triggers,
     get_latest_daily_watchlist,
 )
@@ -42,6 +43,15 @@ from data_layer import (
 MIN_STREAK         = 3        # bars of contraction before pivot fires
 RATE_LIMIT_PAUSE   = 0.5      # seconds between batch chunks (was 2s)
 ALERT_TIERS        = ["HIGH", "MED"]
+
+# Top-N universe for intraday scanning.
+# Only the highest-ranked names from the daily watchlist are scanned each
+# intraday run.  Set to 50 (max) or 25 (tighter focus).  Names are ranked by:
+#   1. Conviction tier   (HIGH > MED)
+#   2. Daily BBUW score  (higher = tighter compression = better setup)
+#   3. RS rating         (higher = stronger relative strength)
+#   4. Industry rank     (lower = better ranked industry)
+INTRADAY_TOP_N     = 50
 
 # R-ratio thresholds (matched to dashboard display)
 R_ELITE   = 3.0
@@ -69,6 +79,54 @@ logging.basicConfig(
     datefmt="%Y-%m-%d %H:%M:%S",
 )
 log = logging.getLogger(__name__)
+
+
+# ═══════════════════════════════════════════════════════════════════════════════
+#  UNIVERSE SELECTION  — top N from daily watchlist
+# ═══════════════════════════════════════════════════════════════════════════════
+
+_CONVICTION_ORDER = {"HIGH": 0, "MED": 1}
+
+
+def select_intraday_universe(entries: list, top_n: int = INTRADAY_TOP_N) -> list:
+    """
+    Rank and slice the daily watchlist down to the top N names for intraday
+    scanning.  Only HIGH/MED conviction entries are considered.
+
+    Sort key (ascending priority):
+      1. Conviction tier   HIGH=0, MED=1
+      2. Daily BBUW        descending  (tighter compression → better setup)
+      3. RS rating         descending  (stronger relative momentum)
+      4. Industry rank     ascending   (lower rank = stronger industry)
+
+    Returns a list of at most `top_n` entries, preserving all original fields
+    plus a new `intraday_rank` integer (1-based) for dashboard display.
+    """
+    qualified = [e for e in entries if e.get("conviction") in ALERT_TIERS]
+
+    qualified.sort(key=lambda e: (
+        _CONVICTION_ORDER.get(e.get("conviction", "MED"), 1),
+        -(e.get("daily_bbuw")    or 0),
+        -(e.get("rs_rating")     or 0),
+         (e.get("industry_rank") or 99),
+    ))
+
+    selected = qualified[:top_n]
+    for i, e in enumerate(selected, 1):
+        e["intraday_rank"] = i
+
+    log.info(
+        f"  Universe: {len(qualified)} HIGH/MED entries → top {len(selected)} selected "
+        f"(INTRADAY_TOP_N={top_n})"
+    )
+    if selected:
+        top5 = ", ".join(
+            f"{e['ticker']}({e.get('conviction','?')} bbuw={e.get('daily_bbuw',0):.0f})"
+            for e in selected[:5]
+        )
+        log.info(f"  Top 5: {top5}")
+
+    return selected
 
 
 # ═══════════════════════════════════════════════════════════════════════════════
@@ -519,14 +577,16 @@ def main():
 
     daily_data    = get_latest_daily_watchlist()
     entries       = daily_data.get("entries", [])
-    pivot_entries = [e for e in entries if e["conviction"] in ALERT_TIERS]
+
+    pivot_entries = select_intraday_universe(entries, top_n=INTRADAY_TOP_N)
+    save_intraday_universe(pivot_entries, top_n=INTRADAY_TOP_N)
 
     if not pivot_entries:
         log.error("No entries in daily watchlist. Run daily_screener.py first.")
         return
 
     tickers = list({e["ticker"] for e in pivot_entries})
-    log.info(f"Watchlist: {len(pivot_entries)} tickers ({ALERT_TIERS})")
+    log.info(f"Scanning {len(pivot_entries)} tickers (top {INTRADAY_TOP_N} of {len(entries)} daily entries)")
 
     # ── SINGLE batch download (Speed 1+2: daily bars removed, 5d intraday) ─
     log.info("Batch downloading 30m bars (5d)...")
