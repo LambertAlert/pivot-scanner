@@ -20,7 +20,7 @@ import os
 import json
 import logging
 import warnings
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, date
 
 import numpy as np
 import pandas as pd
@@ -30,6 +30,88 @@ logging.basicConfig(level=logging.INFO, format="%(asctime)s %(levelname)s %(mess
 log = logging.getLogger(__name__)
 
 os.makedirs("data", exist_ok=True)
+
+
+# =============================================================================
+# HOLIDAY / MARKET-OPEN GUARDS
+# =============================================================================
+
+# US market holidays (NYSE schedule). Add each year as needed.
+_US_MARKET_HOLIDAYS = {
+    # 2025
+    date(2025, 1, 1),   date(2025, 1, 20),  date(2025, 2, 17),
+    date(2025, 4, 18),  date(2025, 5, 26),  date(2025, 6, 19),
+    date(2025, 7, 4),   date(2025, 9, 1),   date(2025, 11, 27),
+    date(2025, 12, 25),
+    # 2026
+    date(2026, 1, 1),   date(2026, 1, 19),  date(2026, 2, 16),
+    date(2026, 4, 3),   date(2026, 5, 25),  date(2026, 6, 19),
+    date(2026, 7, 3),   date(2026, 9, 7),   date(2026, 11, 26),
+    date(2026, 12, 25),
+}
+
+
+def is_market_open_today() -> bool:
+    """
+    Returns True if today is a NYSE trading day (Mon-Fri, not a holiday).
+    Weekends and known US market holidays return False.
+    """
+    today = date.today()
+    if today.weekday() >= 5:           # Saturday=5, Sunday=6
+        return False
+    if today in _US_MARKET_HOLIDAYS:
+        return False
+    return True
+
+
+def has_new_market_data(prices: pd.DataFrame, proxy: str = "SPY") -> bool:
+    """
+    Verify the fetched universe contains data for today or the most recent
+    trading day. Uses SPY (or first available column) as a proxy.
+
+    Returns False if the most recent row is more than 4 calendar days old —
+    a sign the fetch returned stale or empty data.
+    """
+    col = proxy if proxy in prices.columns else (
+        prices.columns[0] if not prices.empty else None
+    )
+    if col is None:
+        return False
+    try:
+        last_date = pd.to_datetime(prices[col].dropna().index[-1]).date()
+        stale_threshold = date.today() - timedelta(days=4)
+        if last_date < stale_threshold:
+            log.warning(
+                f"  Data freshness FAILED — last row is {last_date} "
+                f"(threshold: {stale_threshold}). Likely stale holiday data."
+            )
+            return False
+        log.info(f"  Data freshness OK — last row: {last_date}")
+        return True
+    except Exception as e:
+        log.warning(f"  Data freshness check error: {e}")
+        return False
+
+
+def pair_states_are_healthy(pair_rows: list) -> bool:
+    """
+    Returns False if every leadership pair resolved to 'Unknown' —
+    a sure sign the compute produced garbage (stale/holiday data).
+    At least one pair must have a real state before the parquet is overwritten.
+    """
+    real_states = {"Confirmed", "Fresh", "Fading", "False Start", "Denied", "Mixed"}
+    resolved = [r for r in pair_rows if r.get("state") in real_states]
+    if not resolved:
+        log.warning(
+            f"  Pair health check FAILED — all {len(pair_rows)} pairs are 'Unknown'. "
+            f"Skipping parquet write to preserve last good data."
+        )
+        return False
+    log.info(
+        f"  Pair health check OK — {len(resolved)}/{len(pair_rows)} pairs resolved "
+        f"(e.g. {', '.join(r['state'] for r in resolved[:3])})"
+    )
+    return True
 
 
 def fetch_real_rate_fred() -> dict:
@@ -277,6 +359,18 @@ def flatten_metrics(metrics: dict) -> dict:
 def main():
     log.info("Starting tactical_macro_prep.py...")
 
+    # ── Guard 1: Holiday / non-trading day ───────────────────────────────
+    # If today is a weekend or known US market holiday, the universe fetch
+    # will return stale data (last Friday). Overwriting the parquets with
+    # that stale compute would corrupt the dashboard until the next trading
+    # day run. Exit early and leave the existing parquets intact.
+    if not is_market_open_today():
+        log.info(
+            f"  Today ({date.today()}) is a non-trading day. "
+            f"Skipping parquet write — existing data preserved."
+        )
+        return
+
     # Fetch universe
     tickers = tuple(all_macro_tickers())
     log.info(f"Fetching {len(tickers)} macro tickers...")
@@ -288,6 +382,16 @@ def main():
 
     if failed:
         log.warning(f"Failed tickers ({len(failed)}): {', '.join(failed)}")
+
+    # ── Guard 2: Data freshness check ────────────────────────────────────
+    # Confirm the fetched prices actually reflect recent market data.
+    # If the most recent row is stale (e.g. holiday slipped through), abort
+    # rather than overwrite good parquets with a bad compute.
+    if not has_new_market_data(prices):
+        log.warning(
+            "  Stale data detected — aborting write to preserve last good parquets."
+        )
+        return
 
     # Compute metrics
     log.info("Computing macro metrics...")
@@ -324,9 +428,15 @@ def main():
         }
         pair_rows.append(row)
 
+    # ── Guard 3: Pair health check ───────────────────────────────────────
+    # If every pair resolved to "Unknown" the compute was garbage —
+    # don't overwrite the existing pair_states.parquet with bad data.
     pairs_path = "data/pair_states.parquet"
-    pd.DataFrame(pair_rows).to_parquet(pairs_path, index=False)
-    log.info(f"✅ {pairs_path}  ({len(pair_rows)} pairs)")
+    if pair_states_are_healthy(pair_rows):
+        pd.DataFrame(pair_rows).to_parquet(pairs_path, index=False)
+        log.info(f"✅ {pairs_path}  ({len(pair_rows)} pairs)")
+    else:
+        log.warning(f"  ⚠️  {pairs_path} NOT updated — keeping last good version.")
 
     # ── Save 3: 60-day narrative history ─────────────────────────────────
     nar = metrics.get("narrative")
