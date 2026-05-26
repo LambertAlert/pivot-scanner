@@ -114,7 +114,7 @@ def load_narrative_regime() -> dict:
         return {}
 
 
-@st.cache_data(ttl=3600)
+@st.cache_data(ttl=300)
 def load_posture_history() -> list:
     """
     Load rolling 30-day regime_score history from narrative_regime_history.parquet.
@@ -172,6 +172,89 @@ def load_posture_history() -> list:
         return row
     except Exception:
         return {}
+
+
+# =============================================================================
+# PAIR STATES PARQUET FALLBACK
+# =============================================================================
+
+@st.cache_data(ttl=300)
+def load_pair_states_parquet() -> list:
+    """
+    Load leadership pair states from pair_states.parquet written by the CI
+    daily job.  Returns a list of pair dicts ready to patch into metrics, or
+    an empty list if the file is missing / all states are Unknown.
+    """
+    import os, json
+    path = "data/pair_states.parquet"
+    if not os.path.exists(path):
+        return []
+    try:
+        df = pd.read_parquet(path)
+        if df.empty:
+            return []
+        real_states = {"Confirmed", "Fresh", "Fading", "False Start", "Denied", "Mixed"}
+        rows = df.to_dict("records")
+        # Only return if at least one pair has a real (non-Unknown) state
+        if not any(r.get("state") in real_states for r in rows):
+            return []
+        # Deserialise ratio_series_60d from JSON string → list
+        for r in rows:
+            raw = r.get("ratio_series_60d")
+            if isinstance(raw, str):
+                try:
+                    r["ratio_series_60d"] = json.loads(raw)
+                except Exception:
+                    r["ratio_series_60d"] = []
+            elif raw is None:
+                r["ratio_series_60d"] = []
+        return rows
+    except Exception:
+        return []
+
+
+def patch_metrics_with_parquet_pairs(metrics: dict, parquet_pairs: list) -> dict:
+    """
+    Inject parquet-sourced pair states into the live-computed metrics dict.
+
+    Called only when the live compute produced all-Unknown pair states (e.g.
+    on a market holiday when yfinance returns incomplete data).  Preserves
+    every other field in metrics unchanged.
+
+    Patches:
+      metrics["leadership_pairs"]            — replace state + diffs per pair
+      metrics["group_scores"][group]["pairs"] — replace state + diffs per pair
+      metrics["group_scores"][group]["confirmed"] — recount from patched states
+    """
+    if not parquet_pairs:
+        return metrics
+
+    # Build lookup: (num, den) → parquet row
+    lookup = {(r["num"], r["den"]): r for r in parquet_pairs}
+
+    def apply(p: dict) -> dict:
+        key = (p.get("num"), p.get("den"))
+        src = lookup.get(key)
+        if src:
+            p["state"]    = src.get("state", p.get("state", "Unknown"))
+            p["diff_5d"]  = src.get("diff_5d",  p.get("diff_5d"))
+            p["diff_10d"] = src.get("diff_10d", p.get("diff_10d"))
+            p["diff_20d"] = src.get("diff_20d", p.get("diff_20d"))
+            if src.get("ratio_series_60d"):
+                p["ratio_series_60d"] = src["ratio_series_60d"]
+        return p
+
+    # Patch leadership_pairs list
+    metrics["leadership_pairs"] = [apply(p) for p in metrics.get("leadership_pairs", [])]
+
+    # Patch group_scores pairs + recount confirmed
+    confirmed_states = {"Confirmed", "Fresh"}
+    for group, gdata in metrics.get("group_scores", {}).items():
+        patched = [apply(p) for p in gdata.get("pairs", [])]
+        gdata["pairs"]     = patched
+        gdata["confirmed"] = sum(1 for p in patched if p.get("state") in confirmed_states)
+
+    return metrics
 
 
 # =============================================================================
@@ -1349,6 +1432,26 @@ def render():
         st.warning(f"⚠ {len(failed)} ticker(s) failed: {', '.join(failed)}. Sections relying on these may show '—'.")
 
     metrics = compute_macro_metrics(prices)
+
+    # ── Parquet fallback for pair states ─────────────────────────────────
+    # On market holidays, yfinance returns stale/incomplete data and every
+    # leadership pair resolves to "Unknown".  When that happens, load the
+    # last good pair states from the CI-written parquet and inject them so
+    # the rotation map still shows meaningful data.
+    live_pairs = metrics.get("leadership_pairs", [])
+    real_states = {"Confirmed", "Fresh", "Fading", "False Start", "Denied", "Mixed"}
+    all_unknown = live_pairs and not any(
+        p.get("state") in real_states for p in live_pairs
+    )
+    if all_unknown:
+        parquet_pairs = load_pair_states_parquet()
+        if parquet_pairs:
+            metrics = patch_metrics_with_parquet_pairs(metrics, parquet_pairs)
+            st.info(
+                "⚠ Live pair data unavailable (non-trading day) — "
+                "showing last CI-computed states from pair_states.parquet.",
+                icon="📋",
+            )
 
     render_regime_banner(metrics)
 
