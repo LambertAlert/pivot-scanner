@@ -1,61 +1,105 @@
 {
-  "scan_time": "2026-05-22T22:33:22.936262",
+  "scan_time": "2026-05-26T21:10:47.176956",
   "grades": {
-    "OCC_bullish": {
-      "ticker": "OCC",
+    "PNRG_bullish": {
+      "ticker": "PNRG",
       "direction": "bullish",
-      "trigger_type": "RANGE_BREAK",
-      "trigger_close": 12.319999694824219,
-      "eod_close": 12.54,
-      "session_change_pct": 1.79,
+      "trigger_type": "PIVOT",
+      "trigger_close": 258.6449890136719,
+      "eod_close": 249.48,
+      "session_change_pct": -3.54,
+      "held_trigger": false,
+      "grade": "FAILED",
+      "grade_note": "Reversed through trigger \u00b7 -3.5%"
+    },
+    "DELL_bearish": {
+      "ticker": "DELL",
+      "direction": "bearish",
+      "trigger_type": "PIVOT",
+      "trigger_close": 295.2200012207031,
+      "eod_close": 305.07,
+      "session_change_pct": 3.34,
+      "held_trigger": false,
+      "grade": "FAILED",
+      "grade_note": "Reversed through trigger \u00b7 +3.3%"
+    },
+    "VATE_bullish": {
+      "ticker": "VATE",
+      "direction": "bullish",
+      "trigger_type": "PIVOT",
+      "trigger_close": 14.739999771118164,
+      "eod_close": 15.52,
+      "session_change_pct": 5.29,
       "held_trigger": true,
-      "grade": "HOLDING",
-      "grade_note": "Above trigger level \u00b7 +1.8%"
+      "grade": "STRONG",
+      "grade_note": "Held + closed at extreme \u00b7 +5.3%"
     },
     "RELL_bullish": {
       "ticker": "RELL",
       "direction": "bullish",
       "trigger_type": "PIVOT",
-      "trigger_close": 18.829999923706055,
-      "eod_close": 17.53,
-      "session_change_pct": -6.9,
+      "trigger_close": 17.8799991607666,
+      "eod_close": 17.84,
+      "session_change_pct": -0.22,
       "held_trigger": false,
       "grade": "FAILED",
-      "grade_note": "Reversed through trigger \u00b7 -6.9%"
+      "grade_note": "Reversed through trigger \u00b7 -0.2%"
     },
-    "LQDA_bearish": {
-      "ticker": "LQDA",
-      "direction": "bearish",
+    "BELFB_bullish": {
+      "ticker": "BELFB",
+      "direction": "bullish",
       "trigger_type": "PIVOT",
-      "trigger_close": 61.849998474121094,
-      "eod_close": 60.97,
-      "session_change_pct": -1.42,
+      "trigger_close": 278.06500244140625,
+      "eod_close": 275.67,
+      "session_change_pct": -0.86,
+      "held_trigger": false,
+      "grade": "FAILED",
+      "grade_note": "Reversed through trigger \u00b7 -0.9%"
+    },
+    "TWO_bullish": {
+      "ticker": "TWO",
+      "direction": "bullish",
+      "trigger_type": "PIVOT",
+      "trigger_close": 12.5,
+      "eod_close": 12.54,
+      "session_change_pct": 0.32,
       "held_trigger": true,
       "grade": "STRONG",
-      "grade_note": "Held + closed at extreme \u00b7 -1.4%"
+      "grade_note": "Held + closed at extreme \u00b7 +0.3%"
     },
-    "ROKU_bearish": {
-      "ticker": "ROKU",
-      "direction": "bearish",
+    "INTT_bullish": {
+      "ticker": "INTT",
+      "direction": "bullish",
       "trigger_type": "PIVOT",
-      "trigger_close": 126.19000244140625,
-      "eod_close": 125.58,
-      "session_change_pct": -0.48,
-      "held_trigger": true,
-      "grade": "STRONG",
-      "grade_note": "Held + closed at extreme \u00b7 -0.5%"
+      "trigger_close": 18.290000915527344,
+      "eod_close": 18.21,
+      "session_change_pct": -0.44,
+      "held_trigger": false,
+      "grade": "FAILED",
+      "grade_note": "Reversed through trigger \u00b7 -0.4%"
     },
-    "AEHR_bearish": {
+    "NVTS_bullish": {
+      "ticker": "NVTS",
+      "direction": "bullish",
+      "trigger_type": "PIVOT",
+      "trigger_close": 32.09000015258789,
+      "eod_close": 31.78,
+      "session_change_pct": -0.97,
+      "held_trigger": false,
+      "grade": "FAILED",
+      "grade_note": "Reversed through trigger \u00b7 -1.0%"
+    },
+    "AEHR_bullish": {
       "ticker": "AEHR",
-      "direction": "bearish",
+      "direction": "bullish",
       "trigger_type": "PIVOT",
-      "trigger_close": 94.99500274658203,
-      "eod_close": 95.02,
-      "session_change_pct": 0.03,
+      "trigger_close": 110.30500030517578,
+      "eod_close": 109.8,
+      "session_change_pct": -0.46,
       "held_trigger": false,
       "grade": "FAILED",
-      "grade_note": "Reversed through trigger \u00b7 +0.0%"
+      "grade_note": "Reversed through trigger \u00b7 -0.5%"
     }
   },
-  "market_date": "2026-05-22"
+  "market_date": "2026-05-26"
 }
