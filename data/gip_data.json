@@ -1,6 +1,6 @@
 {
-  "generated_at": "2026-05-27T23:38:36.456321",
-  "composite": 1.14,
+  "generated_at": "2026-05-28T23:48:33.009220",
+  "composite": 0.08,
   "regime": {
     "label": "Neutral",
     "color": "amber",
@@ -9,10 +9,10 @@
   "any_stale": true,
   "pillars": {
     "growth": {
-      "score": 0.284,
+      "score": -0.059,
       "components": {
         "lei": 0.0,
-        "icsa": 1.370274568341463,
+        "icsa": 0.0,
         "ism": -0.14694020736667723
       },
       "stale": true,
@@ -23,13 +23,13 @@
       }
     },
     "inflation": {
-      "score": 1.5,
+      "score": 0.0,
       "components": {
         "cpi_yoy": 0.0,
         "core_yoy": 0.0,
         "pce_yoy": 0.0,
         "ppi_yoy": 0.0,
-        "t5y5y": 10.0
+        "t5y5y": 0.0
       },
       "stale": true,
       "stale_detail": {
@@ -37,41 +37,41 @@
         "core_yoy": true,
         "pce_yoy": true,
         "ppi_yoy": true,
-        "t5y5y": false
+        "t5y5y": true
       }
     },
     "liquidity": {
-      "score": 2.053,
+      "score": 0.0,
       "components": {
-        "net_liq": 0.6025798221665328,
-        "hy_oas": 4.40793477881837,
+        "net_liq": 0.0,
+        "hy_oas": 0.0,
         "m2": 0.0,
-        "sofr": 6.49430924861245
+        "sofr": 0.0
       },
       "stale": true,
       "stale_detail": {
-        "walcl": false,
-        "tga": false,
-        "rrp": false,
-        "hy": false,
+        "walcl": true,
+        "tga": true,
+        "rrp": true,
+        "hy": true,
         "m2": true,
-        "sofr": false
+        "sofr": true
       }
     },
     "curve": {
-      "score": 0.423,
+      "score": 0.651,
       "components": {
-        "curve_spread": 1.344200310040681,
-        "real10y": -3.1192070597629975,
-        "move_proxy": 3.4350939273321215
+        "curve_spread": 0.0,
+        "real10y": 0.0,
+        "move_proxy": 3.2542587166619095
       },
-      "steepener_adj": -1.0,
-      "stale": false,
+      "steepener_adj": 0.0,
+      "stale": true,
       "stale_detail": {
-        "t10y2y": false,
-        "dgs2": false,
-        "dgs10": false,
-        "dfii10": false,
+        "t10y2y": true,
+        "dgs2": true,
+        "dgs10": true,
+        "dfii10": true,
         "move_proxy": false
       }
     }
