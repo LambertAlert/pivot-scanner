@@ -1,10 +1,24 @@
 """
-INTRADAY PIVOT SCANNER (v5.0) — Speed fixes + 3 new signal types.
+INTRADAY PIVOT SCANNER (v5.1) — Cross-day pivot detection + scan-window.
 
 Signal types
   PIVOT       — Classic 30-min streak reversal (3+ bar contraction → breakout)
+                Streaks may span session boundaries (cross-day pivots supported).
   RANGE_BREAK — First-hour range breakout (9:30–10:30 ET range broken at bar 3+)
   CONTINUATION— EOD grade on all triggers: STRONG / HOLDING / FAILED
+
+v5.1 changes (cross-day pivot support)
+  1. detect_pivot now scans a configurable PIVOT_SCAN_WINDOW (default 4) to
+     find the pivot bar — previously hardcoded to iloc[-2] which forced the
+     pivot to be the most recent bar before the trigger. Now the trigger bar
+     is still always the most-recently-closed bar (iloc[-1]), but the pivot
+     can sit 1–4 positions back, enabling morning triggers where today's
+     opening bars haven't yet formed a clean reversal bar.
+  2. Streak lookback cap raised from 10 → STREAK_LOOKBACK (default 20) bars.
+     At 30m, 20 bars = ~10 trading hours (>1 full session), so the streak
+     search can fully reach into yesterday's bars.
+  3. detect_pivot result now includes `is_cross_day` (bool) and
+     `streak_start_date` so the dashboard and logs can surface cross-day setups.
 
 Speed improvements vs v4.3
   1. batch_fetch_daily REMOVED — ATR, prev_close, high_20d pre-computed in
@@ -30,7 +44,6 @@ import yfinance as yf
 from data_layer import (
     save_trigger,
     save_trigger_continuations,
-    save_intraday_universe,
     get_today_triggers,
     get_latest_daily_watchlist,
 )
@@ -44,14 +57,17 @@ MIN_STREAK         = 3        # bars of contraction before pivot fires
 RATE_LIMIT_PAUSE   = 0.5      # seconds between batch chunks (was 2s)
 ALERT_TIERS        = ["HIGH", "MED"]
 
-# Top-N universe for intraday scanning.
-# Only the highest-ranked names from the daily watchlist are scanned each
-# intraday run.  Set to 50 (max) or 25 (tighter focus).  Names are ranked by:
-#   1. Conviction tier   (HIGH > MED)
-#   2. Daily BBUW score  (higher = tighter compression = better setup)
-#   3. RS rating         (higher = stronger relative strength)
-#   4. Industry rank     (lower = better ranked industry)
-INTRADAY_TOP_N     = 50
+# Pivot scan window — how many positions back to search for the pivot bar.
+# 1 = old behaviour (pivot must be immediately before trigger at iloc[-2]).
+# 4 = allows the pivot bar to sit up to 4 positions before the trigger,
+#     so morning setups where today's early bars haven't yet formed a clean
+#     reversal can still resolve off a cross-day pivot.
+PIVOT_SCAN_WINDOW  = 4
+
+# Max bars to look back when counting the streak (raised from 10 → 20).
+# At 30m cadence, 20 bars ≈ 10 trading hours (~1.5 sessions), ensuring the
+# streak search reaches fully into the previous day's bars.
+STREAK_LOOKBACK    = 20
 
 # R-ratio thresholds (matched to dashboard display)
 R_ELITE   = 3.0
@@ -79,54 +95,6 @@ logging.basicConfig(
     datefmt="%Y-%m-%d %H:%M:%S",
 )
 log = logging.getLogger(__name__)
-
-
-# ═══════════════════════════════════════════════════════════════════════════════
-#  UNIVERSE SELECTION  — top N from daily watchlist
-# ═══════════════════════════════════════════════════════════════════════════════
-
-_CONVICTION_ORDER = {"HIGH": 0, "MED": 1}
-
-
-def select_intraday_universe(entries: list, top_n: int = INTRADAY_TOP_N) -> list:
-    """
-    Rank and slice the daily watchlist down to the top N names for intraday
-    scanning.  Only HIGH/MED conviction entries are considered.
-
-    Sort key (ascending priority):
-      1. Conviction tier   HIGH=0, MED=1
-      2. Daily BBUW        descending  (tighter compression → better setup)
-      3. RS rating         descending  (stronger relative momentum)
-      4. Industry rank     ascending   (lower rank = stronger industry)
-
-    Returns a list of at most `top_n` entries, preserving all original fields
-    plus a new `intraday_rank` integer (1-based) for dashboard display.
-    """
-    qualified = [e for e in entries if e.get("conviction") in ALERT_TIERS]
-
-    qualified.sort(key=lambda e: (
-        _CONVICTION_ORDER.get(e.get("conviction", "MED"), 1),
-        -(e.get("daily_bbuw")    or 0),
-        -(e.get("rs_rating")     or 0),
-         (e.get("industry_rank") or 99),
-    ))
-
-    selected = qualified[:top_n]
-    for i, e in enumerate(selected, 1):
-        e["intraday_rank"] = i
-
-    log.info(
-        f"  Universe: {len(qualified)} HIGH/MED entries → top {len(selected)} selected "
-        f"(INTRADAY_TOP_N={top_n})"
-    )
-    if selected:
-        top5 = ", ".join(
-            f"{e['ticker']}({e.get('conviction','?')} bbuw={e.get('daily_bbuw',0):.0f})"
-            for e in selected[:5]
-        )
-        log.info(f"  Top 5: {top5}")
-
-    return selected
 
 
 # ═══════════════════════════════════════════════════════════════════════════════
@@ -244,48 +212,113 @@ def is_green(row): return row["close"] > row["open"]
 def is_red(row):   return row["close"] <= row["open"]
 
 
-def detect_pivot(df: pd.DataFrame, min_streak: int = MIN_STREAK) -> Optional[dict]:
-    if len(df) < min_streak + 2:
+def detect_pivot(df: pd.DataFrame,
+                 min_streak: int = MIN_STREAK,
+                 scan_window: int = PIVOT_SCAN_WINDOW) -> Optional[dict]:
+    """
+    Detect a classic 30-min streak-reversal pivot.
+
+    Cross-day behaviour (v5.1)
+    --------------------------
+    * The trigger bar is always df.iloc[-1] (most recently closed bar).
+    * The pivot bar is searched across the last `scan_window` positions
+      (df.iloc[-2] … df.iloc[-(scan_window+1)]).  This means a pivot that
+      formed at end-of-yesterday followed by today's opening bars is caught
+      without requiring today's first bar itself to be the pivot.
+    * The streak is counted backward from the bar immediately before the
+      candidate pivot, capped at STREAK_LOOKBACK (20) bars rather than the
+      old hard limit of 10.  At 30m cadence, 20 bars covers > 1 full session.
+
+    The result dict includes `is_cross_day` (True when at least one streak
+    bar or the pivot bar belongs to a different calendar date than the trigger)
+    and `streak_start_date` for logging.
+    """
+    # Need at least: trigger(1) + pivot(1) + min_streak bars
+    min_needed = min_streak + 2
+    if len(df) < min_needed:
         return None
     df = df[df["close"] > 0].copy()
-    if len(df) < min_streak + 2:
+    if len(df) < min_needed:
         return None
 
-    trigger_bar = df.iloc[-1]
-    pivot_bar   = df.iloc[-2]
+    trigger_bar  = df.iloc[-1]
+    trigger_date = df.index[-1].date() if hasattr(df.index[-1], "date") else None
 
-    def count_streak(start_idx: int, qualifier) -> int:
+    def count_streak(streak_start_pos: int, qualifier) -> int:
+        """Count consecutive qualifying bars going backward from streak_start_pos."""
         count = 0
-        for i in range(start_idx, min(start_idx + 10, len(df))):
-            if qualifier(df.iloc[-(i)]):
+        # Upper bound is len(df)+1 so df.iloc[-len(df)] (the very first bar) is reachable.
+        for i in range(streak_start_pos, min(streak_start_pos + STREAK_LOOKBACK, len(df) + 1)):
+            if qualifier(df.iloc[-i]):
                 count += 1
             else:
                 break
         return count
 
-    if is_green(pivot_bar):
-        streak = count_streak(3, is_red)
-        if streak >= min_streak and float(trigger_bar["close"]) > float(pivot_bar["high"]):
-            return {
-                "direction":    "bullish",
-                "streak_len":   streak,
-                "pivot_bar":    pivot_bar,
-                "trigger_bar":  trigger_bar,
-                "pivot_time":   df.index[-2],
-                "trigger_time": df.index[-1],
-            }
+    def oldest_streak_date(streak_start_pos: int, qualifier) -> Optional[date]:
+        """Return the calendar date of the OLDEST (furthest-back) qualifying streak bar."""
+        last_date = None
+        for i in range(streak_start_pos, min(streak_start_pos + STREAK_LOOKBACK, len(df) + 1)):
+            if qualifier(df.iloc[-i]):
+                ts = df.index[-i]
+                last_date = ts.date() if hasattr(ts, "date") else None
+            else:
+                break
+        return last_date
 
-    if is_red(pivot_bar):
-        streak = count_streak(3, is_green)
-        if streak >= min_streak and float(trigger_bar["close"]) < float(pivot_bar["low"]):
-            return {
-                "direction":    "bearish",
-                "streak_len":   streak,
-                "pivot_bar":    pivot_bar,
-                "trigger_bar":  trigger_bar,
-                "pivot_time":   df.index[-2],
-                "trigger_time": df.index[-1],
-            }
+    # ── Scan pivot positions from -2 back to -(scan_window+1) ────────────
+    for pivot_offset in range(2, scan_window + 2):
+        if pivot_offset >= len(df):
+            break
+
+        pivot_bar   = df.iloc[-pivot_offset]
+        # streak bars start immediately after the pivot (going further back)
+        streak_pos  = pivot_offset + 1
+
+        if is_green(pivot_bar):
+            streak = count_streak(streak_pos, is_red)
+            if streak >= min_streak and float(trigger_bar["close"]) > float(pivot_bar["high"]):
+                pivot_date  = df.index[-pivot_offset].date() if hasattr(df.index[-pivot_offset], "date") else None
+                sd          = oldest_streak_date(streak_pos, is_red)
+                cross_day   = bool(
+                    trigger_date and pivot_date and (
+                        pivot_date < trigger_date or (sd and sd < trigger_date)
+                    )
+                )
+                return {
+                    "direction":        "bullish",
+                    "streak_len":       streak,
+                    "pivot_bar":        pivot_bar,
+                    "trigger_bar":      trigger_bar,
+                    "pivot_time":       df.index[-pivot_offset],
+                    "trigger_time":     df.index[-1],
+                    "is_cross_day":     cross_day,
+                    "streak_start_date": str(sd) if sd else None,
+                    "pivot_offset":     pivot_offset,   # 2 = immediately before trigger
+                }
+
+        if is_red(pivot_bar):
+            streak = count_streak(streak_pos, is_green)
+            if streak >= min_streak and float(trigger_bar["close"]) < float(pivot_bar["low"]):
+                pivot_date  = df.index[-pivot_offset].date() if hasattr(df.index[-pivot_offset], "date") else None
+                sd          = oldest_streak_date(streak_pos, is_green)
+                cross_day   = bool(
+                    trigger_date and pivot_date and (
+                        pivot_date < trigger_date or (sd and sd < trigger_date)
+                    )
+                )
+                return {
+                    "direction":        "bearish",
+                    "streak_len":       streak,
+                    "pivot_bar":        pivot_bar,
+                    "trigger_bar":      trigger_bar,
+                    "pivot_time":       df.index[-pivot_offset],
+                    "trigger_time":     df.index[-1],
+                    "is_cross_day":     cross_day,
+                    "streak_start_date": str(sd) if sd else None,
+                    "pivot_offset":     pivot_offset,
+                }
+
     return None
 
 
@@ -549,13 +582,20 @@ def persist_trigger(entry: dict, result: dict, df_intraday: pd.DataFrame,
             if trigger_type == "RANGE_BREAK"
             else ("ITM/ATM weekly calls" if d == "bullish" else "ITM/ATM weekly puts")
         ),
+        # Cross-day metadata (PIVOT only; None for RANGE_BREAK)
+        "is_cross_day":         result.get("is_cross_day"),
+        "streak_start_date":    result.get("streak_start_date"),
+        "pivot_offset":         result.get("pivot_offset"),
     }
 
     save_trigger(trigger)
-    r_str = f"  R={r_ratio:.1f}" if r_ratio is not None else ""
+    r_str       = f"  R={r_ratio:.1f}" if r_ratio is not None else ""
+    xday_str    = "  🗓 CROSS-DAY" if result.get("is_cross_day") else ""
+    offset_str  = (f"  offset={result.get('pivot_offset','?')}"
+                   if result.get("pivot_offset", 2) != 2 else "")
     log.info(f"  💾 [{trigger_type}] {entry['ticker']} {d.upper()}"
              f"  score={score}{r_str}  rvol={rvol:.1f}×"
-             f"  streak={result.get('streak_len','-')}")
+             f"  streak={result.get('streak_len','-')}{offset_str}{xday_str}")
 
 
 # ═══════════════════════════════════════════════════════════════════════════════
@@ -570,23 +610,21 @@ def main():
     is_eod_window = (now_utc.hour >= CONTINUATION_UTC_START)
 
     log.info(
-        f"Starting INTRADAY scanner v5.0  "
+        f"Starting INTRADAY scanner v5.1  "
         f"[PIVOT=✓  RANGE_BREAK={'✓' if is_range_break_window else '—'}  "
         f"CONTINUATION={'✓' if is_eod_window else '—'}]"
     )
 
     daily_data    = get_latest_daily_watchlist()
     entries       = daily_data.get("entries", [])
-
-    pivot_entries = select_intraday_universe(entries, top_n=INTRADAY_TOP_N)
-    save_intraday_universe(pivot_entries, top_n=INTRADAY_TOP_N)
+    pivot_entries = [e for e in entries if e["conviction"] in ALERT_TIERS]
 
     if not pivot_entries:
         log.error("No entries in daily watchlist. Run daily_screener.py first.")
         return
 
     tickers = list({e["ticker"] for e in pivot_entries})
-    log.info(f"Scanning {len(pivot_entries)} tickers (top {INTRADAY_TOP_N} of {len(entries)} daily entries)")
+    log.info(f"Watchlist: {len(pivot_entries)} tickers ({ALERT_TIERS})")
 
     # ── SINGLE batch download (Speed 1+2: daily bars removed, 5d intraday) ─
     log.info("Batch downloading 30m bars (5d)...")
