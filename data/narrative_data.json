@@ -1,22 +1,22 @@
 {
-  "generated_at": "2026-06-04T00:02:05.245397",
+  "generated_at": "2026-06-04T23:37:47.984040",
   "today": {
-    "spx_dir": "\u2193",
+    "spx_dir": "\u2191",
     "dxy_dir": "\u2193",
     "tnx_dir": "\u2193",
-    "state_id": 7,
-    "name": "Slowdown / Easing Anticipation",
-    "label": "Stocks \u2193 \u00b7 Dollar \u2193 \u00b7 Rates \u2193",
-    "sector_tilt": "Gold, duration, defensive value",
-    "color": "amber",
-    "bullish": false
+    "state_id": 1,
+    "name": "Goldilocks",
+    "label": "Stocks \u2191 \u00b7 Dollar \u2193 \u00b7 Rates \u2193",
+    "sector_tilt": "Growth, semis, software, biotech",
+    "color": "green",
+    "bullish": true
   },
   "dominant_10d": {
     "state_id": 1,
     "name": "Goldilocks",
     "color": "green",
     "sector_tilt": "Growth, semis, software, biotech",
-    "freq_10d_pct": 30.0
+    "freq_10d_pct": 40.0
   },
   "bearish_days_10": 1,
   "all_narratives": [
@@ -27,10 +27,10 @@
       "sector_tilt": "Growth, semis, software, biotech",
       "color": "green",
       "bullish": true,
-      "freq_5d_pct": 20.0,
-      "freq_10d_pct": 30.0,
-      "freq_20d_pct": 25.0,
-      "base_rate_pct": 17.9
+      "freq_5d_pct": 40.0,
+      "freq_10d_pct": 40.0,
+      "freq_20d_pct": 30.0,
+      "base_rate_pct": 18.0
     },
     {
       "id": 2,
@@ -99,10 +99,10 @@
       "sector_tilt": "Gold, duration, defensive value",
       "color": "amber",
       "bullish": false,
-      "freq_5d_pct": 20.0,
-      "freq_10d_pct": 20.0,
-      "freq_20d_pct": 10.0,
-      "base_rate_pct": 14.9
+      "freq_5d_pct": 0.0,
+      "freq_10d_pct": 10.0,
+      "freq_20d_pct": 5.0,
+      "base_rate_pct": 14.8
     },
     {
       "id": 8,
@@ -118,13 +118,13 @@
     }
   ],
   "base_rates": {
-    "1": 17.9,
+    "1": 18.0,
     "2": 11.0,
     "3": 13.8,
     "4": 9.0,
     "5": 8.9,
     "6": 17.9,
-    "7": 14.9,
+    "7": 14.8,
     "8": 6.6
   },
   "transitions": {
@@ -179,13 +179,13 @@
       "8": 0.0
     },
     "6": {
-      "1": 0.26,
+      "1": 0.28,
       "2": 0.06,
       "3": 0.12,
       "4": 0.06,
       "5": 0.12,
       "6": 0.18,
-      "7": 0.16,
+      "7": 0.14,
       "8": 0.04
     },
     "7": {
@@ -743,10 +743,10 @@
     },
     {
       "date": "2026-06-04",
-      "state_id": 7,
-      "narrative_name": "Slowdown / Easing Anticipation",
-      "color": "amber",
-      "spx": "\u2193",
+      "state_id": 1,
+      "narrative_name": "Goldilocks",
+      "color": "green",
+      "spx": "\u2191",
       "dxy": "\u2193",
       "tnx": "\u2193"
     }
