@@ -1,6 +1,6 @@
 {
-  "generated_at": "2026-06-03T00:02:39.101701",
-  "composite": 0.601,
+  "generated_at": "2026-06-04T00:02:00.754307",
+  "composite": 0.913,
   "regime": {
     "label": "Neutral",
     "color": "amber",
@@ -9,11 +9,11 @@
   "any_stale": true,
   "pillars": {
     "growth": {
-      "score": 0.327,
+      "score": 0.268,
       "components": {
         "lei": 0.0,
         "icsa": 1.3077423109751918,
-        "ism": 0.0
+        "ism": -0.14694020736667723
       },
       "stale": true,
       "stale_detail": {
@@ -23,13 +23,13 @@
       }
     },
     "inflation": {
-      "score": 1.495,
+      "score": 1.482,
       "components": {
         "cpi_yoy": 0.0,
         "core_yoy": 0.0,
         "pce_yoy": 0.0,
         "ppi_yoy": 0.0,
-        "t5y5y": 9.965
+        "t5y5y": 9.879999999999999
       },
       "stale": true,
       "stale_detail": {
@@ -41,34 +41,34 @@
       }
     },
     "liquidity": {
-      "score": 0.431,
+      "score": 1.089,
       "components": {
-        "net_liq": -1.3153186823206702,
-        "hy_oas": 4.355059723233923,
+        "net_liq": -1.3177388519318556,
+        "hy_oas": 4.435752811141864,
         "m2": 0.0,
-        "sofr": 0.0
+        "sofr": 6.388524683343595
       },
       "stale": true,
       "stale_detail": {
-        "walcl": false,
-        "tga": false,
+        "walcl": true,
+        "tga": true,
         "rrp": false,
         "hy": false,
         "m2": true,
-        "sofr": true
+        "sofr": false
       }
     },
     "curve": {
-      "score": -0.002,
+      "score": 0.906,
       "components": {
-        "curve_spread": 0.0,
-        "real10y": -2.4499401756208226,
-        "move_proxy": 3.6662787502999032
+        "curve_spread": 1.698010797484839,
+        "real10y": -2.4423425691494183,
+        "move_proxy": 3.946373395019008
       },
-      "steepener_adj": 0.0,
-      "stale": true,
+      "steepener_adj": -0.5,
+      "stale": false,
       "stale_detail": {
-        "t10y2y": true,
+        "t10y2y": false,
         "dgs2": false,
         "dgs10": false,
         "dfii10": false,
