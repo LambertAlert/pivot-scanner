@@ -1,52 +1,52 @@
 {
-  "generated_at": "2026-06-22T12:52:12.806018",
+  "generated_at": "2026-06-22T23:43:26.901570",
   "count": 16,
   "indices": [
     {
       "ticker": "DIA",
       "name": "Dow Jones Industrial",
       "category": "index",
-      "current_price": 515.52,
-      "today_pct": 0.12,
+      "current_price": 517.08,
+      "today_pct": 0.3,
       "weekly": {
-        "trend": "Expanding range (volatile)",
+        "trend": "Uptrend (HH/HL confirmed)",
         "higher_high": "True",
-        "higher_low": "False",
+        "higher_low": "True",
         "lower_high": "False",
-        "lower_low": "True",
-        "ma_20w": 488.14,
+        "lower_low": "False",
+        "ma_20w": 489.05,
         "ma_20w_slope": "rising",
         "above_20w": true,
-        "pct_from_20w": 5.61,
-        "high_52w": 524.17,
-        "low_52w": 413.34,
-        "pct_from_52w_high": -1.65,
-        "pct_from_52w_low": 24.72,
-        "base_depth_pct": 7.4,
+        "pct_from_20w": 5.73,
+        "high_52w": 522.74,
+        "low_52w": 427.09,
+        "pct_from_52w_high": -1.08,
+        "pct_from_52w_low": 21.07,
+        "base_depth_pct": 6.76,
         "is_tight_base": true,
         "base_position": "right side of base",
-        "base_high": 524.17,
-        "base_low": 485.41
+        "base_high": 522.74,
+        "base_low": 487.4
       },
       "daily": {
-        "ema_10": 512.49,
-        "ema_21": 508.31,
-        "sma_50": 498.26,
-        "sma_200": 478.3,
+        "ema_10": 513.32,
+        "ema_21": 509.11,
+        "sma_50": 499.0,
+        "sma_200": 478.65,
         "above_10ema": true,
         "above_21ema": true,
         "above_50sma": true,
         "above_200sma": true,
-        "pct_from_10ema": 0.59,
-        "pct_from_21ema": 1.42,
-        "pct_from_50sma": 3.46,
-        "pct_from_200sma": 7.78,
-        "vol_ratio_5d": 1.17,
+        "pct_from_10ema": 0.73,
+        "pct_from_21ema": 1.57,
+        "pct_from_50sma": 3.62,
+        "pct_from_200sma": 8.03,
+        "vol_ratio_5d": 1.09,
         "up_days_5": 4,
         "down_days_5": 1,
         "higher_lows_5": 3,
-        "today_pct": 0.12,
-        "candle_position": 0.02
+        "today_pct": 0.3,
+        "candle_position": 0.37
       },
       "cycle_signals": {
         "bull_10ema_crossback": false,
@@ -71,37 +71,37 @@
         "phase_scores": {
           "WEDGE_POP_BASE_BREAK": 0,
           "EMA_CROSSBACK": 0,
-          "TREND_CONTINUATION": 7,
+          "TREND_CONTINUATION": 9,
           "EXHAUSTION": 0
         }
       },
       "narrative": {
         "daily_read": [
-          "Holding above the 10 EMA (working level intact, +0.6% above).",
-          "Above 21 EMA (+1.4%).",
-          "Above the 200 SMA (+7.8%) \u2014 long-term trend intact.",
+          "Holding above the 10 EMA (working level intact, +0.7% above).",
+          "Above 21 EMA (+1.6%).",
+          "Above the 200 SMA (+8.0%) \u2014 long-term trend intact.",
           "Higher lows 3/4 last 5 sessions \u2014 buyers stepping up."
         ],
         "weekly_read": [
-          "Above 20-week MA (+5.6%, slope rising).",
-          "Trend read: Expanding range (volatile).",
-          "Tight base detected \u2014 last 8 weeks contained in a 7.4% range ($485.41 to $524.17). On the right side of base.",
+          "Above 20-week MA (+5.7%, slope rising).",
+          "Trend read: Uptrend (HH/HL confirmed).",
+          "Tight base detected \u2014 last 8 weeks contained in a 6.8% range ($487.40 to $522.74). On the right side of base.",
           "Within 5% of 52-week high \u2014 extended structurally."
         ],
         "cycle_signals": [],
         "bull_levels": [
-          "Hold above 10 EMA ($512.49)",
-          "Break and hold above $524.17 (8-week base high)",
-          "Target $524.17 (52-week high)"
+          "Hold above 10 EMA ($513.32)",
+          "Break and hold above $522.74 (8-week base high)",
+          "Target $522.74 (52-week high)"
         ],
         "bear_levels": [
-          "Loss of 21 EMA ($508.31)",
-          "Loss of $485.41 (8-week base low) flips structure",
-          "Loss of 200 SMA ($478.30) compromises long-term trend"
+          "Loss of 21 EMA ($509.11)",
+          "Loss of $487.40 (8-week base low) flips structure",
+          "Loss of 200 SMA ($478.65) compromises long-term trend"
         ],
         "bias": "STRONGLY CONSTRUCTIVE",
         "bias_color": "green",
-        "bull_score": 10,
+        "bull_score": 13,
         "bear_score": 0,
         "phase": "TREND_CONTINUATION",
         "phase_label": "Trend Continuation",
@@ -111,7 +111,7 @@
         "phase_scores": {
           "WEDGE_POP_BASE_BREAK": 0,
           "EMA_CROSSBACK": 0,
-          "TREND_CONTINUATION": 7,
+          "TREND_CONTINUATION": 9,
           "EXHAUSTION": 0
         }
       }
@@ -120,169 +120,54 @@
       "ticker": "IWM",
       "name": "Russell 2000",
       "category": "index",
-      "current_price": 295.59,
-      "today_pct": 1.97,
-      "weekly": {
-        "trend": "Expanding range (volatile)",
-        "higher_high": "True",
-        "higher_low": "False",
-        "lower_high": "False",
-        "lower_low": "True",
-        "ma_20w": 268.67,
-        "ma_20w_slope": "rising",
-        "above_20w": true,
-        "pct_from_20w": 10.02,
-        "high_52w": 297.91,
-        "low_52w": 204.68,
-        "pct_from_52w_high": -0.78,
-        "pct_from_52w_low": 44.41,
-        "base_depth_pct": 9.46,
-        "is_tight_base": true,
-        "base_position": "right side of base",
-        "base_high": 297.91,
-        "base_low": 269.72
-      },
-      "daily": {
-        "ema_10": 290.35,
-        "ema_21": 287.51,
-        "sma_50": 280.74,
-        "sma_200": 256.78,
-        "above_10ema": true,
-        "above_21ema": true,
-        "above_50sma": true,
-        "above_200sma": true,
-        "pct_from_10ema": 1.8,
-        "pct_from_21ema": 2.81,
-        "pct_from_50sma": 5.29,
-        "pct_from_200sma": 15.11,
-        "vol_ratio_5d": 1.05,
-        "up_days_5": 3,
-        "down_days_5": 2,
-        "higher_lows_5": 2,
-        "today_pct": 1.97,
-        "candle_position": 0.92
-      },
-      "cycle_signals": {
-        "bull_10ema_crossback": true,
-        "bear_10ema_crossback": false,
-        "bull_21ema_crossback": false,
-        "bear_21ema_crossback": false,
-        "bull_reversal_extension": false,
-        "bear_reversal_extension": false,
-        "bear_trap": false,
-        "bull_trap": false,
-        "base_breakout": false,
-        "base_breakdown": false,
-        "rising_wedge": false,
-        "falling_wedge": false
-      },
-      "phase": {
-        "phase": "TREND_CONTINUATION",
-        "phase_label": "Trend Continuation",
-        "phase_emoji": "\ud83d\ude80",
-        "phase_color": "green",
-        "phase_action": "Riding the trend. Hold above 10/20 EMA; let it run. Avoid re-entering extended.",
-        "phase_scores": {
-          "WEDGE_POP_BASE_BREAK": 0,
-          "EMA_CROSSBACK": 4,
-          "TREND_CONTINUATION": 6,
-          "EXHAUSTION": 0
-        }
-      },
-      "narrative": {
-        "daily_read": [
-          "Holding above the 10 EMA (working level intact, +1.8% above).",
-          "Above 21 EMA (+2.8%).",
-          "Above the 200 SMA (+15.1%) \u2014 long-term trend intact."
-        ],
-        "weekly_read": [
-          "Above 20-week MA (+10.0%, slope rising).",
-          "Trend read: Expanding range (volatile).",
-          "Tight base detected \u2014 last 8 weeks contained in a 9.5% range ($269.72 to $297.91). On the right side of base.",
-          "Within 5% of 52-week high \u2014 extended structurally."
-        ],
-        "cycle_signals": [
-          "\u2705 Bullish 10 EMA Crossback"
-        ],
-        "bull_levels": [
-          "Hold above 10 EMA ($290.35)",
-          "Break and hold above $297.91 (8-week base high)",
-          "Target $297.91 (52-week high)"
-        ],
-        "bear_levels": [
-          "Loss of 21 EMA ($287.51)",
-          "Loss of $269.72 (8-week base low) flips structure",
-          "Loss of 200 SMA ($256.78) compromises long-term trend"
-        ],
-        "bias": "STRONGLY CONSTRUCTIVE",
-        "bias_color": "green",
-        "bull_score": 11,
-        "bear_score": 0,
-        "phase": "TREND_CONTINUATION",
-        "phase_label": "Trend Continuation",
-        "phase_emoji": "\ud83d\ude80",
-        "phase_color": "green",
-        "phase_action": "Riding the trend. Hold above 10/20 EMA; let it run. Avoid re-entering extended.",
-        "phase_scores": {
-          "WEDGE_POP_BASE_BREAK": 0,
-          "EMA_CROSSBACK": 4,
-          "TREND_CONTINUATION": 6,
-          "EXHAUSTION": 0
-        }
-      }
-    },
-    {
-      "ticker": "MDY",
-      "name": "S&P Mid-Cap 400",
-      "category": "index",
-      "current_price": 691.0,
-      "today_pct": 1.0,
+      "current_price": 298.18,
+      "today_pct": 0.88,
       "weekly": {
         "trend": "Uptrend (HH/HL confirmed)",
         "higher_high": "True",
         "higher_low": "True",
         "lower_high": "False",
         "lower_low": "False",
-        "ma_20w": 651.0,
+        "ma_20w": 270.35,
         "ma_20w_slope": "rising",
         "above_20w": true,
-        "pct_from_20w": 6.14,
-        "high_52w": 704.12,
-        "low_52w": 540.95,
-        "pct_from_52w_high": -1.86,
-        "pct_from_52w_low": 27.74,
-        "base_depth_pct": 8.0,
+        "pct_from_20w": 10.3,
+        "high_52w": 299.49,
+        "low_52w": 210.16,
+        "pct_from_52w_high": -0.44,
+        "pct_from_52w_low": 41.88,
+        "base_depth_pct": 9.85,
         "is_tight_base": true,
         "base_position": "right side of base",
-        "base_high": 704.12,
-        "base_low": 647.76
+        "base_high": 299.49,
+        "base_low": 269.99
       },
       "daily": {
-        "ema_10": 685.89,
-        "ema_21": 680.34,
-        "sma_50": 668.64,
-        "sma_200": 624.38,
+        "ema_10": 291.77,
+        "ema_21": 288.48,
+        "sma_50": 281.48,
+        "sma_200": 257.12,
         "above_10ema": true,
         "above_21ema": true,
         "above_50sma": true,
         "above_200sma": true,
-        "pct_from_10ema": 0.74,
-        "pct_from_21ema": 1.57,
-        "pct_from_50sma": 3.34,
-        "pct_from_200sma": 10.67,
-        "vol_ratio_5d": 1.24,
+        "pct_from_10ema": 2.2,
+        "pct_from_21ema": 3.36,
+        "pct_from_50sma": 5.93,
+        "pct_from_200sma": 15.97,
+        "vol_ratio_5d": 0.98,
         "up_days_5": 3,
         "down_days_5": 2,
         "higher_lows_5": 2,
-        "today_pct": 1.0,
-        "candle_position": 0.77
+        "today_pct": 0.88,
+        "candle_position": 0.61
       },
       "cycle_signals": {
         "bull_10ema_crossback": false,
         "bear_10ema_crossback": false,
-        "bull_21ema_crossback": true,
+        "bull_21ema_crossback": false,
         "bear_21ema_crossback": false,
-        "bull_reversal_extension": false,
+        "bull_reversal_extension": true,
         "bear_reversal_extension": false,
         "bear_trap": false,
         "bull_trap": false,
@@ -298,36 +183,36 @@
         "phase_color": "green",
         "phase_action": "Riding the trend. Hold above 10/20 EMA; let it run. Avoid re-entering extended.",
         "phase_scores": {
-          "WEDGE_POP_BASE_BREAK": 0,
-          "EMA_CROSSBACK": 6,
+          "WEDGE_POP_BASE_BREAK": 1,
+          "EMA_CROSSBACK": 0,
           "TREND_CONTINUATION": 8,
           "EXHAUSTION": 0
         }
       },
       "narrative": {
         "daily_read": [
-          "Holding above the 10 EMA (working level intact, +0.7% above).",
-          "Above 21 EMA (+1.6%).",
-          "Above the 200 SMA (+10.7%) \u2014 long-term trend intact."
+          "Holding above the 10 EMA (working level intact, +2.2% above).",
+          "Above 21 EMA (+3.4%).",
+          "Above the 200 SMA (+16.0%) \u2014 long-term trend intact."
         ],
         "weekly_read": [
-          "Above 20-week MA (+6.1%, slope rising).",
+          "Above 20-week MA (+10.3%, slope rising).",
           "Trend read: Uptrend (HH/HL confirmed).",
-          "Tight base detected \u2014 last 8 weeks contained in a 8.0% range ($647.76 to $704.12). On the right side of base.",
+          "Tight base detected \u2014 last 8 weeks contained in a 9.8% range ($269.99 to $299.49). On the right side of base.",
           "Within 5% of 52-week high \u2014 extended structurally."
         ],
         "cycle_signals": [
-          "\u2705 Bullish 21 EMA Crossback (deeper test)"
+          "\u2705 Bullish Reversal Extension complete"
         ],
         "bull_levels": [
-          "Hold above 10 EMA ($685.89)",
-          "Break and hold above $704.12 (8-week base high)",
-          "Target $704.12 (52-week high)"
+          "Hold above 10 EMA ($291.77)",
+          "Break and hold above $299.49 (8-week base high)",
+          "Target $299.49 (52-week high)"
         ],
         "bear_levels": [
-          "Loss of 21 EMA ($680.34)",
-          "Loss of $647.76 (8-week base low) flips structure",
-          "Loss of 200 SMA ($624.38) compromises long-term trend"
+          "Loss of 21 EMA ($288.48)",
+          "Loss of $269.99 (8-week base low) flips structure",
+          "Loss of 200 SMA ($257.12) compromises long-term trend"
         ],
         "bias": "STRONGLY CONSTRUCTIVE",
         "bias_color": "green",
@@ -339,58 +224,58 @@
         "phase_color": "green",
         "phase_action": "Riding the trend. Hold above 10/20 EMA; let it run. Avoid re-entering extended.",
         "phase_scores": {
-          "WEDGE_POP_BASE_BREAK": 0,
-          "EMA_CROSSBACK": 6,
+          "WEDGE_POP_BASE_BREAK": 1,
+          "EMA_CROSSBACK": 0,
           "TREND_CONTINUATION": 8,
           "EXHAUSTION": 0
         }
       }
     },
     {
-      "ticker": "QQQ",
-      "name": "Nasdaq 100",
+      "ticker": "MDY",
+      "name": "S&P Mid-Cap 400",
       "category": "index",
-      "current_price": 740.62,
-      "today_pct": 2.51,
+      "current_price": 693.83,
+      "today_pct": 0.41,
       "weekly": {
-        "trend": "Expanding range (volatile)",
+        "trend": "Uptrend (HH/HL confirmed)",
         "higher_high": "True",
-        "higher_low": "False",
+        "higher_low": "True",
         "lower_high": "False",
-        "lower_low": "True",
-        "ma_20w": 649.29,
+        "lower_low": "False",
+        "ma_20w": 653.0,
         "ma_20w_slope": "rising",
         "above_20w": true,
-        "pct_from_20w": 14.07,
-        "high_52w": 748.65,
-        "low_52w": 521.13,
-        "pct_from_52w_high": -1.07,
-        "pct_from_52w_low": 42.12,
-        "base_depth_pct": 12.67,
-        "is_tight_base": false,
+        "pct_from_20w": 6.25,
+        "high_52w": 702.37,
+        "low_52w": 553.64,
+        "pct_from_52w_high": -1.22,
+        "pct_from_52w_low": 25.32,
+        "base_depth_pct": 7.78,
+        "is_tight_base": true,
         "base_position": "right side of base",
-        "base_high": 748.65,
-        "base_low": 653.81
+        "base_high": 702.37,
+        "base_low": 647.76
       },
       "daily": {
-        "ema_10": 726.93,
-        "ema_21": 720.71,
-        "sma_50": 693.18,
-        "sma_200": 627.76,
+        "ema_10": 687.34,
+        "ema_21": 681.56,
+        "sma_50": 669.65,
+        "sma_200": 624.93,
         "above_10ema": true,
         "above_21ema": true,
         "above_50sma": true,
         "above_200sma": true,
-        "pct_from_10ema": 1.88,
-        "pct_from_21ema": 2.76,
-        "pct_from_50sma": 6.84,
-        "pct_from_200sma": 17.98,
-        "vol_ratio_5d": 1.0,
+        "pct_from_10ema": 0.94,
+        "pct_from_21ema": 1.8,
+        "pct_from_50sma": 3.61,
+        "pct_from_200sma": 11.03,
+        "vol_ratio_5d": 1.13,
         "up_days_5": 3,
         "down_days_5": 2,
         "higher_lows_5": 2,
-        "today_pct": 2.51,
-        "candle_position": 0.87
+        "today_pct": 0.41,
+        "candle_position": 0.54
       },
       "cycle_signals": {
         "bull_10ema_crossback": false,
@@ -415,36 +300,36 @@
         "phase_scores": {
           "WEDGE_POP_BASE_BREAK": 0,
           "EMA_CROSSBACK": 0,
-          "TREND_CONTINUATION": 6,
+          "TREND_CONTINUATION": 8,
           "EXHAUSTION": 0
         }
       },
       "narrative": {
         "daily_read": [
-          "Holding above the 10 EMA (working level intact, +1.9% above).",
-          "Above 21 EMA (+2.8%).",
-          "Above the 200 SMA (+18.0%) \u2014 long-term trend intact."
+          "Holding above the 10 EMA (working level intact, +0.9% above).",
+          "Above 21 EMA (+1.8%).",
+          "Above the 200 SMA (+11.0%) \u2014 long-term trend intact."
         ],
         "weekly_read": [
-          "Above 20-week MA (+14.1%, slope rising).",
-          "Trend read: Expanding range (volatile).",
-          "8-week range: 12.7% deep \u2014 not yet a tight base.",
+          "Above 20-week MA (+6.2%, slope rising).",
+          "Trend read: Uptrend (HH/HL confirmed).",
+          "Tight base detected \u2014 last 8 weeks contained in a 7.8% range ($647.76 to $702.37). On the right side of base.",
           "Within 5% of 52-week high \u2014 extended structurally."
         ],
         "cycle_signals": [],
         "bull_levels": [
-          "Hold above 10 EMA ($726.93)",
-          "Break and hold above $748.65 (8-week base high)",
-          "Target $748.65 (52-week high)"
+          "Hold above 10 EMA ($687.34)",
+          "Break and hold above $702.37 (8-week base high)",
+          "Target $702.37 (52-week high)"
         ],
         "bear_levels": [
-          "Loss of 21 EMA ($720.71)",
-          "Loss of $653.81 (8-week base low) flips structure",
-          "Loss of 200 SMA ($627.76) compromises long-term trend"
+          "Loss of 21 EMA ($681.56)",
+          "Loss of $647.76 (8-week base low) flips structure",
+          "Loss of 200 SMA ($624.93) compromises long-term trend"
         ],
         "bias": "STRONGLY CONSTRUCTIVE",
         "bias_color": "green",
-        "bull_score": 10,
+        "bull_score": 13,
         "bear_score": 0,
         "phase": "TREND_CONTINUATION",
         "phase_label": "Trend Continuation",
@@ -454,61 +339,61 @@
         "phase_scores": {
           "WEDGE_POP_BASE_BREAK": 0,
           "EMA_CROSSBACK": 0,
-          "TREND_CONTINUATION": 6,
+          "TREND_CONTINUATION": 8,
           "EXHAUSTION": 0
         }
       }
     },
     {
-      "ticker": "SPY",
-      "name": "S&P 500",
+      "ticker": "QQQ",
+      "name": "Nasdaq 100",
       "category": "index",
-      "current_price": 746.74,
-      "today_pct": 1.04,
+      "current_price": 737.95,
+      "today_pct": -0.36,
       "weekly": {
-        "trend": "Expanding range (volatile)",
+        "trend": "Uptrend (HH/HL confirmed)",
         "higher_high": "True",
-        "higher_low": "False",
+        "higher_low": "True",
         "lower_high": "False",
-        "lower_low": "True",
-        "ma_20w": 700.15,
+        "lower_low": "False",
+        "ma_20w": 655.74,
         "ma_20w_slope": "rising",
         "above_20w": true,
-        "pct_from_20w": 6.65,
-        "high_52w": 758.45,
-        "low_52w": 585.4,
-        "pct_from_52w_high": -1.54,
-        "pct_from_52w_low": 27.56,
-        "base_depth_pct": 6.84,
-        "is_tight_base": true,
+        "pct_from_20w": 12.54,
+        "high_52w": 748.65,
+        "low_52w": 542.65,
+        "pct_from_52w_high": -1.43,
+        "pct_from_52w_low": 35.99,
+        "base_depth_pct": 10.65,
+        "is_tight_base": false,
         "base_position": "right side of base",
-        "base_high": 758.45,
-        "base_low": 706.55
+        "base_high": 748.65,
+        "base_low": 668.9
       },
       "daily": {
-        "ema_10": 743.2,
-        "ema_21": 741.05,
-        "sma_50": 727.82,
-        "sma_200": 684.49,
+        "ema_10": 728.93,
+        "ema_21": 722.27,
+        "sma_50": 695.74,
+        "sma_200": 628.61,
         "above_10ema": true,
         "above_21ema": true,
         "above_50sma": true,
         "above_200sma": true,
-        "pct_from_10ema": 0.48,
-        "pct_from_21ema": 0.77,
-        "pct_from_50sma": 2.6,
-        "pct_from_200sma": 9.09,
-        "vol_ratio_5d": 1.2,
-        "up_days_5": 3,
-        "down_days_5": 2,
+        "pct_from_10ema": 1.24,
+        "pct_from_21ema": 2.17,
+        "pct_from_50sma": 6.07,
+        "pct_from_200sma": 17.39,
+        "vol_ratio_5d": 0.96,
+        "up_days_5": 2,
+        "down_days_5": 3,
         "higher_lows_5": 2,
-        "today_pct": 1.04,
-        "candle_position": 0.66
+        "today_pct": -0.36,
+        "candle_position": 0.32
       },
       "cycle_signals": {
         "bull_10ema_crossback": false,
         "bear_10ema_crossback": false,
-        "bull_21ema_crossback": true,
+        "bull_21ema_crossback": false,
         "bear_21ema_crossback": false,
         "bull_reversal_extension": false,
         "bear_reversal_extension": false,
@@ -520,107 +405,103 @@
         "falling_wedge": false
       },
       "phase": {
-        "phase": "EMA_CROSSBACK",
-        "phase_label": "EMA Crossback",
-        "phase_emoji": "\u2197\ufe0f",
+        "phase": "TREND_CONTINUATION",
+        "phase_label": "Trend Continuation",
+        "phase_emoji": "\ud83d\ude80",
         "phase_color": "green",
-        "phase_action": "Low-risk entry zone. Price tested 10/20 EMA and held \u2014 preferred Kell entry setup.",
+        "phase_action": "Riding the trend. Hold above 10/20 EMA; let it run. Avoid re-entering extended.",
         "phase_scores": {
           "WEDGE_POP_BASE_BREAK": 0,
-          "EMA_CROSSBACK": 6,
-          "TREND_CONTINUATION": 6,
+          "EMA_CROSSBACK": 0,
+          "TREND_CONTINUATION": 8,
           "EXHAUSTION": 0
         }
       },
       "narrative": {
         "daily_read": [
-          "Holding above the 10 EMA (working level intact, +0.5% above).",
-          "Above 21 EMA (+0.8%).",
-          "Above the 200 SMA (+9.1%) \u2014 long-term trend intact."
+          "Holding above the 10 EMA (working level intact, +1.2% above).",
+          "Above 21 EMA (+2.2%).",
+          "Above the 200 SMA (+17.4%) \u2014 long-term trend intact."
         ],
         "weekly_read": [
-          "Above 20-week MA (+6.7%, slope rising).",
-          "Trend read: Expanding range (volatile).",
-          "Tight base detected \u2014 last 8 weeks contained in a 6.8% range ($706.55 to $758.45). On the right side of base.",
+          "Above 20-week MA (+12.5%, slope rising).",
+          "Trend read: Uptrend (HH/HL confirmed).",
+          "8-week range: 10.7% deep \u2014 not yet a tight base.",
           "Within 5% of 52-week high \u2014 extended structurally."
         ],
-        "cycle_signals": [
-          "\u2705 Bullish 21 EMA Crossback (deeper test)"
-        ],
+        "cycle_signals": [],
         "bull_levels": [
-          "Hold above 10 EMA ($743.20)",
-          "Break and hold above $758.45 (8-week base high)",
-          "Target $758.45 (52-week high)"
+          "Hold above 10 EMA ($728.93)",
+          "Break and hold above $748.65 (8-week base high)",
+          "Target $748.65 (52-week high)"
         ],
         "bear_levels": [
-          "Loss of 21 EMA ($741.05)",
-          "Loss of $706.55 (8-week base low) flips structure",
-          "Loss of 200 SMA ($684.49) compromises long-term trend"
+          "Loss of 21 EMA ($722.27)",
+          "Loss of $668.90 (8-week base low) flips structure",
+          "Loss of 200 SMA ($628.61) compromises long-term trend"
         ],
         "bias": "STRONGLY CONSTRUCTIVE",
         "bias_color": "green",
-        "bull_score": 11,
+        "bull_score": 13,
         "bear_score": 0,
-        "phase": "EMA_CROSSBACK",
-        "phase_label": "EMA Crossback",
-        "phase_emoji": "\u2197\ufe0f",
+        "phase": "TREND_CONTINUATION",
+        "phase_label": "Trend Continuation",
+        "phase_emoji": "\ud83d\ude80",
         "phase_color": "green",
-        "phase_action": "Low-risk entry zone. Price tested 10/20 EMA and held \u2014 preferred Kell entry setup.",
+        "phase_action": "Riding the trend. Hold above 10/20 EMA; let it run. Avoid re-entering extended.",
         "phase_scores": {
           "WEDGE_POP_BASE_BREAK": 0,
-          "EMA_CROSSBACK": 6,
-          "TREND_CONTINUATION": 6,
+          "EMA_CROSSBACK": 0,
+          "TREND_CONTINUATION": 8,
           "EXHAUSTION": 0
         }
       }
-    }
-  ],
-  "sectors": [
+    },
     {
-      "ticker": "XLB",
-      "name": "Materials",
-      "category": "sector",
-      "current_price": 51.81,
-      "today_pct": -0.4,
+      "ticker": "SPY",
+      "name": "S&P 500",
+      "category": "index",
+      "current_price": 744.39,
+      "today_pct": -0.31,
       "weekly": {
-        "trend": "Contracting range (coiling)",
-        "higher_high": "False",
+        "trend": "Uptrend (HH/HL confirmed)",
+        "higher_high": "True",
         "higher_low": "True",
-        "lower_high": "True",
+        "lower_high": "False",
         "lower_low": "False",
-        "ma_20w": 50.99,
+        "ma_20w": 702.93,
         "ma_20w_slope": "rising",
         "above_20w": true,
-        "pct_from_20w": 1.61,
-        "high_52w": 53.9,
-        "low_52w": 41.63,
-        "pct_from_52w_high": -3.88,
-        "pct_from_52w_low": 24.44,
-        "base_depth_pct": 8.29,
+        "pct_from_20w": 5.9,
+        "high_52w": 758.45,
+        "low_52w": 608.3,
+        "pct_from_52w_high": -1.85,
+        "pct_from_52w_low": 22.37,
+        "base_depth_pct": 5.97,
         "is_tight_base": true,
         "base_position": "right side of base",
-        "base_high": 53.31,
-        "base_low": 48.89
+        "base_high": 758.45,
+        "base_low": 713.15
       },
       "daily": {
-        "ema_10": 51.66,
-        "ema_21": 51.38,
-        "sma_50": 51.37,
-        "sma_200": 47.83,
+        "ema_10": 743.42,
+        "ema_21": 741.35,
+        "sma_50": 729.15,
+        "sma_200": 685.03,
         "above_10ema": true,
         "above_21ema": true,
         "above_50sma": true,
         "above_200sma": true,
-        "pct_from_10ema": 0.29,
-        "pct_from_21ema": 0.84,
-        "pct_from_50sma": 0.86,
-        "pct_from_200sma": 8.32,
-        "vol_ratio_5d": 1.07,
-        "up_days_5": 3,
-        "down_days_5": 2,
-        "higher_lows_5": 2,
-        "today_pct": -0.4,
-        "candle_position": 0.07
+        "pct_from_10ema": 0.13,
+        "pct_from_21ema": 0.41,
+        "pct_from_50sma": 2.09,
+        "pct_from_200sma": 8.67,
+        "vol_ratio_5d": 1.16,
+        "up_days_5": 2,
+        "down_days_5": 3,
+        "higher_lows_5": 1,
+        "today_pct": -0.31,
+        "candle_position": 0.18
       },
       "cycle_signals": {
         "bull_10ema_crossback": true,
@@ -644,21 +525,21 @@
         "phase_action": "Low-risk entry zone. Price tested 10/20 EMA and held \u2014 preferred Kell entry setup.",
         "phase_scores": {
           "WEDGE_POP_BASE_BREAK": 0,
-          "EMA_CROSSBACK": 10,
-          "TREND_CONTINUATION": 6,
+          "EMA_CROSSBACK": 12,
+          "TREND_CONTINUATION": 8,
           "EXHAUSTION": 0
         }
       },
       "narrative": {
         "daily_read": [
-          "Holding above the 10 EMA (working level intact, +0.3% above).",
-          "Above 21 EMA (+0.8%).",
-          "Above the 200 SMA (+8.3%) \u2014 long-term trend intact."
+          "Holding above the 10 EMA (working level intact, +0.1% above).",
+          "Above 21 EMA (+0.4%).",
+          "Above the 200 SMA (+8.7%) \u2014 long-term trend intact."
         ],
         "weekly_read": [
-          "Above 20-week MA (+1.6%, slope rising).",
-          "Trend read: Contracting range (coiling).",
-          "Tight base detected \u2014 last 8 weeks contained in a 8.3% range ($48.89 to $53.31). On the right side of base.",
+          "Above 20-week MA (+5.9%, slope rising).",
+          "Trend read: Uptrend (HH/HL confirmed).",
+          "Tight base detected \u2014 last 8 weeks contained in a 6.0% range ($713.15 to $758.45). On the right side of base.",
           "Within 5% of 52-week high \u2014 extended structurally."
         ],
         "cycle_signals": [
@@ -666,18 +547,18 @@
           "\u2705 Bullish 21 EMA Crossback (deeper test)"
         ],
         "bull_levels": [
-          "Hold above 10 EMA ($51.66)",
-          "Break and hold above $53.31 (8-week base high)",
-          "Target $53.90 (52-week high)"
+          "Hold above 10 EMA ($743.42)",
+          "Break and hold above $758.45 (8-week base high)",
+          "Target $758.45 (52-week high)"
         ],
         "bear_levels": [
-          "Loss of 21 EMA ($51.38)",
-          "Loss of $48.89 (8-week base low) flips structure",
-          "Loss of 200 SMA ($47.83) compromises long-term trend"
+          "Loss of 21 EMA ($741.35)",
+          "Loss of $713.15 (8-week base low) flips structure",
+          "Loss of 200 SMA ($685.03) compromises long-term trend"
         ],
         "bias": "STRONGLY CONSTRUCTIVE",
         "bias_color": "green",
-        "bull_score": 12,
+        "bull_score": 15,
         "bear_score": 0,
         "phase": "EMA_CROSSBACK",
         "phase_label": "EMA Crossback",
@@ -686,8 +567,125 @@
         "phase_action": "Low-risk entry zone. Price tested 10/20 EMA and held \u2014 preferred Kell entry setup.",
         "phase_scores": {
           "WEDGE_POP_BASE_BREAK": 0,
-          "EMA_CROSSBACK": 10,
-          "TREND_CONTINUATION": 6,
+          "EMA_CROSSBACK": 12,
+          "TREND_CONTINUATION": 8,
+          "EXHAUSTION": 0
+        }
+      }
+    }
+  ],
+  "sectors": [
+    {
+      "ticker": "XLB",
+      "name": "Materials",
+      "category": "sector",
+      "current_price": 51.62,
+      "today_pct": -0.37,
+      "weekly": {
+        "trend": "Contracting range (coiling)",
+        "higher_high": "False",
+        "higher_low": "True",
+        "lower_high": "True",
+        "lower_low": "False",
+        "ma_20w": 51.01,
+        "ma_20w_slope": "rising",
+        "above_20w": true,
+        "pct_from_20w": 1.2,
+        "high_52w": 53.9,
+        "low_52w": 41.63,
+        "pct_from_52w_high": -4.23,
+        "pct_from_52w_low": 23.99,
+        "base_depth_pct": 8.29,
+        "is_tight_base": true,
+        "base_position": "right side of base",
+        "base_high": 53.31,
+        "base_low": 48.89
+      },
+      "daily": {
+        "ema_10": 51.65,
+        "ema_21": 51.4,
+        "sma_50": 51.37,
+        "sma_200": 47.87,
+        "above_10ema": false,
+        "above_21ema": true,
+        "above_50sma": true,
+        "above_200sma": true,
+        "pct_from_10ema": -0.06,
+        "pct_from_21ema": 0.42,
+        "pct_from_50sma": 0.49,
+        "pct_from_200sma": 7.84,
+        "vol_ratio_5d": 0.98,
+        "up_days_5": 2,
+        "down_days_5": 3,
+        "higher_lows_5": 1,
+        "today_pct": -0.37,
+        "candle_position": 0.71
+      },
+      "cycle_signals": {
+        "bull_10ema_crossback": false,
+        "bear_10ema_crossback": false,
+        "bull_21ema_crossback": true,
+        "bear_21ema_crossback": false,
+        "bull_reversal_extension": false,
+        "bear_reversal_extension": false,
+        "bear_trap": false,
+        "bull_trap": false,
+        "base_breakout": false,
+        "base_breakdown": false,
+        "rising_wedge": false,
+        "falling_wedge": false
+      },
+      "phase": {
+        "phase": "EMA_CROSSBACK",
+        "phase_label": "EMA Crossback",
+        "phase_emoji": "\u2197\ufe0f",
+        "phase_color": "green",
+        "phase_action": "Low-risk entry zone. Price tested 10/20 EMA and held \u2014 preferred Kell entry setup.",
+        "phase_scores": {
+          "WEDGE_POP_BASE_BREAK": 0,
+          "EMA_CROSSBACK": 6,
+          "TREND_CONTINUATION": 2,
+          "EXHAUSTION": 0
+        }
+      },
+      "narrative": {
+        "daily_read": [
+          "Below the 10 EMA (-0.1% \u2014 working level lost).",
+          "Above 21 EMA (+0.4%).",
+          "Above the 200 SMA (+7.8%) \u2014 long-term trend intact."
+        ],
+        "weekly_read": [
+          "Above 20-week MA (+1.2%, slope rising).",
+          "Trend read: Contracting range (coiling).",
+          "Tight base detected \u2014 last 8 weeks contained in a 8.3% range ($48.89 to $53.31). On the right side of base.",
+          "Within 5% of 52-week high \u2014 extended structurally."
+        ],
+        "cycle_signals": [
+          "\u2705 Bullish 21 EMA Crossback (deeper test)"
+        ],
+        "bull_levels": [
+          "Hold above 10 EMA ($51.65)",
+          "Break and hold above $53.31 (8-week base high)",
+          "Target $53.90 (52-week high)"
+        ],
+        "bear_levels": [
+          "Loss of 21 EMA ($51.40)",
+          "Loss of $48.89 (8-week base low) flips structure",
+          "Loss of 200 SMA ($47.87) compromises long-term trend"
+        ],
+        "bias": "STRONGLY CONSTRUCTIVE",
+        "bias_color": "green",
+        "bull_score": 9,
+        "bear_score": 1,
+        "phase": "EMA_CROSSBACK",
+        "phase_label": "EMA Crossback",
+        "phase_emoji": "\u2197\ufe0f",
+        "phase_color": "green",
+        "phase_action": "Low-risk entry zone. Price tested 10/20 EMA and held \u2014 preferred Kell entry setup.",
+        "phase_scores": {
+          "WEDGE_POP_BASE_BREAK": 0,
+          "EMA_CROSSBACK": 6,
+          "TREND_CONTINUATION": 2,
           "EXHAUSTION": 0
         }
       }
@@ -696,163 +694,47 @@
       "ticker": "XLC",
       "name": "Communication Svcs",
       "category": "sector",
-      "current_price": 109.45,
-      "today_pct": 0.23,
+      "current_price": 106.86,
+      "today_pct": -2.37,
       "weekly": {
-        "trend": "Contracting range (coiling)",
+        "trend": "Downtrend (LH/LL confirmed)",
         "higher_high": "False",
-        "higher_low": "True",
+        "higher_low": "False",
         "lower_high": "True",
-        "lower_low": "False",
-        "ma_20w": 114.37,
+        "lower_low": "True",
+        "ma_20w": 113.94,
         "ma_20w_slope": "falling",
         "above_20w": false,
-        "pct_from_20w": -4.3,
+        "pct_from_20w": -6.22,
         "high_52w": 120.02,
-        "low_52w": 100.74,
-        "pct_from_52w_high": -8.81,
-        "pct_from_52w_low": 8.64,
-        "base_depth_pct": 8.2,
-        "is_tight_base": true,
+        "low_52w": 104.53,
+        "pct_from_52w_high": -10.97,
+        "pct_from_52w_low": 2.23,
+        "base_depth_pct": 10.05,
+        "is_tight_base": false,
         "base_position": "left side of base",
         "base_high": 118.2,
-        "base_low": 108.51
+        "base_low": 106.32
       },
       "daily": {
-        "ema_10": 111.39,
-        "ema_21": 112.7,
-        "sma_50": 115.15,
-        "sma_200": 115.01,
+        "ema_10": 110.56,
+        "ema_21": 112.17,
+        "sma_50": 115.01,
+        "sma_200": 114.99,
         "above_10ema": false,
         "above_21ema": false,
         "above_50sma": false,
         "above_200sma": false,
-        "pct_from_10ema": -1.74,
-        "pct_from_21ema": -2.88,
-        "pct_from_50sma": -4.95,
-        "pct_from_200sma": -4.84,
-        "vol_ratio_5d": 1.31,
+        "pct_from_10ema": -3.35,
+        "pct_from_21ema": -4.73,
+        "pct_from_50sma": -7.08,
+        "pct_from_200sma": -7.07,
+        "vol_ratio_5d": 1.28,
         "up_days_5": 3,
         "down_days_5": 2,
-        "higher_lows_5": 1,
-        "today_pct": 0.23,
-        "candle_position": 0.51
-      },
-      "cycle_signals": {
-        "bull_10ema_crossback": false,
-        "bear_10ema_crossback": false,
-        "bull_21ema_crossback": false,
-        "bear_21ema_crossback": false,
-        "bull_reversal_extension": false,
-        "bear_reversal_extension": false,
-        "bear_trap": true,
-        "bull_trap": false,
-        "base_breakout": false,
-        "base_breakdown": false,
-        "rising_wedge": false,
-        "falling_wedge": false
-      },
-      "phase": {
-        "phase": "WEDGE_POP_BASE_BREAK",
-        "phase_label": "Wedge Pop / Base n' Break",
-        "phase_emoji": "\ud83c\udf31",
-        "phase_color": "blue",
-        "phase_action": "Bottoming / reversal forming. Watch for confirmation; prepare entries near breakout level.",
-        "phase_scores": {
-          "WEDGE_POP_BASE_BREAK": 3,
-          "EMA_CROSSBACK": 0,
-          "TREND_CONTINUATION": 0,
-          "EXHAUSTION": 0
-        }
-      },
-      "narrative": {
-        "daily_read": [
-          "Below the 10 EMA (-1.7% \u2014 working level lost).",
-          "Below 21 EMA (-2.9%) \u2014 deeper structural break.",
-          "Below the 200 SMA (-4.8%) \u2014 long-term trend compromised.",
-          "Volume elevated (1.31\u00d7 20d avg)."
-        ],
-        "weekly_read": [
-          "Below 20-week MA (-4.3%, slope falling).",
-          "Trend read: Contracting range (coiling).",
-          "Tight base detected \u2014 last 8 weeks contained in a 8.2% range ($108.51 to $118.20). On the left side of base.",
-          "Within 10% of 52-week high \u2014 constructive structural position."
-        ],
-        "cycle_signals": [
-          "\u2705 Bear Trap identified \u2014 false breakdown reversed"
-        ],
-        "bull_levels": [
-          "Hold above 10 EMA ($111.39)",
-          "Break and hold above $118.20 (8-week base high)",
-          "Target $120.02 (52-week high)"
-        ],
-        "bear_levels": [
-          "Loss of 21 EMA ($112.70)",
-          "Loss of $108.51 (8-week base low) flips structure",
-          "Loss of 200 SMA ($115.01) compromises long-term trend"
-        ],
-        "bias": "DISTRIBUTION RISK",
-        "bias_color": "red",
-        "bull_score": 1,
-        "bear_score": 10,
-        "phase": "WEDGE_POP_BASE_BREAK",
-        "phase_label": "Wedge Pop / Base n' Break",
-        "phase_emoji": "\ud83c\udf31",
-        "phase_color": "blue",
-        "phase_action": "Bottoming / reversal forming. Watch for confirmation; prepare entries near breakout level.",
-        "phase_scores": {
-          "WEDGE_POP_BASE_BREAK": 3,
-          "EMA_CROSSBACK": 0,
-          "TREND_CONTINUATION": 0,
-          "EXHAUSTION": 0
-        }
-      }
-    },
-    {
-      "ticker": "XLE",
-      "name": "Energy",
-      "category": "sector",
-      "current_price": 53.77,
-      "today_pct": -1.65,
-      "weekly": {
-        "trend": "Uptrend (HH/HL confirmed)",
-        "higher_high": "True",
-        "higher_low": "True",
-        "lower_high": "False",
-        "lower_low": "False",
-        "ma_20w": 56.92,
-        "ma_20w_slope": "rising",
-        "above_20w": false,
-        "pct_from_20w": -5.54,
-        "high_52w": 63.46,
-        "low_52w": 40.82,
-        "pct_from_52w_high": -15.27,
-        "pct_from_52w_low": 31.73,
-        "base_depth_pct": 13.7,
-        "is_tight_base": false,
-        "base_position": "left side of base",
-        "base_high": 61.7,
-        "base_low": 53.24
-      },
-      "daily": {
-        "ema_10": 56.08,
-        "ema_21": 56.93,
-        "sma_50": 57.44,
-        "sma_200": 50.53,
-        "above_10ema": false,
-        "above_21ema": false,
-        "above_50sma": false,
-        "above_200sma": true,
-        "pct_from_10ema": -4.12,
-        "pct_from_21ema": -5.55,
-        "pct_from_50sma": -6.39,
-        "pct_from_200sma": 6.42,
-        "vol_ratio_5d": 1.01,
-        "up_days_5": 1,
-        "down_days_5": 4,
         "higher_lows_5": 0,
-        "today_pct": -1.65,
-        "candle_position": 0.52
+        "today_pct": -2.37,
+        "candle_position": 0.24
       },
       "cycle_signals": {
         "bull_10ema_crossback": false,
@@ -865,7 +747,8 @@
         "bull_trap": false,
         "base_breakout": false,
         "base_breakdown": true,
-        "falling_wedge": true
+        "rising_wedge": false,
+        "falling_wedge": false
       },
       "phase": {
         "phase": "EXHAUSTION",
@@ -874,51 +757,164 @@
         "phase_color": "red",
         "phase_action": "Distribution risk. Tighten stops; loss of 10 EMA = scale out. Avoid new longs.",
         "phase_scores": {
-          "WEDGE_POP_BASE_BREAK": 3,
+          "WEDGE_POP_BASE_BREAK": 0,
           "EMA_CROSSBACK": 0,
-          "TREND_CONTINUATION": 2,
-          "EXHAUSTION": 5
+          "TREND_CONTINUATION": 0,
+          "EXHAUSTION": 6
         }
       },
       "narrative": {
         "daily_read": [
-          "Below the 10 EMA (-4.1% \u2014 working level lost).",
-          "Below 21 EMA (-5.5%) \u2014 deeper structural break.",
-          "Above the 200 SMA (+6.4%) \u2014 long-term trend intact."
+          "Below the 10 EMA (-3.4% \u2014 working level lost).",
+          "Below 21 EMA (-4.7%) \u2014 deeper structural break.",
+          "Below the 200 SMA (-7.1%) \u2014 long-term trend compromised."
         ],
         "weekly_read": [
-          "Below 20-week MA (-5.5%, slope rising).",
-          "Trend read: Uptrend (HH/HL confirmed).",
-          "8-week range: 13.7% deep \u2014 not yet a tight base."
+          "Below 20-week MA (-6.2%, slope falling).",
+          "Trend read: Downtrend (LH/LL confirmed).",
+          "8-week range: 10.1% deep \u2014 not yet a tight base."
         ],
         "cycle_signals": [
-          "\u26a0\ufe0f Base Breakdown fired",
-          "\u2705 Falling Wedge developing \u2014 bullish reversal pattern"
+          "\u26a0\ufe0f Base Breakdown fired"
         ],
         "bull_levels": [
-          "Hold above 10 EMA ($56.08)",
-          "Break and hold above $61.70 (8-week base high)",
-          "Target $63.46 (52-week high)"
+          "Hold above 10 EMA ($110.56)",
+          "Break and hold above $118.20 (8-week base high)",
+          "Target $120.02 (52-week high)"
         ],
         "bear_levels": [
-          "Loss of 21 EMA ($56.93)",
-          "Loss of $53.24 (8-week base low) flips structure",
-          "Loss of 200 SMA ($50.53) compromises long-term trend"
+          "Loss of 21 EMA ($112.17)",
+          "Loss of $106.32 (8-week base low) flips structure",
+          "Loss of 200 SMA ($114.99) compromises long-term trend"
         ],
-        "bias": "NEUTRAL / TRANSITION",
-        "bias_color": "amber",
-        "bull_score": 7,
-        "bear_score": 7,
+        "bias": "DISTRIBUTION RISK",
+        "bias_color": "red",
+        "bull_score": 0,
+        "bear_score": 14,
         "phase": "EXHAUSTION",
         "phase_label": "Exhaustion / End of Cycle",
         "phase_emoji": "\u26a0\ufe0f",
         "phase_color": "red",
         "phase_action": "Distribution risk. Tighten stops; loss of 10 EMA = scale out. Avoid new longs.",
         "phase_scores": {
-          "WEDGE_POP_BASE_BREAK": 3,
+          "WEDGE_POP_BASE_BREAK": 0,
           "EMA_CROSSBACK": 0,
-          "TREND_CONTINUATION": 2,
-          "EXHAUSTION": 5
+          "TREND_CONTINUATION": 0,
+          "EXHAUSTION": 6
+        }
+      }
+    },
+    {
+      "ticker": "XLE",
+      "name": "Energy",
+      "category": "sector",
+      "current_price": 54.06,
+      "today_pct": 0.54,
+      "weekly": {
+        "trend": "Contracting range (coiling)",
+        "higher_high": "False",
+        "higher_low": "True",
+        "lower_high": "True",
+        "lower_low": "False",
+        "ma_20w": 56.98,
+        "ma_20w_slope": "rising",
+        "above_20w": false,
+        "pct_from_20w": -5.12,
+        "high_52w": 63.46,
+        "low_52w": 41.07,
+        "pct_from_52w_high": -14.81,
+        "pct_from_52w_low": 31.62,
+        "base_depth_pct": 13.83,
+        "is_tight_base": false,
+        "base_position": "left side of base",
+        "base_high": 61.7,
+        "base_low": 53.17
+      },
+      "daily": {
+        "ema_10": 55.71,
+        "ema_21": 56.67,
+        "sma_50": 57.38,
+        "sma_200": 50.58,
+        "above_10ema": false,
+        "above_21ema": false,
+        "above_50sma": false,
+        "above_200sma": true,
+        "pct_from_10ema": -2.97,
+        "pct_from_21ema": -4.6,
+        "pct_from_50sma": -5.78,
+        "pct_from_200sma": 6.88,
+        "vol_ratio_5d": 1.0,
+        "up_days_5": 1,
+        "down_days_5": 4,
+        "higher_lows_5": 0,
+        "today_pct": 0.54,
+        "candle_position": 0.93
+      },
+      "cycle_signals": {
+        "bull_10ema_crossback": false,
+        "bear_10ema_crossback": false,
+        "bull_21ema_crossback": false,
+        "bear_21ema_crossback": false,
+        "bull_reversal_extension": false,
+        "bear_reversal_extension": false,
+        "bear_trap": true,
+        "bull_trap": false,
+        "base_breakout": false,
+        "base_breakdown": false,
+        "falling_wedge": true
+      },
+      "phase": {
+        "phase": "WEDGE_POP_BASE_BREAK",
+        "phase_label": "Wedge Pop / Base n' Break",
+        "phase_emoji": "\ud83c\udf31",
+        "phase_color": "blue",
+        "phase_action": "Bottoming / reversal forming. Watch for confirmation; prepare entries near breakout level.",
+        "phase_scores": {
+          "WEDGE_POP_BASE_BREAK": 6,
+          "EMA_CROSSBACK": 0,
+          "TREND_CONTINUATION": 0,
+          "EXHAUSTION": 0
+        }
+      },
+      "narrative": {
+        "daily_read": [
+          "Below the 10 EMA (-3.0% \u2014 working level lost).",
+          "Below 21 EMA (-4.6%) \u2014 deeper structural break.",
+          "Above the 200 SMA (+6.9%) \u2014 long-term trend intact."
+        ],
+        "weekly_read": [
+          "Below 20-week MA (-5.1%, slope rising).",
+          "Trend read: Contracting range (coiling).",
+          "8-week range: 13.8% deep \u2014 not yet a tight base."
+        ],
+        "cycle_signals": [
+          "\u2705 Bear Trap identified \u2014 false breakdown reversed",
+          "\u2705 Falling Wedge developing \u2014 bullish reversal pattern"
+        ],
+        "bull_levels": [
+          "Hold above 10 EMA ($55.71)",
+          "Break and hold above $61.70 (8-week base high)",
+          "Target $63.46 (52-week high)"
+        ],
+        "bear_levels": [
+          "Loss of 21 EMA ($56.67)",
+          "Loss of $53.17 (8-week base low) flips structure",
+          "Loss of 200 SMA ($50.58) compromises long-term trend"
+        ],
+        "bias": "CAUTIOUS",
+        "bias_color": "amber",
+        "bull_score": 5,
+        "bear_score": 6,
+        "phase": "WEDGE_POP_BASE_BREAK",
+        "phase_label": "Wedge Pop / Base n' Break",
+        "phase_emoji": "\ud83c\udf31",
+        "phase_color": "blue",
+        "phase_action": "Bottoming / reversal forming. Watch for confirmation; prepare entries near breakout level.",
+        "phase_scores": {
+          "WEDGE_POP_BASE_BREAK": 6,
+          "EMA_CROSSBACK": 0,
+          "TREND_CONTINUATION": 0,
+          "EXHAUSTION": 0
         }
       }
     },
@@ -926,22 +922,22 @@
       "ticker": "XLF",
       "name": "Financials",
       "category": "sector",
-      "current_price": 53.57,
-      "today_pct": -0.89,
+      "current_price": 53.7,
+      "today_pct": 0.24,
       "weekly": {
         "trend": "Contracting range (coiling)",
         "higher_high": "False",
         "higher_low": "True",
         "lower_high": "True",
         "lower_low": "False",
-        "ma_20w": 51.26,
+        "ma_20w": 51.25,
         "ma_20w_slope": "flat",
         "above_20w": true,
-        "pct_from_20w": 4.5,
+        "pct_from_20w": 4.78,
         "high_52w": 56.23,
         "low_52w": 47.43,
-        "pct_from_52w_high": -4.73,
-        "pct_from_52w_low": 12.95,
+        "pct_from_52w_high": -4.5,
+        "pct_from_52w_low": 13.23,
         "base_depth_pct": 7.96,
         "is_tight_base": true,
         "base_position": "right side of base",
@@ -949,24 +945,24 @@
         "base_low": 50.52
       },
       "daily": {
-        "ema_10": 53.16,
-        "ema_21": 52.57,
-        "sma_50": 51.94,
+        "ema_10": 53.26,
+        "ema_21": 52.67,
+        "sma_50": 51.98,
         "sma_200": 52.28,
         "above_10ema": true,
         "above_21ema": true,
         "above_50sma": true,
         "above_200sma": true,
-        "pct_from_10ema": 0.77,
-        "pct_from_21ema": 1.91,
-        "pct_from_50sma": 3.15,
-        "pct_from_200sma": 2.47,
-        "vol_ratio_5d": 1.1,
+        "pct_from_10ema": 0.83,
+        "pct_from_21ema": 1.96,
+        "pct_from_50sma": 3.3,
+        "pct_from_200sma": 2.71,
+        "vol_ratio_5d": 0.98,
         "up_days_5": 3,
         "down_days_5": 2,
         "higher_lows_5": 3,
-        "today_pct": -0.89,
-        "candle_position": 0.1
+        "today_pct": 0.24,
+        "candle_position": 0.26
       },
       "cycle_signals": {
         "bull_10ema_crossback": false,
@@ -998,24 +994,24 @@
       "narrative": {
         "daily_read": [
           "Holding above the 10 EMA (working level intact, +0.8% above).",
-          "Above 21 EMA (+1.9%).",
-          "Above the 200 SMA (+2.5%) \u2014 long-term trend intact.",
+          "Above 21 EMA (+2.0%).",
+          "Above the 200 SMA (+2.7%) \u2014 long-term trend intact.",
           "Higher lows 3/4 last 5 sessions \u2014 buyers stepping up."
         ],
         "weekly_read": [
-          "Above 20-week MA (+4.5%, slope flat).",
+          "Above 20-week MA (+4.8%, slope flat).",
           "Trend read: Contracting range (coiling).",
           "Tight base detected \u2014 last 8 weeks contained in a 8.0% range ($50.52 to $54.89). On the right side of base.",
           "Within 5% of 52-week high \u2014 extended structurally."
         ],
         "cycle_signals": [],
         "bull_levels": [
-          "Hold above 10 EMA ($53.16)",
+          "Hold above 10 EMA ($53.26)",
           "Break and hold above $54.89 (8-week base high)",
           "Target $56.23 (52-week high)"
         ],
         "bear_levels": [
-          "Loss of 21 EMA ($52.57)",
+          "Loss of 21 EMA ($52.67)",
           "Loss of $50.52 (8-week base low) flips structure",
           "Loss of 200 SMA ($52.28) compromises long-term trend"
         ],
@@ -1040,22 +1036,22 @@
       "ticker": "XLI",
       "name": "Industrials",
       "category": "sector",
-      "current_price": 180.91,
-      "today_pct": 0.73,
+      "current_price": 181.8,
+      "today_pct": 0.49,
       "weekly": {
-        "trend": "Expanding range (volatile)",
+        "trend": "Uptrend (HH/HL confirmed)",
         "higher_high": "True",
-        "higher_low": "False",
+        "higher_low": "True",
         "lower_high": "False",
-        "lower_low": "True",
-        "ma_20w": 171.42,
+        "lower_low": "False",
+        "ma_20w": 171.87,
         "ma_20w_slope": "rising",
         "above_20w": true,
-        "pct_from_20w": 5.54,
+        "pct_from_20w": 5.78,
         "high_52w": 182.92,
-        "low_52w": 139.4,
-        "pct_from_52w_high": -1.1,
-        "pct_from_52w_low": 29.78,
+        "low_52w": 145.07,
+        "pct_from_52w_high": -0.61,
+        "pct_from_52w_low": 25.32,
         "base_depth_pct": 8.1,
         "is_tight_base": true,
         "base_position": "right side of base",
@@ -1063,24 +1059,24 @@
         "base_low": 168.11
       },
       "daily": {
-        "ema_10": 177.31,
-        "ema_21": 175.53,
-        "sma_50": 173.47,
-        "sma_200": 162.58,
+        "ema_10": 178.13,
+        "ema_21": 176.1,
+        "sma_50": 173.66,
+        "sma_200": 162.75,
         "above_10ema": true,
         "above_21ema": true,
         "above_50sma": true,
         "above_200sma": true,
-        "pct_from_10ema": 2.03,
-        "pct_from_21ema": 3.07,
-        "pct_from_50sma": 4.29,
-        "pct_from_200sma": 11.27,
+        "pct_from_10ema": 2.06,
+        "pct_from_21ema": 3.24,
+        "pct_from_50sma": 4.69,
+        "pct_from_200sma": 11.7,
         "vol_ratio_5d": 1.02,
         "up_days_5": 4,
         "down_days_5": 1,
         "higher_lows_5": 3,
-        "today_pct": 0.73,
-        "candle_position": 0.19
+        "today_pct": 0.49,
+        "candle_position": 0.71
       },
       "cycle_signals": {
         "bull_10ema_crossback": false,
@@ -1088,6 +1084,120 @@
         "bull_21ema_crossback": false,
         "bear_21ema_crossback": false,
         "bull_reversal_extension": false,
+        "bear_reversal_extension": false,
+        "bear_trap": false,
+        "bull_trap": false,
+        "base_breakout": false,
+        "base_breakdown": false,
+        "rising_wedge": false,
+        "falling_wedge": false
+      },
+      "phase": {
+        "phase": "TREND_CONTINUATION",
+        "phase_label": "Trend Continuation",
+        "phase_emoji": "\ud83d\ude80",
+        "phase_color": "green",
+        "phase_action": "Riding the trend. Hold above 10/20 EMA; let it run. Avoid re-entering extended.",
+        "phase_scores": {
+          "WEDGE_POP_BASE_BREAK": 0,
+          "EMA_CROSSBACK": 0,
+          "TREND_CONTINUATION": 9,
+          "EXHAUSTION": 0
+        }
+      },
+      "narrative": {
+        "daily_read": [
+          "Holding above the 10 EMA (working level intact, +2.1% above).",
+          "Above 21 EMA (+3.2%).",
+          "Above the 200 SMA (+11.7%) \u2014 long-term trend intact.",
+          "Higher lows 3/4 last 5 sessions \u2014 buyers stepping up."
+        ],
+        "weekly_read": [
+          "Above 20-week MA (+5.8%, slope rising).",
+          "Trend read: Uptrend (HH/HL confirmed).",
+          "Tight base detected \u2014 last 8 weeks contained in a 8.1% range ($168.11 to $182.92). On the right side of base.",
+          "Within 5% of 52-week high \u2014 extended structurally."
+        ],
+        "cycle_signals": [],
+        "bull_levels": [
+          "Hold above 10 EMA ($178.13)",
+          "Break and hold above $182.92 (8-week base high)",
+          "Target $182.92 (52-week high)"
+        ],
+        "bear_levels": [
+          "Loss of 21 EMA ($176.10)",
+          "Loss of $168.11 (8-week base low) flips structure",
+          "Loss of 200 SMA ($162.75) compromises long-term trend"
+        ],
+        "bias": "STRONGLY CONSTRUCTIVE",
+        "bias_color": "green",
+        "bull_score": 13,
+        "bear_score": 0,
+        "phase": "TREND_CONTINUATION",
+        "phase_label": "Trend Continuation",
+        "phase_emoji": "\ud83d\ude80",
+        "phase_color": "green",
+        "phase_action": "Riding the trend. Hold above 10/20 EMA; let it run. Avoid re-entering extended.",
+        "phase_scores": {
+          "WEDGE_POP_BASE_BREAK": 0,
+          "EMA_CROSSBACK": 0,
+          "TREND_CONTINUATION": 9,
+          "EXHAUSTION": 0
+        }
+      }
+    },
+    {
+      "ticker": "XLK",
+      "name": "Technology",
+      "category": "sector",
+      "current_price": 192.15,
+      "today_pct": 0.37,
+      "weekly": {
+        "trend": "Uptrend (HH/HL confirmed)",
+        "higher_high": "True",
+        "higher_low": "True",
+        "lower_high": "False",
+        "lower_low": "False",
+        "ma_20w": 159.21,
+        "ma_20w_slope": "rising",
+        "above_20w": true,
+        "pct_from_20w": 20.69,
+        "high_52w": 198.73,
+        "low_52w": 124.12,
+        "pct_from_52w_high": -3.31,
+        "pct_from_52w_low": 54.81,
+        "base_depth_pct": 19.05,
+        "is_tight_base": false,
+        "base_position": "right side of base",
+        "base_high": 198.73,
+        "base_low": 160.88
+      },
+      "daily": {
+        "ema_10": 187.78,
+        "ema_21": 184.8,
+        "sma_50": 173.12,
+        "sma_200": 149.4,
+        "above_10ema": true,
+        "above_21ema": true,
+        "above_50sma": true,
+        "above_200sma": true,
+        "pct_from_10ema": 2.33,
+        "pct_from_21ema": 3.98,
+        "pct_from_50sma": 10.99,
+        "pct_from_200sma": 28.61,
+        "vol_ratio_5d": 0.8,
+        "up_days_5": 3,
+        "down_days_5": 2,
+        "higher_lows_5": 2,
+        "today_pct": 0.37,
+        "candle_position": 0.37
+      },
+      "cycle_signals": {
+        "bull_10ema_crossback": false,
+        "bear_10ema_crossback": false,
+        "bull_21ema_crossback": false,
+        "bear_21ema_crossback": false,
+        "bull_reversal_extension": true,
         "bear_reversal_extension": false,
         "bear_trap": false,
         "bull_trap": true,
@@ -1103,41 +1213,41 @@
         "phase_color": "green",
         "phase_action": "Riding the trend. Hold above 10/20 EMA; let it run. Avoid re-entering extended.",
         "phase_scores": {
-          "WEDGE_POP_BASE_BREAK": 0,
+          "WEDGE_POP_BASE_BREAK": 1,
           "EMA_CROSSBACK": 0,
-          "TREND_CONTINUATION": 7,
+          "TREND_CONTINUATION": 8,
           "EXHAUSTION": 4
         }
       },
       "narrative": {
         "daily_read": [
-          "Holding above the 10 EMA (working level intact, +2.0% above).",
-          "Above 21 EMA (+3.1%).",
-          "Above the 200 SMA (+11.3%) \u2014 long-term trend intact.",
-          "Higher lows 3/4 last 5 sessions \u2014 buyers stepping up."
+          "Holding above the 10 EMA (working level intact, +2.3% above).",
+          "Above 21 EMA (+4.0%).",
+          "Above the 200 SMA (+28.6%) \u2014 long-term trend intact."
         ],
         "weekly_read": [
-          "Above 20-week MA (+5.5%, slope rising).",
-          "Trend read: Expanding range (volatile).",
-          "Tight base detected \u2014 last 8 weeks contained in a 8.1% range ($168.11 to $182.92). On the right side of base.",
+          "Above 20-week MA (+20.7%, slope rising).",
+          "Trend read: Uptrend (HH/HL confirmed).",
+          "8-week range: 19.1% deep \u2014 not yet a tight base.",
           "Within 5% of 52-week high \u2014 extended structurally."
         ],
         "cycle_signals": [
+          "\u2705 Bullish Reversal Extension complete",
           "\u26a0\ufe0f Bull Trap identified \u2014 failed breakout"
         ],
         "bull_levels": [
-          "Hold above 10 EMA ($177.31)",
-          "Break and hold above $182.92 (8-week base high)",
-          "Target $182.92 (52-week high)"
+          "Hold above 10 EMA ($187.78)",
+          "Break and hold above $198.73 (8-week base high)",
+          "Target $198.73 (52-week high)"
         ],
         "bear_levels": [
-          "Loss of 21 EMA ($175.53)",
-          "Loss of $168.11 (8-week base low) flips structure",
-          "Loss of 200 SMA ($162.58) compromises long-term trend"
+          "Loss of 21 EMA ($184.80)",
+          "Loss of $160.88 (8-week base low) flips structure",
+          "Loss of 200 SMA ($149.40) compromises long-term trend"
         ],
         "bias": "STRONGLY CONSTRUCTIVE",
         "bias_color": "green",
-        "bull_score": 11,
+        "bull_score": 15,
         "bear_score": 1,
         "phase": "TREND_CONTINUATION",
         "phase_label": "Trend Continuation",
@@ -1145,58 +1255,58 @@
         "phase_color": "green",
         "phase_action": "Riding the trend. Hold above 10/20 EMA; let it run. Avoid re-entering extended.",
         "phase_scores": {
-          "WEDGE_POP_BASE_BREAK": 0,
+          "WEDGE_POP_BASE_BREAK": 1,
           "EMA_CROSSBACK": 0,
-          "TREND_CONTINUATION": 7,
+          "TREND_CONTINUATION": 8,
           "EXHAUSTION": 4
         }
       }
     },
     {
-      "ticker": "XLK",
-      "name": "Technology",
+      "ticker": "XLP",
+      "name": "Consumer Staples",
       "category": "sector",
-      "current_price": 191.44,
-      "today_pct": 3.04,
+      "current_price": 82.18,
+      "today_pct": -1.34,
       "weekly": {
-        "trend": "Expanding range (volatile)",
-        "higher_high": "True",
-        "higher_low": "False",
-        "lower_high": "False",
-        "lower_low": "True",
-        "ma_20w": 156.65,
-        "ma_20w_slope": "rising",
-        "above_20w": true,
-        "pct_from_20w": 22.21,
-        "high_52w": 198.73,
-        "low_52w": 118.7,
-        "pct_from_52w_high": -3.67,
-        "pct_from_52w_low": 61.29,
-        "base_depth_pct": 21.42,
-        "is_tight_base": false,
-        "base_position": "right side of base",
-        "base_high": 198.73,
-        "base_low": 156.16
+        "trend": "Contracting range (coiling)",
+        "higher_high": "False",
+        "higher_low": "True",
+        "lower_high": "True",
+        "lower_low": "False",
+        "ma_20w": 84.15,
+        "ma_20w_slope": "flat",
+        "above_20w": false,
+        "pct_from_20w": -2.34,
+        "high_52w": 89.64,
+        "low_52w": 74.14,
+        "pct_from_52w_high": -8.32,
+        "pct_from_52w_low": 10.84,
+        "base_depth_pct": 6.02,
+        "is_tight_base": true,
+        "base_position": "left side of base",
+        "base_high": 86.7,
+        "base_low": 81.48
       },
       "daily": {
-        "ema_10": 186.8,
-        "ema_21": 184.06,
-        "sma_50": 172.11,
-        "sma_200": 149.09,
-        "above_10ema": true,
-        "above_21ema": true,
-        "above_50sma": true,
+        "ema_10": 83.92,
+        "ema_21": 83.96,
+        "sma_50": 83.61,
+        "sma_200": 81.0,
+        "above_10ema": false,
+        "above_21ema": false,
+        "above_50sma": false,
         "above_200sma": true,
-        "pct_from_10ema": 2.48,
-        "pct_from_21ema": 4.01,
-        "pct_from_50sma": 11.23,
-        "pct_from_200sma": 28.4,
-        "vol_ratio_5d": 0.86,
-        "up_days_5": 3,
-        "down_days_5": 2,
-        "higher_lows_5": 2,
-        "today_pct": 3.04,
-        "candle_position": 0.79
+        "pct_from_10ema": -2.07,
+        "pct_from_21ema": -2.12,
+        "pct_from_50sma": -1.71,
+        "pct_from_200sma": 1.46,
+        "vol_ratio_5d": 0.94,
+        "up_days_5": 1,
+        "down_days_5": 4,
+        "higher_lows_5": 0,
+        "today_pct": -1.34,
+        "candle_position": 0.03
       },
       "cycle_signals": {
         "bull_10ema_crossback": false,
@@ -1213,171 +1323,55 @@
         "falling_wedge": false
       },
       "phase": {
-        "phase": "TREND_CONTINUATION",
-        "phase_label": "Trend Continuation",
-        "phase_emoji": "\ud83d\ude80",
-        "phase_color": "green",
-        "phase_action": "Riding the trend. Hold above 10/20 EMA; let it run. Avoid re-entering extended.",
-        "phase_scores": {
-          "WEDGE_POP_BASE_BREAK": 0,
-          "EMA_CROSSBACK": 0,
-          "TREND_CONTINUATION": 6,
-          "EXHAUSTION": 0
-        }
-      },
-      "narrative": {
-        "daily_read": [
-          "Holding above the 10 EMA (working level intact, +2.5% above).",
-          "Above 21 EMA (+4.0%).",
-          "Above the 200 SMA (+28.4%) \u2014 long-term trend intact."
-        ],
-        "weekly_read": [
-          "Above 20-week MA (+22.2%, slope rising).",
-          "Trend read: Expanding range (volatile).",
-          "8-week range: 21.4% deep \u2014 not yet a tight base.",
-          "Within 5% of 52-week high \u2014 extended structurally."
-        ],
-        "cycle_signals": [],
-        "bull_levels": [
-          "Hold above 10 EMA ($186.80)",
-          "Break and hold above $198.73 (8-week base high)",
-          "Target $198.73 (52-week high)"
-        ],
-        "bear_levels": [
-          "Loss of 21 EMA ($184.06)",
-          "Loss of $156.16 (8-week base low) flips structure",
-          "Loss of 200 SMA ($149.09) compromises long-term trend"
-        ],
-        "bias": "STRONGLY CONSTRUCTIVE",
-        "bias_color": "green",
-        "bull_score": 10,
-        "bear_score": 0,
-        "phase": "TREND_CONTINUATION",
-        "phase_label": "Trend Continuation",
-        "phase_emoji": "\ud83d\ude80",
-        "phase_color": "green",
-        "phase_action": "Riding the trend. Hold above 10/20 EMA; let it run. Avoid re-entering extended.",
-        "phase_scores": {
-          "WEDGE_POP_BASE_BREAK": 0,
-          "EMA_CROSSBACK": 0,
-          "TREND_CONTINUATION": 6,
-          "EXHAUSTION": 0
-        }
-      }
-    },
-    {
-      "ticker": "XLP",
-      "name": "Consumer Staples",
-      "category": "sector",
-      "current_price": 83.3,
-      "today_pct": -0.45,
-      "weekly": {
-        "trend": "Contracting range (coiling)",
-        "higher_high": "False",
-        "higher_low": "True",
-        "lower_high": "True",
-        "lower_low": "False",
-        "ma_20w": 84.41,
-        "ma_20w_slope": "rising",
-        "above_20w": false,
-        "pct_from_20w": -1.32,
-        "high_52w": 89.64,
-        "low_52w": 74.14,
-        "pct_from_52w_high": -7.07,
-        "pct_from_52w_low": 12.35,
-        "base_depth_pct": 6.02,
-        "is_tight_base": true,
-        "base_position": "left side of base",
-        "base_high": 86.7,
-        "base_low": 81.48
-      },
-      "daily": {
-        "ema_10": 84.31,
-        "ema_21": 84.14,
-        "sma_50": 83.63,
-        "sma_200": 80.98,
-        "above_10ema": false,
-        "above_21ema": false,
-        "above_50sma": false,
-        "above_200sma": true,
-        "pct_from_10ema": -1.19,
-        "pct_from_21ema": -1.0,
-        "pct_from_50sma": -0.4,
-        "pct_from_200sma": 2.86,
-        "vol_ratio_5d": 0.92,
-        "up_days_5": 2,
-        "down_days_5": 3,
-        "higher_lows_5": 1,
-        "today_pct": -0.45,
-        "candle_position": 0.22
-      },
-      "cycle_signals": {
-        "bull_10ema_crossback": false,
-        "bear_10ema_crossback": true,
-        "bull_21ema_crossback": false,
-        "bear_21ema_crossback": true,
-        "bull_reversal_extension": false,
-        "bear_reversal_extension": false,
-        "bear_trap": false,
-        "bull_trap": false,
-        "base_breakout": false,
-        "base_breakdown": false,
-        "rising_wedge": false,
-        "falling_wedge": false
-      },
-      "phase": {
-        "phase": "EXHAUSTION",
-        "phase_label": "Exhaustion / End of Cycle",
-        "phase_emoji": "\u26a0\ufe0f",
-        "phase_color": "red",
-        "phase_action": "Distribution risk. Tighten stops; loss of 10 EMA = scale out. Avoid new longs.",
+        "phase": "NEUTRAL",
+        "phase_label": "Neutral / Transition",
+        "phase_emoji": "\u00b7",
+        "phase_color": "amber",
+        "phase_action": "No clear phase signal. Wait for structure to develop.",
         "phase_scores": {
           "WEDGE_POP_BASE_BREAK": 0,
           "EMA_CROSSBACK": 0,
           "TREND_CONTINUATION": 0,
-          "EXHAUSTION": 5
+          "EXHAUSTION": 0
         }
       },
       "narrative": {
         "daily_read": [
-          "Below the 10 EMA (-1.2% \u2014 working level lost).",
-          "Below 21 EMA (-1.0%) \u2014 deeper structural break.",
-          "Above the 200 SMA (+2.9%) \u2014 long-term trend intact."
+          "Below the 10 EMA (-2.1% \u2014 working level lost).",
+          "Below 21 EMA (-2.1%) \u2014 deeper structural break.",
+          "Above the 200 SMA (+1.5%) \u2014 long-term trend intact."
         ],
         "weekly_read": [
-          "Below 20-week MA (-1.3%, slope rising).",
+          "Below 20-week MA (-2.3%, slope flat).",
           "Trend read: Contracting range (coiling).",
           "Tight base detected \u2014 last 8 weeks contained in a 6.0% range ($81.48 to $86.70). On the left side of base.",
           "Within 10% of 52-week high \u2014 constructive structural position."
         ],
-        "cycle_signals": [
-          "\u26a0\ufe0f Bearish 10 EMA Crossback",
-          "\u26a0\ufe0f Bearish 21 EMA Crossback"
-        ],
+        "cycle_signals": [],
         "bull_levels": [
-          "Hold above 10 EMA ($84.31)",
+          "Hold above 10 EMA ($83.92)",
           "Break and hold above $86.70 (8-week base high)",
           "Target $89.64 (52-week high)"
         ],
         "bear_levels": [
-          "Loss of 21 EMA ($84.14)",
+          "Loss of 21 EMA ($83.96)",
           "Loss of $81.48 (8-week base low) flips structure",
-          "Loss of 200 SMA ($80.98) compromises long-term trend"
+          "Loss of 200 SMA ($81.00) compromises long-term trend"
         ],
         "bias": "DISTRIBUTION RISK",
         "bias_color": "red",
-        "bull_score": 3,
-        "bear_score": 8,
-        "phase": "EXHAUSTION",
-        "phase_label": "Exhaustion / End of Cycle",
-        "phase_emoji": "\u26a0\ufe0f",
-        "phase_color": "red",
-        "phase_action": "Distribution risk. Tighten stops; loss of 10 EMA = scale out. Avoid new longs.",
+        "bull_score": 2,
+        "bear_score": 6,
+        "phase": "NEUTRAL",
+        "phase_label": "Neutral / Transition",
+        "phase_emoji": "\u00b7",
+        "phase_color": "amber",
+        "phase_action": "No clear phase signal. Wait for structure to develop.",
         "phase_scores": {
           "WEDGE_POP_BASE_BREAK": 0,
           "EMA_CROSSBACK": 0,
           "TREND_CONTINUATION": 0,
-          "EXHAUSTION": 5
+          "EXHAUSTION": 0
         }
       }
     },
@@ -1385,22 +1379,22 @@
       "ticker": "XLRE",
       "name": "Real Estate",
       "category": "sector",
-      "current_price": 43.86,
-      "today_pct": -0.25,
+      "current_price": 44.02,
+      "today_pct": 0.36,
       "weekly": {
         "trend": "Uptrend (HH/HL confirmed)",
         "higher_high": "True",
         "higher_low": "True",
         "lower_high": "False",
         "lower_low": "False",
-        "ma_20w": 43.18,
+        "ma_20w": 43.29,
         "ma_20w_slope": "rising",
         "above_20w": true,
-        "pct_from_20w": 1.58,
+        "pct_from_20w": 1.68,
         "high_52w": 45.65,
         "low_52w": 39.03,
-        "pct_from_52w_high": -3.92,
-        "pct_from_52w_low": 12.37,
+        "pct_from_52w_high": -3.57,
+        "pct_from_52w_low": 12.78,
         "base_depth_pct": 5.64,
         "is_tight_base": true,
         "base_position": "left side of base",
@@ -1408,24 +1402,24 @@
         "base_low": 43.08
       },
       "daily": {
-        "ema_10": 44.49,
-        "ema_21": 44.4,
-        "sma_50": 44.12,
-        "sma_200": 41.84,
+        "ema_10": 44.41,
+        "ema_21": 44.36,
+        "sma_50": 44.14,
+        "sma_200": 41.85,
         "above_10ema": false,
         "above_21ema": false,
         "above_50sma": false,
         "above_200sma": true,
-        "pct_from_10ema": -1.43,
-        "pct_from_21ema": -1.21,
-        "pct_from_50sma": -0.59,
-        "pct_from_200sma": 4.84,
+        "pct_from_10ema": -0.87,
+        "pct_from_21ema": -0.77,
+        "pct_from_50sma": -0.28,
+        "pct_from_200sma": 5.18,
         "vol_ratio_5d": 1.16,
         "up_days_5": 2,
         "down_days_5": 3,
         "higher_lows_5": 1,
-        "today_pct": -0.25,
-        "candle_position": 0.05
+        "today_pct": 0.36,
+        "candle_position": 0.72
       },
       "cycle_signals": {
         "bull_10ema_crossback": false,
@@ -1434,7 +1428,7 @@
         "bear_21ema_crossback": true,
         "bull_reversal_extension": false,
         "bear_reversal_extension": false,
-        "bear_trap": false,
+        "bear_trap": true,
         "bull_trap": false,
         "base_breakout": false,
         "base_breakdown": false,
@@ -1448,7 +1442,7 @@
         "phase_color": "red",
         "phase_action": "Distribution risk. Tighten stops; loss of 10 EMA = scale out. Avoid new longs.",
         "phase_scores": {
-          "WEDGE_POP_BASE_BREAK": 0,
+          "WEDGE_POP_BASE_BREAK": 3,
           "EMA_CROSSBACK": 0,
           "TREND_CONTINUATION": 4,
           "EXHAUSTION": 7
@@ -1456,33 +1450,34 @@
       },
       "narrative": {
         "daily_read": [
-          "Below the 10 EMA (-1.4% \u2014 working level lost).",
-          "Below 21 EMA (-1.2%) \u2014 deeper structural break.",
-          "Above the 200 SMA (+4.8%) \u2014 long-term trend intact."
+          "Below the 10 EMA (-0.9% \u2014 working level lost).",
+          "Below 21 EMA (-0.8%) \u2014 deeper structural break.",
+          "Above the 200 SMA (+5.2%) \u2014 long-term trend intact."
         ],
         "weekly_read": [
-          "Above 20-week MA (+1.6%, slope rising).",
+          "Above 20-week MA (+1.7%, slope rising).",
           "Trend read: Uptrend (HH/HL confirmed).",
           "Tight base detected \u2014 last 8 weeks contained in a 5.6% range ($43.08 to $45.65). On the left side of base.",
           "Within 5% of 52-week high \u2014 extended structurally."
         ],
         "cycle_signals": [
           "\u26a0\ufe0f Bearish 10 EMA Crossback",
-          "\u26a0\ufe0f Bearish 21 EMA Crossback"
+          "\u26a0\ufe0f Bearish 21 EMA Crossback",
+          "\u2705 Bear Trap identified \u2014 false breakdown reversed"
         ],
         "bull_levels": [
-          "Hold above 10 EMA ($44.49)",
+          "Hold above 10 EMA ($44.41)",
           "Break and hold above $45.65 (8-week base high)",
           "Target $45.65 (52-week high)"
         ],
         "bear_levels": [
-          "Loss of 21 EMA ($44.40)",
+          "Loss of 21 EMA ($44.36)",
           "Loss of $43.08 (8-week base low) flips structure",
-          "Loss of 200 SMA ($41.84) compromises long-term trend"
+          "Loss of 200 SMA ($41.85) compromises long-term trend"
         ],
         "bias": "CONSTRUCTIVE",
         "bias_color": "green",
-        "bull_score": 8,
+        "bull_score": 9,
         "bear_score": 6,
         "phase": "EXHAUSTION",
         "phase_label": "Exhaustion / End of Cycle",
@@ -1490,7 +1485,7 @@
         "phase_color": "red",
         "phase_action": "Distribution risk. Tighten stops; loss of 10 EMA = scale out. Avoid new longs.",
         "phase_scores": {
-          "WEDGE_POP_BASE_BREAK": 0,
+          "WEDGE_POP_BASE_BREAK": 3,
           "EMA_CROSSBACK": 0,
           "TREND_CONTINUATION": 4,
           "EXHAUSTION": 7
@@ -1501,47 +1496,47 @@
       "ticker": "XLU",
       "name": "Utilities",
       "category": "sector",
-      "current_price": 44.76,
-      "today_pct": 0.67,
+      "current_price": 44.72,
+      "today_pct": -0.09,
       "weekly": {
         "trend": "Uptrend (HH/HL confirmed)",
         "higher_high": "True",
         "higher_low": "True",
         "lower_high": "False",
         "lower_low": "False",
-        "ma_20w": 45.47,
+        "ma_20w": 45.56,
         "ma_20w_slope": "rising",
         "above_20w": false,
-        "pct_from_20w": -1.57,
+        "pct_from_20w": -1.84,
         "high_52w": 47.71,
-        "low_52w": 39.06,
-        "pct_from_52w_high": -6.18,
-        "pct_from_52w_low": 14.58,
-        "base_depth_pct": 8.94,
+        "low_52w": 39.33,
+        "pct_from_52w_high": -6.27,
+        "pct_from_52w_low": 13.69,
+        "base_depth_pct": 8.07,
         "is_tight_base": true,
         "base_position": "left side of base",
-        "base_high": 47.3,
+        "base_high": 46.85,
         "base_low": 43.07
       },
       "daily": {
-        "ema_10": 44.48,
-        "ema_21": 44.51,
-        "sma_50": 45.15,
-        "sma_200": 44.19,
+        "ema_10": 44.52,
+        "ema_21": 44.53,
+        "sma_50": 45.1,
+        "sma_200": 44.21,
         "above_10ema": true,
         "above_21ema": true,
         "above_50sma": false,
         "above_200sma": true,
-        "pct_from_10ema": 0.64,
-        "pct_from_21ema": 0.57,
-        "pct_from_50sma": -0.87,
-        "pct_from_200sma": 1.28,
-        "vol_ratio_5d": 1.07,
-        "up_days_5": 4,
-        "down_days_5": 1,
-        "higher_lows_5": 3,
-        "today_pct": 0.67,
-        "candle_position": 0.28
+        "pct_from_10ema": 0.45,
+        "pct_from_21ema": 0.44,
+        "pct_from_50sma": -0.85,
+        "pct_from_200sma": 1.15,
+        "vol_ratio_5d": 1.1,
+        "up_days_5": 3,
+        "down_days_5": 2,
+        "higher_lows_5": 2,
+        "today_pct": -0.09,
+        "candle_position": 0.55
       },
       "cycle_signals": {
         "bull_10ema_crossback": true,
@@ -1566,21 +1561,20 @@
         "phase_scores": {
           "WEDGE_POP_BASE_BREAK": 2,
           "EMA_CROSSBACK": 11,
-          "TREND_CONTINUATION": 4,
+          "TREND_CONTINUATION": 3,
           "EXHAUSTION": 0
         }
       },
       "narrative": {
         "daily_read": [
-          "Holding above the 10 EMA (working level intact, +0.6% above).",
-          "Above 21 EMA (+0.6%).",
-          "Above the 200 SMA (+1.3%) \u2014 long-term trend intact.",
-          "Higher lows 3/4 last 5 sessions \u2014 buyers stepping up."
+          "Holding above the 10 EMA (working level intact, +0.5% above).",
+          "Above 21 EMA (+0.4%).",
+          "Above the 200 SMA (+1.1%) \u2014 long-term trend intact."
         ],
         "weekly_read": [
-          "Below 20-week MA (-1.6%, slope rising).",
+          "Below 20-week MA (-1.8%, slope rising).",
           "Trend read: Uptrend (HH/HL confirmed).",
-          "Tight base detected \u2014 last 8 weeks contained in a 8.9% range ($43.07 to $47.30). On the left side of base.",
+          "Tight base detected \u2014 last 8 weeks contained in a 8.1% range ($43.07 to $46.85). On the left side of base.",
           "Within 10% of 52-week high \u2014 constructive structural position."
         ],
         "cycle_signals": [
@@ -1588,14 +1582,14 @@
           "\u2705 Bullish 21 EMA Crossback (deeper test)"
         ],
         "bull_levels": [
-          "Hold above 10 EMA ($44.48)",
-          "Break and hold above $47.30 (8-week base high)",
+          "Hold above 10 EMA ($44.52)",
+          "Break and hold above $46.85 (8-week base high)",
           "Target $47.71 (52-week high)"
         ],
         "bear_levels": [
-          "Loss of 21 EMA ($44.51)",
+          "Loss of 21 EMA ($44.53)",
           "Loss of $43.07 (8-week base low) flips structure",
-          "Loss of 200 SMA ($44.19) compromises long-term trend"
+          "Loss of 200 SMA ($44.21) compromises long-term trend"
         ],
         "bias": "STRONGLY CONSTRUCTIVE",
         "bias_color": "green",
@@ -1609,7 +1603,7 @@
         "phase_scores": {
           "WEDGE_POP_BASE_BREAK": 2,
           "EMA_CROSSBACK": 11,
-          "TREND_CONTINUATION": 4,
+          "TREND_CONTINUATION": 3,
           "EXHAUSTION": 0
         }
       }
@@ -1618,47 +1612,47 @@
       "ticker": "XLV",
       "name": "Health Care",
       "category": "sector",
-      "current_price": 149.4,
-      "today_pct": -0.87,
+      "current_price": 150.06,
+      "today_pct": 0.44,
       "weekly": {
         "trend": "Downtrend (LH/LL confirmed)",
         "higher_high": "False",
         "higher_low": "False",
         "lower_high": "True",
         "lower_low": "True",
-        "ma_20w": 149.75,
+        "ma_20w": 149.39,
         "ma_20w_slope": "falling",
-        "above_20w": false,
-        "pct_from_20w": -0.23,
+        "above_20w": true,
+        "pct_from_20w": 0.45,
         "high_52w": 159.93,
         "low_52w": 126.32,
-        "pct_from_52w_high": -6.59,
-        "pct_from_52w_low": 18.27,
-        "base_depth_pct": 8.5,
+        "pct_from_52w_high": -6.17,
+        "pct_from_52w_low": 18.8,
+        "base_depth_pct": 8.05,
         "is_tight_base": true,
         "base_position": "right side of base",
         "base_high": 155.16,
-        "base_low": 141.97
+        "base_low": 142.67
       },
       "daily": {
-        "ema_10": 151.59,
-        "ema_21": 150.62,
-        "sma_50": 147.91,
-        "sma_200": 148.66,
+        "ema_10": 151.31,
+        "ema_21": 150.57,
+        "sma_50": 147.93,
+        "sma_200": 148.73,
         "above_10ema": false,
         "above_21ema": false,
         "above_50sma": true,
         "above_200sma": true,
-        "pct_from_10ema": -1.44,
-        "pct_from_21ema": -0.81,
-        "pct_from_50sma": 1.01,
-        "pct_from_200sma": 0.5,
-        "vol_ratio_5d": 0.9,
-        "up_days_5": 1,
-        "down_days_5": 4,
-        "higher_lows_5": 0,
-        "today_pct": -0.87,
-        "candle_position": 0.25
+        "pct_from_10ema": -0.83,
+        "pct_from_21ema": -0.34,
+        "pct_from_50sma": 1.44,
+        "pct_from_200sma": 0.89,
+        "vol_ratio_5d": 0.92,
+        "up_days_5": 2,
+        "down_days_5": 3,
+        "higher_lows_5": 1,
+        "today_pct": 0.44,
+        "candle_position": 0.64
       },
       "cycle_signals": {
         "bull_10ema_crossback": false,
@@ -1689,14 +1683,14 @@
       },
       "narrative": {
         "daily_read": [
-          "Below the 10 EMA (-1.4% \u2014 working level lost).",
-          "Below 21 EMA (-0.8%) \u2014 deeper structural break.",
-          "Above the 200 SMA (+0.5%) \u2014 long-term trend intact."
+          "Below the 10 EMA (-0.8% \u2014 working level lost).",
+          "Below 21 EMA (-0.3%) \u2014 deeper structural break.",
+          "Above the 200 SMA (+0.9%) \u2014 long-term trend intact."
         ],
         "weekly_read": [
-          "Below 20-week MA (-0.2%, slope falling).",
+          "Above 20-week MA (+0.5%, slope falling).",
           "Trend read: Downtrend (LH/LL confirmed).",
-          "Tight base detected \u2014 last 8 weeks contained in a 8.5% range ($141.97 to $155.16). On the right side of base.",
+          "Tight base detected \u2014 last 8 weeks contained in a 8.1% range ($142.67 to $155.16). On the right side of base.",
           "Within 10% of 52-week high \u2014 constructive structural position."
         ],
         "cycle_signals": [
@@ -1704,19 +1698,19 @@
           "\u26a0\ufe0f Bearish 21 EMA Crossback"
         ],
         "bull_levels": [
-          "Hold above 10 EMA ($151.59)",
+          "Hold above 10 EMA ($151.31)",
           "Break and hold above $155.16 (8-week base high)",
           "Target $159.93 (52-week high)"
         ],
         "bear_levels": [
-          "Loss of 21 EMA ($150.62)",
-          "Loss of $141.97 (8-week base low) flips structure",
-          "Loss of 200 SMA ($148.66) compromises long-term trend"
+          "Loss of 21 EMA ($150.57)",
+          "Loss of $142.67 (8-week base low) flips structure",
+          "Loss of 200 SMA ($148.73) compromises long-term trend"
         ],
         "bias": "DISTRIBUTION RISK",
         "bias_color": "red",
-        "bull_score": 3,
-        "bear_score": 11,
+        "bull_score": 5,
+        "bear_score": 9,
         "phase": "EXHAUSTION",
         "phase_label": "Exhaustion / End of Cycle",
         "phase_emoji": "\u26a0\ufe0f",
@@ -1734,22 +1728,22 @@
       "ticker": "XLY",
       "name": "Consumer Discretionary",
       "category": "sector",
-      "current_price": 117.16,
-      "today_pct": 1.45,
+      "current_price": 114.94,
+      "today_pct": -1.89,
       "weekly": {
-        "trend": "Downtrend (LH/LL confirmed)",
+        "trend": "Contracting range (coiling)",
         "higher_high": "False",
-        "higher_low": "False",
+        "higher_low": "True",
         "lower_high": "True",
-        "lower_low": "True",
-        "ma_20w": 115.48,
+        "lower_low": "False",
+        "ma_20w": 115.34,
         "ma_20w_slope": "falling",
-        "above_20w": true,
-        "pct_from_20w": 1.46,
+        "above_20w": false,
+        "pct_from_20w": -0.34,
         "high_52w": 124.76,
-        "low_52w": 104.03,
-        "pct_from_52w_high": -6.09,
-        "pct_from_52w_low": 12.62,
+        "low_52w": 105.19,
+        "pct_from_52w_high": -7.87,
+        "pct_from_52w_low": 9.27,
         "base_depth_pct": 7.21,
         "is_tight_base": true,
         "base_position": "left side of base",
@@ -1757,24 +1751,24 @@
         "base_low": 113.38
       },
       "daily": {
-        "ema_10": 116.88,
-        "ema_21": 117.17,
-        "sma_50": 117.71,
+        "ema_10": 116.53,
+        "ema_21": 116.96,
+        "sma_50": 117.75,
         "sma_200": 117.38,
-        "above_10ema": true,
+        "above_10ema": false,
         "above_21ema": false,
         "above_50sma": false,
         "above_200sma": false,
-        "pct_from_10ema": 0.24,
-        "pct_from_21ema": -0.01,
-        "pct_from_50sma": -0.47,
-        "pct_from_200sma": -0.19,
+        "pct_from_10ema": -1.37,
+        "pct_from_21ema": -1.73,
+        "pct_from_50sma": -2.39,
+        "pct_from_200sma": -2.08,
         "vol_ratio_5d": 1.0,
-        "up_days_5": 3,
-        "down_days_5": 2,
-        "higher_lows_5": 3,
-        "today_pct": 1.45,
-        "candle_position": 0.76
+        "up_days_5": 2,
+        "down_days_5": 3,
+        "higher_lows_5": 2,
+        "today_pct": -1.89,
+        "candle_position": 0.03
       },
       "cycle_signals": {
         "bull_10ema_crossback": false,
@@ -1799,20 +1793,19 @@
         "phase_scores": {
           "WEDGE_POP_BASE_BREAK": 0,
           "EMA_CROSSBACK": 0,
-          "TREND_CONTINUATION": 2,
-          "EXHAUSTION": 5
+          "TREND_CONTINUATION": 0,
+          "EXHAUSTION": 2
         }
       },
       "narrative": {
         "daily_read": [
-          "Holding above the 10 EMA (working level intact, +0.2% above).",
-          "Below 21 EMA (-0.0%) \u2014 deeper structural break.",
-          "Below the 200 SMA (-0.2%) \u2014 long-term trend compromised.",
-          "Higher lows 3/4 last 5 sessions \u2014 buyers stepping up."
+          "Below the 10 EMA (-1.4% \u2014 working level lost).",
+          "Below 21 EMA (-1.7%) \u2014 deeper structural break.",
+          "Below the 200 SMA (-2.1%) \u2014 long-term trend compromised."
         ],
         "weekly_read": [
-          "Above 20-week MA (+1.5%, slope falling).",
-          "Trend read: Downtrend (LH/LL confirmed).",
+          "Below 20-week MA (-0.3%, slope falling).",
+          "Trend read: Contracting range (coiling).",
           "Tight base detected \u2014 last 8 weeks contained in a 7.2% range ($113.38 to $122.19). On the left side of base.",
           "Within 10% of 52-week high \u2014 constructive structural position."
         ],
@@ -1820,18 +1813,18 @@
           "\u26a0\ufe0f Bearish 21 EMA Crossback"
         ],
         "bull_levels": [
-          "Hold above 10 EMA ($116.88)",
+          "Hold above 10 EMA ($116.53)",
           "Break and hold above $122.19 (8-week base high)",
           "Target $124.76 (52-week high)"
         ],
         "bear_levels": [
-          "Loss of 21 EMA ($117.17)",
+          "Loss of 21 EMA ($116.96)",
           "Loss of $113.38 (8-week base low) flips structure",
           "Loss of 200 SMA ($117.38) compromises long-term trend"
         ],
         "bias": "DISTRIBUTION RISK",
         "bias_color": "red",
-        "bull_score": 4,
+        "bull_score": 0,
         "bear_score": 11,
         "phase": "EXHAUSTION",
         "phase_label": "Exhaustion / End of Cycle",
@@ -1841,8 +1834,8 @@
         "phase_scores": {
           "WEDGE_POP_BASE_BREAK": 0,
           "EMA_CROSSBACK": 0,
-          "TREND_CONTINUATION": 2,
-          "EXHAUSTION": 5
+          "TREND_CONTINUATION": 0,
+          "EXHAUSTION": 2
         }
       }
     }
