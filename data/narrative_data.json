@@ -1,14 +1,14 @@
 {
-  "generated_at": "2026-06-24T23:34:26.909027",
+  "generated_at": "2026-06-25T23:46:03.051945",
   "today": {
     "spx_dir": "\u2193",
-    "dxy_dir": "\u2191",
+    "dxy_dir": "\u2193",
     "tnx_dir": "\u2193",
-    "state_id": 5,
-    "name": "Risk-Off / Flight to Quality",
-    "label": "Stocks \u2193 \u00b7 Dollar \u2191 \u00b7 Rates \u2193",
-    "sector_tilt": "Defensive \u2014 utilities, staples, gold",
-    "color": "red",
+    "state_id": 7,
+    "name": "Slowdown / Easing Anticipation",
+    "label": "Stocks \u2193 \u00b7 Dollar \u2193 \u00b7 Rates \u2193",
+    "sector_tilt": "Gold, duration, defensive value",
+    "color": "amber",
     "bullish": false
   },
   "dominant_10d": {
@@ -28,8 +28,8 @@
       "color": "green",
       "bullish": true,
       "freq_5d_pct": 0.0,
-      "freq_10d_pct": 20.0,
-      "freq_20d_pct": 25.0,
+      "freq_10d_pct": 10.0,
+      "freq_20d_pct": 20.0,
       "base_rate_pct": 17.9
     },
     {
@@ -63,7 +63,7 @@
       "sector_tilt": "Broad equity, consumer discretionary",
       "color": "green",
       "bullish": true,
-      "freq_5d_pct": 20.0,
+      "freq_5d_pct": 0.0,
       "freq_10d_pct": 10.0,
       "freq_20d_pct": 10.0,
       "base_rate_pct": 8.9
@@ -78,7 +78,7 @@
       "freq_5d_pct": 60.0,
       "freq_10d_pct": 30.0,
       "freq_20d_pct": 15.0,
-      "base_rate_pct": 9.1
+      "base_rate_pct": 9.0
     },
     {
       "id": 6,
@@ -99,10 +99,10 @@
       "sector_tilt": "Gold, duration, defensive value",
       "color": "amber",
       "bullish": false,
-      "freq_5d_pct": 20.0,
-      "freq_10d_pct": 20.0,
-      "freq_20d_pct": 15.0,
-      "base_rate_pct": 15.1
+      "freq_5d_pct": 40.0,
+      "freq_10d_pct": 30.0,
+      "freq_20d_pct": 20.0,
+      "base_rate_pct": 15.2
     },
     {
       "id": 8,
@@ -122,9 +122,9 @@
     "2": 11.0,
     "3": 13.6,
     "4": 8.9,
-    "5": 9.1,
+    "5": 9.0,
     "6": 17.9,
-    "7": 15.1,
+    "7": 15.2,
     "8": 6.6
   },
   "transitions": {
@@ -169,24 +169,24 @@
       "8": 0.043
     },
     "5": {
-      "1": 0.167,
-      "2": 0.167,
-      "3": 0.111,
+      "1": 0.158,
+      "2": 0.158,
+      "3": 0.105,
       "4": 0.0,
-      "5": 0.167,
-      "6": 0.111,
-      "7": 0.278,
+      "5": 0.158,
+      "6": 0.105,
+      "7": 0.316,
       "8": 0.0
     },
     "6": {
-      "1": 0.294,
-      "2": 0.078,
-      "3": 0.118,
-      "4": 0.078,
-      "5": 0.118,
-      "6": 0.157,
-      "7": 0.118,
-      "8": 0.039
+      "1": 0.28,
+      "2": 0.08,
+      "3": 0.12,
+      "4": 0.08,
+      "5": 0.12,
+      "6": 0.16,
+      "7": 0.12,
+      "8": 0.04
     },
     "7": {
       "1": 0.114,
@@ -210,15 +210,6 @@
     }
   },
   "history_60d": [
-    {
-      "date": "2026-04-02",
-      "state_id": 4,
-      "narrative_name": "Soft Landing",
-      "color": "green",
-      "spx": "\u2191",
-      "dxy": "\u2191",
-      "tnx": "\u2193"
-    },
     {
       "date": "2026-04-03",
       "state_id": 7,
@@ -748,6 +739,15 @@
       "color": "red",
       "spx": "\u2193",
       "dxy": "\u2191",
+      "tnx": "\u2193"
+    },
+    {
+      "date": "2026-06-25",
+      "state_id": 7,
+      "narrative_name": "Slowdown / Easing Anticipation",
+      "color": "amber",
+      "spx": "\u2193",
+      "dxy": "\u2193",
       "tnx": "\u2193"
     }
   ]
