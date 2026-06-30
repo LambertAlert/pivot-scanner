@@ -1,13 +1,13 @@
 {
-  "generated_at": "2026-06-29T23:16:27.867543",
+  "generated_at": "2026-06-30T23:38:06.227388",
   "today": {
     "spx_dir": "\u2191",
-    "dxy_dir": "\u2193",
+    "dxy_dir": "\u2191",
     "tnx_dir": "\u2191",
-    "state_id": 2,
-    "name": "Reflation",
-    "label": "Stocks \u2191 \u00b7 Dollar \u2193 \u00b7 Rates \u2191",
-    "sector_tilt": "Energy, materials, industrials, banks",
+    "state_id": 3,
+    "name": "US Exceptionalism",
+    "label": "Stocks \u2191 \u00b7 Dollar \u2191 \u00b7 Rates \u2191",
+    "sector_tilt": "Large-cap quality, tech mega-caps",
     "color": "green",
     "bullish": true
   },
@@ -16,7 +16,7 @@
     "name": "Slowdown / Easing Anticipation",
     "color": "amber",
     "sector_tilt": "Gold, duration, defensive value",
-    "freq_10d_pct": 40.0
+    "freq_10d_pct": 30.0
   },
   "bearish_days_10": 4,
   "all_narratives": [
@@ -27,10 +27,10 @@
       "sector_tilt": "Growth, semis, software, biotech",
       "color": "green",
       "bullish": true,
-      "freq_5d_pct": 0.0,
-      "freq_10d_pct": 0.0,
-      "freq_20d_pct": 15.0,
-      "base_rate_pct": 17.8
+      "freq_5d_pct": 20.0,
+      "freq_10d_pct": 10.0,
+      "freq_20d_pct": 20.0,
+      "base_rate_pct": 17.9
     },
     {
       "id": 2,
@@ -39,9 +39,9 @@
       "sector_tilt": "Energy, materials, industrials, banks",
       "color": "green",
       "bullish": true,
-      "freq_5d_pct": 20.0,
-      "freq_10d_pct": 10.0,
-      "freq_20d_pct": 15.0,
+      "freq_5d_pct": 0.0,
+      "freq_10d_pct": 0.0,
+      "freq_20d_pct": 10.0,
       "base_rate_pct": 11.0
     },
     {
@@ -51,10 +51,10 @@
       "sector_tilt": "Large-cap quality, tech mega-caps",
       "color": "green",
       "bullish": true,
-      "freq_5d_pct": 0.0,
-      "freq_10d_pct": 0.0,
-      "freq_20d_pct": 0.0,
-      "base_rate_pct": 13.6
+      "freq_5d_pct": 20.0,
+      "freq_10d_pct": 10.0,
+      "freq_20d_pct": 5.0,
+      "base_rate_pct": 13.7
     },
     {
       "id": 4,
@@ -65,7 +65,7 @@
       "bullish": true,
       "freq_5d_pct": 0.0,
       "freq_10d_pct": 10.0,
-      "freq_20d_pct": 10.0,
+      "freq_20d_pct": 5.0,
       "base_rate_pct": 8.9
     },
     {
@@ -75,7 +75,7 @@
       "sector_tilt": "Defensive \u2014 utilities, staples, gold",
       "color": "red",
       "bullish": false,
-      "freq_5d_pct": 40.0,
+      "freq_5d_pct": 20.0,
       "freq_10d_pct": 20.0,
       "freq_20d_pct": 10.0,
       "base_rate_pct": 9.0
@@ -100,7 +100,7 @@
       "color": "amber",
       "bullish": false,
       "freq_5d_pct": 40.0,
-      "freq_10d_pct": 40.0,
+      "freq_10d_pct": 30.0,
       "freq_20d_pct": 25.0,
       "base_rate_pct": 15.2
     },
@@ -114,28 +114,28 @@
       "freq_5d_pct": 0.0,
       "freq_10d_pct": 0.0,
       "freq_20d_pct": 0.0,
-      "base_rate_pct": 6.6
+      "base_rate_pct": 6.5
     }
   ],
   "base_rates": {
-    "1": 17.8,
+    "1": 17.9,
     "2": 11.0,
-    "3": 13.6,
+    "3": 13.7,
     "4": 8.9,
     "5": 9.0,
     "6": 17.9,
     "7": 15.2,
-    "8": 6.6
+    "8": 6.5
   },
   "transitions": {
     "1": {
-      "1": 0.288,
-      "2": 0.154,
-      "3": 0.173,
-      "4": 0.096,
+      "1": 0.283,
+      "2": 0.151,
+      "3": 0.189,
+      "4": 0.094,
       "5": 0.0,
-      "6": 0.154,
-      "7": 0.096,
+      "6": 0.151,
+      "7": 0.094,
       "8": 0.038
     },
     "2": {
@@ -179,18 +179,18 @@
       "8": 0.0
     },
     "6": {
-      "1": 0.275,
-      "2": 0.078,
-      "3": 0.118,
-      "4": 0.078,
-      "5": 0.137,
-      "6": 0.157,
-      "7": 0.118,
-      "8": 0.039
+      "1": 0.28,
+      "2": 0.08,
+      "3": 0.1,
+      "4": 0.08,
+      "5": 0.14,
+      "6": 0.16,
+      "7": 0.12,
+      "8": 0.04
     },
     "7": {
-      "1": 0.108,
-      "2": 0.135,
+      "1": 0.135,
+      "2": 0.108,
       "3": 0.216,
       "4": 0.108,
       "5": 0.027,
@@ -210,15 +210,6 @@
     }
   },
   "history_60d": [
-    {
-      "date": "2026-04-07",
-      "state_id": 2,
-      "narrative_name": "Reflation",
-      "color": "green",
-      "spx": "\u2191",
-      "dxy": "\u2193",
-      "tnx": "\u2191"
-    },
     {
       "date": "2026-04-08",
       "state_id": 1,
@@ -743,11 +734,20 @@
     },
     {
       "date": "2026-06-29",
-      "state_id": 2,
-      "narrative_name": "Reflation",
+      "state_id": 1,
+      "narrative_name": "Goldilocks",
       "color": "green",
       "spx": "\u2191",
       "dxy": "\u2193",
+      "tnx": "\u2193"
+    },
+    {
+      "date": "2026-06-30",
+      "state_id": 3,
+      "narrative_name": "US Exceptionalism",
+      "color": "green",
+      "spx": "\u2191",
+      "dxy": "\u2191",
       "tnx": "\u2191"
     }
   ]
