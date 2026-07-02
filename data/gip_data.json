@@ -1,6 +1,6 @@
 {
-  "generated_at": "2026-07-01T23:43:28.098533",
-  "composite": 0.644,
+  "generated_at": "2026-07-02T23:30:30.121928",
+  "composite": 0.994,
   "regime": {
     "label": "Neutral",
     "color": "amber",
@@ -9,27 +9,27 @@
   "any_stale": true,
   "pillars": {
     "growth": {
-      "score": 0.312,
+      "score": 0.094,
       "components": {
         "lei": 0.0,
-        "icsa": 1.1582107289004568,
-        "ism": 0.0559371439930552
+        "icsa": 1.1771265841563552,
+        "ism": -0.5018744782362247
       },
       "stale": true,
       "stale_detail": {
         "lei": true,
-        "icsa": true,
-        "ism": true
+        "icsa": false,
+        "ism": false
       }
     },
     "inflation": {
-      "score": 1.455,
+      "score": 1.473,
       "components": {
         "cpi_yoy": 0.0,
         "core_yoy": 0.0,
         "pce_yoy": 0.0,
         "ppi_yoy": 0.0,
-        "t5y5y": 9.700000000000001
+        "t5y5y": 9.82
       },
       "stale": true,
       "stale_detail": {
@@ -41,31 +41,31 @@
       }
     },
     "liquidity": {
-      "score": 1.02,
+      "score": 1.57,
       "components": {
-        "net_liq": -1.0355877053617055,
-        "hy_oas": 3.875877135259254,
+        "net_liq": 0.0,
+        "hy_oas": 3.9599563736769285,
         "m2": 0.0,
-        "sofr": 5.688749637277885
+        "sofr": 5.795454422062307
       },
       "stale": true,
       "stale_detail": {
         "walcl": false,
         "tga": false,
-        "rrp": false,
+        "rrp": true,
         "hy": false,
         "m2": true,
         "sofr": false
       }
     },
     "curve": {
-      "score": -0.796,
+      "score": 0.843,
       "components": {
-        "curve_spread": 0.2367207779473517,
-        "real10y": -5.051963009284377,
-        "move_proxy": 3.004271135927369
+        "curve_spread": 4.0040120943386786,
+        "real10y": -6.14144904362405,
+        "move_proxy": 3.4160390437345987
       },
-      "steepener_adj": -0.7,
+      "steepener_adj": 1.0,
       "stale": false,
       "stale_detail": {
         "t10y2y": false,

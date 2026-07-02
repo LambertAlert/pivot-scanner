@@ -1,21 +1,21 @@
 {
-  "generated_at": "2026-07-01T23:43:32.638009",
+  "generated_at": "2026-07-02T23:30:34.777608",
   "today": {
-    "spx_dir": "\u2193",
-    "dxy_dir": "\u2191",
+    "spx_dir": "\u2191",
+    "dxy_dir": "\u2193",
     "tnx_dir": "\u2191",
-    "state_id": 6,
-    "name": "Stagflation / Hawkish Pain",
-    "label": "Stocks \u2193 \u00b7 Dollar \u2191 \u00b7 Rates \u2191",
-    "sector_tilt": "Cash \u2014 no longs",
-    "color": "red",
-    "bullish": false
+    "state_id": 2,
+    "name": "Reflation",
+    "label": "Stocks \u2191 \u00b7 Dollar \u2193 \u00b7 Rates \u2191",
+    "sector_tilt": "Energy, materials, industrials, banks",
+    "color": "green",
+    "bullish": true
   },
   "dominant_10d": {
-    "state_id": 7,
-    "name": "Slowdown / Easing Anticipation",
-    "color": "amber",
-    "sector_tilt": "Gold, duration, defensive value",
+    "state_id": 5,
+    "name": "Risk-Off / Flight to Quality",
+    "color": "red",
+    "sector_tilt": "Defensive \u2014 utilities, staples, gold",
     "freq_10d_pct": 30.0
   },
   "bearish_days_10": 4,
@@ -29,8 +29,8 @@
       "bullish": true,
       "freq_5d_pct": 20.0,
       "freq_10d_pct": 10.0,
-      "freq_20d_pct": 20.0,
-      "base_rate_pct": 17.8
+      "freq_20d_pct": 15.0,
+      "base_rate_pct": 17.7
     },
     {
       "id": 2,
@@ -39,9 +39,9 @@
       "sector_tilt": "Energy, materials, industrials, banks",
       "color": "green",
       "bullish": true,
-      "freq_5d_pct": 0.0,
-      "freq_10d_pct": 0.0,
-      "freq_20d_pct": 10.0,
+      "freq_5d_pct": 20.0,
+      "freq_10d_pct": 10.0,
+      "freq_20d_pct": 15.0,
       "base_rate_pct": 11.0
     },
     {
@@ -64,7 +64,7 @@
       "color": "green",
       "bullish": true,
       "freq_5d_pct": 20.0,
-      "freq_10d_pct": 20.0,
+      "freq_10d_pct": 10.0,
       "freq_20d_pct": 10.0,
       "base_rate_pct": 9.0
     },
@@ -75,9 +75,9 @@
       "sector_tilt": "Defensive \u2014 utilities, staples, gold",
       "color": "red",
       "bullish": false,
-      "freq_5d_pct": 0.0,
-      "freq_10d_pct": 20.0,
-      "freq_20d_pct": 10.0,
+      "freq_5d_pct": 20.0,
+      "freq_10d_pct": 30.0,
+      "freq_20d_pct": 15.0,
       "base_rate_pct": 9.0
     },
     {
@@ -87,10 +87,10 @@
       "sector_tilt": "Cash \u2014 no longs",
       "color": "red",
       "bullish": false,
-      "freq_5d_pct": 20.0,
-      "freq_10d_pct": 20.0,
-      "freq_20d_pct": 25.0,
-      "base_rate_pct": 18.0
+      "freq_5d_pct": 0.0,
+      "freq_10d_pct": 10.0,
+      "freq_20d_pct": 20.0,
+      "base_rate_pct": 17.9
     },
     {
       "id": 7,
@@ -99,7 +99,7 @@
       "sector_tilt": "Gold, duration, defensive value",
       "color": "amber",
       "bullish": false,
-      "freq_5d_pct": 40.0,
+      "freq_5d_pct": 20.0,
       "freq_10d_pct": 30.0,
       "freq_20d_pct": 25.0,
       "base_rate_pct": 15.2
@@ -118,12 +118,12 @@
     }
   ],
   "base_rates": {
-    "1": 17.8,
+    "1": 17.7,
     "2": 11.0,
     "3": 13.6,
     "4": 9.0,
     "5": 9.0,
-    "6": 18.0,
+    "6": 17.9,
     "7": 15.2,
     "8": 6.5
   },
@@ -163,30 +163,30 @@
       "2": 0.083,
       "3": 0.125,
       "4": 0.042,
-      "5": 0.0,
-      "6": 0.208,
+      "5": 0.042,
+      "6": 0.167,
       "7": 0.333,
       "8": 0.042
     },
     "5": {
-      "1": 0.167,
-      "2": 0.167,
-      "3": 0.111,
+      "1": 0.158,
+      "2": 0.211,
+      "3": 0.105,
       "4": 0.0,
-      "5": 0.111,
-      "6": 0.111,
-      "7": 0.333,
+      "5": 0.105,
+      "6": 0.105,
+      "7": 0.316,
       "8": 0.0
     },
     "6": {
-      "1": 0.28,
-      "2": 0.08,
-      "3": 0.1,
-      "4": 0.08,
-      "5": 0.14,
-      "6": 0.16,
-      "7": 0.12,
-      "8": 0.04
+      "1": 0.265,
+      "2": 0.082,
+      "3": 0.102,
+      "4": 0.082,
+      "5": 0.143,
+      "6": 0.163,
+      "7": 0.122,
+      "8": 0.041
     },
     "7": {
       "1": 0.135,
@@ -210,15 +210,6 @@
     }
   },
   "history_60d": [
-    {
-      "date": "2026-04-09",
-      "state_id": 2,
-      "narrative_name": "Reflation",
-      "color": "green",
-      "spx": "\u2191",
-      "dxy": "\u2193",
-      "tnx": "\u2191"
-    },
     {
       "date": "2026-04-10",
       "state_id": 8,
@@ -743,11 +734,20 @@
     },
     {
       "date": "2026-07-01",
-      "state_id": 6,
-      "narrative_name": "Stagflation / Hawkish Pain",
+      "state_id": 5,
+      "narrative_name": "Risk-Off / Flight to Quality",
       "color": "red",
       "spx": "\u2193",
       "dxy": "\u2191",
+      "tnx": "\u2193"
+    },
+    {
+      "date": "2026-07-02",
+      "state_id": 2,
+      "narrative_name": "Reflation",
+      "color": "green",
+      "spx": "\u2191",
+      "dxy": "\u2193",
       "tnx": "\u2191"
     }
   ]
