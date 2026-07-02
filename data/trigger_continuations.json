@@ -1,215 +1,248 @@
 {
-  "scan_time": "2026-07-01T22:45:37.919215",
+  "scan_time": "2026-07-02T21:16:02.909624",
   "grades": {
-    "HTLD_bullish": {
-      "ticker": "HTLD",
-      "direction": "bullish",
+    "GHM_bearish": {
+      "ticker": "GHM",
+      "direction": "bearish",
       "trigger_type": "PIVOT",
-      "trigger_close": 15.28499984741211,
-      "eod_close": 15.16,
-      "session_change_pct": -0.82,
-      "held_trigger": false,
-      "grade": "FAILED",
-      "grade_note": "Reversed through trigger \u00b7 -0.8%"
+      "trigger_close": 115.80500030517578,
+      "eod_close": 115.21,
+      "session_change_pct": -0.51,
+      "held_trigger": true,
+      "grade": "STRONG",
+      "grade_note": "Held + closed at extreme \u00b7 -0.5%"
     },
     "WERN_bullish": {
       "ticker": "WERN",
       "direction": "bullish",
       "trigger_type": "PIVOT",
-      "trigger_close": 44.279998779296875,
-      "eod_close": 43.82,
-      "session_change_pct": -1.04,
-      "held_trigger": false,
-      "grade": "FAILED",
-      "grade_note": "Reversed through trigger \u00b7 -1.0%"
+      "trigger_close": 43.1349983215332,
+      "eod_close": 43.21,
+      "session_change_pct": 0.17,
+      "held_trigger": true,
+      "grade": "STRONG",
+      "grade_note": "Held + closed at extreme \u00b7 +0.2%"
     },
-    "MRTN_bullish": {
-      "ticker": "MRTN",
+    "HTLD_bullish": {
+      "ticker": "HTLD",
       "direction": "bullish",
       "trigger_type": "PIVOT",
-      "trigger_close": 17.559999465942383,
-      "eod_close": 17.435,
-      "session_change_pct": -0.71,
+      "trigger_close": 15.229999542236328,
+      "eod_close": 14.89,
+      "session_change_pct": -2.23,
       "held_trigger": false,
       "grade": "FAILED",
-      "grade_note": "Reversed through trigger \u00b7 -0.7%"
-    },
-    "UTI_bullish": {
-      "ticker": "UTI",
-      "direction": "bullish",
-      "trigger_type": "RANGE_BREAK",
-      "trigger_close": 44.59000015258789,
-      "eod_close": 47.04,
-      "session_change_pct": 5.49,
-      "held_trigger": true,
-      "grade": "STRONG",
-      "grade_note": "Held + closed at extreme \u00b7 +5.5%"
-    },
-    "TITN_bearish": {
-      "ticker": "TITN",
-      "direction": "bearish",
-      "trigger_type": "PIVOT",
-      "trigger_close": 20.719999313354492,
-      "eod_close": 20.08,
-      "session_change_pct": -3.09,
-      "held_trigger": true,
-      "grade": "STRONG",
-      "grade_note": "Held + closed at extreme \u00b7 -3.1%"
-    },
-    "MBX_bearish": {
-      "ticker": "MBX",
-      "direction": "bearish",
-      "trigger_type": "PIVOT",
-      "trigger_close": 56.29999923706055,
-      "eod_close": 55.89,
-      "session_change_pct": -0.73,
-      "held_trigger": true,
-      "grade": "STRONG",
-      "grade_note": "Held + closed at extreme \u00b7 -0.7%"
-    },
-    "RELL_bullish": {
-      "ticker": "RELL",
-      "direction": "bullish",
-      "trigger_type": "PIVOT",
-      "trigger_close": 18.760000228881836,
-      "eod_close": 18.81,
-      "session_change_pct": 0.27,
-      "held_trigger": true,
-      "grade": "STRONG",
-      "grade_note": "Held + closed at extreme \u00b7 +0.3%"
-    },
-    "BELFA_bullish": {
-      "ticker": "BELFA",
-      "direction": "bullish",
-      "trigger_type": "PIVOT",
-      "trigger_close": 282.489990234375,
-      "eod_close": 280.83,
-      "session_change_pct": -0.59,
-      "held_trigger": false,
-      "grade": "FAILED",
-      "grade_note": "Reversed through trigger \u00b7 -0.6%"
-    },
-    "ALOT_bearish": {
-      "ticker": "ALOT",
-      "direction": "bearish",
-      "trigger_type": "PIVOT",
-      "trigger_close": 28.48870086669922,
-      "eod_close": 28.495,
-      "session_change_pct": 0.02,
-      "held_trigger": false,
-      "grade": "FAILED",
-      "grade_note": "Reversed through trigger \u00b7 +0.0%"
-    },
-    "AVT_bearish": {
-      "ticker": "AVT",
-      "direction": "bearish",
-      "trigger_type": "PIVOT",
-      "trigger_close": 88.2249984741211,
-      "eod_close": 87.27,
-      "session_change_pct": -1.08,
-      "held_trigger": true,
-      "grade": "STRONG",
-      "grade_note": "Held + closed at extreme \u00b7 -1.1%"
-    },
-    "DRTS_bearish": {
-      "ticker": "DRTS",
-      "direction": "bearish",
-      "trigger_type": "PIVOT",
-      "trigger_close": 12.800000190734863,
-      "eod_close": 12.64,
-      "session_change_pct": -1.25,
-      "held_trigger": true,
-      "grade": "HOLDING",
-      "grade_note": "Above trigger level \u00b7 -1.2%"
-    },
-    "WERN_bearish": {
-      "ticker": "WERN",
-      "direction": "bearish",
-      "trigger_type": "PIVOT",
-      "trigger_close": 44.290000915527344,
-      "eod_close": 43.82,
-      "session_change_pct": -1.06,
-      "held_trigger": true,
-      "grade": "HOLDING",
-      "grade_note": "Above trigger level \u00b7 -1.1%"
-    },
-    "GHM_bearish": {
-      "ticker": "GHM",
-      "direction": "bearish",
-      "trigger_type": "PIVOT",
-      "trigger_close": 119.54000091552734,
-      "eod_close": 119.345,
-      "session_change_pct": -0.16,
-      "held_trigger": true,
-      "grade": "STRONG",
-      "grade_note": "Held + closed at extreme \u00b7 -0.2%"
-    },
-    "SNDA_bearish": {
-      "ticker": "SNDA",
-      "direction": "bearish",
-      "trigger_type": "PIVOT",
-      "trigger_close": 41.67499923706055,
-      "eod_close": 41.74,
-      "session_change_pct": 0.16,
-      "held_trigger": false,
-      "grade": "FAILED",
-      "grade_note": "Reversed through trigger \u00b7 +0.2%"
-    },
-    "CSCO_bullish": {
-      "ticker": "CSCO",
-      "direction": "bullish",
-      "trigger_type": "PIVOT",
-      "trigger_close": 116.63829803466797,
-      "eod_close": 117.03,
-      "session_change_pct": 0.34,
-      "held_trigger": true,
-      "grade": "STRONG",
-      "grade_note": "Held + closed at extreme \u00b7 +0.3%"
-    },
-    "MXL_bearish": {
-      "ticker": "MXL",
-      "direction": "bearish",
-      "trigger_type": "PIVOT",
-      "trigger_close": 113.91999816894531,
-      "eod_close": 112.43,
-      "session_change_pct": -1.31,
-      "held_trigger": true,
-      "grade": "STRONG",
-      "grade_note": "Held + closed at extreme \u00b7 -1.3%"
+      "grade_note": "Reversed through trigger \u00b7 -2.2%"
     },
     "ATEX_bearish": {
       "ticker": "ATEX",
       "direction": "bearish",
       "trigger_type": "PIVOT",
-      "trigger_close": 105.77999877929688,
-      "eod_close": 108.08,
-      "session_change_pct": 2.17,
+      "trigger_close": 103.77999877929688,
+      "eod_close": 105.05,
+      "session_change_pct": 1.22,
       "held_trigger": false,
       "grade": "FAILED",
-      "grade_note": "Reversed through trigger \u00b7 +2.2%"
+      "grade_note": "Reversed through trigger \u00b7 +1.2%"
     },
-    "LINC_bullish": {
-      "ticker": "LINC",
+    "MRTN_bullish": {
+      "ticker": "MRTN",
       "direction": "bullish",
       "trigger_type": "PIVOT",
-      "trigger_close": 52.064998626708984,
-      "eod_close": 52.67,
-      "session_change_pct": 1.16,
+      "trigger_close": 17.375,
+      "eod_close": 17.46,
+      "session_change_pct": 0.49,
       "held_trigger": true,
       "grade": "STRONG",
-      "grade_note": "Held + closed at extreme \u00b7 +1.2%"
+      "grade_note": "Held + closed at extreme \u00b7 +0.5%"
+    },
+    "KYIV_bearish": {
+      "ticker": "KYIV",
+      "direction": "bearish",
+      "trigger_type": "PIVOT",
+      "trigger_close": 15.670000076293945,
+      "eod_close": 15.69,
+      "session_change_pct": 0.13,
+      "held_trigger": false,
+      "grade": "FAILED",
+      "grade_note": "Reversed through trigger \u00b7 +0.1%"
+    },
+    "RAMP_bearish": {
+      "ticker": "RAMP",
+      "direction": "bearish",
+      "trigger_type": "PIVOT",
+      "trigger_close": 37.70000076293945,
+      "eod_close": 37.71,
+      "session_change_pct": 0.03,
+      "held_trigger": false,
+      "grade": "FAILED",
+      "grade_note": "Reversed through trigger \u00b7 +0.0%"
+    },
+    "MCFT_bullish": {
+      "ticker": "MCFT",
+      "direction": "bullish",
+      "trigger_type": "PIVOT",
+      "trigger_close": 23.584999084472656,
+      "eod_close": 23.79,
+      "session_change_pct": 0.87,
+      "held_trigger": true,
+      "grade": "HOLDING",
+      "grade_note": "Above trigger level \u00b7 +0.9%"
+    },
+    "DRTS_bullish": {
+      "ticker": "DRTS",
+      "direction": "bullish",
+      "trigger_type": "PIVOT",
+      "trigger_close": 12.819999694824219,
+      "eod_close": 13.22,
+      "session_change_pct": 3.12,
+      "held_trigger": true,
+      "grade": "STRONG",
+      "grade_note": "Held + closed at extreme \u00b7 +3.1%"
+    },
+    "WERN_bearish": {
+      "ticker": "WERN",
+      "direction": "bearish",
+      "trigger_type": "PIVOT",
+      "trigger_close": 42.79499816894531,
+      "eod_close": 43.21,
+      "session_change_pct": 0.97,
+      "held_trigger": false,
+      "grade": "FAILED",
+      "grade_note": "Reversed through trigger \u00b7 +1.0%"
+    },
+    "STRZ_bearish": {
+      "ticker": "STRZ",
+      "direction": "bearish",
+      "trigger_type": "PIVOT",
+      "trigger_close": 29.6299991607666,
+      "eod_close": 28.89,
+      "session_change_pct": -2.5,
+      "held_trigger": true,
+      "grade": "STRONG",
+      "grade_note": "Held + closed at extreme \u00b7 -2.5%"
+    },
+    "MBX_bearish": {
+      "ticker": "MBX",
+      "direction": "bearish",
+      "trigger_type": "PIVOT",
+      "trigger_close": 56.599998474121094,
+      "eod_close": 57.79,
+      "session_change_pct": 2.1,
+      "held_trigger": false,
+      "grade": "FAILED",
+      "grade_note": "Reversed through trigger \u00b7 +2.1%"
+    },
+    "ORKA_bullish": {
+      "ticker": "ORKA",
+      "direction": "bullish",
+      "trigger_type": "PIVOT",
+      "trigger_close": 83.70999908447266,
+      "eod_close": 85.21,
+      "session_change_pct": 1.79,
+      "held_trigger": true,
+      "grade": "HOLDING",
+      "grade_note": "Above trigger level \u00b7 +1.8%"
     },
     "KYIV_bullish": {
       "ticker": "KYIV",
       "direction": "bullish",
       "trigger_type": "PIVOT",
-      "trigger_close": 15.920000076293945,
-      "eod_close": 15.92,
+      "trigger_close": 15.630000114440918,
+      "eod_close": 15.69,
+      "session_change_pct": 0.38,
+      "held_trigger": true,
+      "grade": "HOLDING",
+      "grade_note": "Above trigger level \u00b7 +0.4%"
+    },
+    "FCEL_bullish": {
+      "ticker": "FCEL",
+      "direction": "bullish",
+      "trigger_type": "PIVOT",
+      "trigger_close": 27.579999923706055,
+      "eod_close": 28.12,
+      "session_change_pct": 1.96,
+      "held_trigger": true,
+      "grade": "HOLDING",
+      "grade_note": "Above trigger level \u00b7 +2.0%"
+    },
+    "NOVT_bullish": {
+      "ticker": "NOVT",
+      "direction": "bullish",
+      "trigger_type": "PIVOT",
+      "trigger_close": 161.8300018310547,
+      "eod_close": 161.83,
       "session_change_pct": 0.0,
       "held_trigger": true,
-      "grade": "STRONG",
-      "grade_note": "Held + closed at extreme \u00b7 +0.0%"
+      "grade": "HOLDING",
+      "grade_note": "Above trigger level \u00b7 +0.0%"
+    },
+    "CSCO_bullish": {
+      "ticker": "CSCO",
+      "direction": "bullish",
+      "trigger_type": "PIVOT",
+      "trigger_close": 112.69999694824219,
+      "eod_close": 112.7,
+      "session_change_pct": 0.0,
+      "held_trigger": true,
+      "grade": "HOLDING",
+      "grade_note": "Above trigger level \u00b7 +0.0%"
+    },
+    "AVT_bullish": {
+      "ticker": "AVT",
+      "direction": "bullish",
+      "trigger_type": "PIVOT",
+      "trigger_close": 82.18000030517578,
+      "eod_close": 82.18,
+      "session_change_pct": 0.0,
+      "held_trigger": true,
+      "grade": "HOLDING",
+      "grade_note": "Above trigger level \u00b7 +0.0%"
+    },
+    "CMP_bullish": {
+      "ticker": "CMP",
+      "direction": "bullish",
+      "trigger_type": "PIVOT",
+      "trigger_close": 29.950000762939453,
+      "eod_close": 29.95,
+      "session_change_pct": 0.0,
+      "held_trigger": true,
+      "grade": "HOLDING",
+      "grade_note": "Above trigger level \u00b7 +0.0%"
+    },
+    "MXL_bullish": {
+      "ticker": "MXL",
+      "direction": "bullish",
+      "trigger_type": "PIVOT",
+      "trigger_close": 93.16999816894531,
+      "eod_close": 93.17,
+      "session_change_pct": 0.0,
+      "held_trigger": true,
+      "grade": "HOLDING",
+      "grade_note": "Above trigger level \u00b7 +0.0%"
+    },
+    "ATEX_bullish": {
+      "ticker": "ATEX",
+      "direction": "bullish",
+      "trigger_type": "PIVOT",
+      "trigger_close": 105.05000305175781,
+      "eod_close": 105.05,
+      "session_change_pct": 0.0,
+      "held_trigger": true,
+      "grade": "HOLDING",
+      "grade_note": "Above trigger level \u00b7 +0.0%"
+    },
+    "OUT_bullish": {
+      "ticker": "OUT",
+      "direction": "bullish",
+      "trigger_type": "PIVOT",
+      "trigger_close": 32.85499954223633,
+      "eod_close": 32.84,
+      "session_change_pct": -0.05,
+      "held_trigger": false,
+      "grade": "FAILED",
+      "grade_note": "Reversed through trigger \u00b7 -0.1%"
     }
   },
-  "market_date": "2026-07-01"
+  "market_date": "2026-07-02"
 }
