@@ -1,15 +1,15 @@
 {
-  "generated_at": "2026-07-02T23:30:34.777608",
+  "generated_at": "2026-07-03T23:18:19.586989",
   "today": {
-    "spx_dir": "\u2191",
+    "spx_dir": "\u2193",
     "dxy_dir": "\u2193",
-    "tnx_dir": "\u2191",
-    "state_id": 2,
-    "name": "Reflation",
-    "label": "Stocks \u2191 \u00b7 Dollar \u2193 \u00b7 Rates \u2191",
-    "sector_tilt": "Energy, materials, industrials, banks",
-    "color": "green",
-    "bullish": true
+    "tnx_dir": "\u2193",
+    "state_id": 7,
+    "name": "Slowdown / Easing Anticipation",
+    "label": "Stocks \u2193 \u00b7 Dollar \u2193 \u00b7 Rates \u2193",
+    "sector_tilt": "Gold, duration, defensive value",
+    "color": "amber",
+    "bullish": false
   },
   "dominant_10d": {
     "state_id": 5,
@@ -27,10 +27,10 @@
       "sector_tilt": "Growth, semis, software, biotech",
       "color": "green",
       "bullish": true,
-      "freq_5d_pct": 20.0,
-      "freq_10d_pct": 10.0,
-      "freq_20d_pct": 15.0,
-      "base_rate_pct": 17.7
+      "freq_5d_pct": 40.0,
+      "freq_10d_pct": 20.0,
+      "freq_20d_pct": 20.0,
+      "base_rate_pct": 17.8
     },
     {
       "id": 2,
@@ -39,9 +39,9 @@
       "sector_tilt": "Energy, materials, industrials, banks",
       "color": "green",
       "bullish": true,
-      "freq_5d_pct": 20.0,
-      "freq_10d_pct": 10.0,
-      "freq_20d_pct": 15.0,
+      "freq_5d_pct": 0.0,
+      "freq_10d_pct": 0.0,
+      "freq_20d_pct": 10.0,
       "base_rate_pct": 11.0
     },
     {
@@ -89,7 +89,7 @@
       "bullish": false,
       "freq_5d_pct": 0.0,
       "freq_10d_pct": 10.0,
-      "freq_20d_pct": 20.0,
+      "freq_20d_pct": 15.0,
       "base_rate_pct": 17.9
     },
     {
@@ -101,8 +101,8 @@
       "bullish": false,
       "freq_5d_pct": 20.0,
       "freq_10d_pct": 30.0,
-      "freq_20d_pct": 25.0,
-      "base_rate_pct": 15.2
+      "freq_20d_pct": 30.0,
+      "base_rate_pct": 15.3
     },
     {
       "id": 8,
@@ -114,28 +114,28 @@
       "freq_5d_pct": 0.0,
       "freq_10d_pct": 0.0,
       "freq_20d_pct": 0.0,
-      "base_rate_pct": 6.5
+      "base_rate_pct": 6.4
     }
   ],
   "base_rates": {
-    "1": 17.7,
+    "1": 17.8,
     "2": 11.0,
     "3": 13.6,
     "4": 9.0,
     "5": 9.0,
     "6": 17.9,
-    "7": 15.2,
-    "8": 6.5
+    "7": 15.3,
+    "8": 6.4
   },
   "transitions": {
     "1": {
       "1": 0.283,
       "2": 0.151,
-      "3": 0.17,
+      "3": 0.151,
       "4": 0.113,
       "5": 0.0,
       "6": 0.151,
-      "7": 0.094,
+      "7": 0.113,
       "8": 0.038
     },
     "2": {
@@ -169,8 +169,8 @@
       "8": 0.042
     },
     "5": {
-      "1": 0.158,
-      "2": 0.211,
+      "1": 0.211,
+      "2": 0.158,
       "3": 0.105,
       "4": 0.0,
       "5": 0.105,
@@ -210,15 +210,6 @@
     }
   },
   "history_60d": [
-    {
-      "date": "2026-04-10",
-      "state_id": 8,
-      "narrative_name": "Inflation Resurgence",
-      "color": "amber",
-      "spx": "\u2193",
-      "dxy": "\u2193",
-      "tnx": "\u2191"
-    },
     {
       "date": "2026-04-13",
       "state_id": 1,
@@ -743,12 +734,21 @@
     },
     {
       "date": "2026-07-02",
-      "state_id": 2,
-      "narrative_name": "Reflation",
+      "state_id": 1,
+      "narrative_name": "Goldilocks",
       "color": "green",
       "spx": "\u2191",
       "dxy": "\u2193",
-      "tnx": "\u2191"
+      "tnx": "\u2193"
+    },
+    {
+      "date": "2026-07-03",
+      "state_id": 7,
+      "narrative_name": "Slowdown / Easing Anticipation",
+      "color": "amber",
+      "spx": "\u2193",
+      "dxy": "\u2193",
+      "tnx": "\u2193"
     }
   ]
 }
