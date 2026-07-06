@@ -1,5 +1,72 @@
 {
-  "scan_time": "2026-07-03T22:32:00.879104",
-  "grades": {},
-  "market_date": "2026-07-03"
+  "scan_time": "2026-07-06T21:10:37.544426",
+  "grades": {
+    "ATEX_bearish": {
+      "ticker": "ATEX",
+      "direction": "bearish",
+      "trigger_type": "PIVOT",
+      "trigger_close": 106.54499816894531,
+      "eod_close": 106.04,
+      "session_change_pct": -0.47,
+      "held_trigger": true,
+      "grade": "STRONG",
+      "grade_note": "Held + closed at extreme \u00b7 -0.5%"
+    },
+    "MBX_bearish": {
+      "ticker": "MBX",
+      "direction": "bearish",
+      "trigger_type": "PIVOT",
+      "trigger_close": 58.58000183105469,
+      "eod_close": 57.53,
+      "session_change_pct": -1.79,
+      "held_trigger": true,
+      "grade": "STRONG",
+      "grade_note": "Held + closed at extreme \u00b7 -1.8%"
+    },
+    "ASX_bearish": {
+      "ticker": "ASX",
+      "direction": "bearish",
+      "trigger_type": "PIVOT",
+      "trigger_close": 43.66999816894531,
+      "eod_close": 43.31,
+      "session_change_pct": -0.82,
+      "held_trigger": true,
+      "grade": "STRONG",
+      "grade_note": "Held + closed at extreme \u00b7 -0.8%"
+    },
+    "INNV_bearish": {
+      "ticker": "INNV",
+      "direction": "bearish",
+      "trigger_type": "PIVOT",
+      "trigger_close": 12.170000076293945,
+      "eod_close": 12.115,
+      "session_change_pct": -0.45,
+      "held_trigger": true,
+      "grade": "HOLDING",
+      "grade_note": "Above trigger level \u00b7 -0.5%"
+    },
+    "ANAB_bearish": {
+      "ticker": "ANAB",
+      "direction": "bearish",
+      "trigger_type": "PIVOT",
+      "trigger_close": 62.970001220703125,
+      "eod_close": 62.34,
+      "session_change_pct": -1.0,
+      "held_trigger": true,
+      "grade": "STRONG",
+      "grade_note": "Held + closed at extreme \u00b7 -1.0%"
+    },
+    "SLS_bullish": {
+      "ticker": "SLS",
+      "direction": "bullish",
+      "trigger_type": "PIVOT",
+      "trigger_close": 14.109999656677246,
+      "eod_close": 13.95,
+      "session_change_pct": -1.13,
+      "held_trigger": false,
+      "grade": "FAILED",
+      "grade_note": "Reversed through trigger \u00b7 -1.1%"
+    }
+  },
+  "market_date": "2026-07-06"
 }
