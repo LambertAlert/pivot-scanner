@@ -1,57 +1,111 @@
 {
-  "generated_at": "2026-07-06T22:44:21.254191",
-  "count": 37,
+  "generated_at": "2026-07-06T22:45:55.372470",
+  "count": 38,
   "entries": [
     {
-      "ticker": "INNV",
+      "ticker": "TNGX",
       "conviction": "MED",
-      "theme": "Healthcare Innovation",
+      "theme": "Biotechnology",
       "theme_rank": 5,
       "pivot_8w_tier": "NONE",
       "weekly_stage": 2,
       "daily_stage": null,
       "trend_template": 8,
-      "weekly_bbuw": 51.5,
-      "daily_bbuw": 49.2,
-      "ema8": 9.4519,
-      "pct_from_ema8": 26.85,
+      "weekly_bbuw": 44.0,
+      "daily_bbuw": 61.4,
+      "ema8": 26.6798,
+      "pct_from_ema8": 10.42,
       "state": "QUIET",
-      "in_motion_score": 41.0,
+      "in_motion_score": 20.5,
       "in_motion_components": {
         "pct_chg": 40,
         "rvol": 0,
-        "trigger": 100,
+        "trigger": 0,
         "breakout": 0,
-        "candle": 40
+        "candle": 70
       },
       "in_motion_reasons": [
-        "Up 1.0% today",
-        "Volume 0.8\u00d7 \u2014 light",
-        "30-min pivot triggered today",
-        "Mid-range close"
+        "Up 1.6% today",
+        "Volume 0.3\u00d7 \u2014 light",
+        "Closed in upper third"
       ],
-      "loading_score": 18.5,
+      "loading_score": 35.0,
+      "loading_components": {
+        "pivot_8w": 0,
+        "bbuw": 50,
+        "atr_contract": 10,
+        "vol_dryup": 80,
+        "ema_21": 40,
+        "high_5d": 10,
+        "higher_lows": 70
+      },
+      "loading_reasons": [
+        "BBUW 61",
+        "Volume contracting (0.57\u00d7)",
+        "Within 4% of 21 EMA",
+        "Mostly higher lows"
+      ],
+      "today_close": 29.94,
+      "today_pct": 1.63,
+      "rvol": 0.31,
+      "atr_ratio": 0.83,
+      "vol_ratio": 0.57,
+      "ema21_dist_pct": 3.81,
+      "dist_high_5d_pct": -10.71,
+      "had_trigger_today": false
+    },
+    {
+      "ticker": "MBX",
+      "conviction": "MED",
+      "theme": "Biotechnology",
+      "theme_rank": 5,
+      "pivot_8w_tier": "NONE",
+      "weekly_stage": 2,
+      "daily_stage": null,
+      "trend_template": 8,
+      "weekly_bbuw": 42.5,
+      "daily_bbuw": 50.4,
+      "ema8": 43.1364,
+      "pct_from_ema8": 33.99,
+      "state": "QUIET",
+      "in_motion_score": 29.5,
+      "in_motion_components": {
+        "pct_chg": 0,
+        "rvol": 0,
+        "trigger": 100,
+        "breakout": 30,
+        "candle": 0
+      },
+      "in_motion_reasons": [
+        "Down -0.2% today",
+        "Volume 0.5\u00d7 \u2014 light",
+        "30-min pivot triggered today",
+        "Approaching 10-day high",
+        "Closed weak in lower half"
+      ],
+      "loading_score": 26.0,
       "loading_components": {
         "pivot_8w": 0,
         "bbuw": 20,
         "atr_contract": 10,
-        "vol_dryup": 10,
+        "vol_dryup": 40,
         "ema_21": 10,
         "high_5d": 40,
-        "higher_lows": 70
+        "higher_lows": 100
       },
       "loading_reasons": [
-        "BBUW 49",
+        "BBUW 50",
+        "Mildly quiet volume",
         "5-7% pullback from 5-day high",
-        "Mostly higher lows"
+        "Higher lows 6/6"
       ],
-      "today_close": 12.11,
-      "today_pct": 1.0,
-      "rvol": 0.84,
-      "atr_ratio": 1.38,
-      "vol_ratio": 1.2,
-      "ema21_dist_pct": 20.91,
-      "dist_high_5d_pct": -4.19,
+      "today_close": 57.7,
+      "today_pct": -0.17,
+      "rvol": 0.53,
+      "atr_ratio": 1.28,
+      "vol_ratio": 0.84,
+      "ema21_dist_pct": 24.65,
+      "dist_high_5d_pct": -3.17,
       "had_trigger_today": true
     },
     {
@@ -106,111 +160,6 @@
       "had_trigger_today": true
     },
     {
-      "ticker": "SLS",
-      "conviction": "MED",
-      "theme": "Biotechnology",
-      "theme_rank": 5,
-      "pivot_8w_tier": "NONE",
-      "weekly_stage": 2,
-      "daily_stage": null,
-      "trend_template": 8,
-      "weekly_bbuw": 47.0,
-      "daily_bbuw": 47.9,
-      "ema8": 9.9209,
-      "pct_from_ema8": 50.99,
-      "state": "QUIET",
-      "in_motion_score": 25.0,
-      "in_motion_components": {
-        "pct_chg": 0,
-        "rvol": 0,
-        "trigger": 100,
-        "breakout": 0,
-        "candle": 0
-      },
-      "in_motion_reasons": [
-        "Down -6.9% today",
-        "Volume 0.9\u00d7 \u2014 light",
-        "30-min pivot triggered today",
-        "Closed weak in lower half"
-      ],
-      "loading_score": 15.5,
-      "loading_components": {
-        "pivot_8w": 0,
-        "bbuw": 20,
-        "atr_contract": 10,
-        "vol_dryup": 10,
-        "ema_21": 10,
-        "high_5d": 10,
-        "higher_lows": 70
-      },
-      "loading_reasons": [
-        "BBUW 48",
-        "Mostly higher lows"
-      ],
-      "today_close": 13.94,
-      "today_pct": -6.94,
-      "rvol": 0.9,
-      "atr_ratio": 1.4,
-      "vol_ratio": 1.74,
-      "ema21_dist_pct": 28.78,
-      "dist_high_5d_pct": -12.22,
-      "had_trigger_today": true
-    },
-    {
-      "ticker": "MBX",
-      "conviction": "MED",
-      "theme": "Biotechnology",
-      "theme_rank": 5,
-      "pivot_8w_tier": "NONE",
-      "weekly_stage": 2,
-      "daily_stage": null,
-      "trend_template": 8,
-      "weekly_bbuw": 42.5,
-      "daily_bbuw": 44.0,
-      "ema8": 43.1364,
-      "pct_from_ema8": 33.99,
-      "state": "QUIET",
-      "in_motion_score": 29.5,
-      "in_motion_components": {
-        "pct_chg": 0,
-        "rvol": 0,
-        "trigger": 100,
-        "breakout": 30,
-        "candle": 0
-      },
-      "in_motion_reasons": [
-        "Down -0.2% today",
-        "Volume 0.5\u00d7 \u2014 light",
-        "30-min pivot triggered today",
-        "Approaching 10-day high",
-        "Closed weak in lower half"
-      ],
-      "loading_score": 26.0,
-      "loading_components": {
-        "pivot_8w": 0,
-        "bbuw": 20,
-        "atr_contract": 10,
-        "vol_dryup": 40,
-        "ema_21": 10,
-        "high_5d": 40,
-        "higher_lows": 100
-      },
-      "loading_reasons": [
-        "BBUW 44",
-        "Mildly quiet volume",
-        "5-7% pullback from 5-day high",
-        "Higher lows 6/6"
-      ],
-      "today_close": 57.7,
-      "today_pct": -0.17,
-      "rvol": 0.53,
-      "atr_ratio": 1.28,
-      "vol_ratio": 0.84,
-      "ema21_dist_pct": 24.65,
-      "dist_high_5d_pct": -3.17,
-      "had_trigger_today": true
-    },
-    {
       "ticker": "ASX",
       "conviction": "MED",
       "theme": "Semiconductors",
@@ -220,7 +169,7 @@
       "daily_stage": null,
       "trend_template": 8,
       "weekly_bbuw": 41.0,
-      "daily_bbuw": 41.7,
+      "daily_bbuw": 46.6,
       "ema8": 37.7106,
       "pct_from_ema8": 11.03,
       "state": "QUIET",
@@ -249,7 +198,7 @@
         "higher_lows": 40
       },
       "loading_reasons": [
-        "BBUW 42",
+        "BBUW 47",
         "5-7% pullback from 5-day high",
         "Mixed but constructive"
       ],
@@ -263,184 +212,31 @@
       "had_trigger_today": true
     },
     {
-      "ticker": "ANAB",
+      "ticker": "INNV",
       "conviction": "MED",
-      "theme": "Biotechnology",
+      "theme": "Healthcare Innovation",
       "theme_rank": 5,
       "pivot_8w_tier": "NONE",
       "weekly_stage": 2,
       "daily_stage": null,
       "trend_template": 8,
-      "weekly_bbuw": 61.9,
-      "daily_bbuw": 40.5,
-      "ema8": 58.8243,
-      "pct_from_ema8": 7.81,
+      "weekly_bbuw": 51.5,
+      "daily_bbuw": 45.5,
+      "ema8": 9.4519,
+      "pct_from_ema8": 26.85,
       "state": "QUIET",
-      "in_motion_score": 25.0,
+      "in_motion_score": 41.0,
       "in_motion_components": {
-        "pct_chg": 0,
+        "pct_chg": 40,
         "rvol": 0,
         "trigger": 100,
-        "breakout": 0,
-        "candle": 0
-      },
-      "in_motion_reasons": [
-        "Down -1.8% today",
-        "Volume 0.9\u00d7 \u2014 light",
-        "30-min pivot triggered today",
-        "Closed weak in lower half"
-      ],
-      "loading_score": 14.0,
-      "loading_components": {
-        "pivot_8w": 0,
-        "bbuw": 20,
-        "atr_contract": 10,
-        "vol_dryup": 10,
-        "ema_21": 40,
-        "high_5d": 10,
-        "higher_lows": 10
-      },
-      "loading_reasons": [
-        "BBUW 40",
-        "Within 4% of 21 EMA"
-      ],
-      "today_close": 62.31,
-      "today_pct": -1.75,
-      "rvol": 0.89,
-      "atr_ratio": 1.14,
-      "vol_ratio": 1.34,
-      "ema21_dist_pct": 3.29,
-      "dist_high_5d_pct": -10.05,
-      "had_trigger_today": true
-    },
-    {
-      "ticker": "TECX",
-      "conviction": "MED",
-      "theme": "Biotechnology",
-      "theme_rank": 5,
-      "pivot_8w_tier": "STANDARD",
-      "weekly_stage": 2,
-      "daily_stage": null,
-      "trend_template": 8,
-      "weekly_bbuw": 46.4,
-      "daily_bbuw": 40.1,
-      "ema8": 31.8712,
-      "pct_from_ema8": 19.01,
-      "state": "QUIET",
-      "in_motion_score": 6.0,
-      "in_motion_components": {
-        "pct_chg": 0,
-        "rvol": 30,
-        "trigger": 0,
-        "breakout": 0,
-        "candle": 0
-      },
-      "in_motion_reasons": [
-        "Down -7.1% today",
-        "Volume 1.4\u00d7 \u2014 normal",
-        "Closed weak in lower half"
-      ],
-      "loading_score": 33.5,
-      "loading_components": {
-        "pivot_8w": 90,
-        "bbuw": 20,
-        "atr_contract": 10,
-        "vol_dryup": 10,
-        "ema_21": 10,
-        "high_5d": 10,
-        "higher_lows": 70
-      },
-      "loading_reasons": [
-        "8W Pivot: STANDARD",
-        "BBUW 40",
-        "Mostly higher lows"
-      ],
-      "today_close": 35.22,
-      "today_pct": -7.14,
-      "rvol": 1.44,
-      "atr_ratio": 1.05,
-      "vol_ratio": 1.67,
-      "ema21_dist_pct": 10.79,
-      "dist_high_5d_pct": -10.9,
-      "had_trigger_today": false
-    },
-    {
-      "ticker": "ARTV",
-      "conviction": "LOW",
-      "theme": "Biotechnology",
-      "theme_rank": 5,
-      "pivot_8w_tier": "NONE",
-      "weekly_stage": 2,
-      "daily_stage": null,
-      "trend_template": 7,
-      "weekly_bbuw": 50.7,
-      "daily_bbuw": 53.3,
-      "ema8": 9.0509,
-      "pct_from_ema8": 6.18,
-      "state": "QUIET",
-      "in_motion_score": 6.0,
-      "in_motion_components": {
-        "pct_chg": 0,
-        "rvol": 30,
-        "trigger": 0,
-        "breakout": 0,
-        "candle": 0
-      },
-      "in_motion_reasons": [
-        "Down -1.8% today",
-        "Volume 1.1\u00d7 \u2014 normal",
-        "Closed weak in lower half"
-      ],
-      "loading_score": 24.5,
-      "loading_components": {
-        "pivot_8w": 0,
-        "bbuw": 20,
-        "atr_contract": 10,
-        "vol_dryup": 40,
-        "ema_21": 40,
-        "high_5d": 10,
-        "higher_lows": 70
-      },
-      "loading_reasons": [
-        "BBUW 53",
-        "Mildly quiet volume",
-        "Within 4% of 21 EMA",
-        "Mostly higher lows"
-      ],
-      "today_close": 9.44,
-      "today_pct": -1.77,
-      "rvol": 1.12,
-      "atr_ratio": 1.05,
-      "vol_ratio": 0.73,
-      "ema21_dist_pct": 3.35,
-      "dist_high_5d_pct": -7.81,
-      "had_trigger_today": false
-    },
-    {
-      "ticker": "SIF",
-      "conviction": "LOW",
-      "theme": "Defense & Aerospace",
-      "theme_rank": 2,
-      "pivot_8w_tier": "NONE",
-      "weekly_stage": 2,
-      "daily_stage": null,
-      "trend_template": 8,
-      "weekly_bbuw": 41.0,
-      "daily_bbuw": 51.6,
-      "ema8": 21.2023,
-      "pct_from_ema8": 16.26,
-      "state": "QUIET",
-      "in_motion_score": 27.0,
-      "in_motion_components": {
-        "pct_chg": 60,
-        "rvol": 30,
-        "trigger": 0,
         "breakout": 0,
         "candle": 40
       },
       "in_motion_reasons": [
-        "Up 2.9% today",
-        "Volume 1.0\u00d7 \u2014 normal",
+        "Up 1.0% today",
+        "Volume 0.8\u00d7 \u2014 light",
+        "30-min pivot triggered today",
         "Mid-range close"
       ],
       "loading_score": 18.5,
@@ -454,17 +250,171 @@
         "higher_lows": 70
       },
       "loading_reasons": [
-        "BBUW 52",
+        "BBUW 46",
         "5-7% pullback from 5-day high",
         "Mostly higher lows"
       ],
-      "today_close": 25.36,
-      "today_pct": 2.88,
-      "rvol": 1.03,
-      "atr_ratio": 1.07,
-      "vol_ratio": 1.82,
-      "ema21_dist_pct": 15.29,
-      "dist_high_5d_pct": -4.12,
+      "today_close": 12.11,
+      "today_pct": 1.0,
+      "rvol": 0.84,
+      "atr_ratio": 1.38,
+      "vol_ratio": 1.2,
+      "ema21_dist_pct": 20.91,
+      "dist_high_5d_pct": -4.19,
+      "had_trigger_today": true
+    },
+    {
+      "ticker": "SI",
+      "conviction": "MED",
+      "theme": "Healthcare Innovation",
+      "theme_rank": 5,
+      "pivot_8w_tier": "NONE",
+      "weekly_stage": 2,
+      "daily_stage": null,
+      "trend_template": 8,
+      "weekly_bbuw": 45.5,
+      "daily_bbuw": 43.7,
+      "ema8": 18.3699,
+      "pct_from_ema8": 15.79,
+      "state": "QUIET",
+      "in_motion_score": 15.5,
+      "in_motion_components": {
+        "pct_chg": 20,
+        "rvol": 0,
+        "trigger": 0,
+        "breakout": 0,
+        "candle": 70
+      },
+      "in_motion_reasons": [
+        "Flat to slightly up",
+        "Volume 0.8\u00d7 \u2014 light",
+        "Closed in upper third"
+      ],
+      "loading_score": 20.0,
+      "loading_components": {
+        "pivot_8w": 0,
+        "bbuw": 20,
+        "atr_contract": 10,
+        "vol_dryup": 40,
+        "ema_21": 10,
+        "high_5d": 40,
+        "higher_lows": 40
+      },
+      "loading_reasons": [
+        "BBUW 44",
+        "Mildly quiet volume",
+        "5-7% pullback from 5-day high",
+        "Mixed but constructive"
+      ],
+      "today_close": 21.39,
+      "today_pct": 0.56,
+      "rvol": 0.8,
+      "atr_ratio": 1.39,
+      "vol_ratio": 0.82,
+      "ema21_dist_pct": 12.17,
+      "dist_high_5d_pct": -3.87,
+      "had_trigger_today": false
+    },
+    {
+      "ticker": "SLS",
+      "conviction": "MED",
+      "theme": "Biotechnology",
+      "theme_rank": 5,
+      "pivot_8w_tier": "NONE",
+      "weekly_stage": 2,
+      "daily_stage": null,
+      "trend_template": 8,
+      "weekly_bbuw": 47.0,
+      "daily_bbuw": 43.6,
+      "ema8": 9.9209,
+      "pct_from_ema8": 50.99,
+      "state": "QUIET",
+      "in_motion_score": 25.0,
+      "in_motion_components": {
+        "pct_chg": 0,
+        "rvol": 0,
+        "trigger": 100,
+        "breakout": 0,
+        "candle": 0
+      },
+      "in_motion_reasons": [
+        "Down -6.9% today",
+        "Volume 0.9\u00d7 \u2014 light",
+        "30-min pivot triggered today",
+        "Closed weak in lower half"
+      ],
+      "loading_score": 15.5,
+      "loading_components": {
+        "pivot_8w": 0,
+        "bbuw": 20,
+        "atr_contract": 10,
+        "vol_dryup": 10,
+        "ema_21": 10,
+        "high_5d": 10,
+        "higher_lows": 70
+      },
+      "loading_reasons": [
+        "BBUW 44",
+        "Mostly higher lows"
+      ],
+      "today_close": 13.94,
+      "today_pct": -6.94,
+      "rvol": 0.9,
+      "atr_ratio": 1.4,
+      "vol_ratio": 1.74,
+      "ema21_dist_pct": 28.78,
+      "dist_high_5d_pct": -12.22,
+      "had_trigger_today": true
+    },
+    {
+      "ticker": "CMPS",
+      "conviction": "MED",
+      "theme": "Healthcare Innovation",
+      "theme_rank": 5,
+      "pivot_8w_tier": "NONE",
+      "weekly_stage": 2,
+      "daily_stage": null,
+      "trend_template": 8,
+      "weekly_bbuw": 53.7,
+      "daily_bbuw": 40.8,
+      "ema8": 12.3857,
+      "pct_from_ema8": 9.97,
+      "state": "QUIET",
+      "in_motion_score": 0.0,
+      "in_motion_components": {
+        "pct_chg": 0,
+        "rvol": 0,
+        "trigger": 0,
+        "breakout": 0,
+        "candle": 0
+      },
+      "in_motion_reasons": [
+        "Down -5.7% today",
+        "Volume 1.0\u00d7 \u2014 light",
+        "Closed weak in lower half"
+      ],
+      "loading_score": 26.0,
+      "loading_components": {
+        "pivot_8w": 0,
+        "bbuw": 20,
+        "atr_contract": 10,
+        "vol_dryup": 10,
+        "ema_21": 100,
+        "high_5d": 10,
+        "higher_lows": 40
+      },
+      "loading_reasons": [
+        "BBUW 41",
+        "Sitting on 21 EMA (0.0%)",
+        "Mixed but constructive"
+      ],
+      "today_close": 12.84,
+      "today_pct": -5.73,
+      "rvol": 0.96,
+      "atr_ratio": 0.99,
+      "vol_ratio": 1.15,
+      "ema21_dist_pct": 0.03,
+      "dist_high_5d_pct": -16.62,
       "had_trigger_today": false
     },
     {
@@ -477,7 +427,7 @@
       "daily_stage": null,
       "trend_template": 8,
       "weekly_bbuw": 47.0,
-      "daily_bbuw": 51.4,
+      "daily_bbuw": 61.9,
       "ema8": 108.1213,
       "pct_from_ema8": 6.75,
       "state": "QUIET",
@@ -494,10 +444,10 @@
         "Volume 0.6\u00d7 \u2014 light",
         "Closed weak in lower half"
       ],
-      "loading_score": 21.5,
+      "loading_score": 26.0,
       "loading_components": {
         "pivot_8w": 0,
-        "bbuw": 20,
+        "bbuw": 50,
         "atr_contract": 10,
         "vol_dryup": 40,
         "ema_21": 40,
@@ -505,7 +455,7 @@
         "higher_lows": 40
       },
       "loading_reasons": [
-        "BBUW 51",
+        "BBUW 62",
         "Mildly quiet volume",
         "Within 4% of 21 EMA",
         "Mixed but constructive"
@@ -520,6 +470,58 @@
       "had_trigger_today": false
     },
     {
+      "ticker": "ARTV",
+      "conviction": "LOW",
+      "theme": "Biotechnology",
+      "theme_rank": 5,
+      "pivot_8w_tier": "NONE",
+      "weekly_stage": 2,
+      "daily_stage": null,
+      "trend_template": 7,
+      "weekly_bbuw": 50.7,
+      "daily_bbuw": 60.0,
+      "ema8": 9.0509,
+      "pct_from_ema8": 6.18,
+      "state": "QUIET",
+      "in_motion_score": 6.0,
+      "in_motion_components": {
+        "pct_chg": 0,
+        "rvol": 30,
+        "trigger": 0,
+        "breakout": 0,
+        "candle": 0
+      },
+      "in_motion_reasons": [
+        "Down -1.8% today",
+        "Volume 1.1\u00d7 \u2014 normal",
+        "Closed weak in lower half"
+      ],
+      "loading_score": 29.0,
+      "loading_components": {
+        "pivot_8w": 0,
+        "bbuw": 50,
+        "atr_contract": 10,
+        "vol_dryup": 40,
+        "ema_21": 40,
+        "high_5d": 10,
+        "higher_lows": 70
+      },
+      "loading_reasons": [
+        "BBUW 60",
+        "Mildly quiet volume",
+        "Within 4% of 21 EMA",
+        "Mostly higher lows"
+      ],
+      "today_close": 9.44,
+      "today_pct": -1.77,
+      "rvol": 1.12,
+      "atr_ratio": 1.05,
+      "vol_ratio": 0.73,
+      "ema21_dist_pct": 3.35,
+      "dist_high_5d_pct": -7.81,
+      "had_trigger_today": false
+    },
+    {
       "ticker": "MRAM",
       "conviction": "LOW",
       "theme": "AI & Future Tech",
@@ -529,7 +531,7 @@
       "daily_stage": null,
       "trend_template": 6,
       "weekly_bbuw": 43.3,
-      "daily_bbuw": 50.3,
+      "daily_bbuw": 59.5,
       "ema8": 23.1025,
       "pct_from_ema8": -17.15,
       "state": "QUIET",
@@ -557,7 +559,7 @@
         "higher_lows": 40
       },
       "loading_reasons": [
-        "BBUW 50",
+        "BBUW 60",
         "Mild ATR contraction",
         "Mildly quiet volume",
         "Mixed but constructive"
@@ -572,18 +574,18 @@
       "had_trigger_today": false
     },
     {
-      "ticker": "APPS",
+      "ticker": "ABSI",
       "conviction": "LOW",
-      "theme": "AI & Future Tech",
-      "theme_rank": 1,
+      "theme": "Biotechnology",
+      "theme_rank": 5,
       "pivot_8w_tier": "NONE",
       "weekly_stage": 2,
       "daily_stage": null,
-      "trend_template": 7,
-      "weekly_bbuw": 48.5,
-      "daily_bbuw": 49.2,
-      "ema8": 9.0753,
-      "pct_from_ema8": 40.05,
+      "trend_template": 8,
+      "weekly_bbuw": 44.0,
+      "daily_bbuw": 58.5,
+      "ema8": 8.1165,
+      "pct_from_ema8": 43.17,
       "state": "QUIET",
       "in_motion_score": 0.0,
       "in_motion_components": {
@@ -594,83 +596,136 @@
         "candle": 0
       },
       "in_motion_reasons": [
-        "Down -12.0% today",
-        "Volume 0.9\u00d7 \u2014 light",
+        "Down -0.7% today",
+        "Volume 0.7\u00d7 \u2014 light",
         "Closed weak in lower half"
       ],
-      "loading_score": 15.5,
+      "loading_score": 23.0,
       "loading_components": {
         "pivot_8w": 0,
         "bbuw": 20,
         "atr_contract": 10,
-        "vol_dryup": 10,
+        "vol_dryup": 40,
         "ema_21": 10,
-        "high_5d": 10,
+        "high_5d": 40,
         "higher_lows": 70
       },
       "loading_reasons": [
-        "BBUW 49",
+        "BBUW 58",
+        "Mildly quiet volume",
+        "5-7% pullback from 5-day high",
         "Mostly higher lows"
       ],
-      "today_close": 11.18,
-      "today_pct": -12.04,
-      "rvol": 0.94,
-      "atr_ratio": 0.98,
-      "vol_ratio": 0.96,
-      "ema21_dist_pct": 8.71,
-      "dist_high_5d_pct": -17.79,
+      "today_close": 11.54,
+      "today_pct": -0.69,
+      "rvol": 0.68,
+      "atr_ratio": 1.3,
+      "vol_ratio": 0.74,
+      "ema21_dist_pct": 27.28,
+      "dist_high_5d_pct": -4.27,
       "had_trigger_today": false
     },
     {
-      "ticker": "DAVE",
+      "ticker": "PLSE",
       "conviction": "LOW",
-      "theme": "AI & Future Tech",
-      "theme_rank": 1,
+      "theme": "Biotechnology",
+      "theme_rank": 5,
       "pivot_8w_tier": "NONE",
       "weekly_stage": 2,
       "daily_stage": null,
       "trend_template": 8,
-      "weekly_bbuw": 44.0,
-      "daily_bbuw": 48.5,
-      "ema8": 309.412,
-      "pct_from_ema8": 25.19,
+      "weekly_bbuw": 51.5,
+      "daily_bbuw": 56.3,
+      "ema8": 26.0316,
+      "pct_from_ema8": 12.19,
       "state": "QUIET",
-      "in_motion_score": 30.0,
+      "in_motion_score": 0.0,
       "in_motion_components": {
-        "pct_chg": 60,
+        "pct_chg": 0,
         "rvol": 0,
         "trigger": 0,
-        "breakout": 30,
-        "candle": 70
+        "breakout": 0,
+        "candle": 0
       },
       "in_motion_reasons": [
-        "Up 2.2% today",
-        "Volume 0.9\u00d7 \u2014 light",
-        "Approaching 10-day high",
-        "Closed in upper third"
+        "Down -0.3% today",
+        "Volume 0.5\u00d7 \u2014 light",
+        "Closed weak in lower half"
       ],
-      "loading_score": 22.5,
+      "loading_score": 23.0,
       "loading_components": {
         "pivot_8w": 0,
         "bbuw": 20,
         "atr_contract": 10,
-        "vol_dryup": 10,
+        "vol_dryup": 40,
         "ema_21": 10,
-        "high_5d": 80,
+        "high_5d": 40,
         "higher_lows": 70
       },
       "loading_reasons": [
-        "BBUW 48",
-        "Within 3% of 5-day high",
+        "BBUW 56",
+        "Mildly quiet volume",
+        "5-7% pullback from 5-day high",
         "Mostly higher lows"
       ],
-      "today_close": 396.0,
-      "today_pct": 2.23,
-      "rvol": 0.86,
-      "atr_ratio": 1.13,
-      "vol_ratio": 1.01,
-      "ema21_dist_pct": 20.53,
-      "dist_high_5d_pct": -2.09,
+      "today_close": 29.11,
+      "today_pct": -0.33,
+      "rvol": 0.54,
+      "atr_ratio": 1.08,
+      "vol_ratio": 0.75,
+      "ema21_dist_pct": 8.43,
+      "dist_high_5d_pct": -4.24,
+      "had_trigger_today": false
+    },
+    {
+      "ticker": "GHRS",
+      "conviction": "LOW",
+      "theme": "Biotechnology",
+      "theme_rank": 5,
+      "pivot_8w_tier": "NONE",
+      "weekly_stage": 2,
+      "daily_stage": null,
+      "trend_template": 8,
+      "weekly_bbuw": 41.0,
+      "daily_bbuw": 54.8,
+      "ema8": 23.7083,
+      "pct_from_ema8": 13.93,
+      "state": "QUIET",
+      "in_motion_score": 0.0,
+      "in_motion_components": {
+        "pct_chg": 0,
+        "rvol": 0,
+        "trigger": 0,
+        "breakout": 0,
+        "candle": 0
+      },
+      "in_motion_reasons": [
+        "Down -3.1% today",
+        "Volume 0.5\u00d7 \u2014 light",
+        "Closed weak in lower half"
+      ],
+      "loading_score": 17.0,
+      "loading_components": {
+        "pivot_8w": 0,
+        "bbuw": 20,
+        "atr_contract": 10,
+        "vol_dryup": 40,
+        "ema_21": 10,
+        "high_5d": 10,
+        "higher_lows": 40
+      },
+      "loading_reasons": [
+        "BBUW 55",
+        "Mildly quiet volume",
+        "Mixed but constructive"
+      ],
+      "today_close": 26.17,
+      "today_pct": -3.11,
+      "rvol": 0.45,
+      "atr_ratio": 0.98,
+      "vol_ratio": 0.71,
+      "ema21_dist_pct": 7.29,
+      "dist_high_5d_pct": -9.63,
       "had_trigger_today": false
     },
     {
@@ -683,7 +738,7 @@
       "daily_stage": null,
       "trend_template": 8,
       "weekly_bbuw": 42.5,
-      "daily_bbuw": 47.6,
+      "daily_bbuw": 52.8,
       "ema8": 161.7471,
       "pct_from_ema8": 13.75,
       "state": "QUIET",
@@ -712,7 +767,7 @@
         "higher_lows": 70
       },
       "loading_reasons": [
-        "BBUW 48",
+        "BBUW 53",
         "Mildly quiet volume",
         "5-7% pullback from 5-day high",
         "Mostly higher lows"
@@ -727,58 +782,6 @@
       "had_trigger_today": false
     },
     {
-      "ticker": "NVAX",
-      "conviction": "LOW",
-      "theme": "Biotechnology",
-      "theme_rank": 5,
-      "pivot_8w_tier": "NONE",
-      "weekly_stage": 2,
-      "daily_stage": null,
-      "trend_template": 8,
-      "weekly_bbuw": 44.5,
-      "daily_bbuw": 47.2,
-      "ema8": 9.3049,
-      "pct_from_ema8": 4.68,
-      "state": "QUIET",
-      "in_motion_score": 0.0,
-      "in_motion_components": {
-        "pct_chg": 0,
-        "rvol": 0,
-        "trigger": 0,
-        "breakout": 0,
-        "candle": 0
-      },
-      "in_motion_reasons": [
-        "Down -4.0% today",
-        "Volume 0.6\u00d7 \u2014 light",
-        "Closed weak in lower half"
-      ],
-      "loading_score": 33.5,
-      "loading_components": {
-        "pivot_8w": 0,
-        "bbuw": 20,
-        "atr_contract": 10,
-        "vol_dryup": 40,
-        "ema_21": 100,
-        "high_5d": 10,
-        "higher_lows": 70
-      },
-      "loading_reasons": [
-        "BBUW 47",
-        "Mildly quiet volume",
-        "Sitting on 21 EMA (0.8%)",
-        "Mostly higher lows"
-      ],
-      "today_close": 9.35,
-      "today_pct": -4.0,
-      "rvol": 0.64,
-      "atr_ratio": 0.88,
-      "vol_ratio": 0.89,
-      "ema21_dist_pct": 0.83,
-      "dist_high_5d_pct": -7.61,
-      "had_trigger_today": false
-    },
-    {
       "ticker": "MEC",
       "conviction": "LOW",
       "theme": "Defense & Aerospace",
@@ -788,7 +791,7 @@
       "daily_stage": null,
       "trend_template": 8,
       "weekly_bbuw": 47.0,
-      "daily_bbuw": 46.9,
+      "daily_bbuw": 52.2,
       "ema8": 31.9195,
       "pct_from_ema8": 5.11,
       "state": "QUIET",
@@ -816,7 +819,7 @@
         "higher_lows": 40
       },
       "loading_reasons": [
-        "BBUW 47",
+        "BBUW 52",
         "Within 2% of 21 EMA",
         "Mixed but constructive"
       ],
@@ -830,7 +833,7 @@
       "had_trigger_today": false
     },
     {
-      "ticker": "ABSI",
+      "ticker": "DFTX",
       "conviction": "LOW",
       "theme": "Biotechnology",
       "theme_rank": 5,
@@ -838,151 +841,98 @@
       "weekly_stage": 2,
       "daily_stage": null,
       "trend_template": 8,
-      "weekly_bbuw": 44.0,
-      "daily_bbuw": 46.8,
-      "ema8": 8.1165,
-      "pct_from_ema8": 43.17,
+      "weekly_bbuw": 48.5,
+      "daily_bbuw": 50.4,
+      "ema8": 31.6276,
+      "pct_from_ema8": 39.72,
       "state": "QUIET",
-      "in_motion_score": 0.0,
+      "in_motion_score": 15.5,
       "in_motion_components": {
-        "pct_chg": 0,
-        "rvol": 0,
-        "trigger": 0,
-        "breakout": 0,
-        "candle": 0
-      },
-      "in_motion_reasons": [
-        "Down -0.7% today",
-        "Volume 0.7\u00d7 \u2014 light",
-        "Closed weak in lower half"
-      ],
-      "loading_score": 23.0,
-      "loading_components": {
-        "pivot_8w": 0,
-        "bbuw": 20,
-        "atr_contract": 10,
-        "vol_dryup": 40,
-        "ema_21": 10,
-        "high_5d": 40,
-        "higher_lows": 70
-      },
-      "loading_reasons": [
-        "BBUW 47",
-        "Mildly quiet volume",
-        "5-7% pullback from 5-day high",
-        "Mostly higher lows"
-      ],
-      "today_close": 11.54,
-      "today_pct": -0.69,
-      "rvol": 0.68,
-      "atr_ratio": 1.3,
-      "vol_ratio": 0.74,
-      "ema21_dist_pct": 27.28,
-      "dist_high_5d_pct": -4.27,
-      "had_trigger_today": false
-    },
-    {
-      "ticker": "PLSE",
-      "conviction": "LOW",
-      "theme": "Biotechnology",
-      "theme_rank": 5,
-      "pivot_8w_tier": "NONE",
-      "weekly_stage": 2,
-      "daily_stage": null,
-      "trend_template": 8,
-      "weekly_bbuw": 51.5,
-      "daily_bbuw": 46.6,
-      "ema8": 26.0316,
-      "pct_from_ema8": 12.19,
-      "state": "QUIET",
-      "in_motion_score": 0.0,
-      "in_motion_components": {
-        "pct_chg": 0,
-        "rvol": 0,
-        "trigger": 0,
-        "breakout": 0,
-        "candle": 0
-      },
-      "in_motion_reasons": [
-        "Down -0.3% today",
-        "Volume 0.5\u00d7 \u2014 light",
-        "Closed weak in lower half"
-      ],
-      "loading_score": 23.0,
-      "loading_components": {
-        "pivot_8w": 0,
-        "bbuw": 20,
-        "atr_contract": 10,
-        "vol_dryup": 40,
-        "ema_21": 10,
-        "high_5d": 40,
-        "higher_lows": 70
-      },
-      "loading_reasons": [
-        "BBUW 47",
-        "Mildly quiet volume",
-        "5-7% pullback from 5-day high",
-        "Mostly higher lows"
-      ],
-      "today_close": 29.11,
-      "today_pct": -0.33,
-      "rvol": 0.54,
-      "atr_ratio": 1.08,
-      "vol_ratio": 0.75,
-      "ema21_dist_pct": 8.43,
-      "dist_high_5d_pct": -4.24,
-      "had_trigger_today": false
-    },
-    {
-      "ticker": "TNGX",
-      "conviction": "LOW",
-      "theme": "Biotechnology",
-      "theme_rank": 5,
-      "pivot_8w_tier": "NONE",
-      "weekly_stage": 2,
-      "daily_stage": null,
-      "trend_template": 8,
-      "weekly_bbuw": 44.0,
-      "daily_bbuw": 46.4,
-      "ema8": 26.6798,
-      "pct_from_ema8": 10.42,
-      "state": "QUIET",
-      "in_motion_score": 20.5,
-      "in_motion_components": {
-        "pct_chg": 40,
+        "pct_chg": 20,
         "rvol": 0,
         "trigger": 0,
         "breakout": 0,
         "candle": 70
       },
       "in_motion_reasons": [
-        "Up 1.6% today",
-        "Volume 0.3\u00d7 \u2014 light",
+        "Flat to slightly up",
+        "Volume 0.4\u00d7 \u2014 light",
         "Closed in upper third"
       ],
-      "loading_score": 30.5,
+      "loading_score": 26.0,
       "loading_components": {
         "pivot_8w": 0,
         "bbuw": 20,
         "atr_contract": 10,
         "vol_dryup": 80,
-        "ema_21": 40,
+        "ema_21": 10,
         "high_5d": 10,
         "higher_lows": 70
       },
       "loading_reasons": [
-        "BBUW 46",
-        "Volume contracting (0.57\u00d7)",
-        "Within 4% of 21 EMA",
+        "BBUW 50",
+        "Volume contracting (0.67\u00d7)",
         "Mostly higher lows"
       ],
-      "today_close": 29.94,
-      "today_pct": 1.63,
-      "rvol": 0.31,
-      "atr_ratio": 0.83,
-      "vol_ratio": 0.57,
-      "ema21_dist_pct": 3.81,
-      "dist_high_5d_pct": -10.71,
+      "today_close": 44.33,
+      "today_pct": 0.32,
+      "rvol": 0.42,
+      "atr_ratio": 1.53,
+      "vol_ratio": 0.67,
+      "ema21_dist_pct": 23.65,
+      "dist_high_5d_pct": -9.9,
+      "had_trigger_today": false
+    },
+    {
+      "ticker": "NVAX",
+      "conviction": "LOW",
+      "theme": "Biotechnology",
+      "theme_rank": 5,
+      "pivot_8w_tier": "NONE",
+      "weekly_stage": 2,
+      "daily_stage": null,
+      "trend_template": 8,
+      "weekly_bbuw": 44.5,
+      "daily_bbuw": 49.8,
+      "ema8": 9.3049,
+      "pct_from_ema8": 4.68,
+      "state": "QUIET",
+      "in_motion_score": 0.0,
+      "in_motion_components": {
+        "pct_chg": 0,
+        "rvol": 0,
+        "trigger": 0,
+        "breakout": 0,
+        "candle": 0
+      },
+      "in_motion_reasons": [
+        "Down -4.0% today",
+        "Volume 0.6\u00d7 \u2014 light",
+        "Closed weak in lower half"
+      ],
+      "loading_score": 33.5,
+      "loading_components": {
+        "pivot_8w": 0,
+        "bbuw": 20,
+        "atr_contract": 10,
+        "vol_dryup": 40,
+        "ema_21": 100,
+        "high_5d": 10,
+        "higher_lows": 70
+      },
+      "loading_reasons": [
+        "BBUW 50",
+        "Mildly quiet volume",
+        "Sitting on 21 EMA (0.8%)",
+        "Mostly higher lows"
+      ],
+      "today_close": 9.35,
+      "today_pct": -4.0,
+      "rvol": 0.64,
+      "atr_ratio": 0.88,
+      "vol_ratio": 0.89,
+      "ema21_dist_pct": 0.83,
+      "dist_high_5d_pct": -7.61,
       "had_trigger_today": false
     },
     {
@@ -995,7 +945,7 @@
       "daily_stage": null,
       "trend_template": 7,
       "weekly_bbuw": 50.0,
-      "daily_bbuw": 46.2,
+      "daily_bbuw": 49.7,
       "ema8": 4.4663,
       "pct_from_ema8": 17.77,
       "state": "QUIET",
@@ -1023,7 +973,7 @@
         "higher_lows": 40
       },
       "loading_reasons": [
-        "BBUW 46",
+        "BBUW 50",
         "Mildly quiet volume",
         "Mixed but constructive"
       ],
@@ -1037,57 +987,6 @@
       "had_trigger_today": false
     },
     {
-      "ticker": "BLZE",
-      "conviction": "LOW",
-      "theme": "AI & Future Tech",
-      "theme_rank": 1,
-      "pivot_8w_tier": "NONE",
-      "weekly_stage": 2,
-      "daily_stage": null,
-      "trend_template": 7,
-      "weekly_bbuw": 47.0,
-      "daily_bbuw": 45.5,
-      "ema8": 10.3602,
-      "pct_from_ema8": 50.77,
-      "state": "QUIET",
-      "in_motion_score": 0.0,
-      "in_motion_components": {
-        "pct_chg": 0,
-        "rvol": 0,
-        "trigger": 0,
-        "breakout": 0,
-        "candle": 0
-      },
-      "in_motion_reasons": [
-        "Down -2.0% today",
-        "Volume 0.4\u00d7 \u2014 light",
-        "Closed weak in lower half"
-      ],
-      "loading_score": 20.0,
-      "loading_components": {
-        "pivot_8w": 0,
-        "bbuw": 20,
-        "atr_contract": 10,
-        "vol_dryup": 40,
-        "ema_21": 10,
-        "high_5d": 10,
-        "higher_lows": 70
-      },
-      "loading_reasons": [
-        "BBUW 46",
-        "Mildly quiet volume",
-        "Mostly higher lows"
-      ],
-      "today_close": 15.3,
-      "today_pct": -2.05,
-      "rvol": 0.44,
-      "atr_ratio": 1.5,
-      "vol_ratio": 0.72,
-      "ema21_dist_pct": 29.81,
-      "dist_high_5d_pct": -7.78,
-      "had_trigger_today": false
-    },
-    {
       "ticker": "TWST",
       "conviction": "LOW",
       "theme": "Biotechnology",
@@ -1097,7 +996,7 @@
       "daily_stage": null,
       "trend_template": 8,
       "weekly_bbuw": 50.0,
-      "daily_bbuw": 44.2,
+      "daily_bbuw": 48.8,
       "ema8": 81.0431,
       "pct_from_ema8": 22.45,
       "state": "QUIET",
@@ -1125,7 +1024,7 @@
         "higher_lows": 70
       },
       "loading_reasons": [
-        "BBUW 44",
+        "BBUW 49",
         "Mildly quiet volume",
         "Mostly higher lows"
       ],
@@ -1139,6 +1038,365 @@
       "had_trigger_today": false
     },
     {
+      "ticker": "BLZE",
+      "conviction": "LOW",
+      "theme": "AI & Future Tech",
+      "theme_rank": 1,
+      "pivot_8w_tier": "NONE",
+      "weekly_stage": 2,
+      "daily_stage": null,
+      "trend_template": 7,
+      "weekly_bbuw": 47.0,
+      "daily_bbuw": 48.6,
+      "ema8": 10.3602,
+      "pct_from_ema8": 50.77,
+      "state": "QUIET",
+      "in_motion_score": 0.0,
+      "in_motion_components": {
+        "pct_chg": 0,
+        "rvol": 0,
+        "trigger": 0,
+        "breakout": 0,
+        "candle": 0
+      },
+      "in_motion_reasons": [
+        "Down -2.0% today",
+        "Volume 0.4\u00d7 \u2014 light",
+        "Closed weak in lower half"
+      ],
+      "loading_score": 20.0,
+      "loading_components": {
+        "pivot_8w": 0,
+        "bbuw": 20,
+        "atr_contract": 10,
+        "vol_dryup": 40,
+        "ema_21": 10,
+        "high_5d": 10,
+        "higher_lows": 70
+      },
+      "loading_reasons": [
+        "BBUW 49",
+        "Mildly quiet volume",
+        "Mostly higher lows"
+      ],
+      "today_close": 15.3,
+      "today_pct": -2.05,
+      "rvol": 0.44,
+      "atr_ratio": 1.5,
+      "vol_ratio": 0.72,
+      "ema21_dist_pct": 29.81,
+      "dist_high_5d_pct": -7.78,
+      "had_trigger_today": false
+    },
+    {
+      "ticker": "SIF",
+      "conviction": "LOW",
+      "theme": "Defense & Aerospace",
+      "theme_rank": 2,
+      "pivot_8w_tier": "NONE",
+      "weekly_stage": 2,
+      "daily_stage": null,
+      "trend_template": 8,
+      "weekly_bbuw": 41.0,
+      "daily_bbuw": 47.9,
+      "ema8": 21.2023,
+      "pct_from_ema8": 16.26,
+      "state": "QUIET",
+      "in_motion_score": 27.0,
+      "in_motion_components": {
+        "pct_chg": 60,
+        "rvol": 30,
+        "trigger": 0,
+        "breakout": 0,
+        "candle": 40
+      },
+      "in_motion_reasons": [
+        "Up 2.9% today",
+        "Volume 1.0\u00d7 \u2014 normal",
+        "Mid-range close"
+      ],
+      "loading_score": 18.5,
+      "loading_components": {
+        "pivot_8w": 0,
+        "bbuw": 20,
+        "atr_contract": 10,
+        "vol_dryup": 10,
+        "ema_21": 10,
+        "high_5d": 40,
+        "higher_lows": 70
+      },
+      "loading_reasons": [
+        "BBUW 48",
+        "5-7% pullback from 5-day high",
+        "Mostly higher lows"
+      ],
+      "today_close": 25.36,
+      "today_pct": 2.88,
+      "rvol": 1.03,
+      "atr_ratio": 1.07,
+      "vol_ratio": 1.82,
+      "ema21_dist_pct": 15.29,
+      "dist_high_5d_pct": -4.12,
+      "had_trigger_today": false
+    },
+    {
+      "ticker": "RLAY",
+      "conviction": "LOW",
+      "theme": "Biotechnology",
+      "theme_rank": 5,
+      "pivot_8w_tier": "NONE",
+      "weekly_stage": 2,
+      "daily_stage": null,
+      "trend_template": 8,
+      "weekly_bbuw": 56.2,
+      "daily_bbuw": 46.1,
+      "ema8": 15.8869,
+      "pct_from_ema8": 17.39,
+      "state": "QUIET",
+      "in_motion_score": 16.0,
+      "in_motion_components": {
+        "pct_chg": 40,
+        "rvol": 0,
+        "trigger": 0,
+        "breakout": 0,
+        "candle": 40
+      },
+      "in_motion_reasons": [
+        "Up 1.3% today",
+        "Volume 0.7\u00d7 \u2014 light",
+        "Mid-range close"
+      ],
+      "loading_score": 20.0,
+      "loading_components": {
+        "pivot_8w": 0,
+        "bbuw": 20,
+        "atr_contract": 10,
+        "vol_dryup": 40,
+        "ema_21": 10,
+        "high_5d": 10,
+        "higher_lows": 70
+      },
+      "loading_reasons": [
+        "BBUW 46",
+        "Mildly quiet volume",
+        "Mostly higher lows"
+      ],
+      "today_close": 18.9,
+      "today_pct": 1.34,
+      "rvol": 0.68,
+      "atr_ratio": 0.96,
+      "vol_ratio": 0.87,
+      "ema21_dist_pct": 12.06,
+      "dist_high_5d_pct": -5.17,
+      "had_trigger_today": false
+    },
+    {
+      "ticker": "KYMR",
+      "conviction": "LOW",
+      "theme": "Biotechnology",
+      "theme_rank": 5,
+      "pivot_8w_tier": "NONE",
+      "weekly_stage": 2,
+      "daily_stage": null,
+      "trend_template": 8,
+      "weekly_bbuw": 48.5,
+      "daily_bbuw": 45.6,
+      "ema8": 94.493,
+      "pct_from_ema8": 20.13,
+      "state": "QUIET",
+      "in_motion_score": 16.0,
+      "in_motion_components": {
+        "pct_chg": 40,
+        "rvol": 0,
+        "trigger": 0,
+        "breakout": 0,
+        "candle": 40
+      },
+      "in_motion_reasons": [
+        "Up 1.1% today",
+        "Volume 0.5\u00d7 \u2014 light",
+        "Mid-range close"
+      ],
+      "loading_score": 23.0,
+      "loading_components": {
+        "pivot_8w": 0,
+        "bbuw": 20,
+        "atr_contract": 10,
+        "vol_dryup": 40,
+        "ema_21": 10,
+        "high_5d": 40,
+        "higher_lows": 70
+      },
+      "loading_reasons": [
+        "BBUW 46",
+        "Mildly quiet volume",
+        "5-7% pullback from 5-day high",
+        "Mostly higher lows"
+      ],
+      "today_close": 114.76,
+      "today_pct": 1.1,
+      "rvol": 0.47,
+      "atr_ratio": 1.53,
+      "vol_ratio": 0.78,
+      "ema21_dist_pct": 15.3,
+      "dist_high_5d_pct": -3.14,
+      "had_trigger_today": false
+    },
+    {
+      "ticker": "SVCO",
+      "conviction": "LOW",
+      "theme": "Semiconductors",
+      "theme_rank": 1,
+      "pivot_8w_tier": "NONE",
+      "weekly_stage": 2,
+      "daily_stage": null,
+      "trend_template": 7,
+      "weekly_bbuw": 44.0,
+      "daily_bbuw": 45.0,
+      "ema8": 11.1858,
+      "pct_from_ema8": -0.77,
+      "state": "QUIET",
+      "in_motion_score": 5.0,
+      "in_motion_components": {
+        "pct_chg": 20,
+        "rvol": 0,
+        "trigger": 0,
+        "breakout": 0,
+        "candle": 0
+      },
+      "in_motion_reasons": [
+        "Flat to slightly up",
+        "Volume 0.8\u00d7 \u2014 light",
+        "Closed weak in lower half"
+      ],
+      "loading_score": 20.0,
+      "loading_components": {
+        "pivot_8w": 0,
+        "bbuw": 20,
+        "atr_contract": 10,
+        "vol_dryup": 40,
+        "ema_21": 10,
+        "high_5d": 10,
+        "higher_lows": 70
+      },
+      "loading_reasons": [
+        "BBUW 45",
+        "Mildly quiet volume",
+        "Mostly higher lows"
+      ],
+      "today_close": 11.2,
+      "today_pct": 0.9,
+      "rvol": 0.82,
+      "atr_ratio": 1.05,
+      "vol_ratio": 0.88,
+      "ema21_dist_pct": 6.29,
+      "dist_high_5d_pct": -22.17,
+      "had_trigger_today": false
+    },
+    {
+      "ticker": "DAVE",
+      "conviction": "LOW",
+      "theme": "AI & Future Tech",
+      "theme_rank": 1,
+      "pivot_8w_tier": "NONE",
+      "weekly_stage": 2,
+      "daily_stage": null,
+      "trend_template": 8,
+      "weekly_bbuw": 44.0,
+      "daily_bbuw": 44.9,
+      "ema8": 309.412,
+      "pct_from_ema8": 25.19,
+      "state": "QUIET",
+      "in_motion_score": 30.0,
+      "in_motion_components": {
+        "pct_chg": 60,
+        "rvol": 0,
+        "trigger": 0,
+        "breakout": 30,
+        "candle": 70
+      },
+      "in_motion_reasons": [
+        "Up 2.2% today",
+        "Volume 0.9\u00d7 \u2014 light",
+        "Approaching 10-day high",
+        "Closed in upper third"
+      ],
+      "loading_score": 22.5,
+      "loading_components": {
+        "pivot_8w": 0,
+        "bbuw": 20,
+        "atr_contract": 10,
+        "vol_dryup": 10,
+        "ema_21": 10,
+        "high_5d": 80,
+        "higher_lows": 70
+      },
+      "loading_reasons": [
+        "BBUW 45",
+        "Within 3% of 5-day high",
+        "Mostly higher lows"
+      ],
+      "today_close": 396.0,
+      "today_pct": 2.23,
+      "rvol": 0.86,
+      "atr_ratio": 1.13,
+      "vol_ratio": 1.01,
+      "ema21_dist_pct": 20.53,
+      "dist_high_5d_pct": -2.09,
+      "had_trigger_today": false
+    },
+    {
+      "ticker": "NEXA",
+      "conviction": "LOW",
+      "theme": "Rare Earth / Strategic Metals",
+      "theme_rank": 3,
+      "pivot_8w_tier": "NONE",
+      "weekly_stage": 2,
+      "daily_stage": null,
+      "trend_template": 7,
+      "weekly_bbuw": 48.7,
+      "daily_bbuw": 44.4,
+      "ema8": 13.5777,
+      "pct_from_ema8": -3.96,
+      "state": "QUIET",
+      "in_motion_score": 20.5,
+      "in_motion_components": {
+        "pct_chg": 40,
+        "rvol": 0,
+        "trigger": 0,
+        "breakout": 0,
+        "candle": 70
+      },
+      "in_motion_reasons": [
+        "Up 1.3% today",
+        "Volume 0.8\u00d7 \u2014 light",
+        "Closed in upper third"
+      ],
+      "loading_score": 29.0,
+      "loading_components": {
+        "pivot_8w": 0,
+        "bbuw": 20,
+        "atr_contract": 10,
+        "vol_dryup": 10,
+        "ema_21": 100,
+        "high_5d": 10,
+        "higher_lows": 70
+      },
+      "loading_reasons": [
+        "BBUW 44",
+        "Sitting on 21 EMA (0.5%)",
+        "Mostly higher lows"
+      ],
+      "today_close": 13.21,
+      "today_pct": 1.3,
+      "rvol": 0.77,
+      "atr_ratio": 0.9,
+      "vol_ratio": 1.11,
+      "ema21_dist_pct": 0.54,
+      "dist_high_5d_pct": -8.2,
+      "had_trigger_today": false
+    },
+    {
       "ticker": "SEZL",
       "conviction": "LOW",
       "theme": "Fintech",
@@ -1148,7 +1406,7 @@
       "daily_stage": null,
       "trend_template": 8,
       "weekly_bbuw": 44.0,
-      "daily_bbuw": 44.0,
+      "daily_bbuw": 44.3,
       "ema8": 142.3148,
       "pct_from_ema8": 28.76,
       "state": "QUIET",
@@ -1190,461 +1448,6 @@
       "had_trigger_today": false
     },
     {
-      "ticker": "GHRS",
-      "conviction": "LOW",
-      "theme": "Biotechnology",
-      "theme_rank": 5,
-      "pivot_8w_tier": "NONE",
-      "weekly_stage": 2,
-      "daily_stage": null,
-      "trend_template": 8,
-      "weekly_bbuw": 41.0,
-      "daily_bbuw": 43.4,
-      "ema8": 23.7083,
-      "pct_from_ema8": 13.93,
-      "state": "QUIET",
-      "in_motion_score": 0.0,
-      "in_motion_components": {
-        "pct_chg": 0,
-        "rvol": 0,
-        "trigger": 0,
-        "breakout": 0,
-        "candle": 0
-      },
-      "in_motion_reasons": [
-        "Down -3.1% today",
-        "Volume 0.5\u00d7 \u2014 light",
-        "Closed weak in lower half"
-      ],
-      "loading_score": 17.0,
-      "loading_components": {
-        "pivot_8w": 0,
-        "bbuw": 20,
-        "atr_contract": 10,
-        "vol_dryup": 40,
-        "ema_21": 10,
-        "high_5d": 10,
-        "higher_lows": 40
-      },
-      "loading_reasons": [
-        "BBUW 43",
-        "Mildly quiet volume",
-        "Mixed but constructive"
-      ],
-      "today_close": 26.17,
-      "today_pct": -3.11,
-      "rvol": 0.45,
-      "atr_ratio": 0.98,
-      "vol_ratio": 0.71,
-      "ema21_dist_pct": 7.29,
-      "dist_high_5d_pct": -9.63,
-      "had_trigger_today": false
-    },
-    {
-      "ticker": "CLYM",
-      "conviction": "LOW",
-      "theme": "Biotechnology",
-      "theme_rank": 5,
-      "pivot_8w_tier": "NONE",
-      "weekly_stage": 2,
-      "daily_stage": null,
-      "trend_template": 8,
-      "weekly_bbuw": 53.1,
-      "daily_bbuw": 42.9,
-      "ema8": 11.5394,
-      "pct_from_ema8": 11.79,
-      "state": "QUIET",
-      "in_motion_score": 21.0,
-      "in_motion_components": {
-        "pct_chg": 60,
-        "rvol": 30,
-        "trigger": 0,
-        "breakout": 0,
-        "candle": 0
-      },
-      "in_motion_reasons": [
-        "Up 2.9% today",
-        "Volume 1.3\u00d7 \u2014 normal",
-        "Closed weak in lower half"
-      ],
-      "loading_score": 12.5,
-      "loading_components": {
-        "pivot_8w": 0,
-        "bbuw": 20,
-        "atr_contract": 10,
-        "vol_dryup": 10,
-        "ema_21": 10,
-        "high_5d": 10,
-        "higher_lows": 40
-      },
-      "loading_reasons": [
-        "BBUW 43",
-        "Mixed but constructive"
-      ],
-      "today_close": 13.27,
-      "today_pct": 2.87,
-      "rvol": 1.3,
-      "atr_ratio": 0.93,
-      "vol_ratio": 0.96,
-      "ema21_dist_pct": 8.77,
-      "dist_high_5d_pct": -7.94,
-      "had_trigger_today": false
-    },
-    {
-      "ticker": "LPTH",
-      "conviction": "LOW",
-      "theme": "Semiconductors",
-      "theme_rank": 1,
-      "pivot_8w_tier": "NONE",
-      "weekly_stage": 2,
-      "daily_stage": null,
-      "trend_template": 8,
-      "weekly_bbuw": 41.6,
-      "daily_bbuw": 42.8,
-      "ema8": 14.2871,
-      "pct_from_ema8": 1.91,
-      "state": "QUIET",
-      "in_motion_score": 0.0,
-      "in_motion_components": {
-        "pct_chg": 0,
-        "rvol": 0,
-        "trigger": 0,
-        "breakout": 0,
-        "candle": 0
-      },
-      "in_motion_reasons": [
-        "Down -3.2% today",
-        "Volume 0.4\u00d7 \u2014 light",
-        "Closed weak in lower half"
-      ],
-      "loading_score": 30.5,
-      "loading_components": {
-        "pivot_8w": 0,
-        "bbuw": 20,
-        "atr_contract": 50,
-        "vol_dryup": 40,
-        "ema_21": 40,
-        "high_5d": 10,
-        "higher_lows": 70
-      },
-      "loading_reasons": [
-        "BBUW 43",
-        "Mild ATR contraction",
-        "Mildly quiet volume",
-        "Within 4% of 21 EMA",
-        "Mostly higher lows"
-      ],
-      "today_close": 14.1,
-      "today_pct": -3.16,
-      "rvol": 0.44,
-      "atr_ratio": 0.79,
-      "vol_ratio": 0.78,
-      "ema21_dist_pct": 3.69,
-      "dist_high_5d_pct": -16.47,
-      "had_trigger_today": false
-    },
-    {
-      "ticker": "RLAY",
-      "conviction": "LOW",
-      "theme": "Biotechnology",
-      "theme_rank": 5,
-      "pivot_8w_tier": "NONE",
-      "weekly_stage": 2,
-      "daily_stage": null,
-      "trend_template": 8,
-      "weekly_bbuw": 56.2,
-      "daily_bbuw": 42.7,
-      "ema8": 15.8869,
-      "pct_from_ema8": 17.39,
-      "state": "QUIET",
-      "in_motion_score": 16.0,
-      "in_motion_components": {
-        "pct_chg": 40,
-        "rvol": 0,
-        "trigger": 0,
-        "breakout": 0,
-        "candle": 40
-      },
-      "in_motion_reasons": [
-        "Up 1.3% today",
-        "Volume 0.7\u00d7 \u2014 light",
-        "Mid-range close"
-      ],
-      "loading_score": 20.0,
-      "loading_components": {
-        "pivot_8w": 0,
-        "bbuw": 20,
-        "atr_contract": 10,
-        "vol_dryup": 40,
-        "ema_21": 10,
-        "high_5d": 10,
-        "higher_lows": 70
-      },
-      "loading_reasons": [
-        "BBUW 43",
-        "Mildly quiet volume",
-        "Mostly higher lows"
-      ],
-      "today_close": 18.9,
-      "today_pct": 1.34,
-      "rvol": 0.68,
-      "atr_ratio": 0.96,
-      "vol_ratio": 0.87,
-      "ema21_dist_pct": 12.06,
-      "dist_high_5d_pct": -5.17,
-      "had_trigger_today": false
-    },
-    {
-      "ticker": "BB",
-      "conviction": "LOW",
-      "theme": "AI & Future Tech",
-      "theme_rank": 1,
-      "pivot_8w_tier": "NONE",
-      "weekly_stage": 2,
-      "daily_stage": null,
-      "trend_template": 8,
-      "weekly_bbuw": 42.5,
-      "daily_bbuw": 42.5,
-      "ema8": 9.2221,
-      "pct_from_ema8": 24.81,
-      "state": "QUIET",
-      "in_motion_score": 0.0,
-      "in_motion_components": {
-        "pct_chg": 0,
-        "rvol": 0,
-        "trigger": 0,
-        "breakout": 0,
-        "candle": 0
-      },
-      "in_motion_reasons": [
-        "Down -1.1% today",
-        "Volume 0.5\u00d7 \u2014 light",
-        "Closed weak in lower half"
-      ],
-      "loading_score": 15.5,
-      "loading_components": {
-        "pivot_8w": 0,
-        "bbuw": 20,
-        "atr_contract": 10,
-        "vol_dryup": 10,
-        "ema_21": 10,
-        "high_5d": 10,
-        "higher_lows": 70
-      },
-      "loading_reasons": [
-        "BBUW 42",
-        "Mostly higher lows"
-      ],
-      "today_close": 11.38,
-      "today_pct": -1.13,
-      "rvol": 0.53,
-      "atr_ratio": 1.06,
-      "vol_ratio": 1.03,
-      "ema21_dist_pct": 11.73,
-      "dist_high_5d_pct": -16.26,
-      "had_trigger_today": false
-    },
-    {
-      "ticker": "KLIC",
-      "conviction": "LOW",
-      "theme": "Semiconductors",
-      "theme_rank": 1,
-      "pivot_8w_tier": "NONE",
-      "weekly_stage": 2,
-      "daily_stage": null,
-      "trend_template": 8,
-      "weekly_bbuw": 44.0,
-      "daily_bbuw": 42.0,
-      "ema8": 111.2606,
-      "pct_from_ema8": 9.05,
-      "state": "QUIET",
-      "in_motion_score": 0.0,
-      "in_motion_components": {
-        "pct_chg": 0,
-        "rvol": 0,
-        "trigger": 0,
-        "breakout": 0,
-        "candle": 0
-      },
-      "in_motion_reasons": [
-        "Down -1.4% today",
-        "Volume 0.8\u00d7 \u2014 light",
-        "Closed weak in lower half"
-      ],
-      "loading_score": 23.0,
-      "loading_components": {
-        "pivot_8w": 0,
-        "bbuw": 20,
-        "atr_contract": 10,
-        "vol_dryup": 10,
-        "ema_21": 100,
-        "high_5d": 10,
-        "higher_lows": 10
-      },
-      "loading_reasons": [
-        "BBUW 42",
-        "Sitting on 21 EMA (0.2%)"
-      ],
-      "today_close": 119.61,
-      "today_pct": -1.42,
-      "rvol": 0.75,
-      "atr_ratio": 1.17,
-      "vol_ratio": 0.97,
-      "ema21_dist_pct": 0.17,
-      "dist_high_5d_pct": -11.92,
-      "had_trigger_today": false
-    },
-    {
-      "ticker": "TOI",
-      "conviction": "LOW",
-      "theme": "Healthcare Innovation",
-      "theme_rank": 5,
-      "pivot_8w_tier": "NONE",
-      "weekly_stage": 2,
-      "daily_stage": null,
-      "trend_template": 7,
-      "weekly_bbuw": 41.4,
-      "daily_bbuw": 41.8,
-      "ema8": 4.9071,
-      "pct_from_ema8": 7.6,
-      "state": "QUIET",
-      "in_motion_score": 20.0,
-      "in_motion_components": {
-        "pct_chg": 80,
-        "rvol": 0,
-        "trigger": 0,
-        "breakout": 0,
-        "candle": 0
-      },
-      "in_motion_reasons": [
-        "Up 3.0% today",
-        "Volume 0.8\u00d7 \u2014 light",
-        "Closed weak in lower half"
-      ],
-      "loading_score": 9.5,
-      "loading_components": {
-        "pivot_8w": 0,
-        "bbuw": 20,
-        "atr_contract": 10,
-        "vol_dryup": 10,
-        "ema_21": 10,
-        "high_5d": 10,
-        "higher_lows": 10
-      },
-      "loading_reasons": [
-        "BBUW 42"
-      ],
-      "today_close": 5.44,
-      "today_pct": 3.03,
-      "rvol": 0.8,
-      "atr_ratio": 0.93,
-      "vol_ratio": 0.93,
-      "ema21_dist_pct": 5.93,
-      "dist_high_5d_pct": -6.53,
-      "had_trigger_today": false
-    },
-    {
-      "ticker": "ALAB",
-      "conviction": "LOW",
-      "theme": "AI & Future Tech",
-      "theme_rank": 1,
-      "pivot_8w_tier": "NONE",
-      "weekly_stage": 2,
-      "daily_stage": null,
-      "trend_template": 8,
-      "weekly_bbuw": 42.5,
-      "daily_bbuw": 40.6,
-      "ema8": 347.2207,
-      "pct_from_ema8": 17.05,
-      "state": "QUIET",
-      "in_motion_score": 31.0,
-      "in_motion_components": {
-        "pct_chg": 100,
-        "rvol": 0,
-        "trigger": 0,
-        "breakout": 0,
-        "candle": 40
-      },
-      "in_motion_reasons": [
-        "Up 6.5% today",
-        "Volume 0.6\u00d7 \u2014 light",
-        "Mid-range close"
-      ],
-      "loading_score": 17.0,
-      "loading_components": {
-        "pivot_8w": 0,
-        "bbuw": 20,
-        "atr_contract": 10,
-        "vol_dryup": 40,
-        "ema_21": 10,
-        "high_5d": 10,
-        "higher_lows": 40
-      },
-      "loading_reasons": [
-        "BBUW 41",
-        "Mildly quiet volume",
-        "Mixed but constructive"
-      ],
-      "today_close": 432.74,
-      "today_pct": 6.48,
-      "rvol": 0.62,
-      "atr_ratio": 1.14,
-      "vol_ratio": 0.89,
-      "ema21_dist_pct": 10.44,
-      "dist_high_5d_pct": -13.36,
-      "had_trigger_today": false
-    },
-    {
-      "ticker": "BEAM",
-      "conviction": "LOW",
-      "theme": "Biotechnology",
-      "theme_rank": 5,
-      "pivot_8w_tier": "NONE",
-      "weekly_stage": 2,
-      "daily_stage": null,
-      "trend_template": 8,
-      "weekly_bbuw": 48.0,
-      "daily_bbuw": 40.5,
-      "ema8": 32.1898,
-      "pct_from_ema8": 8.08,
-      "state": "QUIET",
-      "in_motion_score": 16.0,
-      "in_motion_components": {
-        "pct_chg": 40,
-        "rvol": 30,
-        "trigger": 0,
-        "breakout": 0,
-        "candle": 0
-      },
-      "in_motion_reasons": [
-        "Up 1.5% today",
-        "Volume 1.0\u00d7 \u2014 normal",
-        "Closed weak in lower half"
-      ],
-      "loading_score": 15.5,
-      "loading_components": {
-        "pivot_8w": 0,
-        "bbuw": 20,
-        "atr_contract": 10,
-        "vol_dryup": 10,
-        "ema_21": 10,
-        "high_5d": 10,
-        "higher_lows": 70
-      },
-      "loading_reasons": [
-        "BBUW 40",
-        "Mostly higher lows"
-      ],
-      "today_close": 35.32,
-      "today_pct": 1.52,
-      "rvol": 1.01,
-      "atr_ratio": 1.05,
-      "vol_ratio": 0.96,
-      "ema21_dist_pct": 7.0,
-      "dist_high_5d_pct": -5.31,
-      "had_trigger_today": false
-    },
-    {
       "ticker": "AVR",
       "conviction": "LOW",
       "theme": "Biotechnology",
@@ -1654,7 +1457,7 @@
       "daily_stage": null,
       "trend_template": 8,
       "weekly_bbuw": 45.8,
-      "daily_bbuw": 40.5,
+      "daily_bbuw": 44.2,
       "ema8": 9.1071,
       "pct_from_ema8": 12.44,
       "state": "RUNNING",
@@ -1683,7 +1486,7 @@
         "higher_lows": 40
       },
       "loading_reasons": [
-        "BBUW 40",
+        "BBUW 44",
         "5-7% pullback from 5-day high",
         "Mixed but constructive"
       ],
@@ -1697,33 +1500,33 @@
       "had_trigger_today": false
     },
     {
-      "ticker": "INTG",
+      "ticker": "BB",
       "conviction": "LOW",
-      "theme": "Home Construction",
-      "theme_rank": 5,
+      "theme": "AI & Future Tech",
+      "theme_rank": 1,
       "pivot_8w_tier": "NONE",
       "weekly_stage": 2,
       "daily_stage": null,
       "trend_template": 8,
-      "weekly_bbuw": 44.0,
-      "daily_bbuw": 40.5,
-      "ema8": 40.7746,
-      "pct_from_ema8": 16.98,
+      "weekly_bbuw": 42.5,
+      "daily_bbuw": 42.7,
+      "ema8": 9.2221,
+      "pct_from_ema8": 24.81,
       "state": "QUIET",
-      "in_motion_score": 6.0,
+      "in_motion_score": 0.0,
       "in_motion_components": {
         "pct_chg": 0,
         "rvol": 0,
         "trigger": 0,
         "breakout": 0,
-        "candle": 40
+        "candle": 0
       },
       "in_motion_reasons": [
-        "Down -5.3% today",
-        "Volume 0.7\u00d7 \u2014 light",
-        "Mid-range close"
+        "Down -1.1% today",
+        "Volume 0.5\u00d7 \u2014 light",
+        "Closed weak in lower half"
       ],
-      "loading_score": 9.5,
+      "loading_score": 15.5,
       "loading_components": {
         "pivot_8w": 0,
         "bbuw": 20,
@@ -1731,18 +1534,320 @@
         "vol_dryup": 10,
         "ema_21": 10,
         "high_5d": 10,
+        "higher_lows": 70
+      },
+      "loading_reasons": [
+        "BBUW 43",
+        "Mostly higher lows"
+      ],
+      "today_close": 11.38,
+      "today_pct": -1.13,
+      "rvol": 0.53,
+      "atr_ratio": 1.06,
+      "vol_ratio": 1.03,
+      "ema21_dist_pct": 11.73,
+      "dist_high_5d_pct": -16.26,
+      "had_trigger_today": false
+    },
+    {
+      "ticker": "PENG",
+      "conviction": "LOW",
+      "theme": "AI & Future Tech",
+      "theme_rank": 1,
+      "pivot_8w_tier": "NONE",
+      "weekly_stage": 2,
+      "daily_stage": null,
+      "trend_template": 8,
+      "weekly_bbuw": 42.5,
+      "daily_bbuw": 42.7,
+      "ema8": 56.8999,
+      "pct_from_ema8": 8.03,
+      "state": "QUIET",
+      "in_motion_score": 31.0,
+      "in_motion_components": {
+        "pct_chg": 100,
+        "rvol": 0,
+        "trigger": 0,
+        "breakout": 0,
+        "candle": 40
+      },
+      "in_motion_reasons": [
+        "Up 10.2% today",
+        "Volume 0.9\u00d7 \u2014 light",
+        "Mid-range close"
+      ],
+      "loading_score": 12.5,
+      "loading_components": {
+        "pivot_8w": 0,
+        "bbuw": 20,
+        "atr_contract": 10,
+        "vol_dryup": 10,
+        "ema_21": 10,
+        "high_5d": 10,
+        "higher_lows": 40
+      },
+      "loading_reasons": [
+        "BBUW 43",
+        "Mixed but constructive"
+      ],
+      "today_close": 67.71,
+      "today_pct": 10.15,
+      "rvol": 0.91,
+      "atr_ratio": 1.03,
+      "vol_ratio": 1.02,
+      "ema21_dist_pct": 5.89,
+      "dist_high_5d_pct": -12.49,
+      "had_trigger_today": false
+    },
+    {
+      "ticker": "APPS",
+      "conviction": "LOW",
+      "theme": "AI & Future Tech",
+      "theme_rank": 1,
+      "pivot_8w_tier": "NONE",
+      "weekly_stage": 2,
+      "daily_stage": null,
+      "trend_template": 7,
+      "weekly_bbuw": 48.5,
+      "daily_bbuw": 42.6,
+      "ema8": 9.0753,
+      "pct_from_ema8": 40.05,
+      "state": "QUIET",
+      "in_motion_score": 0.0,
+      "in_motion_components": {
+        "pct_chg": 0,
+        "rvol": 0,
+        "trigger": 0,
+        "breakout": 0,
+        "candle": 0
+      },
+      "in_motion_reasons": [
+        "Down -12.0% today",
+        "Volume 0.9\u00d7 \u2014 light",
+        "Closed weak in lower half"
+      ],
+      "loading_score": 15.5,
+      "loading_components": {
+        "pivot_8w": 0,
+        "bbuw": 20,
+        "atr_contract": 10,
+        "vol_dryup": 10,
+        "ema_21": 10,
+        "high_5d": 10,
+        "higher_lows": 70
+      },
+      "loading_reasons": [
+        "BBUW 43",
+        "Mostly higher lows"
+      ],
+      "today_close": 11.18,
+      "today_pct": -12.04,
+      "rvol": 0.94,
+      "atr_ratio": 0.98,
+      "vol_ratio": 0.96,
+      "ema21_dist_pct": 8.71,
+      "dist_high_5d_pct": -17.79,
+      "had_trigger_today": false
+    },
+    {
+      "ticker": "OSS",
+      "conviction": "LOW",
+      "theme": "Data Centers / Digital Infra",
+      "theme_rank": 3,
+      "pivot_8w_tier": "NONE",
+      "weekly_stage": 2,
+      "daily_stage": null,
+      "trend_template": 8,
+      "weekly_bbuw": 44.6,
+      "daily_bbuw": 42.3,
+      "ema8": 15.9642,
+      "pct_from_ema8": -1.72,
+      "state": "QUIET",
+      "in_motion_score": 0.0,
+      "in_motion_components": {
+        "pct_chg": 0,
+        "rvol": 0,
+        "trigger": 0,
+        "breakout": 0,
+        "candle": 0
+      },
+      "in_motion_reasons": [
+        "Down -0.8% today",
+        "Volume 0.7\u00d7 \u2014 light",
+        "Closed weak in lower half"
+      ],
+      "loading_score": 17.0,
+      "loading_components": {
+        "pivot_8w": 0,
+        "bbuw": 20,
+        "atr_contract": 10,
+        "vol_dryup": 40,
+        "ema_21": 10,
+        "high_5d": 10,
+        "higher_lows": 40
+      },
+      "loading_reasons": [
+        "BBUW 42",
+        "Mildly quiet volume",
+        "Mixed but constructive"
+      ],
+      "today_close": 15.56,
+      "today_pct": -0.83,
+      "rvol": 0.66,
+      "atr_ratio": 0.97,
+      "vol_ratio": 0.8,
+      "ema21_dist_pct": 7.38,
+      "dist_high_5d_pct": -18.83,
+      "had_trigger_today": false
+    },
+    {
+      "ticker": "CLYM",
+      "conviction": "LOW",
+      "theme": "Biotechnology",
+      "theme_rank": 5,
+      "pivot_8w_tier": "NONE",
+      "weekly_stage": 2,
+      "daily_stage": null,
+      "trend_template": 8,
+      "weekly_bbuw": 53.1,
+      "daily_bbuw": 40.9,
+      "ema8": 11.5394,
+      "pct_from_ema8": 11.79,
+      "state": "QUIET",
+      "in_motion_score": 21.0,
+      "in_motion_components": {
+        "pct_chg": 60,
+        "rvol": 30,
+        "trigger": 0,
+        "breakout": 0,
+        "candle": 0
+      },
+      "in_motion_reasons": [
+        "Up 2.9% today",
+        "Volume 1.3\u00d7 \u2014 normal",
+        "Closed weak in lower half"
+      ],
+      "loading_score": 12.5,
+      "loading_components": {
+        "pivot_8w": 0,
+        "bbuw": 20,
+        "atr_contract": 10,
+        "vol_dryup": 10,
+        "ema_21": 10,
+        "high_5d": 10,
+        "higher_lows": 40
+      },
+      "loading_reasons": [
+        "BBUW 41",
+        "Mixed but constructive"
+      ],
+      "today_close": 13.27,
+      "today_pct": 2.87,
+      "rvol": 1.3,
+      "atr_ratio": 0.93,
+      "vol_ratio": 0.96,
+      "ema21_dist_pct": 8.77,
+      "dist_high_5d_pct": -7.94,
+      "had_trigger_today": false
+    },
+    {
+      "ticker": "KLIC",
+      "conviction": "LOW",
+      "theme": "Semiconductors",
+      "theme_rank": 1,
+      "pivot_8w_tier": "NONE",
+      "weekly_stage": 2,
+      "daily_stage": null,
+      "trend_template": 8,
+      "weekly_bbuw": 44.0,
+      "daily_bbuw": 40.8,
+      "ema8": 111.2606,
+      "pct_from_ema8": 9.05,
+      "state": "QUIET",
+      "in_motion_score": 0.0,
+      "in_motion_components": {
+        "pct_chg": 0,
+        "rvol": 0,
+        "trigger": 0,
+        "breakout": 0,
+        "candle": 0
+      },
+      "in_motion_reasons": [
+        "Down -1.4% today",
+        "Volume 0.8\u00d7 \u2014 light",
+        "Closed weak in lower half"
+      ],
+      "loading_score": 23.0,
+      "loading_components": {
+        "pivot_8w": 0,
+        "bbuw": 20,
+        "atr_contract": 10,
+        "vol_dryup": 10,
+        "ema_21": 100,
+        "high_5d": 10,
         "higher_lows": 10
       },
       "loading_reasons": [
-        "BBUW 40"
+        "BBUW 41",
+        "Sitting on 21 EMA (0.2%)"
       ],
-      "today_close": 45.19,
-      "today_pct": -5.26,
-      "rvol": 0.73,
-      "atr_ratio": 1.29,
-      "vol_ratio": 1.13,
-      "ema21_dist_pct": 7.19,
-      "dist_high_5d_pct": -11.31,
+      "today_close": 119.61,
+      "today_pct": -1.42,
+      "rvol": 0.75,
+      "atr_ratio": 1.17,
+      "vol_ratio": 0.97,
+      "ema21_dist_pct": 0.17,
+      "dist_high_5d_pct": -11.92,
+      "had_trigger_today": false
+    },
+    {
+      "ticker": "BEAM",
+      "conviction": "LOW",
+      "theme": "Biotechnology",
+      "theme_rank": 5,
+      "pivot_8w_tier": "NONE",
+      "weekly_stage": 2,
+      "daily_stage": null,
+      "trend_template": 8,
+      "weekly_bbuw": 48.0,
+      "daily_bbuw": 40.6,
+      "ema8": 32.1898,
+      "pct_from_ema8": 8.08,
+      "state": "QUIET",
+      "in_motion_score": 16.0,
+      "in_motion_components": {
+        "pct_chg": 40,
+        "rvol": 30,
+        "trigger": 0,
+        "breakout": 0,
+        "candle": 0
+      },
+      "in_motion_reasons": [
+        "Up 1.5% today",
+        "Volume 1.0\u00d7 \u2014 normal",
+        "Closed weak in lower half"
+      ],
+      "loading_score": 15.5,
+      "loading_components": {
+        "pivot_8w": 0,
+        "bbuw": 20,
+        "atr_contract": 10,
+        "vol_dryup": 10,
+        "ema_21": 10,
+        "high_5d": 10,
+        "higher_lows": 70
+      },
+      "loading_reasons": [
+        "BBUW 41",
+        "Mostly higher lows"
+      ],
+      "today_close": 35.32,
+      "today_pct": 1.52,
+      "rvol": 1.01,
+      "atr_ratio": 1.05,
+      "vol_ratio": 0.96,
+      "ema21_dist_pct": 7.0,
+      "dist_high_5d_pct": -5.31,
       "had_trigger_today": false
     },
     {
@@ -1755,7 +1860,7 @@
       "daily_stage": null,
       "trend_template": 8,
       "weekly_bbuw": 40.0,
-      "daily_bbuw": 40.5,
+      "daily_bbuw": 40.4,
       "ema8": 4.8633,
       "pct_from_ema8": 15.97,
       "state": "QUIET",
@@ -1796,105 +1901,54 @@
       "had_trigger_today": false
     },
     {
-      "ticker": "IBRX",
+      "ticker": "ALAB",
       "conviction": "LOW",
-      "theme": "Biotechnology",
-      "theme_rank": 5,
+      "theme": "AI & Future Tech",
+      "theme_rank": 1,
       "pivot_8w_tier": "NONE",
       "weekly_stage": 2,
       "daily_stage": null,
       "trend_template": 8,
-      "weekly_bbuw": 56.8,
-      "daily_bbuw": 40.2,
-      "ema8": 8.059,
-      "pct_from_ema8": 17.14,
+      "weekly_bbuw": 42.5,
+      "daily_bbuw": 40.1,
+      "ema8": 347.2207,
+      "pct_from_ema8": 17.05,
       "state": "QUIET",
-      "in_motion_score": 0.0,
+      "in_motion_score": 31.0,
       "in_motion_components": {
-        "pct_chg": 0,
+        "pct_chg": 100,
         "rvol": 0,
         "trigger": 0,
         "breakout": 0,
-        "candle": 0
+        "candle": 40
       },
       "in_motion_reasons": [
-        "Down -5.6% today",
-        "Volume 1.0\u00d7 \u2014 light",
-        "Closed weak in lower half"
+        "Up 6.5% today",
+        "Volume 0.6\u00d7 \u2014 light",
+        "Mid-range close"
       ],
-      "loading_score": 15.5,
+      "loading_score": 17.0,
       "loading_components": {
         "pivot_8w": 0,
         "bbuw": 20,
         "atr_contract": 10,
-        "vol_dryup": 10,
+        "vol_dryup": 40,
         "ema_21": 10,
         "high_5d": 10,
-        "higher_lows": 70
-      },
-      "loading_reasons": [
-        "BBUW 40",
-        "Mostly higher lows"
-      ],
-      "today_close": 8.91,
-      "today_pct": -5.61,
-      "rvol": 0.99,
-      "atr_ratio": 1.16,
-      "vol_ratio": 1.03,
-      "ema21_dist_pct": 10.32,
-      "dist_high_5d_pct": -7.19,
-      "had_trigger_today": false
-    },
-    {
-      "ticker": "BCAX",
-      "conviction": "LOW",
-      "theme": "Biotechnology",
-      "theme_rank": 5,
-      "pivot_8w_tier": "NONE",
-      "weekly_stage": 2,
-      "daily_stage": null,
-      "trend_template": 8,
-      "weekly_bbuw": 41.0,
-      "daily_bbuw": 40.0,
-      "ema8": 24.1756,
-      "pct_from_ema8": 19.96,
-      "state": "QUIET",
-      "in_motion_score": 9.5,
-      "in_motion_components": {
-        "pct_chg": 20,
-        "rvol": 0,
-        "trigger": 0,
-        "breakout": 30,
-        "candle": 0
-      },
-      "in_motion_reasons": [
-        "Flat to slightly up",
-        "Volume 0.5\u00d7 \u2014 light",
-        "Approaching 10-day high",
-        "Closed weak in lower half"
-      ],
-      "loading_score": 19.5,
-      "loading_components": {
-        "pivot_8w": 0,
-        "bbuw": 20,
-        "atr_contract": 10,
-        "vol_dryup": 10,
-        "ema_21": 10,
-        "high_5d": 80,
         "higher_lows": 40
       },
       "loading_reasons": [
         "BBUW 40",
-        "Within 3% of 5-day high",
+        "Mildly quiet volume",
         "Mixed but constructive"
       ],
-      "today_close": 29.22,
-      "today_pct": 0.76,
-      "rvol": 0.53,
-      "atr_ratio": 1.24,
-      "vol_ratio": 1.04,
-      "ema21_dist_pct": 15.01,
-      "dist_high_5d_pct": -2.27,
+      "today_close": 432.74,
+      "today_pct": 6.48,
+      "rvol": 0.62,
+      "atr_ratio": 1.14,
+      "vol_ratio": 0.89,
+      "ema21_dist_pct": 10.44,
+      "dist_high_5d_pct": -13.36,
       "had_trigger_today": false
     }
   ]
