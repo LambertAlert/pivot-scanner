@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-07-06T22:45:55.372470",
+  "generated_at": "2026-07-07T16:22:22.152971",
   "count": 38,
   "entries": [
     {
@@ -16,42 +16,42 @@
       "ema8": 26.6798,
       "pct_from_ema8": 10.42,
       "state": "QUIET",
-      "in_motion_score": 20.5,
+      "in_motion_score": 6.0,
       "in_motion_components": {
-        "pct_chg": 40,
+        "pct_chg": 0,
         "rvol": 0,
         "trigger": 0,
         "breakout": 0,
-        "candle": 70
+        "candle": 40
       },
       "in_motion_reasons": [
-        "Up 1.6% today",
-        "Volume 0.3\u00d7 \u2014 light",
-        "Closed in upper third"
+        "Down -0.1% today",
+        "Volume 0.1\u00d7 \u2014 light",
+        "Mid-range close"
       ],
-      "loading_score": 35.0,
+      "loading_score": 38.0,
       "loading_components": {
         "pivot_8w": 0,
         "bbuw": 50,
         "atr_contract": 10,
-        "vol_dryup": 80,
+        "vol_dryup": 100,
         "ema_21": 40,
         "high_5d": 10,
         "higher_lows": 70
       },
       "loading_reasons": [
         "BBUW 61",
-        "Volume contracting (0.57\u00d7)",
+        "Volume dry-up (0.43\u00d7)",
         "Within 4% of 21 EMA",
         "Mostly higher lows"
       ],
-      "today_close": 29.94,
-      "today_pct": 1.63,
-      "rvol": 0.31,
-      "atr_ratio": 0.83,
-      "vol_ratio": 0.57,
-      "ema21_dist_pct": 3.81,
-      "dist_high_5d_pct": -10.71,
+      "today_close": 29.91,
+      "today_pct": -0.1,
+      "rvol": 0.09,
+      "atr_ratio": 0.81,
+      "vol_ratio": 0.43,
+      "ema21_dist_pct": 3.35,
+      "dist_high_5d_pct": -10.8,
       "had_trigger_today": false
     },
     {
@@ -67,46 +67,45 @@
       "daily_bbuw": 50.4,
       "ema8": 43.1364,
       "pct_from_ema8": 33.99,
-      "state": "QUIET",
-      "in_motion_score": 29.5,
+      "state": "RUNNING",
+      "in_motion_score": 50.0,
       "in_motion_components": {
-        "pct_chg": 0,
+        "pct_chg": 80,
         "rvol": 0,
-        "trigger": 100,
-        "breakout": 30,
-        "candle": 0
+        "trigger": 0,
+        "breakout": 100,
+        "candle": 100
       },
       "in_motion_reasons": [
-        "Down -0.2% today",
-        "Volume 0.5\u00d7 \u2014 light",
-        "30-min pivot triggered today",
-        "Approaching 10-day high",
-        "Closed weak in lower half"
+        "Up 3.4% today",
+        "Volume 0.2\u00d7 \u2014 light",
+        "Breaking 10-day high ($59.63)",
+        "Closed near high \u2014 strong candle"
       ],
-      "loading_score": 26.0,
+      "loading_score": 35.0,
       "loading_components": {
         "pivot_8w": 0,
         "bbuw": 20,
         "atr_contract": 10,
-        "vol_dryup": 40,
+        "vol_dryup": 80,
         "ema_21": 10,
-        "high_5d": 40,
-        "higher_lows": 100
+        "high_5d": 100,
+        "higher_lows": 70
       },
       "loading_reasons": [
         "BBUW 50",
-        "Mildly quiet volume",
-        "5-7% pullback from 5-day high",
-        "Higher lows 6/6"
+        "Volume contracting (0.68\u00d7)",
+        "At 5-day high",
+        "Mostly higher lows"
       ],
-      "today_close": 57.7,
-      "today_pct": -0.17,
-      "rvol": 0.53,
-      "atr_ratio": 1.28,
-      "vol_ratio": 0.84,
-      "ema21_dist_pct": 24.65,
-      "dist_high_5d_pct": -3.17,
-      "had_trigger_today": true
+      "today_close": 59.67,
+      "today_pct": 3.41,
+      "rvol": 0.21,
+      "atr_ratio": 1.22,
+      "vol_ratio": 0.68,
+      "ema21_dist_pct": 25.61,
+      "dist_high_5d_pct": -0.02,
+      "had_trigger_today": false
     },
     {
       "ticker": "ATEX",
@@ -122,41 +121,42 @@
       "ema8": 78.2889,
       "pct_from_ema8": 34.3,
       "state": "QUIET",
-      "in_motion_score": 30.0,
+      "in_motion_score": 25.0,
       "in_motion_components": {
-        "pct_chg": 20,
+        "pct_chg": 0,
         "rvol": 0,
         "trigger": 100,
         "breakout": 0,
         "candle": 0
       },
       "in_motion_reasons": [
-        "Flat to slightly up",
-        "Volume 0.8\u00d7 \u2014 light",
+        "Down -2.6% today",
+        "Volume 0.3\u00d7 \u2014 light",
         "30-min pivot triggered today",
         "Closed weak in lower half"
       ],
-      "loading_score": 18.5,
+      "loading_score": 20.0,
       "loading_components": {
         "pivot_8w": 0,
         "bbuw": 20,
         "atr_contract": 10,
-        "vol_dryup": 10,
+        "vol_dryup": 40,
         "ema_21": 10,
         "high_5d": 10,
-        "higher_lows": 100
+        "higher_lows": 70
       },
       "loading_reasons": [
         "BBUW 49",
-        "Higher lows 6/6"
+        "Mildly quiet volume",
+        "Mostly higher lows"
       ],
-      "today_close": 106.04,
-      "today_pct": 0.86,
-      "rvol": 0.8,
-      "atr_ratio": 1.22,
-      "vol_ratio": 1.07,
-      "ema21_dist_pct": 23.81,
-      "dist_high_5d_pct": -5.24,
+      "today_close": 103.3,
+      "today_pct": -2.58,
+      "rvol": 0.27,
+      "atr_ratio": 1.18,
+      "vol_ratio": 0.89,
+      "ema21_dist_pct": 18.39,
+      "dist_high_5d_pct": -7.69,
       "had_trigger_today": true
     },
     {
@@ -173,43 +173,42 @@
       "ema8": 37.7106,
       "pct_from_ema8": 11.03,
       "state": "QUIET",
-      "in_motion_score": 45.0,
+      "in_motion_score": 0.0,
       "in_motion_components": {
-        "pct_chg": 80,
+        "pct_chg": 0,
         "rvol": 0,
-        "trigger": 100,
+        "trigger": 0,
         "breakout": 0,
         "candle": 0
       },
       "in_motion_reasons": [
-        "Up 3.5% today",
-        "Volume 0.6\u00d7 \u2014 light",
-        "30-min pivot triggered today",
+        "Down -8.0% today",
+        "Volume 0.5\u00d7 \u2014 light",
         "Closed weak in lower half"
       ],
-      "loading_score": 15.5,
+      "loading_score": 26.0,
       "loading_components": {
         "pivot_8w": 0,
         "bbuw": 20,
         "atr_contract": 10,
         "vol_dryup": 10,
-        "ema_21": 10,
-        "high_5d": 40,
+        "ema_21": 100,
+        "high_5d": 10,
         "higher_lows": 40
       },
       "loading_reasons": [
         "BBUW 47",
-        "5-7% pullback from 5-day high",
+        "Sitting on 21 EMA (0.1%)",
         "Mixed but constructive"
       ],
-      "today_close": 43.32,
-      "today_pct": 3.46,
-      "rvol": 0.59,
-      "atr_ratio": 1.06,
-      "vol_ratio": 0.97,
-      "ema21_dist_pct": 7.83,
-      "dist_high_5d_pct": -4.83,
-      "had_trigger_today": true
+      "today_close": 39.85,
+      "today_pct": -8.02,
+      "rvol": 0.48,
+      "atr_ratio": 1.07,
+      "vol_ratio": 0.98,
+      "ema21_dist_pct": 0.07,
+      "dist_high_5d_pct": -11.98,
+      "had_trigger_today": false
     },
     {
       "ticker": "INNV",
@@ -225,42 +224,41 @@
       "ema8": 9.4519,
       "pct_from_ema8": 26.85,
       "state": "QUIET",
-      "in_motion_score": 41.0,
+      "in_motion_score": 25.0,
       "in_motion_components": {
-        "pct_chg": 40,
+        "pct_chg": 0,
         "rvol": 0,
         "trigger": 100,
         "breakout": 0,
-        "candle": 40
+        "candle": 0
       },
       "in_motion_reasons": [
-        "Up 1.0% today",
-        "Volume 0.8\u00d7 \u2014 light",
+        "Down -2.1% today",
+        "Volume 0.3\u00d7 \u2014 light",
         "30-min pivot triggered today",
-        "Mid-range close"
+        "Closed weak in lower half"
       ],
-      "loading_score": 18.5,
+      "loading_score": 15.5,
       "loading_components": {
         "pivot_8w": 0,
         "bbuw": 20,
         "atr_contract": 10,
         "vol_dryup": 10,
         "ema_21": 10,
-        "high_5d": 40,
+        "high_5d": 10,
         "higher_lows": 70
       },
       "loading_reasons": [
         "BBUW 46",
-        "5-7% pullback from 5-day high",
         "Mostly higher lows"
       ],
-      "today_close": 12.11,
-      "today_pct": 1.0,
-      "rvol": 0.84,
-      "atr_ratio": 1.38,
-      "vol_ratio": 1.2,
-      "ema21_dist_pct": 20.91,
-      "dist_high_5d_pct": -4.19,
+      "today_close": 11.85,
+      "today_pct": -2.15,
+      "rvol": 0.26,
+      "atr_ratio": 1.36,
+      "vol_ratio": 0.94,
+      "ema21_dist_pct": 16.38,
+      "dist_high_5d_pct": -6.25,
       "had_trigger_today": true
     },
     {
@@ -277,42 +275,42 @@
       "ema8": 18.3699,
       "pct_from_ema8": 15.79,
       "state": "QUIET",
-      "in_motion_score": 15.5,
+      "in_motion_score": 16.0,
       "in_motion_components": {
-        "pct_chg": 20,
+        "pct_chg": 40,
         "rvol": 0,
         "trigger": 0,
         "breakout": 0,
-        "candle": 70
+        "candle": 40
       },
       "in_motion_reasons": [
-        "Flat to slightly up",
-        "Volume 0.8\u00d7 \u2014 light",
-        "Closed in upper third"
+        "Up 1.9% today",
+        "Volume 0.2\u00d7 \u2014 light",
+        "Mid-range close"
       ],
-      "loading_score": 20.0,
+      "loading_score": 24.0,
       "loading_components": {
         "pivot_8w": 0,
         "bbuw": 20,
         "atr_contract": 10,
         "vol_dryup": 40,
         "ema_21": 10,
-        "high_5d": 40,
+        "high_5d": 80,
         "higher_lows": 40
       },
       "loading_reasons": [
         "BBUW 44",
         "Mildly quiet volume",
-        "5-7% pullback from 5-day high",
+        "Within 3% of 5-day high",
         "Mixed but constructive"
       ],
-      "today_close": 21.39,
-      "today_pct": 0.56,
-      "rvol": 0.8,
-      "atr_ratio": 1.39,
-      "vol_ratio": 0.82,
-      "ema21_dist_pct": 12.17,
-      "dist_high_5d_pct": -3.87,
+      "today_close": 21.8,
+      "today_pct": 1.89,
+      "rvol": 0.2,
+      "atr_ratio": 1.33,
+      "vol_ratio": 0.73,
+      "ema21_dist_pct": 12.83,
+      "dist_high_5d_pct": -2.74,
       "had_trigger_today": false
     },
     {
@@ -338,8 +336,8 @@
         "candle": 0
       },
       "in_motion_reasons": [
-        "Down -6.9% today",
-        "Volume 0.9\u00d7 \u2014 light",
+        "Down -3.8% today",
+        "Volume 0.5\u00d7 \u2014 light",
         "30-min pivot triggered today",
         "Closed weak in lower half"
       ],
@@ -357,13 +355,13 @@
         "BBUW 44",
         "Mostly higher lows"
       ],
-      "today_close": 13.94,
-      "today_pct": -6.94,
-      "rvol": 0.9,
-      "atr_ratio": 1.4,
-      "vol_ratio": 1.74,
-      "ema21_dist_pct": 28.78,
-      "dist_high_5d_pct": -12.22,
+      "today_close": 13.41,
+      "today_pct": -3.77,
+      "rvol": 0.46,
+      "atr_ratio": 1.45,
+      "vol_ratio": 1.23,
+      "ema21_dist_pct": 21.29,
+      "dist_high_5d_pct": -15.52,
       "had_trigger_today": true
     },
     {
@@ -380,20 +378,20 @@
       "ema8": 12.3857,
       "pct_from_ema8": 9.97,
       "state": "QUIET",
-      "in_motion_score": 0.0,
+      "in_motion_score": 31.0,
       "in_motion_components": {
         "pct_chg": 0,
-        "rvol": 0,
+        "rvol": 80,
         "trigger": 0,
         "breakout": 0,
-        "candle": 0
+        "candle": 100
       },
       "in_motion_reasons": [
-        "Down -5.7% today",
-        "Volume 1.0\u00d7 \u2014 light",
-        "Closed weak in lower half"
+        "Down -0.4% today",
+        "Volume 2.7\u00d7 \u2014 strong",
+        "Closed near high \u2014 strong candle"
       ],
-      "loading_score": 26.0,
+      "loading_score": 23.0,
       "loading_components": {
         "pivot_8w": 0,
         "bbuw": 20,
@@ -401,20 +399,19 @@
         "vol_dryup": 10,
         "ema_21": 100,
         "high_5d": 10,
-        "higher_lows": 40
+        "higher_lows": 10
       },
       "loading_reasons": [
         "BBUW 41",
-        "Sitting on 21 EMA (0.0%)",
-        "Mixed but constructive"
+        "Sitting on 21 EMA (0.3%)"
       ],
-      "today_close": 12.84,
-      "today_pct": -5.73,
-      "rvol": 0.96,
-      "atr_ratio": 0.99,
-      "vol_ratio": 1.15,
-      "ema21_dist_pct": 0.03,
-      "dist_high_5d_pct": -16.62,
+      "today_close": 12.79,
+      "today_pct": -0.39,
+      "rvol": 2.73,
+      "atr_ratio": 1.01,
+      "vol_ratio": 1.4,
+      "ema21_dist_pct": 0.32,
+      "dist_high_5d_pct": -16.89,
       "had_trigger_today": false
     },
     {
@@ -431,42 +428,40 @@
       "ema8": 108.1213,
       "pct_from_ema8": 6.75,
       "state": "QUIET",
-      "in_motion_score": 5.0,
+      "in_motion_score": 0.0,
       "in_motion_components": {
-        "pct_chg": 20,
+        "pct_chg": 0,
         "rvol": 0,
         "trigger": 0,
         "breakout": 0,
         "candle": 0
       },
       "in_motion_reasons": [
-        "Flat to slightly up",
-        "Volume 0.6\u00d7 \u2014 light",
+        "Down -7.6% today",
+        "Volume 0.3\u00d7 \u2014 light",
         "Closed weak in lower half"
       ],
-      "loading_score": 26.0,
+      "loading_score": 24.5,
       "loading_components": {
         "pivot_8w": 0,
         "bbuw": 50,
         "atr_contract": 10,
-        "vol_dryup": 40,
-        "ema_21": 40,
+        "vol_dryup": 80,
+        "ema_21": 10,
         "high_5d": 10,
-        "higher_lows": 40
+        "higher_lows": 10
       },
       "loading_reasons": [
         "BBUW 62",
-        "Mildly quiet volume",
-        "Within 4% of 21 EMA",
-        "Mixed but constructive"
+        "Volume contracting (0.66\u00d7)"
       ],
-      "today_close": 115.95,
-      "today_pct": 0.46,
-      "rvol": 0.6,
-      "atr_ratio": 0.91,
-      "vol_ratio": 0.76,
-      "ema21_dist_pct": 3.21,
-      "dist_high_5d_pct": -7.84,
+      "today_close": 107.15,
+      "today_pct": -7.59,
+      "rvol": 0.34,
+      "atr_ratio": 0.9,
+      "vol_ratio": 0.66,
+      "ema21_dist_pct": 4.21,
+      "dist_high_5d_pct": -14.83,
       "had_trigger_today": false
     },
     {
@@ -483,42 +478,42 @@
       "ema8": 9.0509,
       "pct_from_ema8": 6.18,
       "state": "QUIET",
-      "in_motion_score": 6.0,
+      "in_motion_score": 35.0,
       "in_motion_components": {
-        "pct_chg": 0,
-        "rvol": 30,
+        "pct_chg": 80,
+        "rvol": 0,
         "trigger": 0,
         "breakout": 0,
-        "candle": 0
+        "candle": 100
       },
       "in_motion_reasons": [
-        "Down -1.8% today",
-        "Volume 1.1\u00d7 \u2014 normal",
-        "Closed weak in lower half"
+        "Up 3.9% today",
+        "Volume 0.1\u00d7 \u2014 light",
+        "Closed near high \u2014 strong candle"
       ],
-      "loading_score": 29.0,
+      "loading_score": 30.5,
       "loading_components": {
         "pivot_8w": 0,
         "bbuw": 50,
         "atr_contract": 10,
-        "vol_dryup": 40,
-        "ema_21": 40,
-        "high_5d": 10,
-        "higher_lows": 70
+        "vol_dryup": 80,
+        "ema_21": 10,
+        "high_5d": 40,
+        "higher_lows": 40
       },
       "loading_reasons": [
         "BBUW 60",
-        "Mildly quiet volume",
-        "Within 4% of 21 EMA",
-        "Mostly higher lows"
+        "Volume contracting (0.65\u00d7)",
+        "5-7% pullback from 5-day high",
+        "Mixed but constructive"
       ],
-      "today_close": 9.44,
-      "today_pct": -1.77,
-      "rvol": 1.12,
-      "atr_ratio": 1.05,
-      "vol_ratio": 0.73,
-      "ema21_dist_pct": 3.35,
-      "dist_high_5d_pct": -7.81,
+      "today_close": 9.81,
+      "today_pct": 3.92,
+      "rvol": 0.15,
+      "atr_ratio": 1.03,
+      "vol_ratio": 0.65,
+      "ema21_dist_pct": 6.68,
+      "dist_high_5d_pct": -4.2,
       "had_trigger_today": false
     },
     {
@@ -535,42 +530,41 @@
       "ema8": 23.1025,
       "pct_from_ema8": -17.15,
       "state": "QUIET",
-      "in_motion_score": 15.0,
+      "in_motion_score": 0.0,
       "in_motion_components": {
-        "pct_chg": 60,
+        "pct_chg": 0,
         "rvol": 0,
         "trigger": 0,
         "breakout": 0,
         "candle": 0
       },
       "in_motion_reasons": [
-        "Up 2.5% today",
+        "Down -8.8% today",
         "Volume 0.5\u00d7 \u2014 light",
         "Closed weak in lower half"
       ],
-      "loading_score": 23.0,
+      "loading_score": 26.0,
       "loading_components": {
         "pivot_8w": 0,
         "bbuw": 20,
         "atr_contract": 50,
-        "vol_dryup": 40,
+        "vol_dryup": 80,
         "ema_21": 10,
         "high_5d": 10,
-        "higher_lows": 40
+        "higher_lows": 10
       },
       "loading_reasons": [
         "BBUW 60",
         "Mild ATR contraction",
-        "Mildly quiet volume",
-        "Mixed but constructive"
+        "Volume contracting (0.69\u00d7)"
       ],
-      "today_close": 19.62,
-      "today_pct": 2.51,
-      "rvol": 0.45,
-      "atr_ratio": 0.78,
-      "vol_ratio": 0.71,
-      "ema21_dist_pct": 17.07,
-      "dist_high_5d_pct": -19.62,
+      "today_close": 17.9,
+      "today_pct": -8.77,
+      "rvol": 0.46,
+      "atr_ratio": 0.79,
+      "vol_ratio": 0.69,
+      "ema21_dist_pct": 22.63,
+      "dist_high_5d_pct": -26.67,
       "had_trigger_today": false
     },
     {
@@ -596,33 +590,33 @@
         "candle": 0
       },
       "in_motion_reasons": [
-        "Down -0.7% today",
-        "Volume 0.7\u00d7 \u2014 light",
+        "Down -0.5% today",
+        "Volume 0.3\u00d7 \u2014 light",
         "Closed weak in lower half"
       ],
-      "loading_score": 23.0,
+      "loading_score": 29.0,
       "loading_components": {
         "pivot_8w": 0,
         "bbuw": 20,
         "atr_contract": 10,
-        "vol_dryup": 40,
+        "vol_dryup": 80,
         "ema_21": 10,
         "high_5d": 40,
         "higher_lows": 70
       },
       "loading_reasons": [
         "BBUW 58",
-        "Mildly quiet volume",
+        "Volume contracting (0.61\u00d7)",
         "5-7% pullback from 5-day high",
         "Mostly higher lows"
       ],
-      "today_close": 11.54,
-      "today_pct": -0.69,
-      "rvol": 0.68,
-      "atr_ratio": 1.3,
-      "vol_ratio": 0.74,
-      "ema21_dist_pct": 27.28,
-      "dist_high_5d_pct": -4.27,
+      "today_close": 11.48,
+      "today_pct": -0.52,
+      "rvol": 0.28,
+      "atr_ratio": 1.25,
+      "vol_ratio": 0.61,
+      "ema21_dist_pct": 23.63,
+      "dist_high_5d_pct": -4.33,
       "had_trigger_today": false
     },
     {
@@ -639,42 +633,42 @@
       "ema8": 26.0316,
       "pct_from_ema8": 12.19,
       "state": "QUIET",
-      "in_motion_score": 0.0,
+      "in_motion_score": 10.5,
       "in_motion_components": {
         "pct_chg": 0,
         "rvol": 0,
         "trigger": 0,
         "breakout": 0,
-        "candle": 0
+        "candle": 70
       },
       "in_motion_reasons": [
-        "Down -0.3% today",
-        "Volume 0.5\u00d7 \u2014 light",
-        "Closed weak in lower half"
+        "Down -0.7% today",
+        "Volume 0.1\u00d7 \u2014 light",
+        "Closed in upper third"
       ],
-      "loading_score": 23.0,
+      "loading_score": 32.0,
       "loading_components": {
         "pivot_8w": 0,
         "bbuw": 20,
         "atr_contract": 10,
-        "vol_dryup": 40,
+        "vol_dryup": 100,
         "ema_21": 10,
         "high_5d": 40,
         "higher_lows": 70
       },
       "loading_reasons": [
         "BBUW 56",
-        "Mildly quiet volume",
+        "Volume dry-up (0.54\u00d7)",
         "5-7% pullback from 5-day high",
         "Mostly higher lows"
       ],
-      "today_close": 29.11,
-      "today_pct": -0.33,
-      "rvol": 0.54,
-      "atr_ratio": 1.08,
-      "vol_ratio": 0.75,
-      "ema21_dist_pct": 8.43,
-      "dist_high_5d_pct": -4.24,
+      "today_close": 28.92,
+      "today_pct": -0.67,
+      "rvol": 0.12,
+      "atr_ratio": 1.04,
+      "vol_ratio": 0.54,
+      "ema21_dist_pct": 6.95,
+      "dist_high_5d_pct": -3.39,
       "had_trigger_today": false
     },
     {
@@ -691,41 +685,40 @@
       "ema8": 23.7083,
       "pct_from_ema8": 13.93,
       "state": "QUIET",
-      "in_motion_score": 0.0,
+      "in_motion_score": 25.5,
       "in_motion_components": {
-        "pct_chg": 0,
+        "pct_chg": 60,
         "rvol": 0,
         "trigger": 0,
         "breakout": 0,
-        "candle": 0
+        "candle": 70
       },
       "in_motion_reasons": [
-        "Down -3.1% today",
-        "Volume 0.5\u00d7 \u2014 light",
-        "Closed weak in lower half"
+        "Up 2.0% today",
+        "Volume 0.3\u00d7 \u2014 light",
+        "Closed in upper third"
       ],
-      "loading_score": 17.0,
+      "loading_score": 20.0,
       "loading_components": {
         "pivot_8w": 0,
         "bbuw": 20,
         "atr_contract": 10,
-        "vol_dryup": 40,
+        "vol_dryup": 80,
         "ema_21": 10,
         "high_5d": 10,
-        "higher_lows": 40
+        "higher_lows": 10
       },
       "loading_reasons": [
         "BBUW 55",
-        "Mildly quiet volume",
-        "Mixed but constructive"
+        "Volume contracting (0.62\u00d7)"
       ],
-      "today_close": 26.17,
-      "today_pct": -3.11,
-      "rvol": 0.45,
-      "atr_ratio": 0.98,
-      "vol_ratio": 0.71,
-      "ema21_dist_pct": 7.29,
-      "dist_high_5d_pct": -9.63,
+      "today_close": 26.7,
+      "today_pct": 2.03,
+      "rvol": 0.29,
+      "atr_ratio": 0.99,
+      "vol_ratio": 0.62,
+      "ema21_dist_pct": 8.53,
+      "dist_high_5d_pct": -6.61,
       "had_trigger_today": false
     },
     {
@@ -742,43 +735,42 @@
       "ema8": 161.7471,
       "pct_from_ema8": 13.75,
       "state": "QUIET",
-      "in_motion_score": 4.5,
+      "in_motion_score": 0.0,
       "in_motion_components": {
         "pct_chg": 0,
         "rvol": 0,
         "trigger": 0,
-        "breakout": 30,
+        "breakout": 0,
         "candle": 0
       },
       "in_motion_reasons": [
-        "Down -1.4% today",
-        "Volume 0.7\u00d7 \u2014 light",
-        "Approaching 10-day high",
+        "Down -1.6% today",
+        "Volume 0.3\u00d7 \u2014 light",
         "Closed weak in lower half"
       ],
-      "loading_score": 23.0,
+      "loading_score": 29.0,
       "loading_components": {
         "pivot_8w": 0,
         "bbuw": 20,
         "atr_contract": 10,
-        "vol_dryup": 40,
+        "vol_dryup": 80,
         "ema_21": 10,
         "high_5d": 40,
         "higher_lows": 70
       },
       "loading_reasons": [
         "BBUW 53",
-        "Mildly quiet volume",
+        "Volume contracting (0.58\u00d7)",
         "5-7% pullback from 5-day high",
         "Mostly higher lows"
       ],
-      "today_close": 181.36,
-      "today_pct": -1.42,
-      "rvol": 0.68,
-      "atr_ratio": 1.14,
-      "vol_ratio": 0.72,
-      "ema21_dist_pct": 9.83,
-      "dist_high_5d_pct": -3.33,
+      "today_close": 178.43,
+      "today_pct": -1.61,
+      "rvol": 0.26,
+      "atr_ratio": 1.08,
+      "vol_ratio": 0.58,
+      "ema21_dist_pct": 7.27,
+      "dist_high_5d_pct": -4.89,
       "had_trigger_today": false
     },
     {
@@ -795,41 +787,42 @@
       "ema8": 31.9195,
       "pct_from_ema8": 5.11,
       "state": "QUIET",
-      "in_motion_score": 21.0,
+      "in_motion_score": 0.0,
       "in_motion_components": {
-        "pct_chg": 60,
+        "pct_chg": 0,
         "rvol": 0,
         "trigger": 0,
         "breakout": 0,
-        "candle": 40
+        "candle": 0
       },
       "in_motion_reasons": [
-        "Up 2.6% today",
-        "Volume 0.5\u00d7 \u2014 light",
-        "Mid-range close"
+        "Down -5.6% today",
+        "Volume 0.4\u00d7 \u2014 light",
+        "Closed weak in lower half"
       ],
-      "loading_score": 23.0,
+      "loading_score": 21.5,
       "loading_components": {
         "pivot_8w": 0,
         "bbuw": 20,
         "atr_contract": 10,
-        "vol_dryup": 10,
-        "ema_21": 80,
+        "vol_dryup": 40,
+        "ema_21": 40,
         "high_5d": 10,
         "higher_lows": 40
       },
       "loading_reasons": [
         "BBUW 52",
-        "Within 2% of 21 EMA",
+        "Mildly quiet volume",
+        "Within 4% of 21 EMA",
         "Mixed but constructive"
       ],
-      "today_close": 34.41,
-      "today_pct": 2.56,
-      "rvol": 0.51,
-      "atr_ratio": 0.9,
-      "vol_ratio": 0.92,
-      "ema21_dist_pct": 1.32,
-      "dist_high_5d_pct": -11.22,
+      "today_close": 32.48,
+      "today_pct": -5.61,
+      "rvol": 0.35,
+      "atr_ratio": 0.91,
+      "vol_ratio": 0.86,
+      "ema21_dist_pct": 3.98,
+      "dist_high_5d_pct": -16.2,
       "had_trigger_today": false
     },
     {
@@ -846,17 +839,17 @@
       "ema8": 31.6276,
       "pct_from_ema8": 39.72,
       "state": "QUIET",
-      "in_motion_score": 15.5,
+      "in_motion_score": 10.5,
       "in_motion_components": {
-        "pct_chg": 20,
+        "pct_chg": 0,
         "rvol": 0,
         "trigger": 0,
         "breakout": 0,
         "candle": 70
       },
       "in_motion_reasons": [
-        "Flat to slightly up",
-        "Volume 0.4\u00d7 \u2014 light",
+        "Down -0.4% today",
+        "Volume 0.2\u00d7 \u2014 light",
         "Closed in upper third"
       ],
       "loading_score": 26.0,
@@ -864,23 +857,23 @@
         "pivot_8w": 0,
         "bbuw": 20,
         "atr_contract": 10,
-        "vol_dryup": 80,
+        "vol_dryup": 100,
         "ema_21": 10,
         "high_5d": 10,
-        "higher_lows": 70
+        "higher_lows": 40
       },
       "loading_reasons": [
         "BBUW 50",
-        "Volume contracting (0.67\u00d7)",
-        "Mostly higher lows"
+        "Volume dry-up (0.54\u00d7)",
+        "Mixed but constructive"
       ],
-      "today_close": 44.33,
-      "today_pct": 0.32,
-      "rvol": 0.42,
-      "atr_ratio": 1.53,
-      "vol_ratio": 0.67,
-      "ema21_dist_pct": 23.65,
-      "dist_high_5d_pct": -9.9,
+      "today_close": 44.15,
+      "today_pct": -0.39,
+      "rvol": 0.2,
+      "atr_ratio": 1.47,
+      "vol_ratio": 0.54,
+      "ema21_dist_pct": 20.62,
+      "dist_high_5d_pct": -10.25,
       "had_trigger_today": false
     },
     {
@@ -897,18 +890,18 @@
       "ema8": 9.3049,
       "pct_from_ema8": 4.68,
       "state": "QUIET",
-      "in_motion_score": 0.0,
+      "in_motion_score": 10.5,
       "in_motion_components": {
         "pct_chg": 0,
         "rvol": 0,
         "trigger": 0,
         "breakout": 0,
-        "candle": 0
+        "candle": 70
       },
       "in_motion_reasons": [
-        "Down -4.0% today",
-        "Volume 0.6\u00d7 \u2014 light",
-        "Closed weak in lower half"
+        "Down -0.3% today",
+        "Volume 0.5\u00d7 \u2014 light",
+        "Closed in upper third"
       ],
       "loading_score": 33.5,
       "loading_components": {
@@ -923,16 +916,16 @@
       "loading_reasons": [
         "BBUW 50",
         "Mildly quiet volume",
-        "Sitting on 21 EMA (0.8%)",
+        "Sitting on 21 EMA (0.5%)",
         "Mostly higher lows"
       ],
-      "today_close": 9.35,
-      "today_pct": -4.0,
-      "rvol": 0.64,
-      "atr_ratio": 0.88,
-      "vol_ratio": 0.89,
-      "ema21_dist_pct": 0.83,
-      "dist_high_5d_pct": -7.61,
+      "today_close": 9.32,
+      "today_pct": -0.32,
+      "rvol": 0.5,
+      "atr_ratio": 0.89,
+      "vol_ratio": 0.84,
+      "ema21_dist_pct": 0.46,
+      "dist_high_5d_pct": -7.91,
       "had_trigger_today": false
     },
     {
@@ -949,41 +942,40 @@
       "ema8": 4.4663,
       "pct_from_ema8": 17.77,
       "state": "QUIET",
-      "in_motion_score": 0.0,
+      "in_motion_score": 25.5,
       "in_motion_components": {
-        "pct_chg": 0,
+        "pct_chg": 60,
         "rvol": 0,
         "trigger": 0,
         "breakout": 0,
-        "candle": 0
+        "candle": 70
       },
       "in_motion_reasons": [
-        "Down -3.8% today",
-        "Volume 0.8\u00d7 \u2014 light",
-        "Closed weak in lower half"
+        "Up 2.2% today",
+        "Volume 0.3\u00d7 \u2014 light",
+        "Closed in upper third"
       ],
-      "loading_score": 17.0,
+      "loading_score": 20.0,
       "loading_components": {
         "pivot_8w": 0,
         "bbuw": 20,
         "atr_contract": 10,
-        "vol_dryup": 40,
+        "vol_dryup": 80,
         "ema_21": 10,
         "high_5d": 10,
-        "higher_lows": 40
+        "higher_lows": 10
       },
       "loading_reasons": [
         "BBUW 50",
-        "Mildly quiet volume",
-        "Mixed but constructive"
+        "Volume contracting (0.64\u00d7)"
       ],
-      "today_close": 5.06,
-      "today_pct": -3.8,
-      "rvol": 0.77,
-      "atr_ratio": 1.01,
-      "vol_ratio": 0.75,
-      "ema21_dist_pct": 4.36,
-      "dist_high_5d_pct": -9.48,
+      "today_close": 5.17,
+      "today_pct": 2.17,
+      "rvol": 0.28,
+      "atr_ratio": 0.95,
+      "vol_ratio": 0.64,
+      "ema21_dist_pct": 5.99,
+      "dist_high_5d_pct": -6.76,
       "had_trigger_today": false
     },
     {
@@ -1000,20 +992,20 @@
       "ema8": 81.0431,
       "pct_from_ema8": 22.45,
       "state": "QUIET",
-      "in_motion_score": 11.0,
+      "in_motion_score": 0.0,
       "in_motion_components": {
-        "pct_chg": 20,
+        "pct_chg": 0,
         "rvol": 0,
         "trigger": 0,
         "breakout": 0,
-        "candle": 40
+        "candle": 0
       },
       "in_motion_reasons": [
-        "Flat to slightly up",
-        "Volume 0.6\u00d7 \u2014 light",
-        "Mid-range close"
+        "Down -6.8% today",
+        "Volume 0.5\u00d7 \u2014 light",
+        "Closed weak in lower half"
       ],
-      "loading_score": 20.0,
+      "loading_score": 17.0,
       "loading_components": {
         "pivot_8w": 0,
         "bbuw": 20,
@@ -1021,20 +1013,20 @@
         "vol_dryup": 40,
         "ema_21": 10,
         "high_5d": 10,
-        "higher_lows": 70
+        "higher_lows": 40
       },
       "loading_reasons": [
         "BBUW 49",
         "Mildly quiet volume",
-        "Mostly higher lows"
+        "Mixed but constructive"
       ],
-      "today_close": 99.93,
-      "today_pct": 0.7,
-      "rvol": 0.64,
+      "today_close": 93.11,
+      "today_pct": -6.83,
+      "rvol": 0.54,
       "atr_ratio": 1.14,
-      "vol_ratio": 0.72,
-      "ema21_dist_pct": 13.95,
-      "dist_high_5d_pct": -5.25,
+      "vol_ratio": 0.7,
+      "ema21_dist_pct": 5.58,
+      "dist_high_5d_pct": -11.72,
       "had_trigger_today": false
     },
     {
@@ -1051,41 +1043,43 @@
       "ema8": 10.3602,
       "pct_from_ema8": 50.77,
       "state": "QUIET",
-      "in_motion_score": 0.0,
+      "in_motion_score": 44.5,
       "in_motion_components": {
-        "pct_chg": 0,
+        "pct_chg": 100,
         "rvol": 0,
         "trigger": 0,
-        "breakout": 0,
-        "candle": 0
+        "breakout": 30,
+        "candle": 100
       },
       "in_motion_reasons": [
-        "Down -2.0% today",
-        "Volume 0.4\u00d7 \u2014 light",
-        "Closed weak in lower half"
+        "Up 6.3% today",
+        "Volume 0.3\u00d7 \u2014 light",
+        "Approaching 10-day high",
+        "Closed near high \u2014 strong candle"
       ],
-      "loading_score": 20.0,
+      "loading_score": 30.0,
       "loading_components": {
         "pivot_8w": 0,
         "bbuw": 20,
         "atr_contract": 10,
-        "vol_dryup": 40,
+        "vol_dryup": 80,
         "ema_21": 10,
-        "high_5d": 10,
-        "higher_lows": 70
+        "high_5d": 80,
+        "higher_lows": 40
       },
       "loading_reasons": [
         "BBUW 49",
-        "Mildly quiet volume",
-        "Mostly higher lows"
+        "Volume contracting (0.55\u00d7)",
+        "Within 3% of 5-day high",
+        "Mixed but constructive"
       ],
-      "today_close": 15.3,
-      "today_pct": -2.05,
-      "rvol": 0.44,
+      "today_close": 16.27,
+      "today_pct": 6.34,
+      "rvol": 0.29,
       "atr_ratio": 1.5,
-      "vol_ratio": 0.72,
-      "ema21_dist_pct": 29.81,
-      "dist_high_5d_pct": -7.78,
+      "vol_ratio": 0.55,
+      "ema21_dist_pct": 33.42,
+      "dist_high_5d_pct": -1.93,
       "had_trigger_today": false
     },
     {
@@ -1102,18 +1096,18 @@
       "ema8": 21.2023,
       "pct_from_ema8": 16.26,
       "state": "QUIET",
-      "in_motion_score": 27.0,
+      "in_motion_score": 20.0,
       "in_motion_components": {
-        "pct_chg": 60,
-        "rvol": 30,
+        "pct_chg": 20,
+        "rvol": 0,
         "trigger": 0,
         "breakout": 0,
-        "candle": 40
+        "candle": 100
       },
       "in_motion_reasons": [
-        "Up 2.9% today",
-        "Volume 1.0\u00d7 \u2014 normal",
-        "Mid-range close"
+        "Flat to slightly up",
+        "Volume 0.6\u00d7 \u2014 light",
+        "Closed near high \u2014 strong candle"
       ],
       "loading_score": 18.5,
       "loading_components": {
@@ -1130,13 +1124,13 @@
         "5-7% pullback from 5-day high",
         "Mostly higher lows"
       ],
-      "today_close": 25.36,
-      "today_pct": 2.88,
-      "rvol": 1.03,
-      "atr_ratio": 1.07,
+      "today_close": 25.6,
+      "today_pct": 0.95,
+      "rvol": 0.57,
+      "atr_ratio": 1.08,
       "vol_ratio": 1.82,
-      "ema21_dist_pct": 15.29,
-      "dist_high_5d_pct": -4.12,
+      "ema21_dist_pct": 14.68,
+      "dist_high_5d_pct": -3.21,
       "had_trigger_today": false
     },
     {
@@ -1152,42 +1146,44 @@
       "daily_bbuw": 46.1,
       "ema8": 15.8869,
       "pct_from_ema8": 17.39,
-      "state": "QUIET",
-      "in_motion_score": 16.0,
+      "state": "RUNNING",
+      "in_motion_score": 55.0,
       "in_motion_components": {
-        "pct_chg": 40,
+        "pct_chg": 100,
         "rvol": 0,
         "trigger": 0,
-        "breakout": 0,
-        "candle": 40
+        "breakout": 100,
+        "candle": 100
       },
       "in_motion_reasons": [
-        "Up 1.3% today",
-        "Volume 0.7\u00d7 \u2014 light",
-        "Mid-range close"
+        "Up 5.7% today",
+        "Volume 0.6\u00d7 \u2014 light",
+        "Breaking 10-day high ($19.93)",
+        "Closed near high \u2014 strong candle"
       ],
-      "loading_score": 20.0,
+      "loading_score": 29.0,
       "loading_components": {
         "pivot_8w": 0,
         "bbuw": 20,
         "atr_contract": 10,
         "vol_dryup": 40,
         "ema_21": 10,
-        "high_5d": 10,
+        "high_5d": 100,
         "higher_lows": 70
       },
       "loading_reasons": [
         "BBUW 46",
         "Mildly quiet volume",
+        "At 5-day high",
         "Mostly higher lows"
       ],
-      "today_close": 18.9,
-      "today_pct": 1.34,
-      "rvol": 0.68,
-      "atr_ratio": 0.96,
-      "vol_ratio": 0.87,
-      "ema21_dist_pct": 12.06,
-      "dist_high_5d_pct": -5.17,
+      "today_close": 19.98,
+      "today_pct": 5.71,
+      "rvol": 0.63,
+      "atr_ratio": 0.99,
+      "vol_ratio": 0.84,
+      "ema21_dist_pct": 16.51,
+      "dist_high_5d_pct": -0.84,
       "had_trigger_today": false
     },
     {
@@ -1204,42 +1200,42 @@
       "ema8": 94.493,
       "pct_from_ema8": 20.13,
       "state": "QUIET",
-      "in_motion_score": 16.0,
+      "in_motion_score": 35.0,
       "in_motion_components": {
-        "pct_chg": 40,
+        "pct_chg": 80,
         "rvol": 0,
         "trigger": 0,
         "breakout": 0,
-        "candle": 40
+        "candle": 100
       },
       "in_motion_reasons": [
-        "Up 1.1% today",
-        "Volume 0.5\u00d7 \u2014 light",
-        "Mid-range close"
+        "Up 4.8% today",
+        "Volume 0.3\u00d7 \u2014 light",
+        "Closed near high \u2014 strong candle"
       ],
-      "loading_score": 23.0,
+      "loading_score": 35.0,
       "loading_components": {
         "pivot_8w": 0,
         "bbuw": 20,
         "atr_contract": 10,
-        "vol_dryup": 40,
+        "vol_dryup": 80,
         "ema_21": 10,
-        "high_5d": 40,
+        "high_5d": 100,
         "higher_lows": 70
       },
       "loading_reasons": [
         "BBUW 46",
-        "Mildly quiet volume",
-        "5-7% pullback from 5-day high",
+        "Volume contracting (0.59\u00d7)",
+        "At 5-day high",
         "Mostly higher lows"
       ],
-      "today_close": 114.76,
-      "today_pct": 1.1,
-      "rvol": 0.47,
-      "atr_ratio": 1.53,
-      "vol_ratio": 0.78,
-      "ema21_dist_pct": 15.3,
-      "dist_high_5d_pct": -3.14,
+      "today_close": 120.32,
+      "today_pct": 4.84,
+      "rvol": 0.25,
+      "atr_ratio": 1.48,
+      "vol_ratio": 0.59,
+      "ema21_dist_pct": 18.64,
+      "dist_high_5d_pct": -0.17,
       "had_trigger_today": false
     },
     {
@@ -1256,41 +1252,40 @@
       "ema8": 11.1858,
       "pct_from_ema8": -0.77,
       "state": "QUIET",
-      "in_motion_score": 5.0,
+      "in_motion_score": 0.0,
       "in_motion_components": {
-        "pct_chg": 20,
+        "pct_chg": 0,
         "rvol": 0,
         "trigger": 0,
         "breakout": 0,
         "candle": 0
       },
       "in_motion_reasons": [
-        "Flat to slightly up",
-        "Volume 0.8\u00d7 \u2014 light",
+        "Down -10.8% today",
+        "Volume 0.5\u00d7 \u2014 light",
         "Closed weak in lower half"
       ],
-      "loading_score": 20.0,
+      "loading_score": 12.5,
       "loading_components": {
         "pivot_8w": 0,
         "bbuw": 20,
         "atr_contract": 10,
-        "vol_dryup": 40,
+        "vol_dryup": 10,
         "ema_21": 10,
         "high_5d": 10,
-        "higher_lows": 70
+        "higher_lows": 40
       },
       "loading_reasons": [
         "BBUW 45",
-        "Mildly quiet volume",
-        "Mostly higher lows"
+        "Mixed but constructive"
       ],
-      "today_close": 11.2,
-      "today_pct": 0.9,
-      "rvol": 0.82,
+      "today_close": 9.99,
+      "today_pct": -10.76,
+      "rvol": 0.47,
       "atr_ratio": 1.05,
-      "vol_ratio": 0.88,
-      "ema21_dist_pct": 6.29,
-      "dist_high_5d_pct": -22.17,
+      "vol_ratio": 0.92,
+      "ema21_dist_pct": 15.11,
+      "dist_high_5d_pct": -30.54,
       "had_trigger_today": false
     },
     {
@@ -1307,42 +1302,42 @@
       "ema8": 309.412,
       "pct_from_ema8": 25.19,
       "state": "QUIET",
-      "in_motion_score": 30.0,
+      "in_motion_score": 0.0,
       "in_motion_components": {
-        "pct_chg": 60,
+        "pct_chg": 0,
         "rvol": 0,
         "trigger": 0,
-        "breakout": 30,
-        "candle": 70
+        "breakout": 0,
+        "candle": 0
       },
       "in_motion_reasons": [
-        "Up 2.2% today",
-        "Volume 0.9\u00d7 \u2014 light",
-        "Approaching 10-day high",
-        "Closed in upper third"
+        "Down -1.4% today",
+        "Volume 0.3\u00d7 \u2014 light",
+        "Closed weak in lower half"
       ],
-      "loading_score": 22.5,
+      "loading_score": 23.0,
       "loading_components": {
         "pivot_8w": 0,
         "bbuw": 20,
         "atr_contract": 10,
-        "vol_dryup": 10,
+        "vol_dryup": 40,
         "ema_21": 10,
-        "high_5d": 80,
+        "high_5d": 40,
         "higher_lows": 70
       },
       "loading_reasons": [
         "BBUW 45",
-        "Within 3% of 5-day high",
+        "Mildly quiet volume",
+        "5-7% pullback from 5-day high",
         "Mostly higher lows"
       ],
-      "today_close": 396.0,
-      "today_pct": 2.23,
-      "rvol": 0.86,
-      "atr_ratio": 1.13,
-      "vol_ratio": 1.01,
-      "ema21_dist_pct": 20.53,
-      "dist_high_5d_pct": -2.09,
+      "today_close": 390.45,
+      "today_pct": -1.4,
+      "rvol": 0.33,
+      "atr_ratio": 1.1,
+      "vol_ratio": 0.9,
+      "ema21_dist_pct": 16.84,
+      "dist_high_5d_pct": -4.44,
       "had_trigger_today": false
     },
     {
@@ -1359,41 +1354,41 @@
       "ema8": 13.5777,
       "pct_from_ema8": -3.96,
       "state": "QUIET",
-      "in_motion_score": 20.5,
+      "in_motion_score": 0.0,
       "in_motion_components": {
-        "pct_chg": 40,
+        "pct_chg": 0,
         "rvol": 0,
         "trigger": 0,
         "breakout": 0,
-        "candle": 70
+        "candle": 0
       },
       "in_motion_reasons": [
-        "Up 1.3% today",
-        "Volume 0.8\u00d7 \u2014 light",
-        "Closed in upper third"
+        "Down -1.7% today",
+        "Volume 0.4\u00d7 \u2014 light",
+        "Closed weak in lower half"
       ],
-      "loading_score": 29.0,
+      "loading_score": 17.0,
       "loading_components": {
         "pivot_8w": 0,
         "bbuw": 20,
         "atr_contract": 10,
         "vol_dryup": 10,
-        "ema_21": 100,
+        "ema_21": 40,
         "high_5d": 10,
-        "higher_lows": 70
+        "higher_lows": 40
       },
       "loading_reasons": [
         "BBUW 44",
-        "Sitting on 21 EMA (0.5%)",
-        "Mostly higher lows"
+        "Within 4% of 21 EMA",
+        "Mixed but constructive"
       ],
-      "today_close": 13.21,
-      "today_pct": 1.3,
-      "rvol": 0.77,
+      "today_close": 12.98,
+      "today_pct": -1.74,
+      "rvol": 0.38,
       "atr_ratio": 0.9,
-      "vol_ratio": 1.11,
-      "ema21_dist_pct": 0.54,
-      "dist_high_5d_pct": -8.2,
+      "vol_ratio": 1.05,
+      "ema21_dist_pct": 2.07,
+      "dist_high_5d_pct": -9.8,
       "had_trigger_today": false
     },
     {
@@ -1410,41 +1405,42 @@
       "ema8": 142.3148,
       "pct_from_ema8": 28.76,
       "state": "QUIET",
-      "in_motion_score": 0.0,
+      "in_motion_score": 6.0,
       "in_motion_components": {
         "pct_chg": 0,
         "rvol": 0,
         "trigger": 0,
         "breakout": 0,
-        "candle": 0
+        "candle": 40
       },
       "in_motion_reasons": [
-        "Down -2.3% today",
-        "Volume 0.9\u00d7 \u2014 light",
-        "Closed weak in lower half"
+        "Down -0.0% today",
+        "Volume 0.2\u00d7 \u2014 light",
+        "Mid-range close"
       ],
-      "loading_score": 18.5,
+      "loading_score": 23.0,
       "loading_components": {
         "pivot_8w": 0,
         "bbuw": 20,
         "atr_contract": 10,
-        "vol_dryup": 10,
+        "vol_dryup": 40,
         "ema_21": 10,
         "high_5d": 40,
         "higher_lows": 70
       },
       "loading_reasons": [
         "BBUW 44",
+        "Mildly quiet volume",
         "5-7% pullback from 5-day high",
         "Mostly higher lows"
       ],
-      "today_close": 179.05,
-      "today_pct": -2.29,
-      "rvol": 0.93,
-      "atr_ratio": 1.17,
-      "vol_ratio": 0.94,
-      "ema21_dist_pct": 16.7,
-      "dist_high_5d_pct": -3.22,
+      "today_close": 179.0,
+      "today_pct": -0.03,
+      "rvol": 0.25,
+      "atr_ratio": 1.14,
+      "vol_ratio": 0.82,
+      "ema21_dist_pct": 14.92,
+      "dist_high_5d_pct": -3.24,
       "had_trigger_today": false
     },
     {
@@ -1460,20 +1456,19 @@
       "daily_bbuw": 44.2,
       "ema8": 9.1071,
       "pct_from_ema8": 12.44,
-      "state": "RUNNING",
-      "in_motion_score": 53.0,
+      "state": "QUIET",
+      "in_motion_score": 0.0,
       "in_motion_components": {
-        "pct_chg": 80,
-        "rvol": 60,
+        "pct_chg": 0,
+        "rvol": 0,
         "trigger": 0,
-        "breakout": 100,
-        "candle": 40
+        "breakout": 0,
+        "candle": 0
       },
       "in_motion_reasons": [
-        "Up 3.2% today",
-        "Volume 1.5\u00d7 \u2014 elevated",
-        "Breaking 10-day high ($10.56)",
-        "Mid-range close"
+        "Down -3.9% today",
+        "Volume 0.3\u00d7 \u2014 light",
+        "Closed weak in lower half"
       ],
       "loading_score": 15.5,
       "loading_components": {
@@ -1482,21 +1477,20 @@
         "atr_contract": 10,
         "vol_dryup": 10,
         "ema_21": 10,
-        "high_5d": 40,
-        "higher_lows": 40
+        "high_5d": 10,
+        "higher_lows": 70
       },
       "loading_reasons": [
         "BBUW 44",
-        "5-7% pullback from 5-day high",
-        "Mixed but constructive"
+        "Mostly higher lows"
       ],
-      "today_close": 10.57,
-      "today_pct": 3.22,
-      "rvol": 1.52,
-      "atr_ratio": 0.99,
-      "vol_ratio": 1.21,
-      "ema21_dist_pct": 9.68,
-      "dist_high_5d_pct": -4.39,
+      "today_close": 10.16,
+      "today_pct": -3.88,
+      "rvol": 0.29,
+      "atr_ratio": 1.0,
+      "vol_ratio": 1.1,
+      "ema21_dist_pct": 4.91,
+      "dist_high_5d_pct": -8.1,
       "had_trigger_today": false
     },
     {
@@ -1513,20 +1507,20 @@
       "ema8": 9.2221,
       "pct_from_ema8": 24.81,
       "state": "QUIET",
-      "in_motion_score": 0.0,
+      "in_motion_score": 25.0,
       "in_motion_components": {
-        "pct_chg": 0,
+        "pct_chg": 40,
         "rvol": 0,
         "trigger": 0,
         "breakout": 0,
-        "candle": 0
+        "candle": 100
       },
       "in_motion_reasons": [
-        "Down -1.1% today",
+        "Up 1.1% today",
         "Volume 0.5\u00d7 \u2014 light",
-        "Closed weak in lower half"
+        "Closed near high \u2014 strong candle"
       ],
-      "loading_score": 15.5,
+      "loading_score": 12.5,
       "loading_components": {
         "pivot_8w": 0,
         "bbuw": 20,
@@ -1534,19 +1528,19 @@
         "vol_dryup": 10,
         "ema_21": 10,
         "high_5d": 10,
-        "higher_lows": 70
+        "higher_lows": 40
       },
       "loading_reasons": [
         "BBUW 43",
-        "Mostly higher lows"
+        "Mixed but constructive"
       ],
-      "today_close": 11.38,
-      "today_pct": -1.13,
-      "rvol": 0.53,
-      "atr_ratio": 1.06,
-      "vol_ratio": 1.03,
-      "ema21_dist_pct": 11.73,
-      "dist_high_5d_pct": -16.26,
+      "today_close": 11.5,
+      "today_pct": 1.05,
+      "rvol": 0.47,
+      "atr_ratio": 1.08,
+      "vol_ratio": 0.93,
+      "ema21_dist_pct": 11.6,
+      "dist_high_5d_pct": -15.38,
       "had_trigger_today": false
     },
     {
@@ -1563,40 +1557,41 @@
       "ema8": 56.8999,
       "pct_from_ema8": 8.03,
       "state": "QUIET",
-      "in_motion_score": 31.0,
+      "in_motion_score": 15.0,
       "in_motion_components": {
-        "pct_chg": 100,
+        "pct_chg": 0,
         "rvol": 0,
         "trigger": 0,
         "breakout": 0,
-        "candle": 40
+        "candle": 100
       },
       "in_motion_reasons": [
-        "Up 10.2% today",
-        "Volume 0.9\u00d7 \u2014 light",
-        "Mid-range close"
+        "Down -3.8% today",
+        "Volume 0.8\u00d7 \u2014 light",
+        "Closed near high \u2014 strong candle"
       ],
-      "loading_score": 12.5,
+      "loading_score": 23.0,
       "loading_components": {
         "pivot_8w": 0,
         "bbuw": 20,
         "atr_contract": 10,
         "vol_dryup": 10,
-        "ema_21": 10,
+        "ema_21": 80,
         "high_5d": 10,
         "higher_lows": 40
       },
       "loading_reasons": [
         "BBUW 43",
+        "Within 2% of 21 EMA",
         "Mixed but constructive"
       ],
-      "today_close": 67.71,
-      "today_pct": 10.15,
-      "rvol": 0.91,
-      "atr_ratio": 1.03,
-      "vol_ratio": 1.02,
-      "ema21_dist_pct": 5.89,
-      "dist_high_5d_pct": -12.49,
+      "today_close": 65.14,
+      "today_pct": -3.8,
+      "rvol": 0.78,
+      "atr_ratio": 1.04,
+      "vol_ratio": 1.06,
+      "ema21_dist_pct": 1.7,
+      "dist_high_5d_pct": -15.81,
       "had_trigger_today": false
     },
     {
@@ -1613,40 +1608,41 @@
       "ema8": 9.0753,
       "pct_from_ema8": 40.05,
       "state": "QUIET",
-      "in_motion_score": 0.0,
+      "in_motion_score": 21.0,
       "in_motion_components": {
-        "pct_chg": 0,
+        "pct_chg": 60,
         "rvol": 0,
         "trigger": 0,
         "breakout": 0,
-        "candle": 0
+        "candle": 40
       },
       "in_motion_reasons": [
-        "Down -12.0% today",
-        "Volume 0.9\u00d7 \u2014 light",
-        "Closed weak in lower half"
+        "Up 2.1% today",
+        "Volume 0.4\u00d7 \u2014 light",
+        "Mid-range close"
       ],
-      "loading_score": 15.5,
+      "loading_score": 17.0,
       "loading_components": {
         "pivot_8w": 0,
         "bbuw": 20,
         "atr_contract": 10,
-        "vol_dryup": 10,
+        "vol_dryup": 40,
         "ema_21": 10,
         "high_5d": 10,
-        "higher_lows": 70
+        "higher_lows": 40
       },
       "loading_reasons": [
         "BBUW 43",
-        "Mostly higher lows"
+        "Mildly quiet volume",
+        "Mixed but constructive"
       ],
-      "today_close": 11.18,
-      "today_pct": -12.04,
-      "rvol": 0.94,
-      "atr_ratio": 0.98,
-      "vol_ratio": 0.96,
-      "ema21_dist_pct": 8.71,
-      "dist_high_5d_pct": -17.79,
+      "today_close": 11.41,
+      "today_pct": 2.06,
+      "rvol": 0.36,
+      "atr_ratio": 0.99,
+      "vol_ratio": 0.82,
+      "ema21_dist_pct": 9.86,
+      "dist_high_5d_pct": -16.1,
       "had_trigger_today": false
     },
     {
@@ -1672,11 +1668,11 @@
         "candle": 0
       },
       "in_motion_reasons": [
-        "Down -0.8% today",
-        "Volume 0.7\u00d7 \u2014 light",
+        "Down -7.6% today",
+        "Volume 0.9\u00d7 \u2014 light",
         "Closed weak in lower half"
       ],
-      "loading_score": 17.0,
+      "loading_score": 14.0,
       "loading_components": {
         "pivot_8w": 0,
         "bbuw": 20,
@@ -1684,20 +1680,19 @@
         "vol_dryup": 40,
         "ema_21": 10,
         "high_5d": 10,
-        "higher_lows": 40
+        "higher_lows": 10
       },
       "loading_reasons": [
         "BBUW 42",
-        "Mildly quiet volume",
-        "Mixed but constructive"
+        "Mildly quiet volume"
       ],
-      "today_close": 15.56,
-      "today_pct": -0.83,
-      "rvol": 0.66,
-      "atr_ratio": 0.97,
-      "vol_ratio": 0.8,
-      "ema21_dist_pct": 7.38,
-      "dist_high_5d_pct": -18.83,
+      "today_close": 14.37,
+      "today_pct": -7.65,
+      "rvol": 0.94,
+      "atr_ratio": 0.99,
+      "vol_ratio": 0.85,
+      "ema21_dist_pct": 13.32,
+      "dist_high_5d_pct": -25.04,
       "had_trigger_today": false
     },
     {
@@ -1714,40 +1709,41 @@
       "ema8": 11.5394,
       "pct_from_ema8": 11.79,
       "state": "QUIET",
-      "in_motion_score": 21.0,
+      "in_motion_score": 25.0,
       "in_motion_components": {
-        "pct_chg": 60,
-        "rvol": 30,
+        "pct_chg": 40,
+        "rvol": 0,
         "trigger": 0,
         "breakout": 0,
-        "candle": 0
+        "candle": 100
       },
       "in_motion_reasons": [
-        "Up 2.9% today",
-        "Volume 1.3\u00d7 \u2014 normal",
-        "Closed weak in lower half"
+        "Up 1.8% today",
+        "Volume 0.3\u00d7 \u2014 light",
+        "Closed near high \u2014 strong candle"
       ],
-      "loading_score": 12.5,
+      "loading_score": 17.0,
       "loading_components": {
         "pivot_8w": 0,
         "bbuw": 20,
         "atr_contract": 10,
-        "vol_dryup": 10,
+        "vol_dryup": 40,
         "ema_21": 10,
         "high_5d": 10,
         "higher_lows": 40
       },
       "loading_reasons": [
         "BBUW 41",
+        "Mildly quiet volume",
         "Mixed but constructive"
       ],
-      "today_close": 13.27,
-      "today_pct": 2.87,
-      "rvol": 1.3,
-      "atr_ratio": 0.93,
-      "vol_ratio": 0.96,
-      "ema21_dist_pct": 8.77,
-      "dist_high_5d_pct": -7.94,
+      "today_close": 13.51,
+      "today_pct": 1.81,
+      "rvol": 0.25,
+      "atr_ratio": 0.94,
+      "vol_ratio": 0.9,
+      "ema21_dist_pct": 9.66,
+      "dist_high_5d_pct": -6.28,
       "had_trigger_today": false
     },
     {
@@ -1773,31 +1769,31 @@
         "candle": 0
       },
       "in_motion_reasons": [
-        "Down -1.4% today",
-        "Volume 0.8\u00d7 \u2014 light",
+        "Down -9.8% today",
+        "Volume 0.5\u00d7 \u2014 light",
         "Closed weak in lower half"
       ],
-      "loading_score": 23.0,
+      "loading_score": 14.0,
       "loading_components": {
         "pivot_8w": 0,
         "bbuw": 20,
         "atr_contract": 10,
-        "vol_dryup": 10,
-        "ema_21": 100,
+        "vol_dryup": 40,
+        "ema_21": 10,
         "high_5d": 10,
         "higher_lows": 10
       },
       "loading_reasons": [
         "BBUW 41",
-        "Sitting on 21 EMA (0.2%)"
+        "Mildly quiet volume"
       ],
-      "today_close": 119.61,
-      "today_pct": -1.42,
-      "rvol": 0.75,
+      "today_close": 107.93,
+      "today_pct": -9.77,
+      "rvol": 0.5,
       "atr_ratio": 1.17,
-      "vol_ratio": 0.97,
-      "ema21_dist_pct": 0.17,
-      "dist_high_5d_pct": -11.92,
+      "vol_ratio": 0.89,
+      "ema21_dist_pct": 8.82,
+      "dist_high_5d_pct": -20.53,
       "had_trigger_today": false
     },
     {
@@ -1813,41 +1809,44 @@
       "daily_bbuw": 40.6,
       "ema8": 32.1898,
       "pct_from_ema8": 8.08,
-      "state": "QUIET",
-      "in_motion_score": 16.0,
+      "state": "RUNNING",
+      "in_motion_score": 55.0,
       "in_motion_components": {
-        "pct_chg": 40,
-        "rvol": 30,
+        "pct_chg": 100,
+        "rvol": 0,
         "trigger": 0,
-        "breakout": 0,
-        "candle": 0
+        "breakout": 100,
+        "candle": 100
       },
       "in_motion_reasons": [
-        "Up 1.5% today",
-        "Volume 1.0\u00d7 \u2014 normal",
-        "Closed weak in lower half"
+        "Up 6.3% today",
+        "Volume 0.8\u00d7 \u2014 light",
+        "Breaking 10-day high ($37.30)",
+        "Closed near high \u2014 strong candle"
       ],
-      "loading_score": 15.5,
+      "loading_score": 29.0,
       "loading_components": {
         "pivot_8w": 0,
         "bbuw": 20,
         "atr_contract": 10,
-        "vol_dryup": 10,
+        "vol_dryup": 40,
         "ema_21": 10,
-        "high_5d": 10,
+        "high_5d": 100,
         "higher_lows": 70
       },
       "loading_reasons": [
         "BBUW 41",
+        "Mildly quiet volume",
+        "At 5-day high",
         "Mostly higher lows"
       ],
-      "today_close": 35.32,
-      "today_pct": 1.52,
-      "rvol": 1.01,
-      "atr_ratio": 1.05,
-      "vol_ratio": 0.96,
-      "ema21_dist_pct": 7.0,
-      "dist_high_5d_pct": -5.31,
+      "today_close": 37.54,
+      "today_pct": 6.29,
+      "rvol": 0.77,
+      "atr_ratio": 1.07,
+      "vol_ratio": 0.88,
+      "ema21_dist_pct": 12.33,
+      "dist_high_5d_pct": 0.0,
       "had_trigger_today": false
     },
     {
@@ -1864,40 +1863,42 @@
       "ema8": 4.8633,
       "pct_from_ema8": 15.97,
       "state": "QUIET",
-      "in_motion_score": 6.0,
+      "in_motion_score": 25.5,
       "in_motion_components": {
-        "pct_chg": 0,
+        "pct_chg": 60,
         "rvol": 0,
         "trigger": 0,
         "breakout": 0,
-        "candle": 40
+        "candle": 70
       },
       "in_motion_reasons": [
-        "Down -0.7% today",
-        "Volume 0.9\u00d7 \u2014 light",
-        "Mid-range close"
+        "Up 2.1% today",
+        "Volume 0.4\u00d7 \u2014 light",
+        "Closed in upper third"
       ],
-      "loading_score": 15.5,
+      "loading_score": 23.0,
       "loading_components": {
         "pivot_8w": 0,
         "bbuw": 20,
         "atr_contract": 10,
-        "vol_dryup": 10,
+        "vol_dryup": 40,
         "ema_21": 10,
-        "high_5d": 10,
+        "high_5d": 40,
         "higher_lows": 70
       },
       "loading_reasons": [
         "BBUW 40",
+        "Mildly quiet volume",
+        "5-7% pullback from 5-day high",
         "Mostly higher lows"
       ],
-      "today_close": 5.6,
-      "today_pct": -0.71,
-      "rvol": 0.89,
-      "atr_ratio": 1.15,
-      "vol_ratio": 0.97,
-      "ema21_dist_pct": 10.1,
-      "dist_high_5d_pct": -7.28,
+      "today_close": 5.72,
+      "today_pct": 2.05,
+      "rvol": 0.4,
+      "atr_ratio": 1.14,
+      "vol_ratio": 0.85,
+      "ema21_dist_pct": 11.11,
+      "dist_high_5d_pct": -4.27,
       "had_trigger_today": false
     },
     {
@@ -1914,41 +1915,42 @@
       "ema8": 347.2207,
       "pct_from_ema8": 17.05,
       "state": "QUIET",
-      "in_motion_score": 31.0,
+      "in_motion_score": 0.0,
       "in_motion_components": {
-        "pct_chg": 100,
+        "pct_chg": 0,
         "rvol": 0,
         "trigger": 0,
         "breakout": 0,
-        "candle": 40
+        "candle": 0
       },
       "in_motion_reasons": [
-        "Up 6.5% today",
-        "Volume 0.6\u00d7 \u2014 light",
-        "Mid-range close"
+        "Down -11.0% today",
+        "Volume 0.5\u00d7 \u2014 light",
+        "Closed weak in lower half"
       ],
-      "loading_score": 17.0,
+      "loading_score": 27.5,
       "loading_components": {
         "pivot_8w": 0,
         "bbuw": 20,
         "atr_contract": 10,
         "vol_dryup": 40,
-        "ema_21": 10,
+        "ema_21": 80,
         "high_5d": 10,
         "higher_lows": 40
       },
       "loading_reasons": [
         "BBUW 40",
         "Mildly quiet volume",
+        "Within 2% of 21 EMA",
         "Mixed but constructive"
       ],
-      "today_close": 432.74,
-      "today_pct": 6.48,
-      "rvol": 0.62,
+      "today_close": 385.26,
+      "today_pct": -10.97,
+      "rvol": 0.52,
       "atr_ratio": 1.14,
-      "vol_ratio": 0.89,
-      "ema21_dist_pct": 10.44,
-      "dist_high_5d_pct": -13.36,
+      "vol_ratio": 0.83,
+      "ema21_dist_pct": 1.53,
+      "dist_high_5d_pct": -22.87,
       "had_trigger_today": false
     }
   ]
