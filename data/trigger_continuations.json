@@ -1,50 +1,182 @@
 {
-  "scan_time": "2026-07-09T22:48:13.564199",
+  "scan_time": "2026-07-10T21:11:20.934045",
   "grades": {
-    "DSGN_bullish": {
-      "ticker": "DSGN",
+    "TNGX_bullish": {
+      "ticker": "TNGX",
       "direction": "bullish",
       "trigger_type": "PIVOT",
-      "trigger_close": 15.15999984741211,
-      "eod_close": 15.41,
-      "session_change_pct": 1.65,
+      "trigger_close": 30.209999084472656,
+      "eod_close": 31.03,
+      "session_change_pct": 2.71,
+      "held_trigger": true,
+      "grade": "STRONG",
+      "grade_note": "Held + closed at extreme \u00b7 +2.7%"
+    },
+    "PLSE_bullish": {
+      "ticker": "PLSE",
+      "direction": "bullish",
+      "trigger_type": "PIVOT",
+      "trigger_close": 26.6200008392334,
+      "eod_close": 26.31,
+      "session_change_pct": -1.16,
+      "held_trigger": false,
+      "grade": "FAILED",
+      "grade_note": "Reversed through trigger \u00b7 -1.2%"
+    },
+    "CMPS_bullish": {
+      "ticker": "CMPS",
+      "direction": "bullish",
+      "trigger_type": "PIVOT",
+      "trigger_close": 13.550600051879883,
+      "eod_close": 13.64,
+      "session_change_pct": 0.66,
       "held_trigger": true,
       "grade": "HOLDING",
-      "grade_note": "Above trigger level \u00b7 +1.6%"
+      "grade_note": "Above trigger level \u00b7 +0.7%"
     },
-    "MBX_bullish": {
-      "ticker": "MBX",
+    "TENX_bullish": {
+      "ticker": "TENX",
       "direction": "bullish",
       "trigger_type": "PIVOT",
-      "trigger_close": 64.71499633789062,
-      "eod_close": 65.71,
-      "session_change_pct": 1.54,
+      "trigger_close": 17.344999313354492,
+      "eod_close": 17.54,
+      "session_change_pct": 1.12,
+      "held_trigger": true,
+      "grade": "HOLDING",
+      "grade_note": "Above trigger level \u00b7 +1.1%"
+    },
+    "ASX_bullish": {
+      "ticker": "ASX",
+      "direction": "bullish",
+      "trigger_type": "PIVOT",
+      "trigger_close": 42.58000183105469,
+      "eod_close": 42.685,
+      "session_change_pct": 0.25,
       "held_trigger": true,
       "grade": "STRONG",
-      "grade_note": "Held + closed at extreme \u00b7 +1.5%"
+      "grade_note": "Held + closed at extreme \u00b7 +0.2%"
     },
-    "ASX_bearish": {
-      "ticker": "ASX",
+    "ANAB_bullish": {
+      "ticker": "ANAB",
+      "direction": "bullish",
+      "trigger_type": "PIVOT",
+      "trigger_close": 64.80000305175781,
+      "eod_close": 66.42,
+      "session_change_pct": 2.5,
+      "held_trigger": true,
+      "grade": "HOLDING",
+      "grade_note": "Above trigger level \u00b7 +2.5%"
+    },
+    "ERAS_bullish": {
+      "ticker": "ERAS",
+      "direction": "bullish",
+      "trigger_type": "PIVOT",
+      "trigger_close": 18.549999237060547,
+      "eod_close": 18.53,
+      "session_change_pct": -0.11,
+      "held_trigger": false,
+      "grade": "FAILED",
+      "grade_note": "Reversed through trigger \u00b7 -0.1%"
+    },
+    "ATEX_bullish": {
+      "ticker": "ATEX",
+      "direction": "bullish",
+      "trigger_type": "PIVOT",
+      "trigger_close": 102.83000183105469,
+      "eod_close": 100.86,
+      "session_change_pct": -1.92,
+      "held_trigger": false,
+      "grade": "FAILED",
+      "grade_note": "Reversed through trigger \u00b7 -1.9%"
+    },
+    "AXGN_bearish": {
+      "ticker": "AXGN",
       "direction": "bearish",
       "trigger_type": "PIVOT",
-      "trigger_close": 44.06999969482422,
-      "eod_close": 43.245,
-      "session_change_pct": -1.87,
+      "trigger_close": 40.349998474121094,
+      "eod_close": 40.57,
+      "session_change_pct": 0.55,
+      "held_trigger": false,
+      "grade": "FAILED",
+      "grade_note": "Reversed through trigger \u00b7 +0.6%"
+    },
+    "ERAS_bearish": {
+      "ticker": "ERAS",
+      "direction": "bearish",
+      "trigger_type": "PIVOT",
+      "trigger_close": 18.6299991607666,
+      "eod_close": 18.53,
+      "session_change_pct": -0.54,
+      "held_trigger": true,
+      "grade": "HOLDING",
+      "grade_note": "Above trigger level \u00b7 -0.5%"
+    },
+    "PLSE_bearish": {
+      "ticker": "PLSE",
+      "direction": "bearish",
+      "trigger_type": "PIVOT",
+      "trigger_close": 26.450000762939453,
+      "eod_close": 26.31,
+      "session_change_pct": -0.53,
       "held_trigger": true,
       "grade": "STRONG",
-      "grade_note": "Held + closed at extreme \u00b7 -1.9%"
+      "grade_note": "Held + closed at extreme \u00b7 -0.5%"
     },
     "CMPS_bearish": {
       "ticker": "CMPS",
       "direction": "bearish",
       "trigger_type": "PIVOT",
-      "trigger_close": 13.645000457763672,
-      "eod_close": 13.61,
-      "session_change_pct": -0.26,
+      "trigger_close": 13.621399879455566,
+      "eod_close": 13.64,
+      "session_change_pct": 0.14,
+      "held_trigger": false,
+      "grade": "FAILED",
+      "grade_note": "Reversed through trigger \u00b7 +0.1%"
+    },
+    "TNGX_bearish": {
+      "ticker": "TNGX",
+      "direction": "bearish",
+      "trigger_type": "PIVOT",
+      "trigger_close": 30.719999313354492,
+      "eod_close": 31.03,
+      "session_change_pct": 1.01,
+      "held_trigger": false,
+      "grade": "FAILED",
+      "grade_note": "Reversed through trigger \u00b7 +1.0%"
+    },
+    "INNV_bullish": {
+      "ticker": "INNV",
+      "direction": "bullish",
+      "trigger_type": "PIVOT",
+      "trigger_close": 11.414999961853027,
+      "eod_close": 11.515,
+      "session_change_pct": 0.88,
       "held_trigger": true,
-      "grade": "STRONG",
-      "grade_note": "Held + closed at extreme \u00b7 -0.3%"
+      "grade": "HOLDING",
+      "grade_note": "Above trigger level \u00b7 +0.9%"
+    },
+    "SI_bullish": {
+      "ticker": "SI",
+      "direction": "bullish",
+      "trigger_type": "PIVOT",
+      "trigger_close": 20.420000076293945,
+      "eod_close": 20.05,
+      "session_change_pct": -1.81,
+      "held_trigger": false,
+      "grade": "FAILED",
+      "grade_note": "Reversed through trigger \u00b7 -1.8%"
+    },
+    "MBX_bearish": {
+      "ticker": "MBX",
+      "direction": "bearish",
+      "trigger_type": "PIVOT",
+      "trigger_close": 60.65769958496094,
+      "eod_close": 61.01,
+      "session_change_pct": 0.58,
+      "held_trigger": false,
+      "grade": "FAILED",
+      "grade_note": "Reversed through trigger \u00b7 +0.6%"
     }
   },
-  "market_date": "2026-07-09"
+  "market_date": "2026-07-10"
 }
