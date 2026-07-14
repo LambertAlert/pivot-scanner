@@ -1,5 +1,5 @@
 {
-  "scan_time": "2026-07-14T21:27:49.453715",
+  "scan_time": "2026-07-14T22:03:49.816752",
   "grades": {
     "UMC_bullish": {
       "ticker": "UMC",
@@ -22,6 +22,17 @@
       "held_trigger": true,
       "grade": "HOLDING",
       "grade_note": "Above trigger level \u00b7 +1.7%"
+    },
+    "ICHR_bullish": {
+      "ticker": "ICHR",
+      "direction": "bullish",
+      "trigger_type": "PIVOT",
+      "trigger_close": 96.36000061035156,
+      "eod_close": 94.88,
+      "session_change_pct": -1.54,
+      "held_trigger": false,
+      "grade": "FAILED",
+      "grade_note": "Reversed through trigger \u00b7 -1.5%"
     },
     "SI_bearish": {
       "ticker": "SI",
