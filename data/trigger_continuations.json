@@ -1,160 +1,138 @@
 {
-  "scan_time": "2026-07-14T22:28:22.848101",
+  "scan_time": "2026-07-15T21:06:11.473655",
   "grades": {
     "UMC_bullish": {
       "ticker": "UMC",
       "direction": "bullish",
       "trigger_type": "PIVOT",
-      "trigger_close": 24.21500015258789,
-      "eod_close": 23.875,
-      "session_change_pct": -1.4,
-      "held_trigger": false,
-      "grade": "FAILED",
-      "grade_note": "Reversed through trigger \u00b7 -1.4%"
-    },
-    "INNV_bullish": {
-      "ticker": "INNV",
-      "direction": "bullish",
-      "trigger_type": "RANGE_BREAK",
-      "trigger_close": 11.399999618530273,
-      "eod_close": 11.59,
-      "session_change_pct": 1.67,
+      "trigger_close": 24.639999389648438,
+      "eod_close": 24.915,
+      "session_change_pct": 1.12,
       "held_trigger": true,
       "grade": "HOLDING",
-      "grade_note": "Above trigger level \u00b7 +1.7%"
+      "grade_note": "Above trigger level \u00b7 +1.1%"
+    },
+    "NVCT_bullish": {
+      "ticker": "NVCT",
+      "direction": "bullish",
+      "trigger_type": "PIVOT",
+      "trigger_close": 18.88010025024414,
+      "eod_close": 19.59,
+      "session_change_pct": 3.76,
+      "held_trigger": true,
+      "grade": "STRONG",
+      "grade_note": "Held + closed at extreme \u00b7 +3.8%"
+    },
+    "SIMO_bullish": {
+      "ticker": "SIMO",
+      "direction": "bullish",
+      "trigger_type": "PIVOT",
+      "trigger_close": 290.07501220703125,
+      "eod_close": 293.4,
+      "session_change_pct": 1.15,
+      "held_trigger": true,
+      "grade": "HOLDING",
+      "grade_note": "Above trigger level \u00b7 +1.1%"
+    },
+    "MEC_bullish": {
+      "ticker": "MEC",
+      "direction": "bullish",
+      "trigger_type": "PIVOT",
+      "trigger_close": 33.560001373291016,
+      "eod_close": 33.92,
+      "session_change_pct": 1.07,
+      "held_trigger": true,
+      "grade": "HOLDING",
+      "grade_note": "Above trigger level \u00b7 +1.1%"
     },
     "ICHR_bullish": {
       "ticker": "ICHR",
       "direction": "bullish",
       "trigger_type": "PIVOT",
-      "trigger_close": 96.36000061035156,
-      "eod_close": 94.88,
-      "session_change_pct": -1.54,
-      "held_trigger": false,
-      "grade": "FAILED",
-      "grade_note": "Reversed through trigger \u00b7 -1.5%"
+      "trigger_close": 91.38999938964844,
+      "eod_close": 93.17,
+      "session_change_pct": 1.95,
+      "held_trigger": true,
+      "grade": "HOLDING",
+      "grade_note": "Above trigger level \u00b7 +1.9%"
+    },
+    "CMPS_bullish": {
+      "ticker": "CMPS",
+      "direction": "bullish",
+      "trigger_type": "PIVOT",
+      "trigger_close": 12.948699951171875,
+      "eod_close": 13.305,
+      "session_change_pct": 2.75,
+      "held_trigger": true,
+      "grade": "STRONG",
+      "grade_note": "Held + closed at extreme \u00b7 +2.8%"
     },
     "SI_bearish": {
       "ticker": "SI",
       "direction": "bearish",
       "trigger_type": "PIVOT",
-      "trigger_close": 21.791400909423828,
-      "eod_close": 21.59,
-      "session_change_pct": -0.92,
+      "trigger_close": 22.485000610351562,
+      "eod_close": 21.815,
+      "session_change_pct": -2.98,
+      "held_trigger": true,
+      "grade": "HOLDING",
+      "grade_note": "Above trigger level \u00b7 -3.0%"
+    },
+    "INNV_bearish": {
+      "ticker": "INNV",
+      "direction": "bearish",
+      "trigger_type": "PIVOT",
+      "trigger_close": 11.739999771118164,
+      "eod_close": 11.58,
+      "session_change_pct": -1.36,
       "held_trigger": true,
       "grade": "STRONG",
-      "grade_note": "Held + closed at extreme \u00b7 -0.9%"
-    },
-    "CLYM_bullish": {
-      "ticker": "CLYM",
-      "direction": "bullish",
-      "trigger_type": "PIVOT",
-      "trigger_close": 13.329999923706055,
-      "eod_close": 13.24,
-      "session_change_pct": -0.68,
-      "held_trigger": false,
-      "grade": "FAILED",
-      "grade_note": "Reversed through trigger \u00b7 -0.7%"
-    },
-    "PLSE_bullish": {
-      "ticker": "PLSE",
-      "direction": "bullish",
-      "trigger_type": "PIVOT",
-      "trigger_close": 25.854999542236328,
-      "eod_close": 25.48,
-      "session_change_pct": -1.45,
-      "held_trigger": false,
-      "grade": "FAILED",
-      "grade_note": "Reversed through trigger \u00b7 -1.4%"
+      "grade_note": "Held + closed at extreme \u00b7 -1.4%"
     },
     "MEC_bearish": {
       "ticker": "MEC",
       "direction": "bearish",
       "trigger_type": "PIVOT",
-      "trigger_close": 34.81999969482422,
-      "eod_close": 34.47,
-      "session_change_pct": -1.01,
-      "held_trigger": true,
-      "grade": "HOLDING",
-      "grade_note": "Above trigger level \u00b7 -1.0%"
-    },
-    "UMC_bearish": {
-      "ticker": "UMC",
-      "direction": "bearish",
-      "trigger_type": "PIVOT",
-      "trigger_close": 23.989999771118164,
-      "eod_close": 23.875,
-      "session_change_pct": -0.48,
-      "held_trigger": true,
-      "grade": "STRONG",
-      "grade_note": "Held + closed at extreme \u00b7 -0.5%"
-    },
-    "SI_bullish": {
-      "ticker": "SI",
-      "direction": "bullish",
-      "trigger_type": "PIVOT",
-      "trigger_close": 21.614999771118164,
-      "eod_close": 21.59,
-      "session_change_pct": -0.12,
+      "trigger_close": 33.66999816894531,
+      "eod_close": 33.92,
+      "session_change_pct": 0.74,
       "held_trigger": false,
       "grade": "FAILED",
-      "grade_note": "Reversed through trigger \u00b7 -0.1%"
+      "grade_note": "Reversed through trigger \u00b7 +0.7%"
     },
-    "CMPS_bearish": {
-      "ticker": "CMPS",
+    "CLYM_bearish": {
+      "ticker": "CLYM",
       "direction": "bearish",
       "trigger_type": "PIVOT",
-      "trigger_close": 13.3149995803833,
-      "eod_close": 13.389,
-      "session_change_pct": 0.56,
+      "trigger_close": 13.720000267028809,
+      "eod_close": 13.85,
+      "session_change_pct": 0.95,
+      "held_trigger": false,
+      "grade": "FAILED",
+      "grade_note": "Reversed through trigger \u00b7 +0.9%"
+    },
+    "TWST_bullish": {
+      "ticker": "TWST",
+      "direction": "bullish",
+      "trigger_type": "PIVOT",
+      "trigger_close": 92.73249816894531,
+      "eod_close": 92.57,
+      "session_change_pct": -0.18,
+      "held_trigger": false,
+      "grade": "FAILED",
+      "grade_note": "Reversed through trigger \u00b7 -0.2%"
+    },
+    "ATEX_bearish": {
+      "ticker": "ATEX",
+      "direction": "bearish",
+      "trigger_type": "PIVOT",
+      "trigger_close": 104.83499908447266,
+      "eod_close": 105.5,
+      "session_change_pct": 0.63,
       "held_trigger": false,
       "grade": "FAILED",
       "grade_note": "Reversed through trigger \u00b7 +0.6%"
-    },
-    "PENG_bullish": {
-      "ticker": "PENG",
-      "direction": "bullish",
-      "trigger_type": "PIVOT",
-      "trigger_close": 76.58000183105469,
-      "eod_close": 77.83,
-      "session_change_pct": 1.63,
-      "held_trigger": true,
-      "grade": "HOLDING",
-      "grade_note": "Above trigger level \u00b7 +1.6%"
-    },
-    "NVCT_bearish": {
-      "ticker": "NVCT",
-      "direction": "bearish",
-      "trigger_type": "PIVOT",
-      "trigger_close": 18.280000686645508,
-      "eod_close": 18.28,
-      "session_change_pct": 0.0,
-      "held_trigger": true,
-      "grade": "STRONG",
-      "grade_note": "Held + closed at extreme \u00b7 +0.0%"
-    },
-    "ATEX_bullish": {
-      "ticker": "ATEX",
-      "direction": "bullish",
-      "trigger_type": "PIVOT",
-      "trigger_close": 105.82749938964844,
-      "eod_close": 105.8275,
-      "session_change_pct": 0.0,
-      "held_trigger": true,
-      "grade": "STRONG",
-      "grade_note": "Held + closed at extreme \u00b7 +0.0%"
-    },
-    "PLSE_bearish": {
-      "ticker": "PLSE",
-      "direction": "bearish",
-      "trigger_type": "PIVOT",
-      "trigger_close": 25.479999542236328,
-      "eod_close": 25.48,
-      "session_change_pct": 0.0,
-      "held_trigger": true,
-      "grade": "STRONG",
-      "grade_note": "Held + closed at extreme \u00b7 +0.0%"
     }
   },
-  "market_date": "2026-07-14"
+  "market_date": "2026-07-15"
 }
