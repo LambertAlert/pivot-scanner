@@ -1,5 +1,5 @@
 {
-  "scan_time": "2026-07-15T21:27:05.970483",
+  "scan_time": "2026-07-15T22:06:50.980265",
   "grades": {
     "UMC_bullish": {
       "ticker": "UMC",
@@ -30,6 +30,17 @@
       "trigger_close": 290.07501220703125,
       "eod_close": 293.4,
       "session_change_pct": 1.15,
+      "held_trigger": true,
+      "grade": "HOLDING",
+      "grade_note": "Above trigger level \u00b7 +1.1%"
+    },
+    "MEC_bullish": {
+      "ticker": "MEC",
+      "direction": "bullish",
+      "trigger_type": "PIVOT",
+      "trigger_close": 33.560001373291016,
+      "eod_close": 33.92,
+      "session_change_pct": 1.07,
       "held_trigger": true,
       "grade": "HOLDING",
       "grade_note": "Above trigger level \u00b7 +1.1%"
@@ -77,6 +88,17 @@
       "held_trigger": true,
       "grade": "STRONG",
       "grade_note": "Held + closed at extreme \u00b7 -1.4%"
+    },
+    "MEC_bearish": {
+      "ticker": "MEC",
+      "direction": "bearish",
+      "trigger_type": "PIVOT",
+      "trigger_close": 33.66999816894531,
+      "eod_close": 33.92,
+      "session_change_pct": 0.74,
+      "held_trigger": false,
+      "grade": "FAILED",
+      "grade_note": "Reversed through trigger \u00b7 +0.7%"
     },
     "CLYM_bearish": {
       "ticker": "CLYM",
