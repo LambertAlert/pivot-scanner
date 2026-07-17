@@ -1,13 +1,13 @@
 {
-  "generated_at": "2026-07-16T23:11:07.268739",
+  "generated_at": "2026-07-17T23:08:29.534988",
   "today": {
     "spx_dir": "\u2193",
     "dxy_dir": "\u2191",
-    "tnx_dir": "\u2191",
-    "state_id": 6,
-    "name": "Stagflation / Hawkish Pain",
-    "label": "Stocks \u2193 \u00b7 Dollar \u2191 \u00b7 Rates \u2191",
-    "sector_tilt": "Cash \u2014 no longs",
+    "tnx_dir": "\u2193",
+    "state_id": 5,
+    "name": "Risk-Off / Flight to Quality",
+    "label": "Stocks \u2193 \u00b7 Dollar \u2191 \u00b7 Rates \u2193",
+    "sector_tilt": "Defensive \u2014 utilities, staples, gold",
     "color": "red",
     "bullish": false
   },
@@ -18,7 +18,7 @@
     "sector_tilt": "Growth, semis, software, biotech",
     "freq_10d_pct": 40.0
   },
-  "bearish_days_10": 4,
+  "bearish_days_10": 5,
   "all_narratives": [
     {
       "id": 1,
@@ -51,7 +51,7 @@
       "sector_tilt": "Large-cap quality, tech mega-caps",
       "color": "green",
       "bullish": true,
-      "freq_5d_pct": 20.0,
+      "freq_5d_pct": 0.0,
       "freq_10d_pct": 10.0,
       "freq_20d_pct": 10.0,
       "base_rate_pct": 13.7
@@ -75,10 +75,10 @@
       "sector_tilt": "Defensive \u2014 utilities, staples, gold",
       "color": "red",
       "bullish": false,
-      "freq_5d_pct": 0.0,
-      "freq_10d_pct": 0.0,
-      "freq_20d_pct": 10.0,
-      "base_rate_pct": 8.8
+      "freq_5d_pct": 20.0,
+      "freq_10d_pct": 10.0,
+      "freq_20d_pct": 15.0,
+      "base_rate_pct": 8.9
     },
     {
       "id": 6,
@@ -90,7 +90,7 @@
       "freq_5d_pct": 40.0,
       "freq_10d_pct": 30.0,
       "freq_20d_pct": 25.0,
-      "base_rate_pct": 18.0
+      "base_rate_pct": 17.9
     },
     {
       "id": 7,
@@ -100,8 +100,8 @@
       "color": "amber",
       "bullish": false,
       "freq_5d_pct": 0.0,
-      "freq_10d_pct": 10.0,
-      "freq_20d_pct": 20.0,
+      "freq_10d_pct": 0.0,
+      "freq_20d_pct": 15.0,
       "base_rate_pct": 15.2
     },
     {
@@ -122,8 +122,8 @@
     "2": 11.0,
     "3": 13.7,
     "4": 8.8,
-    "5": 8.8,
-    "6": 18.0,
+    "5": 8.9,
+    "6": 17.9,
     "7": 15.2,
     "8": 6.5
   },
@@ -210,15 +210,6 @@
     }
   },
   "history_60d": [
-    {
-      "date": "2026-04-24",
-      "state_id": 1,
-      "narrative_name": "Goldilocks",
-      "color": "green",
-      "spx": "\u2191",
-      "dxy": "\u2193",
-      "tnx": "\u2193"
-    },
     {
       "date": "2026-04-27",
       "state_id": 2,
@@ -749,6 +740,15 @@
       "spx": "\u2193",
       "dxy": "\u2191",
       "tnx": "\u2191"
+    },
+    {
+      "date": "2026-07-17",
+      "state_id": 5,
+      "narrative_name": "Risk-Off / Flight to Quality",
+      "color": "red",
+      "spx": "\u2193",
+      "dxy": "\u2191",
+      "tnx": "\u2193"
     }
   ]
 }
