@@ -1,127 +1,94 @@
 {
-  "scan_time": "2026-07-17T22:11:36.642978",
+  "scan_time": "2026-07-20T21:15:59.511815",
   "grades": {
-    "KYMR_bullish": {
+    "KYMR_bearish": {
       "ticker": "KYMR",
-      "direction": "bullish",
+      "direction": "bearish",
       "trigger_type": "PIVOT",
-      "trigger_close": 115.44000244140625,
-      "eod_close": 115.78,
-      "session_change_pct": 0.29,
+      "trigger_close": 113.8499984741211,
+      "eod_close": 111.07,
+      "session_change_pct": -2.44,
       "held_trigger": true,
       "grade": "STRONG",
-      "grade_note": "Held + closed at extreme \u00b7 +0.3%"
+      "grade_note": "Held + closed at extreme \u00b7 -2.4%"
     },
-    "LQDA_bullish": {
-      "ticker": "LQDA",
-      "direction": "bullish",
-      "trigger_type": "PIVOT",
-      "trigger_close": 77.62000274658203,
-      "eod_close": 79.92,
-      "session_change_pct": 2.96,
+    "NRIX_bearish": {
+      "ticker": "NRIX",
+      "direction": "bearish",
+      "trigger_type": "RANGE_BREAK",
+      "trigger_close": 22.93000030517578,
+      "eod_close": 22.715,
+      "session_change_pct": -0.94,
       "held_trigger": true,
       "grade": "STRONG",
-      "grade_note": "Held + closed at extreme \u00b7 +3.0%"
+      "grade_note": "Held + closed at extreme \u00b7 -0.9%"
+    },
+    "INNV_bearish": {
+      "ticker": "INNV",
+      "direction": "bearish",
+      "trigger_type": "PIVOT",
+      "trigger_close": 11.28499984741211,
+      "eod_close": 11.09,
+      "session_change_pct": -1.73,
+      "held_trigger": true,
+      "grade": "STRONG",
+      "grade_note": "Held + closed at extreme \u00b7 -1.7%"
+    },
+    "ATEX_bearish": {
+      "ticker": "ATEX",
+      "direction": "bearish",
+      "trigger_type": "PIVOT",
+      "trigger_close": 103.25,
+      "eod_close": 102.06,
+      "session_change_pct": -1.15,
+      "held_trigger": true,
+      "grade": "STRONG",
+      "grade_note": "Held + closed at extreme \u00b7 -1.1%"
+    },
+    "PLSE_bullish": {
+      "ticker": "PLSE",
+      "direction": "bullish",
+      "trigger_type": "PIVOT",
+      "trigger_close": 28.059999465942383,
+      "eod_close": 28.86,
+      "session_change_pct": 2.85,
+      "held_trigger": true,
+      "grade": "HOLDING",
+      "grade_note": "Above trigger level \u00b7 +2.9%"
     },
     "ATEX_bullish": {
       "ticker": "ATEX",
       "direction": "bullish",
       "trigger_type": "PIVOT",
-      "trigger_close": 97.1500015258789,
-      "eod_close": 99.99,
-      "session_change_pct": 2.92,
-      "held_trigger": true,
-      "grade": "STRONG",
-      "grade_note": "Held + closed at extreme \u00b7 +2.9%"
+      "trigger_close": 104.5199966430664,
+      "eod_close": 102.06,
+      "session_change_pct": -2.35,
+      "held_trigger": false,
+      "grade": "FAILED",
+      "grade_note": "Reversed through trigger \u00b7 -2.4%"
+    },
+    "NVCT_bullish": {
+      "ticker": "NVCT",
+      "direction": "bullish",
+      "trigger_type": "RANGE_BREAK",
+      "trigger_close": 19.684999465942383,
+      "eod_close": 18.02,
+      "session_change_pct": -8.46,
+      "held_trigger": false,
+      "grade": "FAILED",
+      "grade_note": "Reversed through trigger \u00b7 -8.5%"
     },
     "TWST_bearish": {
       "ticker": "TWST",
       "direction": "bearish",
       "trigger_type": "PIVOT",
-      "trigger_close": 90.1500015258789,
-      "eod_close": 93.85,
-      "session_change_pct": 4.1,
-      "held_trigger": false,
-      "grade": "FAILED",
-      "grade_note": "Reversed through trigger \u00b7 +4.1%"
-    },
-    "NVCT_bullish": {
-      "ticker": "NVCT",
-      "direction": "bullish",
-      "trigger_type": "PIVOT",
-      "trigger_close": 18.93000030517578,
-      "eod_close": 19.175,
-      "session_change_pct": 1.29,
+      "trigger_close": 90.25499725341797,
+      "eod_close": 87.44,
+      "session_change_pct": -3.12,
       "held_trigger": true,
       "grade": "STRONG",
-      "grade_note": "Held + closed at extreme \u00b7 +1.3%"
-    },
-    "KYMR_bearish": {
-      "ticker": "KYMR",
-      "direction": "bearish",
-      "trigger_type": "PIVOT",
-      "trigger_close": 114.40499877929688,
-      "eod_close": 115.78,
-      "session_change_pct": 1.2,
-      "held_trigger": false,
-      "grade": "FAILED",
-      "grade_note": "Reversed through trigger \u00b7 +1.2%"
-    },
-    "MEC_bearish": {
-      "ticker": "MEC",
-      "direction": "bearish",
-      "trigger_type": "PIVOT",
-      "trigger_close": 30.860000610351562,
-      "eod_close": 30.92,
-      "session_change_pct": 0.19,
-      "held_trigger": false,
-      "grade": "FAILED",
-      "grade_note": "Reversed through trigger \u00b7 +0.2%"
-    },
-    "NGNE_bearish": {
-      "ticker": "NGNE",
-      "direction": "bearish",
-      "trigger_type": "PIVOT",
-      "trigger_close": 36.150001525878906,
-      "eod_close": 37.29,
-      "session_change_pct": 3.15,
-      "held_trigger": false,
-      "grade": "FAILED",
-      "grade_note": "Reversed through trigger \u00b7 +3.1%"
-    },
-    "CLYM_bearish": {
-      "ticker": "CLYM",
-      "direction": "bearish",
-      "trigger_type": "PIVOT",
-      "trigger_close": 13.119999885559082,
-      "eod_close": 12.695,
-      "session_change_pct": -3.24,
-      "held_trigger": true,
-      "grade": "HOLDING",
-      "grade_note": "Above trigger level \u00b7 -3.2%"
-    },
-    "LQDA_bearish": {
-      "ticker": "LQDA",
-      "direction": "bearish",
-      "trigger_type": "PIVOT",
-      "trigger_close": 79.1449966430664,
-      "eod_close": 79.92,
-      "session_change_pct": 0.98,
-      "held_trigger": false,
-      "grade": "FAILED",
-      "grade_note": "Reversed through trigger \u00b7 +1.0%"
-    },
-    "INNV_bullish": {
-      "ticker": "INNV",
-      "direction": "bullish",
-      "trigger_type": "PIVOT",
-      "trigger_close": 11.510000228881836,
-      "eod_close": 11.49,
-      "session_change_pct": -0.17,
-      "held_trigger": false,
-      "grade": "FAILED",
-      "grade_note": "Reversed through trigger \u00b7 -0.2%"
+      "grade_note": "Held + closed at extreme \u00b7 -3.1%"
     }
   },
-  "market_date": "2026-07-17"
+  "market_date": "2026-07-20"
 }
