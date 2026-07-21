@@ -1,24 +1,24 @@
 {
-  "generated_at": "2026-07-20T23:14:33.546776",
+  "generated_at": "2026-07-21T23:11:32.749270",
   "today": {
-    "spx_dir": "\u2193",
+    "spx_dir": "\u2191",
     "dxy_dir": "\u2191",
     "tnx_dir": "\u2191",
-    "state_id": 6,
-    "name": "Stagflation / Hawkish Pain",
-    "label": "Stocks \u2193 \u00b7 Dollar \u2191 \u00b7 Rates \u2191",
-    "sector_tilt": "Cash \u2014 no longs",
-    "color": "red",
-    "bullish": false
+    "state_id": 3,
+    "name": "US Exceptionalism",
+    "label": "Stocks \u2191 \u00b7 Dollar \u2191 \u00b7 Rates \u2191",
+    "sector_tilt": "Large-cap quality, tech mega-caps",
+    "color": "green",
+    "bullish": true
   },
   "dominant_10d": {
-    "state_id": 6,
-    "name": "Stagflation / Hawkish Pain",
-    "color": "red",
-    "sector_tilt": "Cash \u2014 no longs",
-    "freq_10d_pct": 40.0
+    "state_id": 1,
+    "name": "Goldilocks",
+    "color": "green",
+    "sector_tilt": "Growth, semis, software, biotech",
+    "freq_10d_pct": 30.0
   },
-  "bearish_days_10": 6,
+  "bearish_days_10": 5,
   "all_narratives": [
     {
       "id": 1,
@@ -27,7 +27,7 @@
       "sector_tilt": "Growth, semis, software, biotech",
       "color": "green",
       "bullish": true,
-      "freq_5d_pct": 40.0,
+      "freq_5d_pct": 20.0,
       "freq_10d_pct": 30.0,
       "freq_20d_pct": 20.0,
       "base_rate_pct": 17.9
@@ -51,10 +51,10 @@
       "sector_tilt": "Large-cap quality, tech mega-caps",
       "color": "green",
       "bullish": true,
-      "freq_5d_pct": 0.0,
-      "freq_10d_pct": 10.0,
-      "freq_20d_pct": 10.0,
-      "base_rate_pct": 13.7
+      "freq_5d_pct": 20.0,
+      "freq_10d_pct": 20.0,
+      "freq_20d_pct": 15.0,
+      "base_rate_pct": 13.8
     },
     {
       "id": 4,
@@ -77,7 +77,7 @@
       "bullish": false,
       "freq_5d_pct": 20.0,
       "freq_10d_pct": 10.0,
-      "freq_20d_pct": 15.0,
+      "freq_20d_pct": 10.0,
       "base_rate_pct": 8.8
     },
     {
@@ -88,7 +88,7 @@
       "color": "red",
       "bullish": false,
       "freq_5d_pct": 40.0,
-      "freq_10d_pct": 40.0,
+      "freq_10d_pct": 30.0,
       "freq_20d_pct": 25.0,
       "base_rate_pct": 18.0
     },
@@ -114,18 +114,18 @@
       "freq_5d_pct": 0.0,
       "freq_10d_pct": 10.0,
       "freq_20d_pct": 5.0,
-      "base_rate_pct": 6.5
+      "base_rate_pct": 6.4
     }
   ],
   "base_rates": {
     "1": 17.9,
     "2": 11.0,
-    "3": 13.7,
+    "3": 13.8,
     "4": 8.8,
     "5": 8.8,
     "6": 18.0,
     "7": 15.2,
-    "8": 6.5
+    "8": 6.4
   },
   "transitions": {
     "1": {
@@ -179,24 +179,24 @@
       "8": 0.0
     },
     "6": {
-      "1": 0.269,
-      "2": 0.096,
-      "3": 0.096,
-      "4": 0.077,
-      "5": 0.135,
-      "6": 0.154,
-      "7": 0.115,
-      "8": 0.058
+      "1": 0.264,
+      "2": 0.094,
+      "3": 0.113,
+      "4": 0.075,
+      "5": 0.132,
+      "6": 0.151,
+      "7": 0.113,
+      "8": 0.057
     },
     "7": {
-      "1": 0.108,
-      "2": 0.135,
-      "3": 0.216,
-      "4": 0.108,
-      "5": 0.027,
-      "6": 0.324,
-      "7": 0.054,
-      "8": 0.027
+      "1": 0.111,
+      "2": 0.139,
+      "3": 0.222,
+      "4": 0.083,
+      "5": 0.028,
+      "6": 0.333,
+      "7": 0.056,
+      "8": 0.028
     },
     "8": {
       "1": 0.3,
@@ -210,15 +210,6 @@
     }
   },
   "history_60d": [
-    {
-      "date": "2026-04-28",
-      "state_id": 6,
-      "narrative_name": "Stagflation / Hawkish Pain",
-      "color": "red",
-      "spx": "\u2193",
-      "dxy": "\u2191",
-      "tnx": "\u2191"
-    },
     {
       "date": "2026-04-29",
       "state_id": 6,
@@ -747,6 +738,15 @@
       "narrative_name": "Stagflation / Hawkish Pain",
       "color": "red",
       "spx": "\u2193",
+      "dxy": "\u2191",
+      "tnx": "\u2191"
+    },
+    {
+      "date": "2026-07-21",
+      "state_id": 3,
+      "narrative_name": "US Exceptionalism",
+      "color": "green",
+      "spx": "\u2191",
       "dxy": "\u2191",
       "tnx": "\u2191"
     }
