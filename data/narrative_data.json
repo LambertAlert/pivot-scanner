@@ -1,24 +1,24 @@
 {
-  "generated_at": "2026-07-22T23:15:30.479883",
+  "generated_at": "2026-07-23T23:11:29.881748",
   "today": {
     "spx_dir": "\u2193",
-    "dxy_dir": "\u2193",
+    "dxy_dir": "\u2191",
     "tnx_dir": "\u2191",
-    "state_id": 8,
-    "name": "Inflation Resurgence",
-    "label": "Stocks \u2193 \u00b7 Dollar \u2193 \u00b7 Rates \u2191",
-    "sector_tilt": "Real assets, gold miners, defensive value",
-    "color": "amber",
+    "state_id": 6,
+    "name": "Stagflation / Hawkish Pain",
+    "label": "Stocks \u2193 \u00b7 Dollar \u2191 \u00b7 Rates \u2191",
+    "sector_tilt": "Cash \u2014 no longs",
+    "color": "red",
     "bullish": false
   },
   "dominant_10d": {
-    "state_id": 1,
-    "name": "Goldilocks",
-    "color": "green",
-    "sector_tilt": "Growth, semis, software, biotech",
-    "freq_10d_pct": 30.0
+    "state_id": 6,
+    "name": "Stagflation / Hawkish Pain",
+    "color": "red",
+    "sector_tilt": "Cash \u2014 no longs",
+    "freq_10d_pct": 40.0
   },
-  "bearish_days_10": 5,
+  "bearish_days_10": 6,
   "all_narratives": [
     {
       "id": 1,
@@ -28,7 +28,7 @@
       "color": "green",
       "bullish": true,
       "freq_5d_pct": 0.0,
-      "freq_10d_pct": 30.0,
+      "freq_10d_pct": 20.0,
       "freq_20d_pct": 20.0,
       "base_rate_pct": 17.9
     },
@@ -88,9 +88,9 @@
       "color": "red",
       "bullish": false,
       "freq_5d_pct": 40.0,
-      "freq_10d_pct": 30.0,
-      "freq_20d_pct": 25.0,
-      "base_rate_pct": 18.0
+      "freq_10d_pct": 40.0,
+      "freq_20d_pct": 30.0,
+      "base_rate_pct": 18.1
     },
     {
       "id": 7,
@@ -101,7 +101,7 @@
       "bullish": false,
       "freq_5d_pct": 0.0,
       "freq_10d_pct": 0.0,
-      "freq_20d_pct": 15.0,
+      "freq_20d_pct": 10.0,
       "base_rate_pct": 15.2
     },
     {
@@ -123,7 +123,7 @@
     "3": 13.7,
     "4": 8.8,
     "5": 8.8,
-    "6": 18.0,
+    "6": 18.1,
     "7": 15.2,
     "8": 6.5
   },
@@ -189,36 +189,27 @@
       "8": 0.057
     },
     "7": {
-      "1": 0.111,
-      "2": 0.139,
-      "3": 0.222,
-      "4": 0.083,
-      "5": 0.028,
-      "6": 0.333,
-      "7": 0.056,
-      "8": 0.028
+      "1": 0.114,
+      "2": 0.114,
+      "3": 0.229,
+      "4": 0.086,
+      "5": 0.029,
+      "6": 0.343,
+      "7": 0.057,
+      "8": 0.029
     },
     "8": {
-      "1": 0.3,
+      "1": 0.273,
       "2": 0.0,
       "3": 0.0,
-      "4": 0.1,
+      "4": 0.091,
       "5": 0.0,
-      "6": 0.5,
-      "7": 0.1,
+      "6": 0.545,
+      "7": 0.091,
       "8": 0.0
     }
   },
   "history_60d": [
-    {
-      "date": "2026-04-30",
-      "state_id": 1,
-      "narrative_name": "Goldilocks",
-      "color": "green",
-      "spx": "\u2191",
-      "dxy": "\u2193",
-      "tnx": "\u2193"
-    },
     {
       "date": "2026-05-01",
       "state_id": 4,
@@ -748,6 +739,15 @@
       "color": "amber",
       "spx": "\u2193",
       "dxy": "\u2193",
+      "tnx": "\u2191"
+    },
+    {
+      "date": "2026-07-23",
+      "state_id": 6,
+      "narrative_name": "Stagflation / Hawkish Pain",
+      "color": "red",
+      "spx": "\u2193",
+      "dxy": "\u2191",
       "tnx": "\u2191"
     }
   ]
