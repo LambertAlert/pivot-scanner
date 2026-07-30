@@ -1,24 +1,24 @@
 {
-  "generated_at": "2026-07-29T23:14:00.610637",
+  "generated_at": "2026-07-30T23:18:24.441971",
   "today": {
-    "spx_dir": "\u2193",
+    "spx_dir": "\u2191",
     "dxy_dir": "\u2193",
     "tnx_dir": "\u2191",
-    "state_id": 8,
-    "name": "Inflation Resurgence",
-    "label": "Stocks \u2193 \u00b7 Dollar \u2193 \u00b7 Rates \u2191",
-    "sector_tilt": "Real assets, gold miners, defensive value",
-    "color": "amber",
-    "bullish": false
+    "state_id": 2,
+    "name": "Reflation",
+    "label": "Stocks \u2191 \u00b7 Dollar \u2193 \u00b7 Rates \u2191",
+    "sector_tilt": "Energy, materials, industrials, banks",
+    "color": "green",
+    "bullish": true
   },
   "dominant_10d": {
-    "state_id": 6,
-    "name": "Stagflation / Hawkish Pain",
-    "color": "red",
-    "sector_tilt": "Cash \u2014 no longs",
-    "freq_10d_pct": 30.0
+    "state_id": 4,
+    "name": "Soft Landing",
+    "color": "green",
+    "sector_tilt": "Broad equity, consumer discretionary",
+    "freq_10d_pct": 20.0
   },
-  "bearish_days_10": 6,
+  "bearish_days_10": 5,
   "all_narratives": [
     {
       "id": 1,
@@ -39,8 +39,8 @@
       "sector_tilt": "Energy, materials, industrials, banks",
       "color": "green",
       "bullish": true,
-      "freq_5d_pct": 0.0,
-      "freq_10d_pct": 0.0,
+      "freq_5d_pct": 20.0,
+      "freq_10d_pct": 10.0,
       "freq_20d_pct": 5.0,
       "base_rate_pct": 11.0
     },
@@ -87,8 +87,8 @@
       "sector_tilt": "Cash \u2014 no longs",
       "color": "red",
       "bullish": false,
-      "freq_5d_pct": 20.0,
-      "freq_10d_pct": 30.0,
+      "freq_5d_pct": 0.0,
+      "freq_10d_pct": 20.0,
       "freq_20d_pct": 25.0,
       "base_rate_pct": 17.9
     },
@@ -102,7 +102,7 @@
       "freq_5d_pct": 0.0,
       "freq_10d_pct": 0.0,
       "freq_20d_pct": 5.0,
-      "base_rate_pct": 15.2
+      "base_rate_pct": 15.1
     },
     {
       "id": 8,
@@ -124,7 +124,7 @@
     "4": 9.0,
     "5": 8.8,
     "6": 17.9,
-    "7": 15.2,
+    "7": 15.1,
     "8": 6.6
   },
   "transitions": {
@@ -139,14 +139,14 @@
       "8": 0.056
     },
     "2": {
-      "1": 0.231,
-      "2": 0.038,
-      "3": 0.115,
-      "4": 0.077,
-      "5": 0.077,
-      "6": 0.154,
-      "7": 0.231,
-      "8": 0.077
+      "1": 0.2,
+      "2": 0.04,
+      "3": 0.12,
+      "4": 0.08,
+      "5": 0.08,
+      "6": 0.16,
+      "7": 0.24,
+      "8": 0.08
     },
     "3": {
       "1": 0.121,
@@ -199,26 +199,17 @@
       "8": 0.029
     },
     "8": {
-      "1": 0.273,
-      "2": 0.0,
+      "1": 0.25,
+      "2": 0.083,
       "3": 0.0,
-      "4": 0.091,
+      "4": 0.083,
       "5": 0.0,
-      "6": 0.545,
-      "7": 0.091,
+      "6": 0.5,
+      "7": 0.083,
       "8": 0.0
     }
   },
   "history_60d": [
-    {
-      "date": "2026-05-07",
-      "state_id": 6,
-      "narrative_name": "Stagflation / Hawkish Pain",
-      "color": "red",
-      "spx": "\u2193",
-      "dxy": "\u2191",
-      "tnx": "\u2191"
-    },
     {
       "date": "2026-05-08",
       "state_id": 1,
@@ -747,6 +738,15 @@
       "narrative_name": "Inflation Resurgence",
       "color": "amber",
       "spx": "\u2193",
+      "dxy": "\u2193",
+      "tnx": "\u2191"
+    },
+    {
+      "date": "2026-07-30",
+      "state_id": 2,
+      "narrative_name": "Reflation",
+      "color": "green",
+      "spx": "\u2191",
       "dxy": "\u2193",
       "tnx": "\u2191"
     }
