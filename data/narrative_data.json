@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-07-30T23:18:24.441971",
+  "generated_at": "2026-07-31T23:15:55.842401",
   "today": {
     "spx_dir": "\u2191",
     "dxy_dir": "\u2193",
@@ -12,13 +12,13 @@
     "bullish": true
   },
   "dominant_10d": {
-    "state_id": 4,
-    "name": "Soft Landing",
+    "state_id": 2,
+    "name": "Reflation",
     "color": "green",
-    "sector_tilt": "Broad equity, consumer discretionary",
+    "sector_tilt": "Energy, materials, industrials, banks",
     "freq_10d_pct": 20.0
   },
-  "bearish_days_10": 5,
+  "bearish_days_10": 4,
   "all_narratives": [
     {
       "id": 1,
@@ -30,7 +30,7 @@
       "freq_5d_pct": 20.0,
       "freq_10d_pct": 10.0,
       "freq_20d_pct": 25.0,
-      "base_rate_pct": 18.0
+      "base_rate_pct": 17.9
     },
     {
       "id": 2,
@@ -39,10 +39,10 @@
       "sector_tilt": "Energy, materials, industrials, banks",
       "color": "green",
       "bullish": true,
-      "freq_5d_pct": 20.0,
-      "freq_10d_pct": 10.0,
-      "freq_20d_pct": 5.0,
-      "base_rate_pct": 11.0
+      "freq_5d_pct": 40.0,
+      "freq_10d_pct": 20.0,
+      "freq_20d_pct": 10.0,
+      "base_rate_pct": 11.1
     },
     {
       "id": 3,
@@ -63,7 +63,7 @@
       "sector_tilt": "Broad equity, consumer discretionary",
       "color": "green",
       "bullish": true,
-      "freq_5d_pct": 40.0,
+      "freq_5d_pct": 20.0,
       "freq_10d_pct": 20.0,
       "freq_20d_pct": 10.0,
       "base_rate_pct": 9.0
@@ -76,7 +76,7 @@
       "color": "red",
       "bullish": false,
       "freq_5d_pct": 0.0,
-      "freq_10d_pct": 10.0,
+      "freq_10d_pct": 0.0,
       "freq_20d_pct": 5.0,
       "base_rate_pct": 8.8
     },
@@ -101,7 +101,7 @@
       "bullish": false,
       "freq_5d_pct": 0.0,
       "freq_10d_pct": 0.0,
-      "freq_20d_pct": 5.0,
+      "freq_20d_pct": 0.0,
       "base_rate_pct": 15.1
     },
     {
@@ -118,8 +118,8 @@
     }
   ],
   "base_rates": {
-    "1": 18.0,
-    "2": 11.0,
+    "1": 17.9,
+    "2": 11.1,
     "3": 13.6,
     "4": 9.0,
     "5": 8.8,
@@ -129,24 +129,24 @@
   },
   "transitions": {
     "1": {
-      "1": 0.278,
-      "2": 0.13,
-      "3": 0.167,
-      "4": 0.093,
+      "1": 0.283,
+      "2": 0.132,
+      "3": 0.151,
+      "4": 0.094,
       "5": 0.0,
-      "6": 0.185,
-      "7": 0.093,
-      "8": 0.056
+      "6": 0.189,
+      "7": 0.094,
+      "8": 0.057
     },
     "2": {
-      "1": 0.2,
-      "2": 0.04,
-      "3": 0.12,
-      "4": 0.08,
-      "5": 0.08,
-      "6": 0.16,
-      "7": 0.24,
-      "8": 0.08
+      "1": 0.192,
+      "2": 0.077,
+      "3": 0.115,
+      "4": 0.077,
+      "5": 0.077,
+      "6": 0.154,
+      "7": 0.231,
+      "8": 0.077
     },
     "3": {
       "1": 0.121,
@@ -210,15 +210,6 @@
     }
   },
   "history_60d": [
-    {
-      "date": "2026-05-08",
-      "state_id": 1,
-      "narrative_name": "Goldilocks",
-      "color": "green",
-      "spx": "\u2191",
-      "dxy": "\u2193",
-      "tnx": "\u2193"
-    },
     {
       "date": "2026-05-11",
       "state_id": 3,
@@ -743,6 +734,15 @@
     },
     {
       "date": "2026-07-30",
+      "state_id": 2,
+      "narrative_name": "Reflation",
+      "color": "green",
+      "spx": "\u2191",
+      "dxy": "\u2193",
+      "tnx": "\u2191"
+    },
+    {
+      "date": "2026-07-31",
       "state_id": 2,
       "narrative_name": "Reflation",
       "color": "green",
