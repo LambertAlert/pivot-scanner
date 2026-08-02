@@ -45,6 +45,13 @@ try:
 except ImportError as _e:
     TACTICAL_MODULES_AVAILABLE = False
 
+# ── Alpha Signals module (WorldQuant 101 alphas, 6-category taxonomy) ─────────
+try:
+    import alpha_signals
+    ALPHA_SIGNALS_AVAILABLE = True
+except ImportError as _e:
+    ALPHA_SIGNALS_AVAILABLE = False
+
 # ── Page config ───────────────────────────────────────────────────────────────
 st.set_page_config(
     page_title="PIVOT SCANNER — WAR ROOM",
@@ -368,10 +375,10 @@ st.markdown(f"""
 """, unsafe_allow_html=True)
 
 # ── Tabs ──────────────────────────────────────────────────────────────────────
-tab1,tab_index,tab2,tab_spec,tab3,tab4,tab_radar,tab5,tab6,tab_vol = st.tabs([
+tab1,tab_index,tab2,tab_spec,tab3,tab4,tab_radar,tab5,tab6,tab_vol,tab_alpha = st.tabs([
     "◈ MACRO COMMAND","◈ INDEX READ","◈ THEME TRACKER","◈ SPECULATIVE THEMES",
     "◈ ACTIVE TRIGGERS","◈ DAILY WATCHLIST","◈ SETUPS RADAR","◈ WEEKLY SCREEN",
-    "◈ TRIGGER HISTORY","◈ VOLUME LOG",
+    "◈ TRIGGER HISTORY","◈ VOLUME LOG","◈ ALPHA SIGNALS",
 ])
 
 # ─── TAB 1: MACRO COMMAND CENTER (tactical ETF-based framework) ───────────────
@@ -2263,6 +2270,13 @@ with tab_vol:
         disp_cols = [c for c in table_cols if c in vol_df.columns]
         st.dataframe(vol_df[disp_cols], use_container_width=True,
                      height=400, hide_index=True)
+
+# ─── TAB ALPHA: WORLDQUANT ALPHA SIGNALS ──────────────────────────────────────
+with tab_alpha:
+    if not ALPHA_SIGNALS_AVAILABLE:
+        st.info("alpha_signals.py not found. Add the module file to your repo.")
+    else:
+        alpha_signals.render()
 
 # ── Footer ────────────────────────────────────────────────────────────────────
 st.markdown("""
