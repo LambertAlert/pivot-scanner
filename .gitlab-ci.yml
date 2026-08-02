@@ -1,62 +1,220 @@
-# .gitlab-ci.yml — Pivot Scanner War Room Pipeline
-# Five jobs triggered by $JOB_TYPE variable in each pipeline schedule.
+# .github/workflows/pipeline.yml — Pivot Scanner War Room v2
 #
-# REQUIRED: Project Access Token (write_repository) saved as GITLAB_TOKEN (Masked)
+# FIXES over v1:
+#   - Comma crons split into individual entries (GitHub expands 1,31 internally
+#     so github.event.schedule never matched the original string)
+#   - macro_theme moved to 22:15 UTC (45min after daily — no race condition)
+#   - fredapi added to daily pip install
+#   - continue-on-error on slow prep scripts
+#   - git remote set-url with GH_PAT for reliable push
 #
-# Schedules:
-#   weekly      → 0 0 * * 1         (Sun midnight UTC)
-#   daily       → 30 21 * * 1-5     (4:30pm CT)
-#   macro_theme → 45 21 * * 1-5     (4:45pm CT)
-#   intraday    → 1,31 14-21 * * 1-5
+# SECRETS REQUIRED:  GH_PAT  |  FRED_API_KEY  |  POLYGON_API_KEY (optional)
 
-image: python:3.11-slim
-stages: [run]
+name: Pivot Scanner Pipelines
 
-.commit_data: &commit_data
-  - apt-get update -qq && apt-get install -y -qq git
-  - git config --global user.email "ci@gitlab.com"
-  - git config --global user.name "Pipeline Bot"
-  - git remote set-url origin "https://oauth2:${GITLAB_TOKEN}@${CI_SERVER_HOST}/${CI_PROJECT_PATH}.git"
-  - git checkout main
-  - git add data/ pivot_data.db 2>/dev/null || true
-  - git diff --staged --quiet || git commit -m "[ci skip] data update [$JOB_TYPE]"
-  - git push origin main || echo "nothing to push"
+on:
+  schedule:
+    - cron: '0 5 * * 1'       # weekly — Mon 05:00 UTC (Sun 11pm CDT)
+    - cron: '30 21 * * 1-5'   # daily  — M-F 21:30 UTC (4:30pm CDT)
+    - cron: '15 22 * * 1-5'   # macro  — M-F 22:15 UTC (5:15pm CDT)
+    # Intraday — individual crons (no comma expansion)
+    - cron: '1 14 * * 1-5'
+    - cron: '31 14 * * 1-5'
+    - cron: '1 15 * * 1-5'
+    - cron: '31 15 * * 1-5'
+    - cron: '1 16 * * 1-5'
+    - cron: '31 16 * * 1-5'
+    - cron: '1 17 * * 1-5'
+    - cron: '31 17 * * 1-5'
+    - cron: '1 18 * * 1-5'
+    - cron: '31 18 * * 1-5'
+    - cron: '1 19 * * 1-5'
+    - cron: '31 19 * * 1-5'
+    - cron: '1 20 * * 1-5'
+    - cron: '31 20 * * 1-5'
+    - cron: '1 21 * * 1-5'
+    - cron: '31 21 * * 1-5'
 
-weekly_screener:
-  stage: run
-  rules:
-    - if: '$CI_PIPELINE_SOURCE == "schedule" && $JOB_TYPE == "weekly"'
-    - if: '$CI_PIPELINE_SOURCE == "web" && $JOB_TYPE == "weekly"'
-  before_script: [pip install --quiet yfinance pandas numpy]
-  script: [python weekly_screener.py, *commit_data]
+  workflow_dispatch:
+    inputs:
+      job_type:
+        description: 'Job to run'
+        required: true
+        default: 'daily'
+        type: choice
+        options: [weekly, daily, macro_theme, intraday]
 
-daily_screener:
-  stage: run
-  rules:
-    - if: '$CI_PIPELINE_SOURCE == "schedule" && $JOB_TYPE == "daily"'
-    - if: '$CI_PIPELINE_SOURCE == "web" && $JOB_TYPE == "daily"'
-  before_script: [pip install --quiet yfinance pandas numpy pyarrow]
-  script:
-    - python daily_screener.py
-    - python alpha_features.py
-    - python radar_prep.py
-    - python volume_surge_prep.py
-    - python tactical_macro_prep.py
-    - python speculative_theme_prep.py
-    - *commit_data
 
-macro_theme:
-  stage: run
-  rules:
-    - if: '$CI_PIPELINE_SOURCE == "schedule" && $JOB_TYPE == "macro_theme"'
-    - if: '$CI_PIPELINE_SOURCE == "web" && $JOB_TYPE == "macro_theme"'
-  before_script: [pip install --quiet yfinance pandas numpy polygon-api-client fredapi]
-  script: [python macro_prep.py, python theme_prep.py, python index_read_prep.py, *commit_data]
+jobs:
 
-pivot_scanner:
-  stage: run
-  rules:
-    - if: '$CI_PIPELINE_SOURCE == "schedule" && $JOB_TYPE == "intraday"'
-    - if: '$CI_PIPELINE_SOURCE == "web" && $JOB_TYPE == "intraday"'
-  before_script: [pip install --quiet yfinance pandas numpy]
-  script: [python pivot_scanner.py, python radar_prep.py, *commit_data]
+  # ── WEEKLY SCREENER ────────────────────────────────────────────────────────
+  weekly_screener:
+    name: Weekly Screen
+    runs-on: ubuntu-latest
+    if: >
+      (github.event_name == 'schedule' && github.event.schedule == '0 5 * * 1') ||
+      (github.event_name == 'workflow_dispatch' && github.event.inputs.job_type == 'weekly')
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GH_PAT }}
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: 'pip'
+      - run: pip install --quiet yfinance pandas numpy pyarrow
+      - name: Run weekly screener
+        env:
+          POLYGON_API_KEY: ${{ secrets.POLYGON_API_KEY }}
+        run: python weekly_screener.py
+      - name: Commit and push
+        run: |
+          git config user.email "actions@github.com"
+          git config user.name "GitHub Actions Bot"
+          git remote set-url origin https://x-access-token:${{ secrets.GH_PAT }}@github.com/${{ github.repository }}
+          git add data/ pivot_data.db 2>/dev/null || true
+          git stash || true
+          git pull --rebase origin main || true
+          git stash pop || true
+          git add data/ pivot_data.db 2>/dev/null || true
+          git diff --staged --quiet || git commit -m "[ci skip] data update [weekly]"
+          for i in 1 2 3; do git push origin main && break || (git pull --rebase origin main && sleep 5); done
+
+
+  # ── DAILY SCREENER ─────────────────────────────────────────────────────────
+  daily_screener:
+    name: Daily Screen
+    runs-on: ubuntu-latest
+    if: >
+      (github.event_name == 'schedule' && github.event.schedule == '30 21 * * 1-5') ||
+      (github.event_name == 'workflow_dispatch' && github.event.inputs.job_type == 'daily')
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GH_PAT }}
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: 'pip'
+      - run: pip install --quiet yfinance pandas numpy pyarrow fredapi polygon-api-client
+      - name: daily_screener
+        run: python daily_screener.py
+      - name: alpha_features
+        run: python alpha_features.py
+      - name: radar_prep
+        run: python radar_prep.py
+      - name: volume_surge_prep
+        run: python volume_surge_prep.py
+      - name: tactical_macro_prep
+        continue-on-error: true
+        env:
+          FRED_API_KEY: ${{ secrets.FRED_API_KEY }}
+        run: python tactical_macro_prep.py
+      - name: speculative_theme_prep
+        continue-on-error: true
+        run: python speculative_theme_prep.py
+      - name: Commit and push
+        run: |
+          git config user.email "actions@github.com"
+          git config user.name "GitHub Actions Bot"
+          git remote set-url origin https://x-access-token:${{ secrets.GH_PAT }}@github.com/${{ github.repository }}
+          git add data/ pivot_data.db 2>/dev/null || true
+          git stash || true
+          git pull --rebase origin main || true
+          git stash pop || true
+          git add data/ pivot_data.db 2>/dev/null || true
+          git diff --staged --quiet || git commit -m "[ci skip] data update [daily]"
+          for i in 1 2 3; do git push origin main && break || (git pull --rebase origin main && sleep 5); done
+
+
+  # ── MACRO + THEME ──────────────────────────────────────────────────────────
+  macro_theme:
+    name: Macro + Theme
+    runs-on: ubuntu-latest
+    if: >
+      (github.event_name == 'schedule' && github.event.schedule == '15 22 * * 1-5') ||
+      (github.event_name == 'workflow_dispatch' && github.event.inputs.job_type == 'macro_theme')
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GH_PAT }}
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: 'pip'
+      - run: pip install --quiet yfinance pandas numpy pyarrow fredapi polygon-api-client
+      - name: macro_prep
+        continue-on-error: true
+        env:
+          FRED_API_KEY: ${{ secrets.FRED_API_KEY }}
+          POLYGON_API_KEY: ${{ secrets.POLYGON_API_KEY }}
+        run: python macro_prep.py
+      - name: theme_prep
+        continue-on-error: true
+        run: python theme_prep.py
+      - name: index_read_prep
+        continue-on-error: true
+        run: python index_read_prep.py
+      - name: Commit and push
+        run: |
+          git config user.email "actions@github.com"
+          git config user.name "GitHub Actions Bot"
+          git remote set-url origin https://x-access-token:${{ secrets.GH_PAT }}@github.com/${{ github.repository }}
+          git add data/ pivot_data.db 2>/dev/null || true
+          git stash || true
+          git pull --rebase origin main || true
+          git stash pop || true
+          git add data/ pivot_data.db 2>/dev/null || true
+          git diff --staged --quiet || git commit -m "[ci skip] data update [macro_theme]"
+          for i in 1 2 3; do git push origin main && break || (git pull --rebase origin main && sleep 5); done
+
+
+  # ── INTRADAY SCAN ──────────────────────────────────────────────────────────
+  intraday_scan:
+    name: Intraday Scan
+    runs-on: ubuntu-latest
+    if: >
+      (github.event_name == 'schedule' && (
+        github.event.schedule == '1 14 * * 1-5'  || github.event.schedule == '31 14 * * 1-5' ||
+        github.event.schedule == '1 15 * * 1-5'  || github.event.schedule == '31 15 * * 1-5' ||
+        github.event.schedule == '1 16 * * 1-5'  || github.event.schedule == '31 16 * * 1-5' ||
+        github.event.schedule == '1 17 * * 1-5'  || github.event.schedule == '31 17 * * 1-5' ||
+        github.event.schedule == '1 18 * * 1-5'  || github.event.schedule == '31 18 * * 1-5' ||
+        github.event.schedule == '1 19 * * 1-5'  || github.event.schedule == '31 19 * * 1-5' ||
+        github.event.schedule == '1 20 * * 1-5'  || github.event.schedule == '31 20 * * 1-5' ||
+        github.event.schedule == '1 21 * * 1-5'  || github.event.schedule == '31 21 * * 1-5'
+      )) ||
+      (github.event_name == 'workflow_dispatch' && github.event.inputs.job_type == 'intraday')
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GH_PAT }}
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: 'pip'
+      - run: pip install --quiet yfinance pandas numpy pyarrow
+      - name: pivot_scanner
+        continue-on-error: true
+        env:
+          POLYGON_API_KEY: ${{ secrets.POLYGON_API_KEY }}
+        run: python pivot_scanner.py
+      - name: radar_prep
+        continue-on-error: true
+        run: python radar_prep.py
+      - name: Commit and push
+        run: |
+          git config user.email "actions@github.com"
+          git config user.name "GitHub Actions Bot"
+          git remote set-url origin https://x-access-token:${{ secrets.GH_PAT }}@github.com/${{ github.repository }}
+          git add data/ pivot_data.db 2>/dev/null || true
+          git stash || true
+          git pull --rebase origin main || true
+          git stash pop || true
+          git add data/ pivot_data.db 2>/dev/null || true
+          git diff --staged --quiet || git commit -m "[ci skip] data update [intraday]"
+          for i in 1 2 3; do git push origin main && break || (git pull --rebase origin main && sleep 5); done
