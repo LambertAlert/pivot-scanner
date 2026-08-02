@@ -38,6 +38,7 @@ daily_screener:
   before_script: [pip install --quiet yfinance pandas numpy pyarrow]
   script:
     - python daily_screener.py
+    - python alpha_features.py
     - python radar_prep.py
     - python volume_surge_prep.py
     - python tactical_macro_prep.py
