@@ -101,6 +101,8 @@ jobs:
       - run: pip install --quiet yfinance pandas numpy pyarrow fredapi polygon-api-client
       - name: daily_screener
         run: python daily_screener.py
+      - name: alpha_features
+        run: python alpha_features.py
       - name: radar_prep
         run: python radar_prep.py
       - name: volume_surge_prep
