@@ -1,6 +1,6 @@
 {
-  "scan_time": "2026-08-02T14:27:27.324490",
-  "count": 88,
+  "scan_time": "2026-08-03T02:34:05.063533",
+  "count": 137,
   "entries": [
     {
       "ticker": "GKOS",
@@ -42,6 +42,45 @@
       "rs_rating": 77
     },
     {
+      "ticker": "ACOG",
+      "stage": 2,
+      "trend_template_score": 8,
+      "trend_template_criteria": {
+        "1_above_150sma": true,
+        "2_above_200sma": true,
+        "3_150_above_200": true,
+        "4_200_trending_up": true,
+        "5_50_above_150_and_200": true,
+        "6_above_50sma": true,
+        "7_above_low_30pct": true,
+        "8_within_25pct_high": true
+      },
+      "bbuw_score": 48.5,
+      "bbuw_components": {
+        "range_contraction": 0,
+        "volume_contraction": 0,
+        "higher_lows": 80.0,
+        "coil_duration": 15,
+        "rs_vs_spy": 100,
+        "pullback_depth": 100
+      },
+      "pivot_8w_fired": true,
+      "pivot_8w_tier": "STRONG",
+      "ema8": 7.6559,
+      "pct_from_ema8": 8.15,
+      "ema8_rising": true,
+      "pivot_8w_volume_spike": true,
+      "ep_fired": false,
+      "ep_tier": "NONE",
+      "ep_score": 12.88,
+      "ep_week_pct": 4.81,
+      "ep_rvol": 2.68,
+      "ep_4w_pct": 4.94,
+      "ep_above_50sma": true,
+      "rs_raw_factor": 1.303822,
+      "rs_rating": 60
+    },
+    {
       "ticker": "GRMN",
       "stage": 2,
       "trend_template_score": 8,
@@ -78,7 +117,7 @@
       "ep_4w_pct": 22.4,
       "ep_above_50sma": true,
       "rs_raw_factor": 1.268912,
-      "rs_rating": 48
+      "rs_rating": 57
     },
     {
       "ticker": "QUAD",
@@ -117,7 +156,46 @@
       "ep_4w_pct": 24.13,
       "ep_above_50sma": true,
       "rs_raw_factor": 1.707497,
-      "rs_rating": 88
+      "rs_rating": 84
+    },
+    {
+      "ticker": "BVC",
+      "stage": 2,
+      "trend_template_score": 8,
+      "trend_template_criteria": {
+        "1_above_150sma": true,
+        "2_above_200sma": true,
+        "3_150_above_200": true,
+        "4_200_trending_up": true,
+        "5_50_above_150_and_200": true,
+        "6_above_50sma": true,
+        "7_above_low_30pct": true,
+        "8_within_25pct_high": true
+      },
+      "bbuw_score": 43.6,
+      "bbuw_components": {
+        "range_contraction": 0,
+        "volume_contraction": 0,
+        "higher_lows": 80.0,
+        "coil_duration": 15,
+        "rs_vs_spy": 98.1,
+        "pullback_depth": 70
+      },
+      "pivot_8w_fired": true,
+      "pivot_8w_tier": "STRONG",
+      "ema8": 10.4518,
+      "pct_from_ema8": 6.97,
+      "ema8_rising": true,
+      "pivot_8w_volume_spike": true,
+      "ep_fired": false,
+      "ep_tier": "NONE",
+      "ep_score": 61.41,
+      "ep_week_pct": 6.78,
+      "ep_rvol": 9.06,
+      "ep_4w_pct": 30.91,
+      "ep_above_50sma": true,
+      "rs_raw_factor": 5.619147,
+      "rs_rating": 99
     },
     {
       "ticker": "ITGR",
@@ -156,7 +234,7 @@
       "ep_4w_pct": 27.4,
       "ep_above_50sma": true,
       "rs_raw_factor": 1.407526,
-      "rs_rating": 68
+      "rs_rating": 70
     },
     {
       "ticker": "SMTI",
@@ -189,13 +267,130 @@
       "pivot_8w_volume_spike": true,
       "ep_fired": true,
       "ep_tier": "STRONG",
-      "ep_score": 543.33,
+      "ep_score": 543.34,
       "ep_week_pct": 32.47,
       "ep_rvol": 16.73,
       "ep_4w_pct": 36.31,
       "ep_above_50sma": true,
       "rs_raw_factor": 1.527813,
-      "rs_rating": 78
+      "rs_rating": 77
+    },
+    {
+      "ticker": "NKLR",
+      "stage": 1,
+      "trend_template_score": 1,
+      "trend_template_criteria": {
+        "1_above_150sma": false,
+        "2_above_200sma": false,
+        "3_150_above_200": false,
+        "4_200_trending_up": false,
+        "5_50_above_150_and_200": false,
+        "6_above_50sma": false,
+        "7_above_low_30pct": true,
+        "8_within_25pct_high": false
+      },
+      "bbuw_score": 40.8,
+      "bbuw_components": {
+        "range_contraction": 46.2,
+        "volume_contraction": 0,
+        "higher_lows": 60.0,
+        "coil_duration": 30,
+        "rs_vs_spy": 63.5,
+        "pullback_depth": 30
+      },
+      "pivot_8w_fired": true,
+      "pivot_8w_tier": "STRONG",
+      "ema8": 5.0625,
+      "pct_from_ema8": 1.53,
+      "ema8_rising": true,
+      "pivot_8w_volume_spike": true,
+      "ep_fired": false,
+      "ep_tier": "NONE",
+      "ep_score": 5.76,
+      "ep_week_pct": 1.78,
+      "ep_rvol": 3.23,
+      "ep_4w_pct": 11.26,
+      "ep_above_50sma": false,
+      "rs_raw_factor": 0.801123,
+      "rs_rating": 8
+    },
+    {
+      "ticker": "TRMD",
+      "stage": 2,
+      "trend_template_score": 8,
+      "trend_template_criteria": {
+        "1_above_150sma": true,
+        "2_above_200sma": true,
+        "3_150_above_200": true,
+        "4_200_trending_up": true,
+        "5_50_above_150_and_200": true,
+        "6_above_50sma": true,
+        "7_above_low_30pct": true,
+        "8_within_25pct_high": true
+      },
+      "bbuw_score": 75.4,
+      "bbuw_components": {
+        "range_contraction": 63.6,
+        "volume_contraction": 89.8,
+        "higher_lows": 80.0,
+        "coil_duration": 15,
+        "rs_vs_spy": 87.9,
+        "pullback_depth": 100
+      },
+      "pivot_8w_fired": true,
+      "pivot_8w_tier": "STANDARD",
+      "ema8": 29.3593,
+      "pct_from_ema8": 3.24,
+      "ema8_rising": true,
+      "pivot_8w_volume_spike": false,
+      "ep_fired": false,
+      "ep_tier": "NONE",
+      "ep_score": 0.05,
+      "ep_week_pct": 0.1,
+      "ep_rvol": 0.55,
+      "ep_4w_pct": 9.42,
+      "ep_above_50sma": true,
+      "rs_raw_factor": 1.297237,
+      "rs_rating": 60
+    },
+    {
+      "ticker": "FSLY",
+      "stage": 2,
+      "trend_template_score": 6,
+      "trend_template_criteria": {
+        "1_above_150sma": true,
+        "2_above_200sma": true,
+        "3_150_above_200": true,
+        "4_200_trending_up": true,
+        "5_50_above_150_and_200": false,
+        "6_above_50sma": true,
+        "7_above_low_30pct": true,
+        "8_within_25pct_high": false
+      },
+      "bbuw_score": 73.5,
+      "bbuw_components": {
+        "range_contraction": 63.0,
+        "volume_contraction": 81.5,
+        "higher_lows": 80.0,
+        "coil_duration": 90,
+        "rs_vs_spy": 100,
+        "pullback_depth": 30
+      },
+      "pivot_8w_fired": true,
+      "pivot_8w_tier": "STANDARD",
+      "ema8": 20.1632,
+      "pct_from_ema8": 12.38,
+      "ema8_rising": true,
+      "pivot_8w_volume_spike": false,
+      "ep_fired": false,
+      "ep_tier": "NONE",
+      "ep_score": 7.29,
+      "ep_week_pct": 11.96,
+      "ep_rvol": 0.61,
+      "ep_4w_pct": 24.99,
+      "ep_above_50sma": true,
+      "rs_raw_factor": 2.03829,
+      "rs_rating": 92
     },
     {
       "ticker": "CMBT",
@@ -233,8 +428,125 @@
       "ep_rvol": 0.53,
       "ep_4w_pct": 10.99,
       "ep_above_50sma": true,
-      "rs_raw_factor": 1.507454,
-      "rs_rating": 75
+      "rs_raw_factor": 1.507453,
+      "rs_rating": 76
+    },
+    {
+      "ticker": "TEN",
+      "stage": 2,
+      "trend_template_score": 8,
+      "trend_template_criteria": {
+        "1_above_150sma": true,
+        "2_above_200sma": true,
+        "3_150_above_200": true,
+        "4_200_trending_up": true,
+        "5_50_above_150_and_200": true,
+        "6_above_50sma": true,
+        "7_above_low_30pct": true,
+        "8_within_25pct_high": true
+      },
+      "bbuw_score": 62.4,
+      "bbuw_components": {
+        "range_contraction": 30.9,
+        "volume_contraction": 51.4,
+        "higher_lows": 80.0,
+        "coil_duration": 0,
+        "rs_vs_spy": 100,
+        "pullback_depth": 100
+      },
+      "pivot_8w_fired": true,
+      "pivot_8w_tier": "STANDARD",
+      "ema8": 38.3433,
+      "pct_from_ema8": 4.63,
+      "ema8_rising": true,
+      "pivot_8w_volume_spike": false,
+      "ep_fired": false,
+      "ep_tier": "NONE",
+      "ep_score": 0.91,
+      "ep_week_pct": 1.83,
+      "ep_rvol": 0.5,
+      "ep_4w_pct": 10.15,
+      "ep_above_50sma": true,
+      "rs_raw_factor": 1.473835,
+      "rs_rating": 74
+    },
+    {
+      "ticker": "ANTX",
+      "stage": 2,
+      "trend_template_score": 8,
+      "trend_template_criteria": {
+        "1_above_150sma": true,
+        "2_above_200sma": true,
+        "3_150_above_200": true,
+        "4_200_trending_up": true,
+        "5_50_above_150_and_200": true,
+        "6_above_50sma": true,
+        "7_above_low_30pct": true,
+        "8_within_25pct_high": true
+      },
+      "bbuw_score": 61.0,
+      "bbuw_components": {
+        "range_contraction": 34.9,
+        "volume_contraction": 55.5,
+        "higher_lows": 60.0,
+        "coil_duration": 0,
+        "rs_vs_spy": 100,
+        "pullback_depth": 100
+      },
+      "pivot_8w_fired": true,
+      "pivot_8w_tier": "STANDARD",
+      "ema8": 4.8108,
+      "pct_from_ema8": 11.21,
+      "ema8_rising": true,
+      "pivot_8w_volume_spike": false,
+      "ep_fired": false,
+      "ep_tier": "NONE",
+      "ep_score": 2.2,
+      "ep_week_pct": 8.74,
+      "ep_rvol": 0.25,
+      "ep_4w_pct": 21.04,
+      "ep_above_50sma": true,
+      "rs_raw_factor": 3.24669,
+      "rs_rating": 97
+    },
+    {
+      "ticker": "AGPU",
+      "stage": 2,
+      "trend_template_score": 5,
+      "trend_template_criteria": {
+        "1_above_150sma": true,
+        "2_above_200sma": true,
+        "3_150_above_200": false,
+        "4_200_trending_up": false,
+        "5_50_above_150_and_200": true,
+        "6_above_50sma": true,
+        "7_above_low_30pct": true,
+        "8_within_25pct_high": false
+      },
+      "bbuw_score": 59.0,
+      "bbuw_components": {
+        "range_contraction": 0,
+        "volume_contraction": 100,
+        "higher_lows": 60.0,
+        "coil_duration": 45,
+        "rs_vs_spy": 100,
+        "pullback_depth": 70
+      },
+      "pivot_8w_fired": true,
+      "pivot_8w_tier": "STANDARD",
+      "ema8": 7.1841,
+      "pct_from_ema8": 16.65,
+      "ema8_rising": true,
+      "pivot_8w_volume_spike": false,
+      "ep_fired": false,
+      "ep_tier": "NONE",
+      "ep_score": 9.75,
+      "ep_week_pct": 22.34,
+      "ep_rvol": 0.44,
+      "ep_4w_pct": 18.36,
+      "ep_above_50sma": true,
+      "rs_raw_factor": 1.550747,
+      "rs_rating": 78
     },
     {
       "ticker": "GLP",
@@ -273,7 +585,7 @@
       "ep_4w_pct": 4.21,
       "ep_above_50sma": true,
       "rs_raw_factor": 1.05681,
-      "rs_rating": 11
+      "rs_rating": 32
     },
     {
       "ticker": "WDS",
@@ -312,7 +624,46 @@
       "ep_4w_pct": 20.06,
       "ep_above_50sma": true,
       "rs_raw_factor": 1.25286,
-      "rs_rating": 45
+      "rs_rating": 56
+    },
+    {
+      "ticker": "ASBP",
+      "stage": 2,
+      "trend_template_score": 5,
+      "trend_template_criteria": {
+        "1_above_150sma": true,
+        "2_above_200sma": true,
+        "3_150_above_200": false,
+        "4_200_trending_up": false,
+        "5_50_above_150_and_200": true,
+        "6_above_50sma": true,
+        "7_above_low_30pct": true,
+        "8_within_25pct_high": false
+      },
+      "bbuw_score": 56.0,
+      "bbuw_components": {
+        "range_contraction": 0,
+        "volume_contraction": 100,
+        "higher_lows": 60.0,
+        "coil_duration": 15,
+        "rs_vs_spy": 100,
+        "pullback_depth": 70
+      },
+      "pivot_8w_fired": true,
+      "pivot_8w_tier": "STANDARD",
+      "ema8": 6.06,
+      "pct_from_ema8": 7.59,
+      "ema8_rising": true,
+      "pivot_8w_volume_spike": false,
+      "ep_fired": false,
+      "ep_tier": "NONE",
+      "ep_score": 0.0,
+      "ep_week_pct": -10.19,
+      "ep_rvol": 0.0,
+      "ep_4w_pct": 4.99,
+      "ep_above_50sma": true,
+      "rs_raw_factor": 12.843482,
+      "rs_rating": 99
     },
     {
       "ticker": "SNOW",
@@ -351,7 +702,85 @@
       "ep_4w_pct": 12.73,
       "ep_above_50sma": true,
       "rs_raw_factor": 1.639748,
-      "rs_rating": 82
+      "rs_rating": 81
+    },
+    {
+      "ticker": "VTOL",
+      "stage": 2,
+      "trend_template_score": 7,
+      "trend_template_criteria": {
+        "1_above_150sma": true,
+        "2_above_200sma": true,
+        "3_150_above_200": true,
+        "4_200_trending_up": true,
+        "5_50_above_150_and_200": false,
+        "6_above_50sma": true,
+        "7_above_low_30pct": true,
+        "8_within_25pct_high": true
+      },
+      "bbuw_score": 54.6,
+      "bbuw_components": {
+        "range_contraction": 48.1,
+        "volume_contraction": 47.1,
+        "higher_lows": 80.0,
+        "coil_duration": 15,
+        "rs_vs_spy": 35.1,
+        "pullback_depth": 100
+      },
+      "pivot_8w_fired": true,
+      "pivot_8w_tier": "STANDARD",
+      "ema8": 44.0847,
+      "pct_from_ema8": 2.8,
+      "ema8_rising": true,
+      "pivot_8w_volume_spike": false,
+      "ep_fired": false,
+      "ep_tier": "NONE",
+      "ep_score": 0.0,
+      "ep_week_pct": -0.85,
+      "ep_rvol": 0.87,
+      "ep_4w_pct": 9.44,
+      "ep_above_50sma": true,
+      "rs_raw_factor": 1.066502,
+      "rs_rating": 34
+    },
+    {
+      "ticker": "APA",
+      "stage": 2,
+      "trend_template_score": 8,
+      "trend_template_criteria": {
+        "1_above_150sma": true,
+        "2_above_200sma": true,
+        "3_150_above_200": true,
+        "4_200_trending_up": true,
+        "5_50_above_150_and_200": true,
+        "6_above_50sma": true,
+        "7_above_low_30pct": true,
+        "8_within_25pct_high": true
+      },
+      "bbuw_score": 52.5,
+      "bbuw_components": {
+        "range_contraction": 28.9,
+        "volume_contraction": 8.8,
+        "higher_lows": 60.0,
+        "coil_duration": 45,
+        "rs_vs_spy": 100,
+        "pullback_depth": 70
+      },
+      "pivot_8w_fired": true,
+      "pivot_8w_tier": "STANDARD",
+      "ema8": 35.3778,
+      "pct_from_ema8": 5.49,
+      "ema8_rising": true,
+      "pivot_8w_volume_spike": false,
+      "ep_fired": false,
+      "ep_tier": "NONE",
+      "ep_score": 3.68,
+      "ep_week_pct": 3.24,
+      "ep_rvol": 1.14,
+      "ep_4w_pct": 16.14,
+      "ep_above_50sma": true,
+      "rs_raw_factor": 1.389835,
+      "rs_rating": 68
     },
     {
       "ticker": "PENN",
@@ -370,7 +799,7 @@
       "bbuw_score": 52.4,
       "bbuw_components": {
         "range_contraction": 15.7,
-        "volume_contraction": 49.9,
+        "volume_contraction": 49.7,
         "higher_lows": 40.0,
         "coil_duration": 0,
         "rs_vs_spy": 100,
@@ -384,13 +813,13 @@
       "pivot_8w_volume_spike": false,
       "ep_fired": false,
       "ep_tier": "NONE",
-      "ep_score": 0.19,
+      "ep_score": 0.2,
       "ep_week_pct": 0.24,
       "ep_rvol": 0.8,
       "ep_4w_pct": -6.77,
       "ep_above_50sma": true,
       "rs_raw_factor": 1.240939,
-      "rs_rating": 43
+      "rs_rating": 55
     },
     {
       "ticker": "TXO",
@@ -429,7 +858,7 @@
       "ep_4w_pct": 8.57,
       "ep_above_50sma": true,
       "rs_raw_factor": 1.095132,
-      "rs_rating": 16
+      "rs_rating": 37
     },
     {
       "ticker": "CQP",
@@ -468,7 +897,7 @@
       "ep_4w_pct": 7.43,
       "ep_above_50sma": true,
       "rs_raw_factor": 1.133725,
-      "rs_rating": 25
+      "rs_rating": 42
     },
     {
       "ticker": "PR",
@@ -507,7 +936,46 @@
       "ep_4w_pct": 17.09,
       "ep_above_50sma": true,
       "rs_raw_factor": 1.334455,
-      "rs_rating": 57
+      "rs_rating": 63
+    },
+    {
+      "ticker": "RCUS",
+      "stage": 2,
+      "trend_template_score": 8,
+      "trend_template_criteria": {
+        "1_above_150sma": true,
+        "2_above_200sma": true,
+        "3_150_above_200": true,
+        "4_200_trending_up": true,
+        "5_50_above_150_and_200": true,
+        "6_above_50sma": true,
+        "7_above_low_30pct": true,
+        "8_within_25pct_high": true
+      },
+      "bbuw_score": 50.0,
+      "bbuw_components": {
+        "range_contraction": 8.6,
+        "volume_contraction": 35.5,
+        "higher_lows": 40.0,
+        "coil_duration": 15,
+        "rs_vs_spy": 100,
+        "pullback_depth": 100
+      },
+      "pivot_8w_fired": true,
+      "pivot_8w_tier": "STANDARD",
+      "ema8": 27.6192,
+      "pct_from_ema8": 2.07,
+      "ema8_rising": true,
+      "pivot_8w_volume_spike": false,
+      "ep_fired": false,
+      "ep_tier": "NONE",
+      "ep_score": 0.0,
+      "ep_week_pct": -0.81,
+      "ep_rvol": 1.13,
+      "ep_4w_pct": -7.06,
+      "ep_above_50sma": true,
+      "rs_raw_factor": 1.582419,
+      "rs_rating": 79
     },
     {
       "ticker": "CNQ",
@@ -546,7 +1014,7 @@
       "ep_4w_pct": 20.28,
       "ep_above_50sma": true,
       "rs_raw_factor": 1.276298,
-      "rs_rating": 49
+      "rs_rating": 58
     },
     {
       "ticker": "EOG",
@@ -585,7 +1053,7 @@
       "ep_4w_pct": 14.54,
       "ep_above_50sma": true,
       "rs_raw_factor": 1.237238,
-      "rs_rating": 42
+      "rs_rating": 54
     },
     {
       "ticker": "S",
@@ -624,7 +1092,7 @@
       "ep_4w_pct": 8.85,
       "ep_above_50sma": true,
       "rs_raw_factor": 1.228092,
-      "rs_rating": 41
+      "rs_rating": 53
     },
     {
       "ticker": "FLNG",
@@ -663,7 +1131,7 @@
       "ep_4w_pct": 6.56,
       "ep_above_50sma": true,
       "rs_raw_factor": 1.181509,
-      "rs_rating": 32
+      "rs_rating": 47
     },
     {
       "ticker": "SM",
@@ -702,7 +1170,46 @@
       "ep_4w_pct": 21.12,
       "ep_above_50sma": true,
       "rs_raw_factor": 1.339111,
-      "rs_rating": 58
+      "rs_rating": 64
+    },
+    {
+      "ticker": "QURE",
+      "stage": 2,
+      "trend_template_score": 5,
+      "trend_template_criteria": {
+        "1_above_150sma": true,
+        "2_above_200sma": true,
+        "3_150_above_200": false,
+        "4_200_trending_up": false,
+        "5_50_above_150_and_200": true,
+        "6_above_50sma": true,
+        "7_above_low_30pct": true,
+        "8_within_25pct_high": false
+      },
+      "bbuw_score": 47.5,
+      "bbuw_components": {
+        "range_contraction": 13.4,
+        "volume_contraction": 50.8,
+        "higher_lows": 0.0,
+        "coil_duration": 15,
+        "rs_vs_spy": 100,
+        "pullback_depth": 100
+      },
+      "pivot_8w_fired": true,
+      "pivot_8w_tier": "STANDARD",
+      "ema8": 39.2772,
+      "pct_from_ema8": 11.08,
+      "ema8_rising": true,
+      "pivot_8w_volume_spike": false,
+      "ep_fired": true,
+      "ep_tier": "WATCH",
+      "ep_score": 15.71,
+      "ep_week_pct": 11.96,
+      "ep_rvol": 1.31,
+      "ep_4w_pct": 4.35,
+      "ep_above_50sma": true,
+      "rs_raw_factor": 1.971788,
+      "rs_rating": 91
     },
     {
       "ticker": "CVE",
@@ -741,7 +1248,7 @@
       "ep_4w_pct": 22.47,
       "ep_above_50sma": true,
       "rs_raw_factor": 1.482757,
-      "rs_rating": 74
+      "rs_rating": 75
     },
     {
       "ticker": "CHRD",
@@ -774,13 +1281,52 @@
       "pivot_8w_volume_spike": false,
       "ep_fired": false,
       "ep_tier": "NONE",
-      "ep_score": 1.43,
+      "ep_score": 1.44,
       "ep_week_pct": 1.46,
-      "ep_rvol": 0.98,
+      "ep_rvol": 0.99,
       "ep_4w_pct": 23.88,
       "ep_above_50sma": true,
       "rs_raw_factor": 1.261233,
-      "rs_rating": 47
+      "rs_rating": 57
+    },
+    {
+      "ticker": "OBE",
+      "stage": 2,
+      "trend_template_score": 7,
+      "trend_template_criteria": {
+        "1_above_150sma": true,
+        "2_above_200sma": true,
+        "3_150_above_200": true,
+        "4_200_trending_up": true,
+        "5_50_above_150_and_200": true,
+        "6_above_50sma": true,
+        "7_above_low_30pct": true,
+        "8_within_25pct_high": false
+      },
+      "bbuw_score": 46.8,
+      "bbuw_components": {
+        "range_contraction": 41.3,
+        "volume_contraction": 9.7,
+        "higher_lows": 60.0,
+        "coil_duration": 15,
+        "rs_vs_spy": 100,
+        "pullback_depth": 30
+      },
+      "pivot_8w_fired": true,
+      "pivot_8w_tier": "STANDARD",
+      "ema8": 9.9791,
+      "pct_from_ema8": 7.42,
+      "ema8_rising": true,
+      "pivot_8w_volume_spike": false,
+      "ep_fired": false,
+      "ep_tier": "NONE",
+      "ep_score": 1.35,
+      "ep_week_pct": 1.23,
+      "ep_rvol": 1.1,
+      "ep_4w_pct": 33.83,
+      "ep_above_50sma": true,
+      "rs_raw_factor": 1.291942,
+      "rs_rating": 59
     },
     {
       "ticker": "MUR",
@@ -819,7 +1365,85 @@
       "ep_4w_pct": 24.65,
       "ep_above_50sma": true,
       "rs_raw_factor": 1.262715,
-      "rs_rating": 48
+      "rs_rating": 57
+    },
+    {
+      "ticker": "VSAT",
+      "stage": 2,
+      "trend_template_score": 8,
+      "trend_template_criteria": {
+        "1_above_150sma": true,
+        "2_above_200sma": true,
+        "3_150_above_200": true,
+        "4_200_trending_up": true,
+        "5_50_above_150_and_200": true,
+        "6_above_50sma": true,
+        "7_above_low_30pct": true,
+        "8_within_25pct_high": true
+      },
+      "bbuw_score": 45.8,
+      "bbuw_components": {
+        "range_contraction": 0,
+        "volume_contraction": 22.0,
+        "higher_lows": 80.0,
+        "coil_duration": 0,
+        "rs_vs_spy": 100,
+        "pullback_depth": 70
+      },
+      "pivot_8w_fired": true,
+      "pivot_8w_tier": "STANDARD",
+      "ema8": 72.4085,
+      "pct_from_ema8": 6.24,
+      "ema8_rising": true,
+      "pivot_8w_volume_spike": false,
+      "ep_fired": false,
+      "ep_tier": "NONE",
+      "ep_score": 6.85,
+      "ep_week_pct": 7.29,
+      "ep_rvol": 0.94,
+      "ep_4w_pct": -7.38,
+      "ep_above_50sma": true,
+      "rs_raw_factor": 2.181468,
+      "rs_rating": 93
+    },
+    {
+      "ticker": "TWST",
+      "stage": 2,
+      "trend_template_score": 8,
+      "trend_template_criteria": {
+        "1_above_150sma": true,
+        "2_above_200sma": true,
+        "3_150_above_200": true,
+        "4_200_trending_up": true,
+        "5_50_above_150_and_200": true,
+        "6_above_50sma": true,
+        "7_above_low_30pct": true,
+        "8_within_25pct_high": true
+      },
+      "bbuw_score": 45.7,
+      "bbuw_components": {
+        "range_contraction": 0,
+        "volume_contraction": 31.4,
+        "higher_lows": 40.0,
+        "coil_duration": 0,
+        "rs_vs_spy": 100,
+        "pullback_depth": 100
+      },
+      "pivot_8w_fired": true,
+      "pivot_8w_tier": "STANDARD",
+      "ema8": 87.6978,
+      "pct_from_ema8": 4.39,
+      "ema8_rising": true,
+      "pivot_8w_volume_spike": false,
+      "ep_fired": false,
+      "ep_tier": "NONE",
+      "ep_score": 1.7,
+      "ep_week_pct": 1.42,
+      "ep_rvol": 1.2,
+      "ep_4w_pct": -7.75,
+      "ep_above_50sma": true,
+      "rs_raw_factor": 2.139512,
+      "rs_rating": 92
     },
     {
       "ticker": "VRSN",
@@ -852,13 +1476,91 @@
       "pivot_8w_volume_spike": false,
       "ep_fired": false,
       "ep_tier": "NONE",
-      "ep_score": 4.7,
+      "ep_score": 4.73,
       "ep_week_pct": 3.58,
-      "ep_rvol": 1.31,
+      "ep_rvol": 1.32,
       "ep_4w_pct": 13.1,
       "ep_above_50sma": true,
       "rs_raw_factor": 1.135544,
-      "rs_rating": 26
+      "rs_rating": 43
+    },
+    {
+      "ticker": "PKE",
+      "stage": 2,
+      "trend_template_score": 7,
+      "trend_template_criteria": {
+        "1_above_150sma": true,
+        "2_above_200sma": true,
+        "3_150_above_200": true,
+        "4_200_trending_up": true,
+        "5_50_above_150_and_200": true,
+        "6_above_50sma": false,
+        "7_above_low_30pct": true,
+        "8_within_25pct_high": true
+      },
+      "bbuw_score": 45.5,
+      "bbuw_components": {
+        "range_contraction": 0,
+        "volume_contraction": 0,
+        "higher_lows": 60.0,
+        "coil_duration": 15,
+        "rs_vs_spy": 100,
+        "pullback_depth": 100
+      },
+      "pivot_8w_fired": true,
+      "pivot_8w_tier": "STANDARD",
+      "ema8": 33.8249,
+      "pct_from_ema8": 0.22,
+      "ema8_rising": true,
+      "pivot_8w_volume_spike": false,
+      "ep_fired": false,
+      "ep_tier": "NONE",
+      "ep_score": 0.0,
+      "ep_week_pct": -0.99,
+      "ep_rvol": 1.17,
+      "ep_4w_pct": -10.39,
+      "ep_above_50sma": true,
+      "rs_raw_factor": 1.415433,
+      "rs_rating": 71
+    },
+    {
+      "ticker": "GTE",
+      "stage": 2,
+      "trend_template_score": 8,
+      "trend_template_criteria": {
+        "1_above_150sma": true,
+        "2_above_200sma": true,
+        "3_150_above_200": true,
+        "4_200_trending_up": true,
+        "5_50_above_150_and_200": true,
+        "6_above_50sma": true,
+        "7_above_low_30pct": true,
+        "8_within_25pct_high": true
+      },
+      "bbuw_score": 45.4,
+      "bbuw_components": {
+        "range_contraction": 15.0,
+        "volume_contraction": 4.0,
+        "higher_lows": 60.0,
+        "coil_duration": 15,
+        "rs_vs_spy": 100,
+        "pullback_depth": 70
+      },
+      "pivot_8w_fired": true,
+      "pivot_8w_tier": "STANDARD",
+      "ema8": 7.1212,
+      "pct_from_ema8": 5.18,
+      "ema8_rising": true,
+      "pivot_8w_volume_spike": false,
+      "ep_fired": false,
+      "ep_tier": "NONE",
+      "ep_score": 2.15,
+      "ep_week_pct": 2.04,
+      "ep_rvol": 1.05,
+      "ep_4w_pct": 26.73,
+      "ep_above_50sma": true,
+      "rs_raw_factor": 1.299201,
+      "rs_rating": 60
     },
     {
       "ticker": "ANET",
@@ -897,7 +1599,7 @@
       "ep_4w_pct": 12.73,
       "ep_above_50sma": true,
       "rs_raw_factor": 1.186684,
-      "rs_rating": 33
+      "rs_rating": 48
     },
     {
       "ticker": "DDOG",
@@ -916,7 +1618,7 @@
       "bbuw_score": 44.3,
       "bbuw_components": {
         "range_contraction": 0,
-        "volume_contraction": 42.0,
+        "volume_contraction": 41.8,
         "higher_lows": 60.0,
         "coil_duration": 0,
         "rs_vs_spy": 100,
@@ -930,13 +1632,13 @@
       "pivot_8w_volume_spike": false,
       "ep_fired": false,
       "ep_tier": "NONE",
-      "ep_score": 9.77,
+      "ep_score": 9.8,
       "ep_week_pct": 8.55,
-      "ep_rvol": 1.14,
+      "ep_rvol": 1.15,
       "ep_4w_pct": 2.92,
       "ep_above_50sma": true,
       "rs_raw_factor": 1.929736,
-      "rs_rating": 94
+      "rs_rating": 90
     },
     {
       "ticker": "MT",
@@ -1008,13 +1710,13 @@
       "pivot_8w_volume_spike": false,
       "ep_fired": false,
       "ep_tier": "NONE",
-      "ep_score": 8.98,
+      "ep_score": 9.01,
       "ep_week_pct": 7.88,
       "ep_rvol": 1.14,
       "ep_4w_pct": -0.81,
       "ep_above_50sma": true,
       "rs_raw_factor": 1.386334,
-      "rs_rating": 65
+      "rs_rating": 68
     },
     {
       "ticker": "FORR",
@@ -1053,7 +1755,7 @@
       "ep_4w_pct": 21.69,
       "ep_above_50sma": true,
       "rs_raw_factor": 1.517699,
-      "rs_rating": 77
+      "rs_rating": 76
     },
     {
       "ticker": "E",
@@ -1092,7 +1794,46 @@
       "ep_4w_pct": 18.54,
       "ep_above_50sma": true,
       "rs_raw_factor": 1.309677,
-      "rs_rating": 54
+      "rs_rating": 62
+    },
+    {
+      "ticker": "VG",
+      "stage": 2,
+      "trend_template_score": 7,
+      "trend_template_criteria": {
+        "1_above_150sma": true,
+        "2_above_200sma": true,
+        "3_150_above_200": true,
+        "4_200_trending_up": false,
+        "5_50_above_150_and_200": true,
+        "6_above_50sma": true,
+        "7_above_low_30pct": true,
+        "8_within_25pct_high": true
+      },
+      "bbuw_score": 42.5,
+      "bbuw_components": {
+        "range_contraction": 0,
+        "volume_contraction": 0,
+        "higher_lows": 60.0,
+        "coil_duration": 30,
+        "rs_vs_spy": 100,
+        "pullback_depth": 70
+      },
+      "pivot_8w_fired": true,
+      "pivot_8w_tier": "STANDARD",
+      "ema8": 12.9351,
+      "pct_from_ema8": 3.44,
+      "ema8_rising": true,
+      "pivot_8w_volume_spike": false,
+      "ep_fired": false,
+      "ep_tier": "NONE",
+      "ep_score": 0.0,
+      "ep_week_pct": -6.5,
+      "ep_rvol": 0.74,
+      "ep_4w_pct": 20.22,
+      "ep_above_50sma": true,
+      "rs_raw_factor": 1.143326,
+      "rs_rating": 44
     },
     {
       "ticker": "GH",
@@ -1131,7 +1872,46 @@
       "ep_4w_pct": -3.57,
       "ep_above_50sma": true,
       "rs_raw_factor": 2.219896,
-      "rs_rating": 97
+      "rs_rating": 93
+    },
+    {
+      "ticker": "NTR",
+      "stage": 1,
+      "trend_template_score": 6,
+      "trend_template_criteria": {
+        "1_above_150sma": false,
+        "2_above_200sma": true,
+        "3_150_above_200": true,
+        "4_200_trending_up": true,
+        "5_50_above_150_and_200": false,
+        "6_above_50sma": true,
+        "7_above_low_30pct": true,
+        "8_within_25pct_high": true
+      },
+      "bbuw_score": 42.0,
+      "bbuw_components": {
+        "range_contraction": 23.1,
+        "volume_contraction": 31.8,
+        "higher_lows": 60.0,
+        "coil_duration": 0,
+        "rs_vs_spy": 37.2,
+        "pullback_depth": 100
+      },
+      "pivot_8w_fired": true,
+      "pivot_8w_tier": "STANDARD",
+      "ema8": 67.056,
+      "pct_from_ema8": 3.0,
+      "ema8_rising": true,
+      "pivot_8w_volume_spike": false,
+      "ep_fired": false,
+      "ep_tier": "NONE",
+      "ep_score": 1.25,
+      "ep_week_pct": 1.42,
+      "ep_rvol": 0.88,
+      "ep_4w_pct": 6.16,
+      "ep_above_50sma": true,
+      "rs_raw_factor": 1.047054,
+      "rs_rating": 31
     },
     {
       "ticker": "FANG",
@@ -1150,7 +1930,7 @@
       "bbuw_score": 41.6,
       "bbuw_components": {
         "range_contraction": 5.2,
-        "volume_contraction": 44.3,
+        "volume_contraction": 44.2,
         "higher_lows": 60.0,
         "coil_duration": 0,
         "rs_vs_spy": 78.5,
@@ -1170,7 +1950,7 @@
       "ep_4w_pct": 17.97,
       "ep_above_50sma": true,
       "rs_raw_factor": 1.21738,
-      "rs_rating": 40
+      "rs_rating": 53
     },
     {
       "ticker": "AAMI",
@@ -1209,7 +1989,7 @@
       "ep_4w_pct": 18.33,
       "ep_above_50sma": true,
       "rs_raw_factor": 1.617656,
-      "rs_rating": 82
+      "rs_rating": 80
     },
     {
       "ticker": "HSHP",
@@ -1248,7 +2028,124 @@
       "ep_4w_pct": 12.72,
       "ep_above_50sma": true,
       "rs_raw_factor": 1.725482,
-      "rs_rating": 90
+      "rs_rating": 85
+    },
+    {
+      "ticker": "LASR",
+      "stage": 2,
+      "trend_template_score": 7,
+      "trend_template_criteria": {
+        "1_above_150sma": true,
+        "2_above_200sma": true,
+        "3_150_above_200": true,
+        "4_200_trending_up": true,
+        "5_50_above_150_and_200": true,
+        "6_above_50sma": false,
+        "7_above_low_30pct": true,
+        "8_within_25pct_high": true
+      },
+      "bbuw_score": 41.0,
+      "bbuw_components": {
+        "range_contraction": 0,
+        "volume_contraction": 9.9,
+        "higher_lows": 60.0,
+        "coil_duration": 0,
+        "rs_vs_spy": 100,
+        "pullback_depth": 70
+      },
+      "pivot_8w_fired": true,
+      "pivot_8w_tier": "STANDARD",
+      "ema8": 68.6032,
+      "pct_from_ema8": 0.29,
+      "ema8_rising": true,
+      "pivot_8w_volume_spike": false,
+      "ep_fired": false,
+      "ep_tier": "NONE",
+      "ep_score": 0.0,
+      "ep_week_pct": -1.74,
+      "ep_rvol": 0.81,
+      "ep_4w_pct": 8.77,
+      "ep_above_50sma": true,
+      "rs_raw_factor": 1.774629,
+      "rs_rating": 86
+    },
+    {
+      "ticker": "PUBM",
+      "stage": 2,
+      "trend_template_score": 8,
+      "trend_template_criteria": {
+        "1_above_150sma": true,
+        "2_above_200sma": true,
+        "3_150_above_200": true,
+        "4_200_trending_up": true,
+        "5_50_above_150_and_200": true,
+        "6_above_50sma": true,
+        "7_above_low_30pct": true,
+        "8_within_25pct_high": true
+      },
+      "bbuw_score": 59.3,
+      "bbuw_components": {
+        "range_contraction": 14.8,
+        "volume_contraction": 67.6,
+        "higher_lows": 60.0,
+        "coil_duration": 15,
+        "rs_vs_spy": 100,
+        "pullback_depth": 100
+      },
+      "pivot_8w_fired": false,
+      "pivot_8w_tier": "PROXIMITY",
+      "ema8": 12.3834,
+      "pct_from_ema8": 1.75,
+      "ema8_rising": true,
+      "pivot_8w_volume_spike": false,
+      "ep_fired": false,
+      "ep_tier": "NONE",
+      "ep_score": 0.41,
+      "ep_week_pct": 0.64,
+      "ep_rvol": 0.65,
+      "ep_4w_pct": -7.01,
+      "ep_above_50sma": true,
+      "rs_raw_factor": 1.345897,
+      "rs_rating": 64
+    },
+    {
+      "ticker": "PVLA",
+      "stage": 2,
+      "trend_template_score": 8,
+      "trend_template_criteria": {
+        "1_above_150sma": true,
+        "2_above_200sma": true,
+        "3_150_above_200": true,
+        "4_200_trending_up": true,
+        "5_50_above_150_and_200": true,
+        "6_above_50sma": true,
+        "7_above_low_30pct": true,
+        "8_within_25pct_high": true
+      },
+      "bbuw_score": 48.6,
+      "bbuw_components": {
+        "range_contraction": 0,
+        "volume_contraction": 20.4,
+        "higher_lows": 60.0,
+        "coil_duration": 15,
+        "rs_vs_spy": 100,
+        "pullback_depth": 100
+      },
+      "pivot_8w_fired": false,
+      "pivot_8w_tier": "PROXIMITY",
+      "ema8": 137.6528,
+      "pct_from_ema8": 1.01,
+      "ema8_rising": true,
+      "pivot_8w_volume_spike": false,
+      "ep_fired": false,
+      "ep_tier": "NONE",
+      "ep_score": 0.58,
+      "ep_week_pct": 0.75,
+      "ep_rvol": 0.77,
+      "ep_4w_pct": -5.26,
+      "ep_above_50sma": true,
+      "rs_raw_factor": 1.894028,
+      "rs_rating": 89
     },
     {
       "ticker": "SHO",
@@ -1287,7 +2184,7 @@
       "ep_4w_pct": 3.43,
       "ep_above_50sma": true,
       "rs_raw_factor": 1.295983,
-      "rs_rating": 51
+      "rs_rating": 60
     },
     {
       "ticker": "ROKU",
@@ -1303,10 +2200,10 @@
         "7_above_low_30pct": true,
         "8_within_25pct_high": true
       },
-      "bbuw_score": 87.9,
+      "bbuw_score": 87.7,
       "bbuw_components": {
         "range_contraction": 100,
-        "volume_contraction": 75.8,
+        "volume_contraction": 74.6,
         "higher_lows": 100.0,
         "coil_duration": 75,
         "rs_vs_spy": 100,
@@ -1320,13 +2217,13 @@
       "pivot_8w_volume_spike": false,
       "ep_fired": false,
       "ep_tier": "NONE",
-      "ep_score": 2.08,
+      "ep_score": 2.14,
       "ep_week_pct": 2.14,
-      "ep_rvol": 0.97,
+      "ep_rvol": 1.0,
       "ep_4w_pct": 1.81,
       "ep_above_50sma": true,
       "rs_raw_factor": 1.394483,
-      "rs_rating": 66
+      "rs_rating": 69
     },
     {
       "ticker": "FRO",
@@ -1365,7 +2262,46 @@
       "ep_4w_pct": 7.13,
       "ep_above_50sma": true,
       "rs_raw_factor": 1.552097,
-      "rs_rating": 79
+      "rs_rating": 78
+    },
+    {
+      "ticker": "ARTV",
+      "stage": 2,
+      "trend_template_score": 8,
+      "trend_template_criteria": {
+        "1_above_150sma": true,
+        "2_above_200sma": true,
+        "3_150_above_200": true,
+        "4_200_trending_up": true,
+        "5_50_above_150_and_200": true,
+        "6_above_50sma": true,
+        "7_above_low_30pct": true,
+        "8_within_25pct_high": true
+      },
+      "bbuw_score": 67.3,
+      "bbuw_components": {
+        "range_contraction": 84.1,
+        "volume_contraction": 55.2,
+        "higher_lows": 60.0,
+        "coil_duration": 45,
+        "rs_vs_spy": 100,
+        "pullback_depth": 30
+      },
+      "pivot_8w_fired": false,
+      "pivot_8w_tier": "NONE",
+      "ema8": 9.6102,
+      "pct_from_ema8": 5.1,
+      "ema8_rising": true,
+      "pivot_8w_volume_spike": false,
+      "ep_fired": false,
+      "ep_tier": "NONE",
+      "ep_score": 0.59,
+      "ep_week_pct": 0.7,
+      "ep_rvol": 0.85,
+      "ep_4w_pct": 5.1,
+      "ep_above_50sma": true,
+      "rs_raw_factor": 1.986192,
+      "rs_rating": 91
     },
     {
       "ticker": "HESM",
@@ -1404,7 +2340,46 @@
       "ep_4w_pct": 7.0,
       "ep_above_50sma": true,
       "rs_raw_factor": 1.127785,
-      "rs_rating": 24
+      "rs_rating": 42
+    },
+    {
+      "ticker": "CRSR",
+      "stage": 2,
+      "trend_template_score": 8,
+      "trend_template_criteria": {
+        "1_above_150sma": true,
+        "2_above_200sma": true,
+        "3_150_above_200": true,
+        "4_200_trending_up": true,
+        "5_50_above_150_and_200": true,
+        "6_above_50sma": true,
+        "7_above_low_30pct": true,
+        "8_within_25pct_high": true
+      },
+      "bbuw_score": 64.1,
+      "bbuw_components": {
+        "range_contraction": 38.9,
+        "volume_contraction": 79.0,
+        "higher_lows": 80.0,
+        "coil_duration": 0,
+        "rs_vs_spy": 100,
+        "pullback_depth": 70
+      },
+      "pivot_8w_fired": false,
+      "pivot_8w_tier": "NONE",
+      "ema8": 9.5154,
+      "pct_from_ema8": 11.5,
+      "ema8_rising": true,
+      "pivot_8w_volume_spike": false,
+      "ep_fired": false,
+      "ep_tier": "NONE",
+      "ep_score": 6.93,
+      "ep_week_pct": 7.72,
+      "ep_rvol": 0.9,
+      "ep_4w_pct": 19.21,
+      "ep_above_50sma": true,
+      "rs_raw_factor": 1.525728,
+      "rs_rating": 77
     },
     {
       "ticker": "CTRN",
@@ -1423,7 +2398,7 @@
       "bbuw_score": 62.6,
       "bbuw_components": {
         "range_contraction": 57.6,
-        "volume_contraction": 18.1,
+        "volume_contraction": 18.0,
         "higher_lows": 100.0,
         "coil_duration": 15,
         "rs_vs_spy": 100,
@@ -1437,13 +2412,52 @@
       "pivot_8w_volume_spike": false,
       "ep_fired": false,
       "ep_tier": "NONE",
-      "ep_score": 6.58,
+      "ep_score": 6.59,
       "ep_week_pct": 5.96,
-      "ep_rvol": 1.1,
+      "ep_rvol": 1.11,
       "ep_4w_pct": 20.6,
       "ep_above_50sma": true,
       "rs_raw_factor": 1.671115,
-      "rs_rating": 84
+      "rs_rating": 82
+    },
+    {
+      "ticker": "ANL",
+      "stage": 2,
+      "trend_template_score": 8,
+      "trend_template_criteria": {
+        "1_above_150sma": true,
+        "2_above_200sma": true,
+        "3_150_above_200": true,
+        "4_200_trending_up": true,
+        "5_50_above_150_and_200": true,
+        "6_above_50sma": true,
+        "7_above_low_30pct": true,
+        "8_within_25pct_high": true
+      },
+      "bbuw_score": 60.9,
+      "bbuw_components": {
+        "range_contraction": 55.0,
+        "volume_contraction": 41.5,
+        "higher_lows": 60.0,
+        "coil_duration": 30,
+        "rs_vs_spy": 92.3,
+        "pullback_depth": 70
+      },
+      "pivot_8w_fired": false,
+      "pivot_8w_tier": "NONE",
+      "ema8": 11.5085,
+      "pct_from_ema8": 12.96,
+      "ema8_rising": true,
+      "pivot_8w_volume_spike": false,
+      "ep_fired": false,
+      "ep_tier": "NONE",
+      "ep_score": 2.24,
+      "ep_week_pct": 4.0,
+      "ep_rvol": 0.56,
+      "ep_4w_pct": 36.99,
+      "ep_above_50sma": true,
+      "rs_raw_factor": 4.328389,
+      "rs_rating": 98
     },
     {
       "ticker": "DHT",
@@ -1482,7 +2496,7 @@
       "ep_4w_pct": 8.09,
       "ep_above_50sma": true,
       "rs_raw_factor": 1.354118,
-      "rs_rating": 60
+      "rs_rating": 65
     },
     {
       "ticker": "DVA",
@@ -1521,7 +2535,124 @@
       "ep_4w_pct": 2.21,
       "ep_above_50sma": true,
       "rs_raw_factor": 1.769414,
-      "rs_rating": 91
+      "rs_rating": 86
+    },
+    {
+      "ticker": "OCC",
+      "stage": 2,
+      "trend_template_score": 6,
+      "trend_template_criteria": {
+        "1_above_150sma": true,
+        "2_above_200sma": true,
+        "3_150_above_200": true,
+        "4_200_trending_up": true,
+        "5_50_above_150_and_200": true,
+        "6_above_50sma": false,
+        "7_above_low_30pct": true,
+        "8_within_25pct_high": false
+      },
+      "bbuw_score": 56.9,
+      "bbuw_components": {
+        "range_contraction": 57.7,
+        "volume_contraction": 100,
+        "higher_lows": 20.0,
+        "coil_duration": 0,
+        "rs_vs_spy": 100,
+        "pullback_depth": 30
+      },
+      "pivot_8w_fired": false,
+      "pivot_8w_tier": "NONE",
+      "ema8": 15.4405,
+      "pct_from_ema8": -3.76,
+      "ema8_rising": false,
+      "pivot_8w_volume_spike": false,
+      "ep_fired": false,
+      "ep_tier": "NONE",
+      "ep_score": 1.46,
+      "ep_week_pct": 3.12,
+      "ep_rvol": 0.47,
+      "ep_4w_pct": -7.13,
+      "ep_above_50sma": true,
+      "rs_raw_factor": 2.200763,
+      "rs_rating": 93
+    },
+    {
+      "ticker": "FATN",
+      "stage": 2,
+      "trend_template_score": 6,
+      "trend_template_criteria": {
+        "1_above_150sma": true,
+        "2_above_200sma": true,
+        "3_150_above_200": true,
+        "4_200_trending_up": false,
+        "5_50_above_150_and_200": true,
+        "6_above_50sma": true,
+        "7_above_low_30pct": true,
+        "8_within_25pct_high": false
+      },
+      "bbuw_score": 54.7,
+      "bbuw_components": {
+        "range_contraction": 30.8,
+        "volume_contraction": 100,
+        "higher_lows": 40.0,
+        "coil_duration": 15,
+        "rs_vs_spy": 100,
+        "pullback_depth": 30
+      },
+      "pivot_8w_fired": false,
+      "pivot_8w_tier": "NONE",
+      "ema8": 5.274,
+      "pct_from_ema8": 15.28,
+      "ema8_rising": true,
+      "pivot_8w_volume_spike": false,
+      "ep_fired": false,
+      "ep_tier": "NONE",
+      "ep_score": 9.68,
+      "ep_week_pct": 34.81,
+      "ep_rvol": 0.28,
+      "ep_4w_pct": 1.67,
+      "ep_above_50sma": true,
+      "rs_raw_factor": 1.961735,
+      "rs_rating": 90
+    },
+    {
+      "ticker": "AGEN",
+      "stage": 2,
+      "trend_template_score": 7,
+      "trend_template_criteria": {
+        "1_above_150sma": true,
+        "2_above_200sma": true,
+        "3_150_above_200": false,
+        "4_200_trending_up": true,
+        "5_50_above_150_and_200": true,
+        "6_above_50sma": true,
+        "7_above_low_30pct": true,
+        "8_within_25pct_high": true
+      },
+      "bbuw_score": 54.5,
+      "bbuw_components": {
+        "range_contraction": 0,
+        "volume_contraction": 0,
+        "higher_lows": 100.0,
+        "coil_duration": 45,
+        "rs_vs_spy": 100,
+        "pullback_depth": 100
+      },
+      "pivot_8w_fired": false,
+      "pivot_8w_tier": "NONE",
+      "ema8": 4.9428,
+      "pct_from_ema8": 51.74,
+      "ema8_rising": true,
+      "pivot_8w_volume_spike": false,
+      "ep_fired": false,
+      "ep_tier": "NONE",
+      "ep_score": 22.08,
+      "ep_week_pct": 25.42,
+      "ep_rvol": 0.87,
+      "ep_4w_pct": 114.9,
+      "ep_above_50sma": true,
+      "rs_raw_factor": 1.89446,
+      "rs_rating": 89
     },
     {
       "ticker": "MFC",
@@ -1560,7 +2691,7 @@
       "ep_4w_pct": 7.92,
       "ep_above_50sma": true,
       "rs_raw_factor": 1.262652,
-      "rs_rating": 47
+      "rs_rating": 57
     },
     {
       "ticker": "NTAP",
@@ -1576,10 +2707,10 @@
         "7_above_low_30pct": true,
         "8_within_25pct_high": true
       },
-      "bbuw_score": 53.8,
+      "bbuw_score": 53.7,
       "bbuw_components": {
         "range_contraction": 0,
-        "volume_contraction": 15.2,
+        "volume_contraction": 14.9,
         "higher_lows": 100.0,
         "coil_duration": 15,
         "rs_vs_spy": 100,
@@ -1593,13 +2724,52 @@
       "pivot_8w_volume_spike": false,
       "ep_fired": false,
       "ep_tier": "NONE",
-      "ep_score": 6.5,
+      "ep_score": 6.55,
       "ep_week_pct": 6.41,
-      "ep_rvol": 1.01,
+      "ep_rvol": 1.02,
       "ep_4w_pct": 16.13,
       "ep_above_50sma": true,
       "rs_raw_factor": 1.67154,
-      "rs_rating": 85
+      "rs_rating": 83
+    },
+    {
+      "ticker": "AXTI",
+      "stage": 1,
+      "trend_template_score": 6,
+      "trend_template_criteria": {
+        "1_above_150sma": true,
+        "2_above_200sma": true,
+        "3_150_above_200": true,
+        "4_200_trending_up": true,
+        "5_50_above_150_and_200": true,
+        "6_above_50sma": false,
+        "7_above_low_30pct": true,
+        "8_within_25pct_high": false
+      },
+      "bbuw_score": 53.6,
+      "bbuw_components": {
+        "range_contraction": 80.2,
+        "volume_contraction": 0,
+        "higher_lows": 40.0,
+        "coil_duration": 30,
+        "rs_vs_spy": 100,
+        "pullback_depth": 30
+      },
+      "pivot_8w_fired": false,
+      "pivot_8w_tier": "NONE",
+      "ema8": 63.8478,
+      "pct_from_ema8": -5.35,
+      "ema8_rising": false,
+      "pivot_8w_volume_spike": true,
+      "ep_fired": true,
+      "ep_tier": "STANDARD",
+      "ep_score": 53.18,
+      "ep_week_pct": 27.95,
+      "ep_rvol": 1.9,
+      "ep_4w_pct": 6.73,
+      "ep_above_50sma": true,
+      "rs_raw_factor": 8.575132,
+      "rs_rating": 99
     },
     {
       "ticker": "DAO",
@@ -1638,7 +2808,7 @@
       "ep_4w_pct": 33.44,
       "ep_above_50sma": true,
       "rs_raw_factor": 1.590163,
-      "rs_rating": 81
+      "rs_rating": 80
     },
     {
       "ticker": "OII",
@@ -1677,7 +2847,7 @@
       "ep_4w_pct": 26.7,
       "ep_above_50sma": true,
       "rs_raw_factor": 1.69731,
-      "rs_rating": 87
+      "rs_rating": 84
     },
     {
       "ticker": "LTH",
@@ -1716,7 +2886,7 @@
       "ep_4w_pct": 10.51,
       "ep_above_50sma": true,
       "rs_raw_factor": 1.640758,
-      "rs_rating": 83
+      "rs_rating": 81
     },
     {
       "ticker": "HPQ",
@@ -1755,7 +2925,7 @@
       "ep_4w_pct": 24.35,
       "ep_above_50sma": true,
       "rs_raw_factor": 1.249281,
-      "rs_rating": 45
+      "rs_rating": 55
     },
     {
       "ticker": "BWLP",
@@ -1797,6 +2967,45 @@
       "rs_rating": 76
     },
     {
+      "ticker": "NVCT",
+      "stage": 2,
+      "trend_template_score": 8,
+      "trend_template_criteria": {
+        "1_above_150sma": true,
+        "2_above_200sma": true,
+        "3_150_above_200": true,
+        "4_200_trending_up": true,
+        "5_50_above_150_and_200": true,
+        "6_above_50sma": true,
+        "7_above_low_30pct": true,
+        "8_within_25pct_high": true
+      },
+      "bbuw_score": 50.4,
+      "bbuw_components": {
+        "range_contraction": 49.4,
+        "volume_contraction": 0,
+        "higher_lows": 80.0,
+        "coil_duration": 15,
+        "rs_vs_spy": 100,
+        "pullback_depth": 30
+      },
+      "pivot_8w_fired": false,
+      "pivot_8w_tier": "NONE",
+      "ema8": 18.3129,
+      "pct_from_ema8": 17.51,
+      "ema8_rising": true,
+      "pivot_8w_volume_spike": false,
+      "ep_fired": false,
+      "ep_tier": "NONE",
+      "ep_score": 14.62,
+      "ep_week_pct": 11.44,
+      "ep_rvol": 1.28,
+      "ep_4w_pct": 9.96,
+      "ep_above_50sma": true,
+      "rs_raw_factor": 2.7502,
+      "rs_rating": 96
+    },
+    {
       "ticker": "ELAN",
       "stage": 2,
       "trend_template_score": 8,
@@ -1833,7 +3042,7 @@
       "ep_4w_pct": 5.48,
       "ep_above_50sma": true,
       "rs_raw_factor": 1.301398,
-      "rs_rating": 52
+      "rs_rating": 60
     },
     {
       "ticker": "TRVI",
@@ -1866,13 +3075,52 @@
       "pivot_8w_volume_spike": false,
       "ep_fired": false,
       "ep_tier": "NONE",
-      "ep_score": 4.03,
+      "ep_score": 4.06,
       "ep_week_pct": 4.08,
-      "ep_rvol": 0.99,
+      "ep_rvol": 1.0,
       "ep_4w_pct": 1.78,
       "ep_above_50sma": true,
       "rs_raw_factor": 1.710506,
-      "rs_rating": 89
+      "rs_rating": 85
+    },
+    {
+      "ticker": "SGHC",
+      "stage": 2,
+      "trend_template_score": 8,
+      "trend_template_criteria": {
+        "1_above_150sma": true,
+        "2_above_200sma": true,
+        "3_150_above_200": true,
+        "4_200_trending_up": true,
+        "5_50_above_150_and_200": true,
+        "6_above_50sma": true,
+        "7_above_low_30pct": true,
+        "8_within_25pct_high": true
+      },
+      "bbuw_score": 49.7,
+      "bbuw_components": {
+        "range_contraction": 0,
+        "volume_contraction": 58.1,
+        "higher_lows": 40.0,
+        "coil_duration": 0,
+        "rs_vs_spy": 100,
+        "pullback_depth": 100
+      },
+      "pivot_8w_fired": false,
+      "pivot_8w_tier": "NONE",
+      "ema8": 14.0202,
+      "pct_from_ema8": -0.14,
+      "ema8_rising": true,
+      "pivot_8w_volume_spike": false,
+      "ep_fired": false,
+      "ep_tier": "NONE",
+      "ep_score": 0.0,
+      "ep_week_pct": -2.51,
+      "ep_rvol": 0.84,
+      "ep_4w_pct": -3.51,
+      "ep_above_50sma": true,
+      "rs_raw_factor": 1.225243,
+      "rs_rating": 53
     },
     {
       "ticker": "SUN",
@@ -1911,7 +3159,85 @@
       "ep_4w_pct": 12.32,
       "ep_above_50sma": true,
       "rs_raw_factor": 1.315027,
-      "rs_rating": 54
+      "rs_rating": 62
+    },
+    {
+      "ticker": "YOU",
+      "stage": 2,
+      "trend_template_score": 8,
+      "trend_template_criteria": {
+        "1_above_150sma": true,
+        "2_above_200sma": true,
+        "3_150_above_200": true,
+        "4_200_trending_up": true,
+        "5_50_above_150_and_200": true,
+        "6_above_50sma": true,
+        "7_above_low_30pct": true,
+        "8_within_25pct_high": true
+      },
+      "bbuw_score": 48.9,
+      "bbuw_components": {
+        "range_contraction": 0,
+        "volume_contraction": 32.7,
+        "higher_lows": 60.0,
+        "coil_duration": 0,
+        "rs_vs_spy": 100,
+        "pullback_depth": 100
+      },
+      "pivot_8w_fired": false,
+      "pivot_8w_tier": "NONE",
+      "ema8": 54.2488,
+      "pct_from_ema8": 1.83,
+      "ema8_rising": false,
+      "pivot_8w_volume_spike": false,
+      "ep_fired": false,
+      "ep_tier": "NONE",
+      "ep_score": 6.5,
+      "ep_week_pct": 5.74,
+      "ep_rvol": 1.13,
+      "ep_4w_pct": 2.7,
+      "ep_above_50sma": true,
+      "rs_raw_factor": 1.480303,
+      "rs_rating": 74
+    },
+    {
+      "ticker": "ADV",
+      "stage": 2,
+      "trend_template_score": 6,
+      "trend_template_criteria": {
+        "1_above_150sma": true,
+        "2_above_200sma": true,
+        "3_150_above_200": true,
+        "4_200_trending_up": false,
+        "5_50_above_150_and_200": true,
+        "6_above_50sma": false,
+        "7_above_low_30pct": true,
+        "8_within_25pct_high": true
+      },
+      "bbuw_score": 48.8,
+      "bbuw_components": {
+        "range_contraction": 37.2,
+        "volume_contraction": 0,
+        "higher_lows": 60.0,
+        "coil_duration": 0,
+        "rs_vs_spy": 100,
+        "pullback_depth": 70
+      },
+      "pivot_8w_fired": false,
+      "pivot_8w_tier": "NONE",
+      "ema8": 38.2595,
+      "pct_from_ema8": 2.56,
+      "ema8_rising": false,
+      "pivot_8w_volume_spike": false,
+      "ep_fired": false,
+      "ep_tier": "NONE",
+      "ep_score": 6.97,
+      "ep_week_pct": 7.68,
+      "ep_rvol": 0.91,
+      "ep_4w_pct": 0.98,
+      "ep_above_50sma": true,
+      "rs_raw_factor": 1.21145,
+      "rs_rating": 52
     },
     {
       "ticker": "INSW",
@@ -1950,7 +3276,7 @@
       "ep_4w_pct": 16.72,
       "ep_above_50sma": true,
       "rs_raw_factor": 1.803696,
-      "rs_rating": 92
+      "rs_rating": 87
     },
     {
       "ticker": "NUE",
@@ -1989,7 +3315,7 @@
       "ep_4w_pct": 16.55,
       "ep_above_50sma": true,
       "rs_raw_factor": 1.452147,
-      "rs_rating": 72
+      "rs_rating": 73
     },
     {
       "ticker": "ETON",
@@ -2022,13 +3348,13 @@
       "pivot_8w_volume_spike": true,
       "ep_fired": true,
       "ep_tier": "WATCH",
-      "ep_score": 14.98,
+      "ep_score": 15.0,
       "ep_week_pct": 8.99,
       "ep_rvol": 1.67,
       "ep_4w_pct": 23.79,
       "ep_above_50sma": true,
       "rs_raw_factor": 2.517138,
-      "rs_rating": 97
+      "rs_rating": 94
     },
     {
       "ticker": "RNG",
@@ -2067,7 +3393,7 @@
       "ep_4w_pct": 39.02,
       "ep_above_50sma": true,
       "rs_raw_factor": 1.779116,
-      "rs_rating": 91
+      "rs_rating": 86
     },
     {
       "ticker": "GIII",
@@ -2083,10 +3409,10 @@
         "7_above_low_30pct": true,
         "8_within_25pct_high": true
       },
-      "bbuw_score": 48.4,
+      "bbuw_score": 48.3,
       "bbuw_components": {
         "range_contraction": 39.5,
-        "volume_contraction": 19.9,
+        "volume_contraction": 18.8,
         "higher_lows": 80.0,
         "coil_duration": 0,
         "rs_vs_spy": 72.8,
@@ -2100,13 +3426,52 @@
       "pivot_8w_volume_spike": false,
       "ep_fired": false,
       "ep_tier": "NONE",
-      "ep_score": 3.15,
+      "ep_score": 3.23,
       "ep_week_pct": 4.18,
-      "ep_rvol": 0.75,
+      "ep_rvol": 0.77,
       "ep_4w_pct": 8.69,
       "ep_above_50sma": true,
       "rs_raw_factor": 1.294819,
-      "rs_rating": 51
+      "rs_rating": 59
+    },
+    {
+      "ticker": "BLZE",
+      "stage": 2,
+      "trend_template_score": 8,
+      "trend_template_criteria": {
+        "1_above_150sma": true,
+        "2_above_200sma": true,
+        "3_150_above_200": true,
+        "4_200_trending_up": true,
+        "5_50_above_150_and_200": true,
+        "6_above_50sma": true,
+        "7_above_low_30pct": true,
+        "8_within_25pct_high": true
+      },
+      "bbuw_score": 48.2,
+      "bbuw_components": {
+        "range_contraction": 0,
+        "volume_contraction": 57.7,
+        "higher_lows": 40.0,
+        "coil_duration": 30,
+        "rs_vs_spy": 100,
+        "pullback_depth": 70
+      },
+      "pivot_8w_fired": false,
+      "pivot_8w_tier": "NONE",
+      "ema8": 12.4642,
+      "pct_from_ema8": 10.07,
+      "ema8_rising": true,
+      "pivot_8w_volume_spike": false,
+      "ep_fired": false,
+      "ep_tier": "NONE",
+      "ep_score": 17.69,
+      "ep_week_pct": 18.17,
+      "ep_rvol": 0.97,
+      "ep_4w_pct": -12.16,
+      "ep_above_50sma": true,
+      "rs_raw_factor": 2.664485,
+      "rs_rating": 95
     },
     {
       "ticker": "AFL",
@@ -2145,7 +3510,7 @@
       "ep_4w_pct": 5.46,
       "ep_above_50sma": true,
       "rs_raw_factor": 1.190951,
-      "rs_rating": 34
+      "rs_rating": 49
     },
     {
       "ticker": "IMO",
@@ -2184,7 +3549,7 @@
       "ep_4w_pct": 13.89,
       "ep_above_50sma": true,
       "rs_raw_factor": 1.238548,
-      "rs_rating": 43
+      "rs_rating": 54
     },
     {
       "ticker": "OOMA",
@@ -2223,7 +3588,7 @@
       "ep_4w_pct": 11.6,
       "ep_above_50sma": true,
       "rs_raw_factor": 1.659063,
-      "rs_rating": 84
+      "rs_rating": 82
     },
     {
       "ticker": "VVX",
@@ -2262,7 +3627,7 @@
       "ep_4w_pct": 21.78,
       "ep_above_50sma": true,
       "rs_raw_factor": 1.480388,
-      "rs_rating": 73
+      "rs_rating": 75
     },
     {
       "ticker": "BLFS",
@@ -2301,7 +3666,7 @@
       "ep_4w_pct": 11.28,
       "ep_above_50sma": true,
       "rs_raw_factor": 1.380905,
-      "rs_rating": 63
+      "rs_rating": 67
     },
     {
       "ticker": "EQNR",
@@ -2340,7 +3705,7 @@
       "ep_4w_pct": 28.28,
       "ep_above_50sma": true,
       "rs_raw_factor": 1.410453,
-      "rs_rating": 69
+      "rs_rating": 70
     },
     {
       "ticker": "MBX",
@@ -2373,13 +3738,13 @@
       "pivot_8w_volume_spike": false,
       "ep_fired": false,
       "ep_tier": "NONE",
-      "ep_score": 5.77,
+      "ep_score": 5.79,
       "ep_week_pct": 6.34,
       "ep_rvol": 0.91,
       "ep_4w_pct": 14.07,
       "ep_above_50sma": true,
       "rs_raw_factor": 2.816039,
-      "rs_rating": 99
+      "rs_rating": 96
     },
     {
       "ticker": "PARR",
@@ -2418,7 +3783,7 @@
       "ep_4w_pct": 47.08,
       "ep_above_50sma": true,
       "rs_raw_factor": 1.967879,
-      "rs_rating": 95
+      "rs_rating": 90
     },
     {
       "ticker": "TXG",
@@ -2451,13 +3816,91 @@
       "pivot_8w_volume_spike": false,
       "ep_fired": false,
       "ep_tier": "NONE",
-      "ep_score": 2.31,
+      "ep_score": 2.35,
       "ep_week_pct": 2.16,
-      "ep_rvol": 1.07,
+      "ep_rvol": 1.09,
       "ep_4w_pct": 21.17,
       "ep_above_50sma": true,
       "rs_raw_factor": 2.700376,
-      "rs_rating": 98
+      "rs_rating": 95
+    },
+    {
+      "ticker": "CGNX",
+      "stage": 2,
+      "trend_template_score": 8,
+      "trend_template_criteria": {
+        "1_above_150sma": true,
+        "2_above_200sma": true,
+        "3_150_above_200": true,
+        "4_200_trending_up": true,
+        "5_50_above_150_and_200": true,
+        "6_above_50sma": true,
+        "7_above_low_30pct": true,
+        "8_within_25pct_high": true
+      },
+      "bbuw_score": 46.4,
+      "bbuw_components": {
+        "range_contraction": 0,
+        "volume_contraction": 26.2,
+        "higher_lows": 40.0,
+        "coil_duration": 15,
+        "rs_vs_spy": 100,
+        "pullback_depth": 100
+      },
+      "pivot_8w_fired": false,
+      "pivot_8w_tier": "NONE",
+      "ema8": 64.369,
+      "pct_from_ema8": 1.35,
+      "ema8_rising": false,
+      "pivot_8w_volume_spike": false,
+      "ep_fired": false,
+      "ep_tier": "NONE",
+      "ep_score": 5.44,
+      "ep_week_pct": 5.14,
+      "ep_rvol": 1.06,
+      "ep_4w_pct": -3.78,
+      "ep_above_50sma": true,
+      "rs_raw_factor": 1.47195,
+      "rs_rating": 74
+    },
+    {
+      "ticker": "FTRE",
+      "stage": 2,
+      "trend_template_score": 8,
+      "trend_template_criteria": {
+        "1_above_150sma": true,
+        "2_above_200sma": true,
+        "3_150_above_200": true,
+        "4_200_trending_up": true,
+        "5_50_above_150_and_200": true,
+        "6_above_50sma": true,
+        "7_above_low_30pct": true,
+        "8_within_25pct_high": true
+      },
+      "bbuw_score": 46.4,
+      "bbuw_components": {
+        "range_contraction": 8.3,
+        "volume_contraction": 0,
+        "higher_lows": 60.0,
+        "coil_duration": 15,
+        "rs_vs_spy": 94.2,
+        "pullback_depth": 100
+      },
+      "pivot_8w_fired": false,
+      "pivot_8w_tier": "NONE",
+      "ema8": 17.618,
+      "pct_from_ema8": 8.81,
+      "ema8_rising": true,
+      "pivot_8w_volume_spike": false,
+      "ep_fired": false,
+      "ep_tier": "NONE",
+      "ep_score": 0.0,
+      "ep_week_pct": -1.79,
+      "ep_rvol": 2.06,
+      "ep_4w_pct": 10.94,
+      "ep_above_50sma": true,
+      "rs_raw_factor": 1.871055,
+      "rs_rating": 88
     },
     {
       "ticker": "PFGC",
@@ -2496,7 +3939,85 @@
       "ep_4w_pct": 1.15,
       "ep_above_50sma": true,
       "rs_raw_factor": 1.190926,
-      "rs_rating": 34
+      "rs_rating": 49
+    },
+    {
+      "ticker": "BNED",
+      "stage": 2,
+      "trend_template_score": 8,
+      "trend_template_criteria": {
+        "1_above_150sma": true,
+        "2_above_200sma": true,
+        "3_150_above_200": true,
+        "4_200_trending_up": true,
+        "5_50_above_150_and_200": true,
+        "6_above_50sma": true,
+        "7_above_low_30pct": true,
+        "8_within_25pct_high": true
+      },
+      "bbuw_score": 45.9,
+      "bbuw_components": {
+        "range_contraction": 25.5,
+        "volume_contraction": 0,
+        "higher_lows": 60.0,
+        "coil_duration": 0,
+        "rs_vs_spy": 100,
+        "pullback_depth": 70
+      },
+      "pivot_8w_fired": false,
+      "pivot_8w_tier": "NONE",
+      "ema8": 11.9899,
+      "pct_from_ema8": 3.75,
+      "ema8_rising": true,
+      "pivot_8w_volume_spike": false,
+      "ep_fired": false,
+      "ep_tier": "NONE",
+      "ep_score": 3.8,
+      "ep_week_pct": 4.71,
+      "ep_rvol": 0.81,
+      "ep_4w_pct": 2.7,
+      "ep_above_50sma": true,
+      "rs_raw_factor": 1.338406,
+      "rs_rating": 63
+    },
+    {
+      "ticker": "SLN",
+      "stage": 2,
+      "trend_template_score": 8,
+      "trend_template_criteria": {
+        "1_above_150sma": true,
+        "2_above_200sma": true,
+        "3_150_above_200": true,
+        "4_200_trending_up": true,
+        "5_50_above_150_and_200": true,
+        "6_above_50sma": true,
+        "7_above_low_30pct": true,
+        "8_within_25pct_high": true
+      },
+      "bbuw_score": 45.5,
+      "bbuw_components": {
+        "range_contraction": 0,
+        "volume_contraction": 0,
+        "higher_lows": 60.0,
+        "coil_duration": 15,
+        "rs_vs_spy": 100,
+        "pullback_depth": 100
+      },
+      "pivot_8w_fired": false,
+      "pivot_8w_tier": "NONE",
+      "ema8": 9.5495,
+      "pct_from_ema8": 9.85,
+      "ema8_rising": true,
+      "pivot_8w_volume_spike": false,
+      "ep_fired": false,
+      "ep_tier": "NONE",
+      "ep_score": 0.0,
+      "ep_week_pct": -4.81,
+      "ep_rvol": 2.27,
+      "ep_4w_pct": 0.96,
+      "ep_above_50sma": true,
+      "rs_raw_factor": 1.625134,
+      "rs_rating": 81
     },
     {
       "ticker": "ANIK",
@@ -2515,7 +4036,7 @@
       "bbuw_score": 44.9,
       "bbuw_components": {
         "range_contraction": 0,
-        "volume_contraction": 16.2,
+        "volume_contraction": 15.8,
         "higher_lows": 80.0,
         "coil_duration": 15,
         "rs_vs_spy": 100,
@@ -2529,13 +4050,91 @@
       "pivot_8w_volume_spike": false,
       "ep_fired": true,
       "ep_tier": "WATCH",
-      "ep_score": 41.98,
+      "ep_score": 42.21,
       "ep_week_pct": 28.96,
-      "ep_rvol": 1.45,
+      "ep_rvol": 1.46,
       "ep_4w_pct": 25.52,
       "ep_above_50sma": true,
       "rs_raw_factor": 1.912801,
-      "rs_rating": 93
+      "rs_rating": 89
+    },
+    {
+      "ticker": "APPS",
+      "stage": 2,
+      "trend_template_score": 6,
+      "trend_template_criteria": {
+        "1_above_150sma": true,
+        "2_above_200sma": true,
+        "3_150_above_200": true,
+        "4_200_trending_up": true,
+        "5_50_above_150_and_200": true,
+        "6_above_50sma": false,
+        "7_above_low_30pct": true,
+        "8_within_25pct_high": false
+      },
+      "bbuw_score": 44.9,
+      "bbuw_components": {
+        "range_contraction": 0,
+        "volume_contraction": 96.1,
+        "higher_lows": 40.0,
+        "coil_duration": 0,
+        "rs_vs_spy": 100,
+        "pullback_depth": 30
+      },
+      "pivot_8w_fired": false,
+      "pivot_8w_tier": "NONE",
+      "ema8": 8.798,
+      "pct_from_ema8": -8.39,
+      "ema8_rising": false,
+      "pivot_8w_volume_spike": false,
+      "ep_fired": false,
+      "ep_tier": "NONE",
+      "ep_score": 0.0,
+      "ep_week_pct": -4.62,
+      "ep_rvol": 0.6,
+      "ep_4w_pct": -36.59,
+      "ep_above_50sma": true,
+      "rs_raw_factor": 1.784381,
+      "rs_rating": 86
+    },
+    {
+      "ticker": "MRVL",
+      "stage": 2,
+      "trend_template_score": 6,
+      "trend_template_criteria": {
+        "1_above_150sma": true,
+        "2_above_200sma": true,
+        "3_150_above_200": true,
+        "4_200_trending_up": true,
+        "5_50_above_150_and_200": true,
+        "6_above_50sma": false,
+        "7_above_low_30pct": true,
+        "8_within_25pct_high": false
+      },
+      "bbuw_score": 44.9,
+      "bbuw_components": {
+        "range_contraction": 24.4,
+        "volume_contraction": 75.3,
+        "higher_lows": 20.0,
+        "coil_duration": 0,
+        "rs_vs_spy": 100,
+        "pullback_depth": 30
+      },
+      "pivot_8w_fired": false,
+      "pivot_8w_tier": "NONE",
+      "ema8": 213.4855,
+      "pct_from_ema8": -12.14,
+      "ema8_rising": false,
+      "pivot_8w_volume_spike": false,
+      "ep_fired": false,
+      "ep_tier": "NONE",
+      "ep_score": 0.0,
+      "ep_week_pct": -3.43,
+      "ep_rvol": 0.93,
+      "ep_4w_pct": -23.52,
+      "ep_above_50sma": true,
+      "rs_raw_factor": 1.800485,
+      "rs_rating": 87
     },
     {
       "ticker": "SPB",
@@ -2574,7 +4173,46 @@
       "ep_4w_pct": 4.45,
       "ep_above_50sma": true,
       "rs_raw_factor": 1.369903,
-      "rs_rating": 63
+      "rs_rating": 66
+    },
+    {
+      "ticker": "BWAY",
+      "stage": 2,
+      "trend_template_score": 8,
+      "trend_template_criteria": {
+        "1_above_150sma": true,
+        "2_above_200sma": true,
+        "3_150_above_200": true,
+        "4_200_trending_up": true,
+        "5_50_above_150_and_200": true,
+        "6_above_50sma": true,
+        "7_above_low_30pct": true,
+        "8_within_25pct_high": true
+      },
+      "bbuw_score": 44.0,
+      "bbuw_components": {
+        "range_contraction": 0,
+        "volume_contraction": 0,
+        "higher_lows": 60.0,
+        "coil_duration": 0,
+        "rs_vs_spy": 100,
+        "pullback_depth": 100
+      },
+      "pivot_8w_fired": false,
+      "pivot_8w_tier": "NONE",
+      "ema8": 15.292,
+      "pct_from_ema8": -0.41,
+      "ema8_rising": true,
+      "pivot_8w_volume_spike": false,
+      "ep_fired": false,
+      "ep_tier": "NONE",
+      "ep_score": 0.0,
+      "ep_week_pct": -4.63,
+      "ep_rvol": 1.34,
+      "ep_4w_pct": 0.26,
+      "ep_above_50sma": true,
+      "rs_raw_factor": 1.506968,
+      "rs_rating": 76
     },
     {
       "ticker": "KRT",
@@ -2616,6 +4254,45 @@
       "rs_rating": 79
     },
     {
+      "ticker": "PRCH",
+      "stage": 2,
+      "trend_template_score": 6,
+      "trend_template_criteria": {
+        "1_above_150sma": true,
+        "2_above_200sma": true,
+        "3_150_above_200": false,
+        "4_200_trending_up": false,
+        "5_50_above_150_and_200": true,
+        "6_above_50sma": true,
+        "7_above_low_30pct": true,
+        "8_within_25pct_high": true
+      },
+      "bbuw_score": 44.0,
+      "bbuw_components": {
+        "range_contraction": 0,
+        "volume_contraction": 0,
+        "higher_lows": 60.0,
+        "coil_duration": 0,
+        "rs_vs_spy": 100,
+        "pullback_depth": 100
+      },
+      "pivot_8w_fired": false,
+      "pivot_8w_tier": "NONE",
+      "ema8": 13.026,
+      "pct_from_ema8": 10.93,
+      "ema8_rising": true,
+      "pivot_8w_volume_spike": true,
+      "ep_fired": true,
+      "ep_tier": "WATCH",
+      "ep_score": 50.51,
+      "ep_week_pct": 22.04,
+      "ep_rvol": 2.29,
+      "ep_4w_pct": -4.87,
+      "ep_above_50sma": true,
+      "rs_raw_factor": 1.374519,
+      "rs_rating": 66
+    },
+    {
       "ticker": "SFL",
       "stage": 2,
       "trend_template_score": 8,
@@ -2652,7 +4329,7 @@
       "ep_4w_pct": 16.53,
       "ep_above_50sma": true,
       "rs_raw_factor": 1.351583,
-      "rs_rating": 59
+      "rs_rating": 65
     },
     {
       "ticker": "GSL",
@@ -2691,7 +4368,7 @@
       "ep_4w_pct": 16.35,
       "ep_above_50sma": true,
       "rs_raw_factor": 1.330428,
-      "rs_rating": 56
+      "rs_rating": 63
     },
     {
       "ticker": "ECO",
@@ -2730,7 +4407,7 @@
       "ep_4w_pct": 13.59,
       "ep_above_50sma": true,
       "rs_raw_factor": 1.695908,
-      "rs_rating": 86
+      "rs_rating": 83
     },
     {
       "ticker": "KARO",
@@ -2769,7 +4446,46 @@
       "ep_4w_pct": 22.05,
       "ep_above_50sma": true,
       "rs_raw_factor": 1.384545,
-      "rs_rating": 65
+      "rs_rating": 68
+    },
+    {
+      "ticker": "FROG",
+      "stage": 2,
+      "trend_template_score": 7,
+      "trend_template_criteria": {
+        "1_above_150sma": true,
+        "2_above_200sma": true,
+        "3_150_above_200": true,
+        "4_200_trending_up": true,
+        "5_50_above_150_and_200": true,
+        "6_above_50sma": false,
+        "7_above_low_30pct": true,
+        "8_within_25pct_high": true
+      },
+      "bbuw_score": 42.8,
+      "bbuw_components": {
+        "range_contraction": 0,
+        "volume_contraction": 41.7,
+        "higher_lows": 40.0,
+        "coil_duration": 0,
+        "rs_vs_spy": 100,
+        "pullback_depth": 70
+      },
+      "pivot_8w_fired": false,
+      "pivot_8w_tier": "NONE",
+      "ema8": 82.3958,
+      "pct_from_ema8": -3.16,
+      "ema8_rising": false,
+      "pivot_8w_volume_spike": false,
+      "ep_fired": false,
+      "ep_tier": "NONE",
+      "ep_score": 0.0,
+      "ep_week_pct": -0.46,
+      "ep_rvol": 1.03,
+      "ep_4w_pct": -15.84,
+      "ep_above_50sma": true,
+      "rs_raw_factor": 1.646242,
+      "rs_rating": 81
     },
     {
       "ticker": "FFIV",
@@ -2788,7 +4504,7 @@
       "bbuw_score": 42.7,
       "bbuw_components": {
         "range_contraction": 0,
-        "volume_contraction": 1.6,
+        "volume_contraction": 1.3,
         "higher_lows": 40.0,
         "coil_duration": 15,
         "rs_vs_spy": 100,
@@ -2802,13 +4518,52 @@
       "pivot_8w_volume_spike": true,
       "ep_fired": false,
       "ep_tier": "NONE",
-      "ep_score": 5.0,
+      "ep_score": 5.02,
       "ep_week_pct": 2.64,
-      "ep_rvol": 1.89,
+      "ep_rvol": 1.9,
       "ep_4w_pct": -1.36,
       "ep_above_50sma": true,
       "rs_raw_factor": 1.352312,
-      "rs_rating": 60
+      "rs_rating": 65
+    },
+    {
+      "ticker": "MEI",
+      "stage": 2,
+      "trend_template_score": 6,
+      "trend_template_criteria": {
+        "1_above_150sma": true,
+        "2_above_200sma": true,
+        "3_150_above_200": true,
+        "4_200_trending_up": true,
+        "5_50_above_150_and_200": true,
+        "6_above_50sma": false,
+        "7_above_low_30pct": true,
+        "8_within_25pct_high": false
+      },
+      "bbuw_score": 42.7,
+      "bbuw_components": {
+        "range_contraction": 0,
+        "volume_contraction": 61.3,
+        "higher_lows": 60.0,
+        "coil_duration": 0,
+        "rs_vs_spy": 100,
+        "pullback_depth": 30
+      },
+      "pivot_8w_fired": false,
+      "pivot_8w_tier": "NONE",
+      "ema8": 14.3475,
+      "pct_from_ema8": -2.49,
+      "ema8_rising": true,
+      "pivot_8w_volume_spike": false,
+      "ep_fired": false,
+      "ep_tier": "NONE",
+      "ep_score": 0.0,
+      "ep_week_pct": -8.62,
+      "ep_rvol": 0.76,
+      "ep_4w_pct": -8.26,
+      "ep_above_50sma": true,
+      "rs_raw_factor": 1.892423,
+      "rs_rating": 88
     },
     {
       "ticker": "MPC",
@@ -2847,7 +4602,7 @@
       "ep_4w_pct": 18.82,
       "ep_above_50sma": true,
       "rs_raw_factor": 1.586881,
-      "rs_rating": 80
+      "rs_rating": 79
     },
     {
       "ticker": "VCTR",
@@ -2863,10 +4618,10 @@
         "7_above_low_30pct": true,
         "8_within_25pct_high": true
       },
-      "bbuw_score": 42.7,
+      "bbuw_score": 42.6,
       "bbuw_components": {
         "range_contraction": 0,
-        "volume_contraction": 1.4,
+        "volume_contraction": 0.6,
         "higher_lows": 80.0,
         "coil_duration": 15,
         "rs_vs_spy": 100,
@@ -2880,13 +4635,52 @@
       "pivot_8w_volume_spike": false,
       "ep_fired": false,
       "ep_tier": "NONE",
-      "ep_score": 1.42,
+      "ep_score": 1.45,
       "ep_week_pct": 1.88,
-      "ep_rvol": 0.76,
+      "ep_rvol": 0.77,
       "ep_4w_pct": 12.87,
       "ep_above_50sma": true,
       "rs_raw_factor": 1.405548,
-      "rs_rating": 67
+      "rs_rating": 70
+    },
+    {
+      "ticker": "ACHC",
+      "stage": 2,
+      "trend_template_score": 8,
+      "trend_template_criteria": {
+        "1_above_150sma": true,
+        "2_above_200sma": true,
+        "3_150_above_200": true,
+        "4_200_trending_up": true,
+        "5_50_above_150_and_200": true,
+        "6_above_50sma": true,
+        "7_above_low_30pct": true,
+        "8_within_25pct_high": true
+      },
+      "bbuw_score": 42.5,
+      "bbuw_components": {
+        "range_contraction": 0,
+        "volume_contraction": 0,
+        "higher_lows": 60.0,
+        "coil_duration": 30,
+        "rs_vs_spy": 100,
+        "pullback_depth": 70
+      },
+      "pivot_8w_fired": false,
+      "pivot_8w_tier": "NONE",
+      "ema8": 30.229,
+      "pct_from_ema8": -2.01,
+      "ema8_rising": true,
+      "pivot_8w_volume_spike": false,
+      "ep_fired": false,
+      "ep_tier": "NONE",
+      "ep_score": 0.0,
+      "ep_week_pct": -14.17,
+      "ep_rvol": 1.74,
+      "ep_4w_pct": -7.18,
+      "ep_above_50sma": true,
+      "rs_raw_factor": 1.430949,
+      "rs_rating": 72
     },
     {
       "ticker": "AGM",
@@ -2925,7 +4719,7 @@
       "ep_4w_pct": 13.27,
       "ep_above_50sma": true,
       "rs_raw_factor": 1.364579,
-      "rs_rating": 61
+      "rs_rating": 66
     },
     {
       "ticker": "CLMT",
@@ -2958,12 +4752,51 @@
       "pivot_8w_volume_spike": false,
       "ep_fired": false,
       "ep_tier": "NONE",
-      "ep_score": 6.15,
+      "ep_score": 6.18,
       "ep_week_pct": 6.0,
       "ep_rvol": 1.03,
       "ep_4w_pct": 21.33,
       "ep_above_50sma": true,
       "rs_raw_factor": 1.926994,
+      "rs_rating": 90
+    },
+    {
+      "ticker": "FTH",
+      "stage": 2,
+      "trend_template_score": 8,
+      "trend_template_criteria": {
+        "1_above_150sma": true,
+        "2_above_200sma": true,
+        "3_150_above_200": true,
+        "4_200_trending_up": true,
+        "5_50_above_150_and_200": true,
+        "6_above_50sma": true,
+        "7_above_low_30pct": true,
+        "8_within_25pct_high": true
+      },
+      "bbuw_score": 42.5,
+      "bbuw_components": {
+        "range_contraction": 0,
+        "volume_contraction": 0,
+        "higher_lows": 100.0,
+        "coil_duration": 30,
+        "rs_vs_spy": 100,
+        "pullback_depth": 30
+      },
+      "pivot_8w_fired": false,
+      "pivot_8w_tier": "NONE",
+      "ema8": 25.7616,
+      "pct_from_ema8": 5.74,
+      "ema8_rising": true,
+      "pivot_8w_volume_spike": false,
+      "ep_fired": false,
+      "ep_tier": "NONE",
+      "ep_score": 0.0,
+      "ep_week_pct": -3.71,
+      "ep_rvol": 3.2,
+      "ep_4w_pct": 18.85,
+      "ep_above_50sma": true,
+      "rs_raw_factor": 2.29024,
       "rs_rating": 94
     },
     {
@@ -3003,7 +4836,7 @@
       "ep_4w_pct": 51.18,
       "ep_above_50sma": true,
       "rs_raw_factor": 2.170344,
-      "rs_rating": 96
+      "rs_rating": 93
     },
     {
       "ticker": "VLO",
@@ -3042,7 +4875,7 @@
       "ep_4w_pct": 17.31,
       "ep_above_50sma": true,
       "rs_raw_factor": 1.68748,
-      "rs_rating": 85
+      "rs_rating": 83
     },
     {
       "ticker": "SAFT",
@@ -3077,11 +4910,11 @@
       "ep_tier": "NONE",
       "ep_score": 1.33,
       "ep_week_pct": 0.18,
-      "ep_rvol": 7.2,
+      "ep_rvol": 7.22,
       "ep_4w_pct": 33.46,
       "ep_above_50sma": true,
       "rs_raw_factor": 1.453225,
-      "rs_rating": 72
+      "rs_rating": 73
     },
     {
       "ticker": "BBVA",
@@ -3120,7 +4953,46 @@
       "ep_4w_pct": 9.18,
       "ep_above_50sma": true,
       "rs_raw_factor": 1.401978,
-      "rs_rating": 67
+      "rs_rating": 69
+    },
+    {
+      "ticker": "IMMR",
+      "stage": 2,
+      "trend_template_score": 6,
+      "trend_template_criteria": {
+        "1_above_150sma": true,
+        "2_above_200sma": true,
+        "3_150_above_200": false,
+        "4_200_trending_up": false,
+        "5_50_above_150_and_200": true,
+        "6_above_50sma": true,
+        "7_above_low_30pct": true,
+        "8_within_25pct_high": true
+      },
+      "bbuw_score": 41.3,
+      "bbuw_components": {
+        "range_contraction": 0,
+        "volume_contraction": 0,
+        "higher_lows": 80.0,
+        "coil_duration": 15,
+        "rs_vs_spy": 64.1,
+        "pullback_depth": 100
+      },
+      "pivot_8w_fired": false,
+      "pivot_8w_tier": "NONE",
+      "ema8": 6.7761,
+      "pct_from_ema8": 11.57,
+      "ema8_rising": true,
+      "pivot_8w_volume_spike": true,
+      "ep_fired": true,
+      "ep_tier": "STANDARD",
+      "ep_score": 41.76,
+      "ep_week_pct": 15.95,
+      "ep_rvol": 2.62,
+      "ep_4w_pct": 12.78,
+      "ep_above_50sma": true,
+      "rs_raw_factor": 1.183558,
+      "rs_rating": 47
     },
     {
       "ticker": "EAT",
@@ -3159,7 +5031,7 @@
       "ep_4w_pct": 20.25,
       "ep_above_50sma": true,
       "rs_raw_factor": 1.429139,
-      "rs_rating": 70
+      "rs_rating": 71
     },
     {
       "ticker": "DK",
@@ -3198,7 +5070,7 @@
       "ep_4w_pct": 29.01,
       "ep_above_50sma": true,
       "rs_raw_factor": 2.041838,
-      "rs_rating": 95
+      "rs_rating": 92
     },
     {
       "ticker": "FIVN",
@@ -3237,7 +5109,7 @@
       "ep_4w_pct": 17.36,
       "ep_above_50sma": true,
       "rs_raw_factor": 1.383445,
-      "rs_rating": 64
+      "rs_rating": 67
     },
     {
       "ticker": "LBRX",
@@ -3270,13 +5142,13 @@
       "pivot_8w_volume_spike": true,
       "ep_fired": true,
       "ep_tier": "WATCH",
-      "ep_score": 27.04,
+      "ep_score": 27.07,
       "ep_week_pct": 14.48,
       "ep_rvol": 1.87,
       "ep_4w_pct": 19.89,
       "ep_above_50sma": true,
       "rs_raw_factor": 1.709996,
-      "rs_rating": 88
+      "rs_rating": 84
     },
     {
       "ticker": "LPG",
@@ -3315,7 +5187,7 @@
       "ep_4w_pct": 34.66,
       "ep_above_50sma": true,
       "rs_raw_factor": 1.581306,
-      "rs_rating": 80
+      "rs_rating": 79
     },
     {
       "ticker": "PSX",
@@ -3354,7 +5226,46 @@
       "ep_4w_pct": 19.99,
       "ep_above_50sma": true,
       "rs_raw_factor": 1.450856,
-      "rs_rating": 71
+      "rs_rating": 73
+    },
+    {
+      "ticker": "VOR",
+      "stage": 2,
+      "trend_template_score": 5,
+      "trend_template_criteria": {
+        "1_above_150sma": true,
+        "2_above_200sma": true,
+        "3_150_above_200": false,
+        "4_200_trending_up": false,
+        "5_50_above_150_and_200": true,
+        "6_above_50sma": true,
+        "7_above_low_30pct": true,
+        "8_within_25pct_high": false
+      },
+      "bbuw_score": 41.0,
+      "bbuw_components": {
+        "range_contraction": 0,
+        "volume_contraction": 0,
+        "higher_lows": 80.0,
+        "coil_duration": 0,
+        "rs_vs_spy": 100,
+        "pullback_depth": 60
+      },
+      "pivot_8w_fired": false,
+      "pivot_8w_tier": "NONE",
+      "ema8": 18.3638,
+      "pct_from_ema8": 15.17,
+      "ema8_rising": true,
+      "pivot_8w_volume_spike": false,
+      "ep_fired": false,
+      "ep_tier": "NONE",
+      "ep_score": 9.31,
+      "ep_week_pct": 9.81,
+      "ep_rvol": 0.95,
+      "ep_4w_pct": 2.72,
+      "ep_above_50sma": true,
+      "rs_raw_factor": 1.145533,
+      "rs_rating": 45
     },
     {
       "ticker": "TXRH",
@@ -3393,7 +5304,7 @@
       "ep_4w_pct": 5.74,
       "ep_above_50sma": true,
       "rs_raw_factor": 1.20195,
-      "rs_rating": 36
+      "rs_rating": 50
     },
     {
       "ticker": "CASS",
@@ -3409,10 +5320,10 @@
         "7_above_low_30pct": true,
         "8_within_25pct_high": true
       },
-      "bbuw_score": 40.5,
+      "bbuw_score": 40.4,
       "bbuw_components": {
         "range_contraction": 4.7,
-        "volume_contraction": 1.8,
+        "volume_contraction": 1.7,
         "higher_lows": 100.0,
         "coil_duration": 0,
         "rs_vs_spy": 75.1,
@@ -3426,13 +5337,13 @@
       "pivot_8w_volume_spike": false,
       "ep_fired": false,
       "ep_tier": "NONE",
-      "ep_score": 4.46,
+      "ep_score": 4.47,
       "ep_week_pct": 3.08,
       "ep_rvol": 1.45,
       "ep_4w_pct": 6.49,
       "ep_above_50sma": true,
-      "rs_raw_factor": 1.304896,
-      "rs_rating": 52
+      "rs_raw_factor": 1.304895,
+      "rs_rating": 61
     }
   ]
 }
