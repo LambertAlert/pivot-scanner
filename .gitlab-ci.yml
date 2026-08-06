@@ -18,22 +18,7 @@ on:
     - cron: '30 21 * * 1-5'   # daily  — M-F 21:30 UTC (4:30pm CDT)
     - cron: '15 22 * * 1-5'   # macro  — M-F 22:15 UTC (5:15pm CDT)
     # Intraday — individual crons (no comma expansion)
-    - cron: '1 14 * * 1-5'
-    - cron: '31 14 * * 1-5'
-    - cron: '1 15 * * 1-5'
-    - cron: '31 15 * * 1-5'
-    - cron: '1 16 * * 1-5'
-    - cron: '31 16 * * 1-5'
-    - cron: '1 17 * * 1-5'
-    - cron: '31 17 * * 1-5'
-    - cron: '1 18 * * 1-5'
-    - cron: '31 18 * * 1-5'
-    - cron: '1 19 * * 1-5'
-    - cron: '31 19 * * 1-5'
-    - cron: '1 20 * * 1-5'
-    - cron: '31 20 * * 1-5'
-    - cron: '1 21 * * 1-5'
-    - cron: '31 21 * * 1-5'
+
 
   workflow_dispatch:
     inputs:
