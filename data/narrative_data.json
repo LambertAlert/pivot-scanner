@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-08-05T23:17:56.950130",
+  "generated_at": "2026-08-07T01:34:39.641284",
   "today": {
     "spx_dir": "\u2193",
     "dxy_dir": "\u2193",
@@ -12,11 +12,11 @@
     "bullish": false
   },
   "dominant_10d": {
-    "state_id": 4,
-    "name": "Soft Landing",
+    "state_id": 1,
+    "name": "Goldilocks",
     "color": "green",
-    "sector_tilt": "Broad equity, consumer discretionary",
-    "freq_10d_pct": 30.0
+    "sector_tilt": "Growth, semis, software, biotech",
+    "freq_10d_pct": 20.0
   },
   "bearish_days_10": 2,
   "all_narratives": [
@@ -29,7 +29,7 @@
       "bullish": true,
       "freq_5d_pct": 20.0,
       "freq_10d_pct": 20.0,
-      "freq_20d_pct": 25.0,
+      "freq_20d_pct": 20.0,
       "base_rate_pct": 18.0
     },
     {
@@ -39,10 +39,10 @@
       "sector_tilt": "Energy, materials, industrials, banks",
       "color": "green",
       "bullish": true,
-      "freq_5d_pct": 40.0,
+      "freq_5d_pct": 0.0,
       "freq_10d_pct": 20.0,
       "freq_20d_pct": 10.0,
-      "base_rate_pct": 11.1
+      "base_rate_pct": 11.0
     },
     {
       "id": 3,
@@ -53,7 +53,7 @@
       "bullish": true,
       "freq_5d_pct": 0.0,
       "freq_10d_pct": 0.0,
-      "freq_20d_pct": 10.0,
+      "freq_20d_pct": 5.0,
       "base_rate_pct": 13.5
     },
     {
@@ -64,7 +64,7 @@
       "color": "green",
       "bullish": true,
       "freq_5d_pct": 20.0,
-      "freq_10d_pct": 30.0,
+      "freq_10d_pct": 20.0,
       "freq_20d_pct": 15.0,
       "base_rate_pct": 9.0
     },
@@ -87,10 +87,10 @@
       "sector_tilt": "Cash \u2014 no longs",
       "color": "red",
       "bullish": false,
-      "freq_5d_pct": 0.0,
+      "freq_5d_pct": 20.0,
       "freq_10d_pct": 10.0,
-      "freq_20d_pct": 20.0,
-      "base_rate_pct": 17.9
+      "freq_20d_pct": 25.0,
+      "base_rate_pct": 18.0
     },
     {
       "id": 7,
@@ -99,9 +99,9 @@
       "sector_tilt": "Gold, duration, defensive value",
       "color": "amber",
       "bullish": false,
-      "freq_5d_pct": 20.0,
-      "freq_10d_pct": 10.0,
-      "freq_20d_pct": 5.0,
+      "freq_5d_pct": 40.0,
+      "freq_10d_pct": 20.0,
+      "freq_20d_pct": 10.0,
       "base_rate_pct": 15.2
     },
     {
@@ -114,18 +114,18 @@
       "freq_5d_pct": 0.0,
       "freq_10d_pct": 10.0,
       "freq_20d_pct": 10.0,
-      "base_rate_pct": 6.5
+      "base_rate_pct": 6.4
     }
   ],
   "base_rates": {
     "1": 18.0,
-    "2": 11.1,
+    "2": 11.0,
     "3": 13.5,
     "4": 9.0,
     "5": 8.8,
-    "6": 17.9,
+    "6": 18.0,
     "7": 15.2,
-    "8": 6.5
+    "8": 6.4
   },
   "transitions": {
     "1": {
@@ -169,24 +169,24 @@
       "8": 0.042
     },
     "5": {
-      "1": 0.188,
-      "2": 0.125,
-      "3": 0.125,
+      "1": 0.2,
+      "2": 0.133,
+      "3": 0.133,
       "4": 0.0,
-      "5": 0.125,
-      "6": 0.125,
-      "7": 0.312,
+      "5": 0.133,
+      "6": 0.133,
+      "7": 0.267,
       "8": 0.0
     },
     "6": {
-      "1": 0.269,
-      "2": 0.077,
-      "3": 0.115,
-      "4": 0.096,
-      "5": 0.115,
-      "6": 0.154,
-      "7": 0.115,
-      "8": 0.058
+      "1": 0.264,
+      "2": 0.075,
+      "3": 0.113,
+      "4": 0.094,
+      "5": 0.113,
+      "6": 0.151,
+      "7": 0.132,
+      "8": 0.057
     },
     "7": {
       "1": 0.114,
@@ -210,24 +210,6 @@
     }
   },
   "history_60d": [
-    {
-      "date": "2026-05-14",
-      "state_id": 4,
-      "narrative_name": "Soft Landing",
-      "color": "green",
-      "spx": "\u2191",
-      "dxy": "\u2191",
-      "tnx": "\u2193"
-    },
-    {
-      "date": "2026-05-15",
-      "state_id": 6,
-      "narrative_name": "Stagflation / Hawkish Pain",
-      "color": "red",
-      "spx": "\u2193",
-      "dxy": "\u2191",
-      "tnx": "\u2191"
-    },
     {
       "date": "2026-05-18",
       "state_id": 8,
@@ -743,6 +725,24 @@
     },
     {
       "date": "2026-08-05",
+      "state_id": 7,
+      "narrative_name": "Slowdown / Easing Anticipation",
+      "color": "amber",
+      "spx": "\u2193",
+      "dxy": "\u2193",
+      "tnx": "\u2193"
+    },
+    {
+      "date": "2026-08-06",
+      "state_id": 6,
+      "narrative_name": "Stagflation / Hawkish Pain",
+      "color": "red",
+      "spx": "\u2193",
+      "dxy": "\u2191",
+      "tnx": "\u2191"
+    },
+    {
+      "date": "2026-08-07",
       "state_id": 7,
       "narrative_name": "Slowdown / Easing Anticipation",
       "color": "amber",
