@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-08-07T22:57:20.833900",
+  "generated_at": "2026-08-10T01:47:24.504212",
   "composite": 0.556,
   "regime": {
     "label": "Neutral",
@@ -18,7 +18,7 @@
       "stale": true,
       "stale_detail": {
         "lei": true,
-        "icsa": false,
+        "icsa": true,
         "ism": true
       }
     },
@@ -43,7 +43,7 @@
     "liquidity": {
       "score": 0.808,
       "components": {
-        "net_liq": -1.4786271256914865,
+        "net_liq": -1.4795989926327864,
         "hy_oas": 4.021563181563671,
         "m2": 0.0,
         "sofr": 5.421192866743477
@@ -53,9 +53,9 @@
         "walcl": false,
         "tga": false,
         "rrp": false,
-        "hy": false,
+        "hy": true,
         "m2": true,
-        "sofr": false
+        "sofr": true
       }
     },
     "curve": {
@@ -63,15 +63,15 @@
       "components": {
         "curve_spread": 1.88096779777936,
         "real10y": -9.12505969811944,
-        "move_proxy": 4.191781485463654
+        "move_proxy": 4.191785444758674
       },
       "steepener_adj": -0.5,
-      "stale": false,
+      "stale": true,
       "stale_detail": {
         "t10y2y": false,
-        "dgs2": false,
-        "dgs10": false,
-        "dfii10": false,
+        "dgs2": true,
+        "dgs10": true,
+        "dfii10": true,
         "move_proxy": false
       }
     }
