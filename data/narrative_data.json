@@ -1,13 +1,13 @@
 {
-  "generated_at": "2026-08-10T22:58:40.195581",
+  "generated_at": "2026-08-11T23:05:43.461779",
   "today": {
     "spx_dir": "\u2193",
     "dxy_dir": "\u2191",
-    "tnx_dir": "\u2191",
-    "state_id": 6,
-    "name": "Stagflation / Hawkish Pain",
-    "label": "Stocks \u2193 \u00b7 Dollar \u2191 \u00b7 Rates \u2191",
-    "sector_tilt": "Cash \u2014 no longs",
+    "tnx_dir": "\u2193",
+    "state_id": 5,
+    "name": "Risk-Off / Flight to Quality",
+    "label": "Stocks \u2193 \u00b7 Dollar \u2191 \u00b7 Rates \u2193",
+    "sector_tilt": "Defensive \u2014 utilities, staples, gold",
     "color": "red",
     "bullish": false
   },
@@ -16,9 +16,9 @@
     "name": "Goldilocks",
     "color": "green",
     "sector_tilt": "Growth, semis, software, biotech",
-    "freq_10d_pct": 30.0
+    "freq_10d_pct": 20.0
   },
-  "bearish_days_10": 3,
+  "bearish_days_10": 4,
   "all_narratives": [
     {
       "id": 1,
@@ -27,9 +27,9 @@
       "sector_tilt": "Growth, semis, software, biotech",
       "color": "green",
       "bullish": true,
-      "freq_5d_pct": 40.0,
-      "freq_10d_pct": 30.0,
-      "freq_20d_pct": 25.0,
+      "freq_5d_pct": 20.0,
+      "freq_10d_pct": 20.0,
+      "freq_20d_pct": 20.0,
       "base_rate_pct": 18.1
     },
     {
@@ -75,9 +75,9 @@
       "sector_tilt": "Defensive \u2014 utilities, staples, gold",
       "color": "red",
       "bullish": false,
-      "freq_5d_pct": 0.0,
-      "freq_10d_pct": 0.0,
-      "freq_20d_pct": 5.0,
+      "freq_5d_pct": 20.0,
+      "freq_10d_pct": 10.0,
+      "freq_20d_pct": 10.0,
       "base_rate_pct": 8.8
     },
     {
@@ -129,14 +129,14 @@
   },
   "transitions": {
     "1": {
-      "1": 0.273,
-      "2": 0.127,
-      "3": 0.145,
-      "4": 0.091,
+      "1": 0.278,
+      "2": 0.13,
+      "3": 0.148,
+      "4": 0.093,
       "5": 0.0,
-      "6": 0.2,
-      "7": 0.109,
-      "8": 0.055
+      "6": 0.185,
+      "7": 0.111,
+      "8": 0.056
     },
     "2": {
       "1": 0.185,
@@ -179,14 +179,14 @@
       "8": 0.0
     },
     "6": {
-      "1": 0.269,
-      "2": 0.077,
-      "3": 0.115,
-      "4": 0.096,
-      "5": 0.115,
-      "6": 0.154,
-      "7": 0.115,
-      "8": 0.058
+      "1": 0.264,
+      "2": 0.075,
+      "3": 0.113,
+      "4": 0.094,
+      "5": 0.132,
+      "6": 0.151,
+      "7": 0.113,
+      "8": 0.057
     },
     "7": {
       "1": 0.114,
@@ -210,15 +210,6 @@
     }
   },
   "history_60d": [
-    {
-      "date": "2026-05-19",
-      "state_id": 6,
-      "narrative_name": "Stagflation / Hawkish Pain",
-      "color": "red",
-      "spx": "\u2193",
-      "dxy": "\u2191",
-      "tnx": "\u2191"
-    },
     {
       "date": "2026-05-20",
       "state_id": 1,
@@ -749,6 +740,15 @@
       "spx": "\u2193",
       "dxy": "\u2191",
       "tnx": "\u2191"
+    },
+    {
+      "date": "2026-08-11",
+      "state_id": 5,
+      "narrative_name": "Risk-Off / Flight to Quality",
+      "color": "red",
+      "spx": "\u2193",
+      "dxy": "\u2191",
+      "tnx": "\u2193"
     }
   ]
 }
