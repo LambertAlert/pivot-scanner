@@ -1,24 +1,24 @@
 {
-  "generated_at": "2026-08-11T23:05:43.461779",
+  "generated_at": "2026-08-12T23:04:19.183101",
   "today": {
-    "spx_dir": "\u2193",
+    "spx_dir": "\u2191",
     "dxy_dir": "\u2191",
     "tnx_dir": "\u2193",
-    "state_id": 5,
-    "name": "Risk-Off / Flight to Quality",
-    "label": "Stocks \u2193 \u00b7 Dollar \u2191 \u00b7 Rates \u2193",
-    "sector_tilt": "Defensive \u2014 utilities, staples, gold",
-    "color": "red",
-    "bullish": false
+    "state_id": 4,
+    "name": "Soft Landing",
+    "label": "Stocks \u2191 \u00b7 Dollar \u2191 \u00b7 Rates \u2193",
+    "sector_tilt": "Broad equity, consumer discretionary",
+    "color": "green",
+    "bullish": true
   },
   "dominant_10d": {
     "state_id": 1,
     "name": "Goldilocks",
     "color": "green",
     "sector_tilt": "Growth, semis, software, biotech",
-    "freq_10d_pct": 20.0
+    "freq_10d_pct": 30.0
   },
-  "bearish_days_10": 4,
+  "bearish_days_10": 3,
   "all_narratives": [
     {
       "id": 1,
@@ -28,9 +28,9 @@
       "color": "green",
       "bullish": true,
       "freq_5d_pct": 20.0,
-      "freq_10d_pct": 20.0,
-      "freq_20d_pct": 20.0,
-      "base_rate_pct": 18.1
+      "freq_10d_pct": 30.0,
+      "freq_20d_pct": 26.7,
+      "base_rate_pct": 26.7
     },
     {
       "id": 2,
@@ -40,9 +40,9 @@
       "color": "green",
       "bullish": true,
       "freq_5d_pct": 0.0,
-      "freq_10d_pct": 20.0,
-      "freq_20d_pct": 10.0,
-      "base_rate_pct": 11.0
+      "freq_10d_pct": 10.0,
+      "freq_20d_pct": 6.7,
+      "base_rate_pct": 6.7
     },
     {
       "id": 3,
@@ -52,9 +52,9 @@
       "color": "green",
       "bullish": true,
       "freq_5d_pct": 0.0,
-      "freq_10d_pct": 0.0,
-      "freq_20d_pct": 5.0,
-      "base_rate_pct": 13.5
+      "freq_10d_pct": 10.0,
+      "freq_20d_pct": 6.7,
+      "base_rate_pct": 6.7
     },
     {
       "id": 4,
@@ -63,10 +63,10 @@
       "sector_tilt": "Broad equity, consumer discretionary",
       "color": "green",
       "bullish": true,
-      "freq_5d_pct": 0.0,
+      "freq_5d_pct": 20.0,
       "freq_10d_pct": 10.0,
-      "freq_20d_pct": 15.0,
-      "base_rate_pct": 9.0
+      "freq_20d_pct": 20.0,
+      "base_rate_pct": 20.0
     },
     {
       "id": 5,
@@ -77,8 +77,8 @@
       "bullish": false,
       "freq_5d_pct": 20.0,
       "freq_10d_pct": 10.0,
-      "freq_20d_pct": 10.0,
-      "base_rate_pct": 8.8
+      "freq_20d_pct": 6.7,
+      "base_rate_pct": 6.7
     },
     {
       "id": 6,
@@ -89,8 +89,8 @@
       "bullish": false,
       "freq_5d_pct": 40.0,
       "freq_10d_pct": 20.0,
-      "freq_20d_pct": 25.0,
-      "base_rate_pct": 18.0
+      "freq_20d_pct": 13.3,
+      "base_rate_pct": 13.3
     },
     {
       "id": 7,
@@ -99,10 +99,10 @@
       "sector_tilt": "Gold, duration, defensive value",
       "color": "amber",
       "bullish": false,
-      "freq_5d_pct": 20.0,
+      "freq_5d_pct": 0.0,
       "freq_10d_pct": 10.0,
-      "freq_20d_pct": 5.0,
-      "base_rate_pct": 15.2
+      "freq_20d_pct": 13.3,
+      "base_rate_pct": 13.3
     },
     {
       "id": 8,
@@ -112,526 +112,112 @@
       "color": "amber",
       "bullish": false,
       "freq_5d_pct": 0.0,
-      "freq_10d_pct": 10.0,
-      "freq_20d_pct": 10.0,
-      "base_rate_pct": 6.4
+      "freq_10d_pct": 0.0,
+      "freq_20d_pct": 6.7,
+      "base_rate_pct": 6.7
     }
   ],
   "base_rates": {
-    "1": 18.1,
-    "2": 11.0,
-    "3": 13.5,
-    "4": 9.0,
-    "5": 8.8,
-    "6": 18.0,
-    "7": 15.2,
-    "8": 6.4
+    "1": 26.7,
+    "2": 6.7,
+    "3": 6.7,
+    "4": 20.0,
+    "5": 6.7,
+    "6": 13.3,
+    "7": 13.3,
+    "8": 6.7
   },
   "transitions": {
     "1": {
-      "1": 0.278,
-      "2": 0.13,
-      "3": 0.148,
-      "4": 0.093,
+      "1": 0.0,
+      "2": 0.0,
+      "3": 0.25,
+      "4": 0.0,
       "5": 0.0,
-      "6": 0.185,
-      "7": 0.111,
-      "8": 0.056
+      "6": 0.25,
+      "7": 0.25,
+      "8": 0.25
     },
     "2": {
-      "1": 0.185,
-      "2": 0.074,
-      "3": 0.111,
-      "4": 0.111,
-      "5": 0.074,
-      "6": 0.148,
-      "7": 0.222,
-      "8": 0.074
+      "1": 1.0,
+      "2": 0.0,
+      "3": 0.0,
+      "4": 0.0,
+      "5": 0.0,
+      "6": 0.0,
+      "7": 0.0,
+      "8": 0.0
     },
     "3": {
-      "1": 0.125,
-      "2": 0.156,
-      "3": 0.094,
-      "4": 0.156,
-      "5": 0.125,
-      "6": 0.219,
-      "7": 0.094,
-      "8": 0.031
+      "1": 1.0,
+      "2": 0.0,
+      "3": 0.0,
+      "4": 0.0,
+      "5": 0.0,
+      "6": 0.0,
+      "7": 0.0,
+      "8": 0.0
     },
     "4": {
-      "1": 0.25,
-      "2": 0.083,
-      "3": 0.083,
-      "4": 0.083,
+      "1": 0.5,
+      "2": 0.0,
+      "3": 0.0,
+      "4": 0.5,
       "5": 0.0,
-      "6": 0.167,
-      "7": 0.292,
-      "8": 0.042
+      "6": 0.0,
+      "7": 0.0,
+      "8": 0.0
     },
     "5": {
-      "1": 0.2,
-      "2": 0.133,
-      "3": 0.133,
-      "4": 0.0,
-      "5": 0.133,
-      "6": 0.133,
-      "7": 0.267,
+      "1": 0.0,
+      "2": 0.0,
+      "3": 0.0,
+      "4": 1.0,
+      "5": 0.0,
+      "6": 0.0,
+      "7": 0.0,
       "8": 0.0
     },
     "6": {
-      "1": 0.264,
-      "2": 0.075,
-      "3": 0.113,
-      "4": 0.094,
-      "5": 0.132,
-      "6": 0.151,
-      "7": 0.113,
-      "8": 0.057
+      "1": 0.5,
+      "2": 0.0,
+      "3": 0.0,
+      "4": 0.0,
+      "5": 0.5,
+      "6": 0.0,
+      "7": 0.0,
+      "8": 0.0
     },
     "7": {
-      "1": 0.114,
-      "2": 0.114,
-      "3": 0.229,
-      "4": 0.086,
-      "5": 0.029,
-      "6": 0.343,
-      "7": 0.057,
-      "8": 0.029
+      "1": 0.0,
+      "2": 0.0,
+      "3": 0.0,
+      "4": 0.5,
+      "5": 0.0,
+      "6": 0.5,
+      "7": 0.0,
+      "8": 0.0
     },
     "8": {
-      "1": 0.273,
-      "2": 0.091,
+      "1": 0.0,
+      "2": 1.0,
       "3": 0.0,
-      "4": 0.091,
+      "4": 0.0,
       "5": 0.0,
-      "6": 0.455,
-      "7": 0.091,
+      "6": 0.0,
+      "7": 0.0,
       "8": 0.0
     }
   },
   "history_60d": [
     {
-      "date": "2026-05-20",
-      "state_id": 1,
-      "narrative_name": "Goldilocks",
-      "color": "green",
-      "spx": "\u2191",
-      "dxy": "\u2193",
-      "tnx": "\u2193"
-    },
-    {
-      "date": "2026-05-21",
-      "state_id": 3,
-      "narrative_name": "US Exceptionalism",
-      "color": "green",
-      "spx": "\u2191",
-      "dxy": "\u2191",
-      "tnx": "\u2191"
-    },
-    {
-      "date": "2026-05-22",
-      "state_id": 4,
-      "narrative_name": "Soft Landing",
-      "color": "green",
-      "spx": "\u2191",
-      "dxy": "\u2191",
-      "tnx": "\u2193"
-    },
-    {
-      "date": "2026-05-25",
-      "state_id": 7,
-      "narrative_name": "Slowdown / Easing Anticipation",
-      "color": "amber",
-      "spx": "\u2193",
-      "dxy": "\u2193",
-      "tnx": "\u2193"
-    },
-    {
-      "date": "2026-05-26",
-      "state_id": 1,
-      "narrative_name": "Goldilocks",
-      "color": "green",
-      "spx": "\u2191",
-      "dxy": "\u2193",
-      "tnx": "\u2193"
-    },
-    {
-      "date": "2026-05-27",
-      "state_id": 4,
-      "narrative_name": "Soft Landing",
-      "color": "green",
-      "spx": "\u2191",
-      "dxy": "\u2191",
-      "tnx": "\u2193"
-    },
-    {
-      "date": "2026-05-28",
-      "state_id": 1,
-      "narrative_name": "Goldilocks",
-      "color": "green",
-      "spx": "\u2191",
-      "dxy": "\u2193",
-      "tnx": "\u2193"
-    },
-    {
-      "date": "2026-05-29",
-      "state_id": 1,
-      "narrative_name": "Goldilocks",
-      "color": "green",
-      "spx": "\u2191",
-      "dxy": "\u2193",
-      "tnx": "\u2193"
-    },
-    {
-      "date": "2026-06-01",
-      "state_id": 3,
-      "narrative_name": "US Exceptionalism",
-      "color": "green",
-      "spx": "\u2191",
-      "dxy": "\u2191",
-      "tnx": "\u2191"
-    },
-    {
-      "date": "2026-06-02",
-      "state_id": 4,
-      "narrative_name": "Soft Landing",
-      "color": "green",
-      "spx": "\u2191",
-      "dxy": "\u2191",
-      "tnx": "\u2193"
-    },
-    {
-      "date": "2026-06-03",
-      "state_id": 6,
-      "narrative_name": "Stagflation / Hawkish Pain",
-      "color": "red",
-      "spx": "\u2193",
-      "dxy": "\u2191",
-      "tnx": "\u2191"
-    },
-    {
-      "date": "2026-06-04",
-      "state_id": 1,
-      "narrative_name": "Goldilocks",
-      "color": "green",
-      "spx": "\u2191",
-      "dxy": "\u2193",
-      "tnx": "\u2193"
-    },
-    {
-      "date": "2026-06-05",
-      "state_id": 6,
-      "narrative_name": "Stagflation / Hawkish Pain",
-      "color": "red",
-      "spx": "\u2193",
-      "dxy": "\u2191",
-      "tnx": "\u2191"
-    },
-    {
-      "date": "2026-06-08",
-      "state_id": 2,
-      "narrative_name": "Reflation",
-      "color": "green",
-      "spx": "\u2191",
-      "dxy": "\u2193",
-      "tnx": "\u2191"
-    },
-    {
-      "date": "2026-06-09",
-      "state_id": 7,
-      "narrative_name": "Slowdown / Easing Anticipation",
-      "color": "amber",
-      "spx": "\u2193",
-      "dxy": "\u2193",
-      "tnx": "\u2193"
-    },
-    {
-      "date": "2026-06-10",
-      "state_id": 6,
-      "narrative_name": "Stagflation / Hawkish Pain",
-      "color": "red",
-      "spx": "\u2193",
-      "dxy": "\u2191",
-      "tnx": "\u2191"
-    },
-    {
-      "date": "2026-06-11",
-      "state_id": 1,
-      "narrative_name": "Goldilocks",
-      "color": "green",
-      "spx": "\u2191",
-      "dxy": "\u2193",
-      "tnx": "\u2193"
-    },
-    {
-      "date": "2026-06-12",
-      "state_id": 2,
-      "narrative_name": "Reflation",
-      "color": "green",
-      "spx": "\u2191",
-      "dxy": "\u2193",
-      "tnx": "\u2191"
-    },
-    {
-      "date": "2026-06-15",
-      "state_id": 1,
-      "narrative_name": "Goldilocks",
-      "color": "green",
-      "spx": "\u2191",
-      "dxy": "\u2193",
-      "tnx": "\u2193"
-    },
-    {
-      "date": "2026-06-16",
-      "state_id": 7,
-      "narrative_name": "Slowdown / Easing Anticipation",
-      "color": "amber",
-      "spx": "\u2193",
-      "dxy": "\u2193",
-      "tnx": "\u2193"
-    },
-    {
-      "date": "2026-06-17",
-      "state_id": 6,
-      "narrative_name": "Stagflation / Hawkish Pain",
-      "color": "red",
-      "spx": "\u2193",
-      "dxy": "\u2191",
-      "tnx": "\u2191"
-    },
-    {
-      "date": "2026-06-18",
-      "state_id": 4,
-      "narrative_name": "Soft Landing",
-      "color": "green",
-      "spx": "\u2191",
-      "dxy": "\u2191",
-      "tnx": "\u2193"
-    },
-    {
-      "date": "2026-06-19",
-      "state_id": 7,
-      "narrative_name": "Slowdown / Easing Anticipation",
-      "color": "amber",
-      "spx": "\u2193",
-      "dxy": "\u2193",
-      "tnx": "\u2193"
-    },
-    {
-      "date": "2026-06-22",
-      "state_id": 6,
-      "narrative_name": "Stagflation / Hawkish Pain",
-      "color": "red",
-      "spx": "\u2193",
-      "dxy": "\u2191",
-      "tnx": "\u2191"
-    },
-    {
-      "date": "2026-06-23",
-      "state_id": 5,
-      "narrative_name": "Risk-Off / Flight to Quality",
-      "color": "red",
-      "spx": "\u2193",
-      "dxy": "\u2191",
-      "tnx": "\u2193"
-    },
-    {
-      "date": "2026-06-24",
-      "state_id": 5,
-      "narrative_name": "Risk-Off / Flight to Quality",
-      "color": "red",
-      "spx": "\u2193",
-      "dxy": "\u2191",
-      "tnx": "\u2193"
-    },
-    {
-      "date": "2026-06-25",
-      "state_id": 7,
-      "narrative_name": "Slowdown / Easing Anticipation",
-      "color": "amber",
-      "spx": "\u2193",
-      "dxy": "\u2193",
-      "tnx": "\u2193"
-    },
-    {
-      "date": "2026-06-26",
-      "state_id": 7,
-      "narrative_name": "Slowdown / Easing Anticipation",
-      "color": "amber",
-      "spx": "\u2193",
-      "dxy": "\u2193",
-      "tnx": "\u2193"
-    },
-    {
-      "date": "2026-06-29",
-      "state_id": 2,
-      "narrative_name": "Reflation",
-      "color": "green",
-      "spx": "\u2191",
-      "dxy": "\u2193",
-      "tnx": "\u2191"
-    },
-    {
-      "date": "2026-06-30",
-      "state_id": 3,
-      "narrative_name": "US Exceptionalism",
-      "color": "green",
-      "spx": "\u2191",
-      "dxy": "\u2191",
-      "tnx": "\u2191"
-    },
-    {
-      "date": "2026-07-01",
-      "state_id": 6,
-      "narrative_name": "Stagflation / Hawkish Pain",
-      "color": "red",
-      "spx": "\u2193",
-      "dxy": "\u2191",
-      "tnx": "\u2191"
-    },
-    {
-      "date": "2026-07-02",
-      "state_id": 2,
-      "narrative_name": "Reflation",
-      "color": "green",
-      "spx": "\u2191",
-      "dxy": "\u2193",
-      "tnx": "\u2191"
-    },
-    {
-      "date": "2026-07-03",
-      "state_id": 7,
-      "narrative_name": "Slowdown / Easing Anticipation",
-      "color": "amber",
-      "spx": "\u2193",
-      "dxy": "\u2193",
-      "tnx": "\u2193"
-    },
-    {
-      "date": "2026-07-06",
-      "state_id": 1,
-      "narrative_name": "Goldilocks",
-      "color": "green",
-      "spx": "\u2191",
-      "dxy": "\u2193",
-      "tnx": "\u2193"
-    },
-    {
-      "date": "2026-07-07",
-      "state_id": 6,
-      "narrative_name": "Stagflation / Hawkish Pain",
-      "color": "red",
-      "spx": "\u2193",
-      "dxy": "\u2191",
-      "tnx": "\u2191"
-    },
-    {
-      "date": "2026-07-08",
-      "state_id": 8,
-      "narrative_name": "Inflation Resurgence",
-      "color": "amber",
-      "spx": "\u2193",
-      "dxy": "\u2193",
-      "tnx": "\u2191"
-    },
-    {
-      "date": "2026-07-09",
-      "state_id": 1,
-      "narrative_name": "Goldilocks",
-      "color": "green",
-      "spx": "\u2191",
-      "dxy": "\u2193",
-      "tnx": "\u2193"
-    },
-    {
-      "date": "2026-07-10",
-      "state_id": 3,
-      "narrative_name": "US Exceptionalism",
-      "color": "green",
-      "spx": "\u2191",
-      "dxy": "\u2191",
-      "tnx": "\u2191"
-    },
-    {
-      "date": "2026-07-13",
-      "state_id": 6,
-      "narrative_name": "Stagflation / Hawkish Pain",
-      "color": "red",
-      "spx": "\u2193",
-      "dxy": "\u2191",
-      "tnx": "\u2191"
-    },
-    {
-      "date": "2026-07-14",
-      "state_id": 1,
-      "narrative_name": "Goldilocks",
-      "color": "green",
-      "spx": "\u2191",
-      "dxy": "\u2193",
-      "tnx": "\u2193"
-    },
-    {
-      "date": "2026-07-15",
-      "state_id": 1,
-      "narrative_name": "Goldilocks",
-      "color": "green",
-      "spx": "\u2191",
-      "dxy": "\u2193",
-      "tnx": "\u2193"
-    },
-    {
-      "date": "2026-07-16",
-      "state_id": 6,
-      "narrative_name": "Stagflation / Hawkish Pain",
-      "color": "red",
-      "spx": "\u2193",
-      "dxy": "\u2191",
-      "tnx": "\u2191"
-    },
-    {
-      "date": "2026-07-17",
-      "state_id": 5,
-      "narrative_name": "Risk-Off / Flight to Quality",
-      "color": "red",
-      "spx": "\u2193",
-      "dxy": "\u2191",
-      "tnx": "\u2193"
-    },
-    {
-      "date": "2026-07-20",
-      "state_id": 6,
-      "narrative_name": "Stagflation / Hawkish Pain",
-      "color": "red",
-      "spx": "\u2193",
-      "dxy": "\u2191",
-      "tnx": "\u2191"
-    },
-    {
-      "date": "2026-07-21",
-      "state_id": 3,
-      "narrative_name": "US Exceptionalism",
-      "color": "green",
-      "spx": "\u2191",
-      "dxy": "\u2191",
-      "tnx": "\u2191"
-    },
-    {
-      "date": "2026-07-22",
-      "state_id": 8,
-      "narrative_name": "Inflation Resurgence",
-      "color": "amber",
-      "spx": "\u2193",
-      "dxy": "\u2193",
-      "tnx": "\u2191"
-    },
-    {
       "date": "2026-07-23",
-      "state_id": 6,
-      "narrative_name": "Stagflation / Hawkish Pain",
-      "color": "red",
+      "state_id": 7,
+      "narrative_name": "Slowdown / Easing Anticipation",
+      "color": "amber",
       "spx": "\u2193",
-      "dxy": "\u2191",
-      "tnx": "\u2191"
+      "dxy": "\u2193",
+      "tnx": "\u2193"
     },
     {
       "date": "2026-07-24",
@@ -680,21 +266,21 @@
     },
     {
       "date": "2026-07-31",
-      "state_id": 2,
-      "narrative_name": "Reflation",
+      "state_id": 1,
+      "narrative_name": "Goldilocks",
       "color": "green",
       "spx": "\u2191",
       "dxy": "\u2193",
-      "tnx": "\u2191"
+      "tnx": "\u2193"
     },
     {
       "date": "2026-08-03",
-      "state_id": 4,
-      "narrative_name": "Soft Landing",
+      "state_id": 3,
+      "narrative_name": "US Exceptionalism",
       "color": "green",
       "spx": "\u2191",
       "dxy": "\u2191",
-      "tnx": "\u2193"
+      "tnx": "\u2191"
     },
     {
       "date": "2026-08-04",
@@ -747,6 +333,15 @@
       "narrative_name": "Risk-Off / Flight to Quality",
       "color": "red",
       "spx": "\u2193",
+      "dxy": "\u2191",
+      "tnx": "\u2193"
+    },
+    {
+      "date": "2026-08-12",
+      "state_id": 4,
+      "narrative_name": "Soft Landing",
+      "color": "green",
+      "spx": "\u2191",
       "dxy": "\u2191",
       "tnx": "\u2193"
     }
