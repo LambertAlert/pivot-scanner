@@ -1,15 +1,15 @@
 {
-  "generated_at": "2026-08-19T22:44:44.815281",
+  "generated_at": "2026-08-20T22:47:48.388700",
   "today": {
-    "spx_dir": "\u2191",
-    "dxy_dir": "\u2193",
-    "tnx_dir": "\u2193",
-    "state_id": 1,
-    "name": "Goldilocks",
-    "label": "Stocks \u2191 \u00b7 Dollar \u2193 \u00b7 Rates \u2193",
-    "sector_tilt": "Growth, semis, software, biotech",
-    "color": "green",
-    "bullish": true
+    "spx_dir": "\u2193",
+    "dxy_dir": "\u2191",
+    "tnx_dir": "\u2191",
+    "state_id": 6,
+    "name": "Stagflation / Hawkish Pain",
+    "label": "Stocks \u2193 \u00b7 Dollar \u2191 \u00b7 Rates \u2191",
+    "sector_tilt": "Cash \u2014 no longs",
+    "color": "red",
+    "bullish": false
   },
   "dominant_10d": {
     "state_id": 1,
@@ -27,10 +27,10 @@
       "sector_tilt": "Growth, semis, software, biotech",
       "color": "green",
       "bullish": true,
-      "freq_5d_pct": 40.0,
+      "freq_5d_pct": 20.0,
       "freq_10d_pct": 30.0,
-      "freq_20d_pct": 30.0,
-      "base_rate_pct": 18.2
+      "freq_20d_pct": 25.0,
+      "base_rate_pct": 18.1
     },
     {
       "id": 2,
@@ -41,8 +41,8 @@
       "bullish": true,
       "freq_5d_pct": 0.0,
       "freq_10d_pct": 0.0,
-      "freq_20d_pct": 5.0,
-      "base_rate_pct": 10.7
+      "freq_20d_pct": 10.0,
+      "base_rate_pct": 10.8
     },
     {
       "id": 3,
@@ -65,7 +65,7 @@
       "bullish": true,
       "freq_5d_pct": 0.0,
       "freq_10d_pct": 10.0,
-      "freq_20d_pct": 15.0,
+      "freq_20d_pct": 20.0,
       "base_rate_pct": 9.0
     },
     {
@@ -87,10 +87,10 @@
       "sector_tilt": "Cash \u2014 no longs",
       "color": "red",
       "bullish": false,
-      "freq_5d_pct": 0.0,
+      "freq_5d_pct": 20.0,
       "freq_10d_pct": 20.0,
       "freq_20d_pct": 15.0,
-      "base_rate_pct": 18.0
+      "base_rate_pct": 18.1
     },
     {
       "id": 7,
@@ -113,60 +113,60 @@
       "bullish": false,
       "freq_5d_pct": 40.0,
       "freq_10d_pct": 20.0,
-      "freq_20d_pct": 20.0,
-      "base_rate_pct": 6.7
+      "freq_20d_pct": 15.0,
+      "base_rate_pct": 6.6
     }
   ],
   "base_rates": {
-    "1": 18.2,
-    "2": 10.7,
+    "1": 18.1,
+    "2": 10.8,
     "3": 13.3,
     "4": 9.0,
     "5": 8.9,
-    "6": 18.0,
+    "6": 18.1,
     "7": 15.2,
-    "8": 6.7
+    "8": 6.6
   },
   "transitions": {
     "1": {
-      "1": 0.264,
+      "1": 0.245,
       "2": 0.132,
       "3": 0.151,
       "4": 0.094,
       "5": 0.0,
-      "6": 0.189,
+      "6": 0.208,
       "7": 0.113,
       "8": 0.057
     },
     "2": {
-      "1": 0.192,
-      "2": 0.038,
-      "3": 0.115,
-      "4": 0.077,
-      "5": 0.077,
-      "6": 0.154,
-      "7": 0.231,
-      "8": 0.115
+      "1": 0.185,
+      "2": 0.074,
+      "3": 0.111,
+      "4": 0.111,
+      "5": 0.074,
+      "6": 0.148,
+      "7": 0.222,
+      "8": 0.074
     },
     "3": {
-      "1": 0.129,
-      "2": 0.161,
-      "3": 0.097,
-      "4": 0.161,
-      "5": 0.129,
-      "6": 0.226,
-      "7": 0.097,
-      "8": 0.0
+      "1": 0.125,
+      "2": 0.156,
+      "3": 0.094,
+      "4": 0.156,
+      "5": 0.125,
+      "6": 0.219,
+      "7": 0.094,
+      "8": 0.031
     },
     "4": {
-      "1": 0.25,
-      "2": 0.083,
-      "3": 0.083,
-      "4": 0.083,
+      "1": 0.28,
+      "2": 0.08,
+      "3": 0.08,
+      "4": 0.08,
       "5": 0.0,
-      "6": 0.167,
-      "7": 0.292,
-      "8": 0.042
+      "6": 0.16,
+      "7": 0.28,
+      "8": 0.04
     },
     "5": {
       "1": 0.235,
@@ -179,14 +179,14 @@
       "8": 0.0
     },
     "6": {
-      "1": 0.25,
-      "2": 0.077,
-      "3": 0.096,
-      "4": 0.096,
-      "5": 0.135,
-      "6": 0.154,
-      "7": 0.115,
-      "8": 0.077
+      "1": 0.235,
+      "2": 0.078,
+      "3": 0.118,
+      "4": 0.098,
+      "5": 0.137,
+      "6": 0.157,
+      "7": 0.118,
+      "8": 0.059
     },
     "7": {
       "1": 0.118,
@@ -199,26 +199,17 @@
       "8": 0.029
     },
     "8": {
-      "1": 0.286,
-      "2": 0.071,
+      "1": 0.25,
+      "2": 0.083,
       "3": 0.0,
-      "4": 0.071,
-      "5": 0.071,
-      "6": 0.357,
+      "4": 0.083,
+      "5": 0.083,
+      "6": 0.417,
       "7": 0.0,
-      "8": 0.143
+      "8": 0.083
     }
   },
   "history_60d": [
-    {
-      "date": "2026-05-28",
-      "state_id": 1,
-      "narrative_name": "Goldilocks",
-      "color": "green",
-      "spx": "\u2191",
-      "dxy": "\u2193",
-      "tnx": "\u2193"
-    },
     {
       "date": "2026-05-29",
       "state_id": 1,
@@ -554,11 +545,11 @@
     },
     {
       "date": "2026-07-21",
-      "state_id": 8,
-      "narrative_name": "Inflation Resurgence",
-      "color": "amber",
-      "spx": "\u2193",
-      "dxy": "\u2193",
+      "state_id": 3,
+      "narrative_name": "US Exceptionalism",
+      "color": "green",
+      "spx": "\u2191",
+      "dxy": "\u2191",
       "tnx": "\u2191"
     },
     {
@@ -626,20 +617,20 @@
     },
     {
       "date": "2026-07-31",
-      "state_id": 8,
-      "narrative_name": "Inflation Resurgence",
-      "color": "amber",
-      "spx": "\u2193",
+      "state_id": 2,
+      "narrative_name": "Reflation",
+      "color": "green",
+      "spx": "\u2191",
       "dxy": "\u2193",
       "tnx": "\u2191"
     },
     {
       "date": "2026-08-03",
-      "state_id": 1,
-      "narrative_name": "Goldilocks",
+      "state_id": 4,
+      "narrative_name": "Soft Landing",
       "color": "green",
       "spx": "\u2191",
-      "dxy": "\u2193",
+      "dxy": "\u2191",
       "tnx": "\u2193"
     },
     {
@@ -749,6 +740,15 @@
       "spx": "\u2191",
       "dxy": "\u2193",
       "tnx": "\u2193"
+    },
+    {
+      "date": "2026-08-20",
+      "state_id": 6,
+      "narrative_name": "Stagflation / Hawkish Pain",
+      "color": "red",
+      "spx": "\u2193",
+      "dxy": "\u2191",
+      "tnx": "\u2191"
     }
   ]
 }
