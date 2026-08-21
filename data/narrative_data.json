@@ -1,22 +1,22 @@
 {
-  "generated_at": "2026-08-20T22:47:48.388700",
+  "generated_at": "2026-08-21T22:44:13.900510",
   "today": {
-    "spx_dir": "\u2193",
-    "dxy_dir": "\u2191",
+    "spx_dir": "\u2191",
+    "dxy_dir": "\u2193",
     "tnx_dir": "\u2191",
-    "state_id": 6,
-    "name": "Stagflation / Hawkish Pain",
-    "label": "Stocks \u2193 \u00b7 Dollar \u2191 \u00b7 Rates \u2191",
-    "sector_tilt": "Cash \u2014 no longs",
-    "color": "red",
-    "bullish": false
+    "state_id": 2,
+    "name": "Reflation",
+    "label": "Stocks \u2191 \u00b7 Dollar \u2193 \u00b7 Rates \u2191",
+    "sector_tilt": "Energy, materials, industrials, banks",
+    "color": "green",
+    "bullish": true
   },
   "dominant_10d": {
     "state_id": 1,
     "name": "Goldilocks",
     "color": "green",
     "sector_tilt": "Growth, semis, software, biotech",
-    "freq_10d_pct": 30.0
+    "freq_10d_pct": 20.0
   },
   "bearish_days_10": 6,
   "all_narratives": [
@@ -28,7 +28,7 @@
       "color": "green",
       "bullish": true,
       "freq_5d_pct": 20.0,
-      "freq_10d_pct": 30.0,
+      "freq_10d_pct": 20.0,
       "freq_20d_pct": 25.0,
       "base_rate_pct": 18.1
     },
@@ -39,10 +39,10 @@
       "sector_tilt": "Energy, materials, industrials, banks",
       "color": "green",
       "bullish": true,
-      "freq_5d_pct": 0.0,
-      "freq_10d_pct": 0.0,
-      "freq_20d_pct": 10.0,
-      "base_rate_pct": 10.8
+      "freq_5d_pct": 20.0,
+      "freq_10d_pct": 10.0,
+      "freq_20d_pct": 15.0,
+      "base_rate_pct": 10.9
     },
     {
       "id": 3,
@@ -65,7 +65,7 @@
       "bullish": true,
       "freq_5d_pct": 0.0,
       "freq_10d_pct": 10.0,
-      "freq_20d_pct": 20.0,
+      "freq_20d_pct": 15.0,
       "base_rate_pct": 9.0
     },
     {
@@ -102,7 +102,7 @@
       "freq_5d_pct": 0.0,
       "freq_10d_pct": 0.0,
       "freq_20d_pct": 5.0,
-      "base_rate_pct": 15.2
+      "base_rate_pct": 15.1
     },
     {
       "id": 8,
@@ -111,7 +111,7 @@
       "sector_tilt": "Real assets, gold miners, defensive value",
       "color": "amber",
       "bullish": false,
-      "freq_5d_pct": 40.0,
+      "freq_5d_pct": 20.0,
       "freq_10d_pct": 20.0,
       "freq_20d_pct": 15.0,
       "base_rate_pct": 6.6
@@ -119,24 +119,24 @@
   ],
   "base_rates": {
     "1": 18.1,
-    "2": 10.8,
+    "2": 10.9,
     "3": 13.3,
     "4": 9.0,
     "5": 8.9,
     "6": 18.1,
-    "7": 15.2,
+    "7": 15.1,
     "8": 6.6
   },
   "transitions": {
     "1": {
-      "1": 0.245,
-      "2": 0.132,
-      "3": 0.151,
-      "4": 0.094,
+      "1": 0.25,
+      "2": 0.135,
+      "3": 0.154,
+      "4": 0.077,
       "5": 0.0,
-      "6": 0.208,
-      "7": 0.113,
-      "8": 0.057
+      "6": 0.212,
+      "7": 0.115,
+      "8": 0.058
     },
     "2": {
       "1": 0.185,
@@ -179,14 +179,14 @@
       "8": 0.0
     },
     "6": {
-      "1": 0.235,
-      "2": 0.078,
-      "3": 0.118,
-      "4": 0.098,
-      "5": 0.137,
-      "6": 0.157,
-      "7": 0.118,
-      "8": 0.059
+      "1": 0.231,
+      "2": 0.096,
+      "3": 0.115,
+      "4": 0.096,
+      "5": 0.135,
+      "6": 0.154,
+      "7": 0.115,
+      "8": 0.058
     },
     "7": {
       "1": 0.118,
@@ -210,15 +210,6 @@
     }
   },
   "history_60d": [
-    {
-      "date": "2026-05-29",
-      "state_id": 1,
-      "narrative_name": "Goldilocks",
-      "color": "green",
-      "spx": "\u2191",
-      "dxy": "\u2193",
-      "tnx": "\u2193"
-    },
     {
       "date": "2026-06-01",
       "state_id": 3,
@@ -748,6 +739,15 @@
       "color": "red",
       "spx": "\u2193",
       "dxy": "\u2191",
+      "tnx": "\u2191"
+    },
+    {
+      "date": "2026-08-21",
+      "state_id": 2,
+      "narrative_name": "Reflation",
+      "color": "green",
+      "spx": "\u2191",
+      "dxy": "\u2193",
       "tnx": "\u2191"
     }
   ]
