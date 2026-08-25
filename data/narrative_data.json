@@ -1,24 +1,24 @@
 {
-  "generated_at": "2026-08-24T22:46:58.954643",
+  "generated_at": "2026-08-25T22:48:04.512470",
   "today": {
-    "spx_dir": "\u2193",
-    "dxy_dir": "\u2191",
+    "spx_dir": "\u2191",
+    "dxy_dir": "\u2193",
     "tnx_dir": "\u2193",
-    "state_id": 5,
-    "name": "Risk-Off / Flight to Quality",
-    "label": "Stocks \u2193 \u00b7 Dollar \u2191 \u00b7 Rates \u2193",
-    "sector_tilt": "Defensive \u2014 utilities, staples, gold",
-    "color": "red",
-    "bullish": false
+    "state_id": 1,
+    "name": "Goldilocks",
+    "label": "Stocks \u2191 \u00b7 Dollar \u2193 \u00b7 Rates \u2193",
+    "sector_tilt": "Growth, semis, software, biotech",
+    "color": "green",
+    "bullish": true
   },
   "dominant_10d": {
-    "state_id": 5,
-    "name": "Risk-Off / Flight to Quality",
-    "color": "red",
-    "sector_tilt": "Defensive \u2014 utilities, staples, gold",
+    "state_id": 1,
+    "name": "Goldilocks",
+    "color": "green",
+    "sector_tilt": "Growth, semis, software, biotech",
     "freq_10d_pct": 30.0
   },
-  "bearish_days_10": 6,
+  "bearish_days_10": 5,
   "all_narratives": [
     {
       "id": 1,
@@ -27,10 +27,10 @@
       "sector_tilt": "Growth, semis, software, biotech",
       "color": "green",
       "bullish": true,
-      "freq_5d_pct": 20.0,
-      "freq_10d_pct": 20.0,
+      "freq_5d_pct": 40.0,
+      "freq_10d_pct": 30.0,
       "freq_20d_pct": 25.0,
-      "base_rate_pct": 18.1
+      "base_rate_pct": 18.2
     },
     {
       "id": 2,
@@ -66,7 +66,7 @@
       "freq_5d_pct": 0.0,
       "freq_10d_pct": 10.0,
       "freq_20d_pct": 10.0,
-      "base_rate_pct": 9.0
+      "base_rate_pct": 8.9
     },
     {
       "id": 5,
@@ -75,8 +75,8 @@
       "sector_tilt": "Defensive \u2014 utilities, staples, gold",
       "color": "red",
       "bullish": false,
-      "freq_5d_pct": 40.0,
-      "freq_10d_pct": 30.0,
+      "freq_5d_pct": 20.0,
+      "freq_10d_pct": 20.0,
       "freq_20d_pct": 15.0,
       "base_rate_pct": 9.0
     },
@@ -118,10 +118,10 @@
     }
   ],
   "base_rates": {
-    "1": 18.1,
+    "1": 18.2,
     "2": 10.9,
     "3": 13.3,
-    "4": 9.0,
+    "4": 8.9,
     "5": 9.0,
     "6": 18.1,
     "7": 15.1,
@@ -169,13 +169,13 @@
       "8": 0.042
     },
     "5": {
-      "1": 0.235,
-      "2": 0.118,
-      "3": 0.118,
-      "4": 0.059,
-      "5": 0.118,
-      "6": 0.118,
-      "7": 0.235,
+      "1": 0.278,
+      "2": 0.111,
+      "3": 0.111,
+      "4": 0.056,
+      "5": 0.111,
+      "6": 0.111,
+      "7": 0.222,
       "8": 0.0
     },
     "6": {
@@ -189,14 +189,14 @@
       "8": 0.058
     },
     "7": {
-      "1": 0.118,
-      "2": 0.118,
-      "3": 0.235,
-      "4": 0.088,
-      "5": 0.029,
-      "6": 0.324,
-      "7": 0.059,
-      "8": 0.029
+      "1": 0.091,
+      "2": 0.121,
+      "3": 0.242,
+      "4": 0.091,
+      "5": 0.03,
+      "6": 0.333,
+      "7": 0.061,
+      "8": 0.03
     },
     "8": {
       "1": 0.25,
@@ -210,15 +210,6 @@
     }
   },
   "history_60d": [
-    {
-      "date": "2026-06-02",
-      "state_id": 4,
-      "narrative_name": "Soft Landing",
-      "color": "green",
-      "spx": "\u2191",
-      "dxy": "\u2191",
-      "tnx": "\u2193"
-    },
     {
       "date": "2026-06-03",
       "state_id": 6,
@@ -748,6 +739,15 @@
       "color": "red",
       "spx": "\u2193",
       "dxy": "\u2191",
+      "tnx": "\u2193"
+    },
+    {
+      "date": "2026-08-25",
+      "state_id": 1,
+      "narrative_name": "Goldilocks",
+      "color": "green",
+      "spx": "\u2191",
+      "dxy": "\u2193",
       "tnx": "\u2193"
     }
   ]
