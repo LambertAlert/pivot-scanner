@@ -1,22 +1,22 @@
 {
-  "generated_at": "2026-08-27T03:21:04.759719",
+  "generated_at": "2026-08-28T06:09:42.614555",
   "today": {
     "spx_dir": "\u2193",
-    "dxy_dir": "\u2193",
+    "dxy_dir": "\u2191",
     "tnx_dir": "\u2193",
-    "state_id": 7,
-    "name": "Slowdown / Easing Anticipation",
-    "label": "Stocks \u2193 \u00b7 Dollar \u2193 \u00b7 Rates \u2193",
-    "sector_tilt": "Gold, duration, defensive value",
-    "color": "amber",
+    "state_id": 5,
+    "name": "Risk-Off / Flight to Quality",
+    "label": "Stocks \u2193 \u00b7 Dollar \u2191 \u00b7 Rates \u2193",
+    "sector_tilt": "Defensive \u2014 utilities, staples, gold",
+    "color": "red",
     "bullish": false
   },
   "dominant_10d": {
-    "state_id": 1,
-    "name": "Goldilocks",
-    "color": "green",
-    "sector_tilt": "Growth, semis, software, biotech",
-    "freq_10d_pct": 20.0
+    "state_id": 5,
+    "name": "Risk-Off / Flight to Quality",
+    "color": "red",
+    "sector_tilt": "Defensive \u2014 utilities, staples, gold",
+    "freq_10d_pct": 30.0
   },
   "bearish_days_10": 6,
   "all_narratives": [
@@ -40,9 +40,9 @@
       "color": "green",
       "bullish": true,
       "freq_5d_pct": 20.0,
-      "freq_10d_pct": 10.0,
+      "freq_10d_pct": 20.0,
       "freq_20d_pct": 10.0,
-      "base_rate_pct": 10.8
+      "base_rate_pct": 10.9
     },
     {
       "id": 3,
@@ -66,7 +66,7 @@
       "freq_5d_pct": 0.0,
       "freq_10d_pct": 0.0,
       "freq_20d_pct": 10.0,
-      "base_rate_pct": 8.9
+      "base_rate_pct": 8.8
     },
     {
       "id": 5,
@@ -75,9 +75,9 @@
       "sector_tilt": "Defensive \u2014 utilities, staples, gold",
       "color": "red",
       "bullish": false,
-      "freq_5d_pct": 20.0,
-      "freq_10d_pct": 20.0,
-      "freq_20d_pct": 15.0,
+      "freq_5d_pct": 40.0,
+      "freq_10d_pct": 30.0,
+      "freq_20d_pct": 20.0,
       "base_rate_pct": 9.0
     },
     {
@@ -99,10 +99,10 @@
       "sector_tilt": "Gold, duration, defensive value",
       "color": "amber",
       "bullish": false,
-      "freq_5d_pct": 20.0,
-      "freq_10d_pct": 10.0,
-      "freq_20d_pct": 10.0,
-      "base_rate_pct": 15.1
+      "freq_5d_pct": 0.0,
+      "freq_10d_pct": 0.0,
+      "freq_20d_pct": 5.0,
+      "base_rate_pct": 15.0
     },
     {
       "id": 8,
@@ -112,41 +112,41 @@
       "color": "amber",
       "bullish": false,
       "freq_5d_pct": 0.0,
-      "freq_10d_pct": 20.0,
+      "freq_10d_pct": 10.0,
       "freq_20d_pct": 10.0,
       "base_rate_pct": 6.6
     }
   ],
   "base_rates": {
     "1": 18.2,
-    "2": 10.8,
+    "2": 10.9,
     "3": 13.3,
-    "4": 8.9,
+    "4": 8.8,
     "5": 9.0,
     "6": 18.2,
-    "7": 15.1,
+    "7": 15.0,
     "8": 6.6
   },
   "transitions": {
     "1": {
-      "1": 0.25,
-      "2": 0.135,
-      "3": 0.135,
-      "4": 0.077,
+      "1": 0.235,
+      "2": 0.137,
+      "3": 0.137,
+      "4": 0.078,
       "5": 0.0,
-      "6": 0.231,
-      "7": 0.115,
-      "8": 0.058
+      "6": 0.235,
+      "7": 0.118,
+      "8": 0.059
     },
     "2": {
-      "1": 0.179,
-      "2": 0.071,
-      "3": 0.107,
-      "4": 0.107,
-      "5": 0.107,
-      "6": 0.143,
-      "7": 0.214,
-      "8": 0.071
+      "1": 0.172,
+      "2": 0.069,
+      "3": 0.103,
+      "4": 0.103,
+      "5": 0.138,
+      "6": 0.138,
+      "7": 0.207,
+      "8": 0.069
     },
     "3": {
       "1": 0.097,
@@ -180,12 +180,12 @@
     },
     "6": {
       "1": 0.226,
-      "2": 0.094,
+      "2": 0.113,
       "3": 0.113,
       "4": 0.094,
       "5": 0.132,
       "6": 0.151,
-      "7": 0.132,
+      "7": 0.113,
       "8": 0.057
     },
     "7": {
@@ -210,15 +210,6 @@
     }
   },
   "history_60d": [
-    {
-      "date": "2026-06-05",
-      "state_id": 6,
-      "narrative_name": "Stagflation / Hawkish Pain",
-      "color": "red",
-      "spx": "\u2193",
-      "dxy": "\u2191",
-      "tnx": "\u2191"
-    },
     {
       "date": "2026-06-08",
       "state_id": 2,
@@ -743,11 +734,20 @@
     },
     {
       "date": "2026-08-27",
-      "state_id": 7,
-      "narrative_name": "Slowdown / Easing Anticipation",
-      "color": "amber",
-      "spx": "\u2193",
+      "state_id": 2,
+      "narrative_name": "Reflation",
+      "color": "green",
+      "spx": "\u2191",
       "dxy": "\u2193",
+      "tnx": "\u2191"
+    },
+    {
+      "date": "2026-08-28",
+      "state_id": 5,
+      "narrative_name": "Risk-Off / Flight to Quality",
+      "color": "red",
+      "spx": "\u2193",
+      "dxy": "\u2191",
       "tnx": "\u2193"
     }
   ]
