@@ -1,21 +1,21 @@
 {
-  "generated_at": "2026-08-28T06:09:42.614555",
+  "generated_at": "2026-08-29T03:44:26.699659",
   "today": {
     "spx_dir": "\u2193",
     "dxy_dir": "\u2191",
-    "tnx_dir": "\u2193",
-    "state_id": 5,
-    "name": "Risk-Off / Flight to Quality",
-    "label": "Stocks \u2193 \u00b7 Dollar \u2191 \u00b7 Rates \u2193",
-    "sector_tilt": "Defensive \u2014 utilities, staples, gold",
+    "tnx_dir": "\u2191",
+    "state_id": 6,
+    "name": "Stagflation / Hawkish Pain",
+    "label": "Stocks \u2193 \u00b7 Dollar \u2191 \u00b7 Rates \u2191",
+    "sector_tilt": "Cash \u2014 no longs",
     "color": "red",
     "bullish": false
   },
   "dominant_10d": {
-    "state_id": 5,
-    "name": "Risk-Off / Flight to Quality",
+    "state_id": 6,
+    "name": "Stagflation / Hawkish Pain",
     "color": "red",
-    "sector_tilt": "Defensive \u2014 utilities, staples, gold",
+    "sector_tilt": "Cash \u2014 no longs",
     "freq_10d_pct": 30.0
   },
   "bearish_days_10": 6,
@@ -75,9 +75,9 @@
       "sector_tilt": "Defensive \u2014 utilities, staples, gold",
       "color": "red",
       "bullish": false,
-      "freq_5d_pct": 40.0,
-      "freq_10d_pct": 30.0,
-      "freq_20d_pct": 20.0,
+      "freq_5d_pct": 20.0,
+      "freq_10d_pct": 20.0,
+      "freq_20d_pct": 15.0,
       "base_rate_pct": 9.0
     },
     {
@@ -87,10 +87,10 @@
       "sector_tilt": "Cash \u2014 no longs",
       "color": "red",
       "bullish": false,
-      "freq_5d_pct": 20.0,
-      "freq_10d_pct": 20.0,
-      "freq_20d_pct": 20.0,
-      "base_rate_pct": 18.2
+      "freq_5d_pct": 40.0,
+      "freq_10d_pct": 30.0,
+      "freq_20d_pct": 25.0,
+      "base_rate_pct": 18.3
     },
     {
       "id": 7,
@@ -123,7 +123,7 @@
     "3": 13.3,
     "4": 8.8,
     "5": 9.0,
-    "6": 18.2,
+    "6": 18.3,
     "7": 15.0,
     "8": 6.6
   },
@@ -143,8 +143,8 @@
       "2": 0.069,
       "3": 0.103,
       "4": 0.103,
-      "5": 0.138,
-      "6": 0.138,
+      "5": 0.103,
+      "6": 0.172,
       "7": 0.207,
       "8": 0.069
     },
@@ -743,12 +743,12 @@
     },
     {
       "date": "2026-08-28",
-      "state_id": 5,
-      "narrative_name": "Risk-Off / Flight to Quality",
+      "state_id": 6,
+      "narrative_name": "Stagflation / Hawkish Pain",
       "color": "red",
       "spx": "\u2193",
       "dxy": "\u2191",
-      "tnx": "\u2193"
+      "tnx": "\u2191"
     }
   ]
 }
