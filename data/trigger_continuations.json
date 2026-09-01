@@ -1,50 +1,171 @@
 {
-  "scan_time": "2026-08-31T23:34:25.060323",
+  "scan_time": "2026-09-01T21:12:25.954937",
   "grades": {
-    "AMLX_bullish": {
-      "ticker": "AMLX",
-      "direction": "bullish",
-      "trigger_type": "PIVOT",
-      "trigger_close": 33.7400016784668,
-      "eod_close": 33.75,
-      "session_change_pct": 0.03,
-      "held_trigger": true,
-      "grade": "HOLDING",
-      "grade_note": "Above trigger level \u00b7 +0.0%"
-    },
     "FA_bullish": {
       "ticker": "FA",
       "direction": "bullish",
       "trigger_type": "PIVOT",
-      "trigger_close": 20.93000030517578,
-      "eod_close": 21.02,
-      "session_change_pct": 0.43,
-      "held_trigger": true,
-      "grade": "STRONG",
-      "grade_note": "Held + closed at extreme \u00b7 +0.4%"
+      "trigger_close": 21.020000457763672,
+      "eod_close": 20.16,
+      "session_change_pct": -4.09,
+      "held_trigger": false,
+      "grade": "FAILED",
+      "grade_note": "Reversed through trigger \u00b7 -4.1%"
     },
     "BVC_bullish": {
       "ticker": "BVC",
       "direction": "bullish",
       "trigger_type": "PIVOT",
       "trigger_close": 13.699999809265137,
-      "eod_close": 13.7,
-      "session_change_pct": 0.0,
+      "eod_close": 13.65,
+      "session_change_pct": -0.36,
+      "held_trigger": false,
+      "grade": "FAILED",
+      "grade_note": "Reversed through trigger \u00b7 -0.4%"
+    },
+    "QUAD_bearish": {
+      "ticker": "QUAD",
+      "direction": "bearish",
+      "trigger_type": "PIVOT",
+      "trigger_close": 10.124500274658203,
+      "eod_close": 10.08,
+      "session_change_pct": -0.44,
+      "held_trigger": true,
+      "grade": "STRONG",
+      "grade_note": "Held + closed at extreme \u00b7 -0.4%"
+    },
+    "MU_bearish": {
+      "ticker": "MU",
+      "direction": "bearish",
+      "trigger_type": "PIVOT",
+      "trigger_close": 941.1799926757812,
+      "eod_close": 933.24,
+      "session_change_pct": -0.84,
+      "held_trigger": true,
+      "grade": "STRONG",
+      "grade_note": "Held + closed at extreme \u00b7 -0.8%"
+    },
+    "SCL_bearish": {
+      "ticker": "SCL",
+      "direction": "bearish",
+      "trigger_type": "PIVOT",
+      "trigger_close": 61.43000030517578,
+      "eod_close": 61.49,
+      "session_change_pct": 0.1,
+      "held_trigger": false,
+      "grade": "FAILED",
+      "grade_note": "Reversed through trigger \u00b7 +0.1%"
+    },
+    "KWR_bearish": {
+      "ticker": "KWR",
+      "direction": "bearish",
+      "trigger_type": "PIVOT",
+      "trigger_close": 162.11000061035156,
+      "eod_close": 162.19,
+      "session_change_pct": 0.05,
+      "held_trigger": false,
+      "grade": "FAILED",
+      "grade_note": "Reversed through trigger \u00b7 +0.1%"
+    },
+    "SMTI_bullish": {
+      "ticker": "SMTI",
+      "direction": "bullish",
+      "trigger_type": "PIVOT",
+      "trigger_close": 34.77009963989258,
+      "eod_close": 34.785,
+      "session_change_pct": 0.04,
       "held_trigger": true,
       "grade": "STRONG",
       "grade_note": "Held + closed at extreme \u00b7 +0.0%"
     },
-    "ACOG_bullish": {
-      "ticker": "ACOG",
-      "direction": "bullish",
+    "AGM_bearish": {
+      "ticker": "AGM",
+      "direction": "bearish",
       "trigger_type": "PIVOT",
-      "trigger_close": 9.204999923706055,
-      "eod_close": 9.27,
-      "session_change_pct": 0.71,
+      "trigger_close": 220.6699981689453,
+      "eod_close": 219.85,
+      "session_change_pct": -0.37,
       "held_trigger": true,
       "grade": "STRONG",
-      "grade_note": "Held + closed at extreme \u00b7 +0.7%"
+      "grade_note": "Held + closed at extreme \u00b7 -0.4%"
+    },
+    "PARR_bearish": {
+      "ticker": "PARR",
+      "direction": "bearish",
+      "trigger_type": "PIVOT",
+      "trigger_close": 79.21499633789062,
+      "eod_close": 79.97,
+      "session_change_pct": 0.95,
+      "held_trigger": false,
+      "grade": "FAILED",
+      "grade_note": "Reversed through trigger \u00b7 +0.9%"
+    },
+    "DAO_bullish": {
+      "ticker": "DAO",
+      "direction": "bullish",
+      "trigger_type": "PIVOT",
+      "trigger_close": 16.09000015258789,
+      "eod_close": 16.35,
+      "session_change_pct": 1.62,
+      "held_trigger": true,
+      "grade": "HOLDING",
+      "grade_note": "Above trigger level \u00b7 +1.6%"
+    },
+    "KZIA_bearish": {
+      "ticker": "KZIA",
+      "direction": "bearish",
+      "trigger_type": "PIVOT",
+      "trigger_close": 12.800000190734863,
+      "eod_close": 12.705,
+      "session_change_pct": -0.74,
+      "held_trigger": true,
+      "grade": "HOLDING",
+      "grade_note": "Above trigger level \u00b7 -0.7%"
+    },
+    "MU_bullish": {
+      "ticker": "MU",
+      "direction": "bullish",
+      "trigger_type": "PIVOT",
+      "trigger_close": 934.4400024414062,
+      "eod_close": 933.24,
+      "session_change_pct": -0.13,
+      "held_trigger": false,
+      "grade": "FAILED",
+      "grade_note": "Reversed through trigger \u00b7 -0.1%"
+    },
+    "IMAX_bullish": {
+      "ticker": "IMAX",
+      "direction": "bullish",
+      "trigger_type": "PIVOT",
+      "trigger_close": 51.43000030517578,
+      "eod_close": 51.14,
+      "session_change_pct": -0.56,
+      "held_trigger": false,
+      "grade": "FAILED",
+      "grade_note": "Reversed through trigger \u00b7 -0.6%"
+    },
+    "CHEF_bearish": {
+      "ticker": "CHEF",
+      "direction": "bearish",
+      "trigger_type": "PIVOT",
+      "trigger_close": 115.27999877929688,
+      "eod_close": 115.55,
+      "session_change_pct": 0.23,
+      "held_trigger": false,
+      "grade": "FAILED",
+      "grade_note": "Reversed through trigger \u00b7 +0.2%"
+    },
+    "NMR_bullish": {
+      "ticker": "NMR",
+      "direction": "bullish",
+      "trigger_type": "PIVOT",
+      "trigger_close": 10.180000305175781,
+      "eod_close": 10.18,
+      "session_change_pct": 0.0,
+      "held_trigger": true,
+      "grade": "STRONG",
+      "grade_note": "Held + closed at extreme \u00b7 +0.0%"
     }
   },
-  "market_date": "2026-08-31"
+  "market_date": "2026-09-01"
 }
