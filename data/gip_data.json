@@ -1,6 +1,6 @@
 {
-  "generated_at": "2026-09-10T00:17:22.177989",
-  "composite": 0.478,
+  "generated_at": "2026-09-11T00:13:10.680142",
+  "composite": 0.475,
   "regime": {
     "label": "Neutral",
     "color": "amber",
@@ -9,27 +9,27 @@
   "any_stale": true,
   "pillars": {
     "growth": {
-      "score": 0.561,
+      "score": 0.563,
       "components": {
         "lei": 0.0,
-        "icsa": 1.2947097655751492,
+        "icsa": 1.3042247922890324,
         "ism": 0.5935226970058393
       },
       "stale": true,
       "stale_detail": {
         "lei": true,
-        "icsa": true,
+        "icsa": false,
         "ism": true
       }
     },
     "inflation": {
-      "score": 1.458,
+      "score": 1.453,
       "components": {
         "cpi_yoy": 0.0,
         "core_yoy": 0.0,
         "pce_yoy": 0.0,
         "ppi_yoy": 0.0,
-        "t5y5y": 9.719999999999999
+        "t5y5y": 9.685
       },
       "stale": true,
       "stale_detail": {
@@ -41,17 +41,17 @@
       }
     },
     "liquidity": {
-      "score": -0.174,
+      "score": 0.414,
       "components": {
-        "net_liq": -3.636797825120456,
-        "hy_oas": 4.517088476244898,
+        "net_liq": -2.2415125683815047,
+        "hy_oas": 4.083407011010574,
         "m2": 0.0,
-        "sofr": 5.150210496628485
+        "sofr": 5.1364717288394495
       },
       "stale": true,
       "stale_detail": {
-        "walcl": true,
-        "tga": true,
+        "walcl": false,
+        "tga": false,
         "rrp": false,
         "hy": false,
         "m2": true,
@@ -59,13 +59,13 @@
       }
     },
     "curve": {
-      "score": -0.018,
+      "score": -1.206,
       "components": {
-        "curve_spread": 4.06851099276998,
-        "real10y": -8.71877926381952,
-        "move_proxy": 2.8148949643065864
+        "curve_spread": 1.9557899335021722,
+        "real10y": -9.311109082259433,
+        "move_proxy": 3.0462748986774475
       },
-      "steepener_adj": 1.0,
+      "steepener_adj": 0.0,
       "stale": false,
       "stale_detail": {
         "t10y2y": false,
