@@ -1,15 +1,15 @@
 {
-  "generated_at": "2026-09-11T00:13:15.376277",
+  "generated_at": "2026-09-12T00:20:57.441460",
   "today": {
-    "spx_dir": "\u2193",
-    "dxy_dir": "\u2193",
-    "tnx_dir": "\u2193",
-    "state_id": 7,
-    "name": "Slowdown / Easing Anticipation",
-    "label": "Stocks \u2193 \u00b7 Dollar \u2193 \u00b7 Rates \u2193",
-    "sector_tilt": "Gold, duration, defensive value",
-    "color": "amber",
-    "bullish": false
+    "spx_dir": "\u2191",
+    "dxy_dir": "\u2191",
+    "tnx_dir": "\u2191",
+    "state_id": 3,
+    "name": "US Exceptionalism",
+    "label": "Stocks \u2191 \u00b7 Dollar \u2191 \u00b7 Rates \u2191",
+    "sector_tilt": "Large-cap quality, tech mega-caps",
+    "color": "green",
+    "bullish": true
   },
   "dominant_10d": {
     "state_id": 6,
@@ -51,10 +51,10 @@
       "sector_tilt": "Large-cap quality, tech mega-caps",
       "color": "green",
       "bullish": true,
-      "freq_5d_pct": 0.0,
-      "freq_10d_pct": 0.0,
-      "freq_20d_pct": 0.0,
-      "base_rate_pct": 13.3
+      "freq_5d_pct": 20.0,
+      "freq_10d_pct": 10.0,
+      "freq_20d_pct": 5.0,
+      "base_rate_pct": 13.4
     },
     {
       "id": 4,
@@ -99,10 +99,10 @@
       "sector_tilt": "Gold, duration, defensive value",
       "color": "amber",
       "bullish": false,
-      "freq_5d_pct": 40.0,
-      "freq_10d_pct": 20.0,
-      "freq_20d_pct": 10.0,
-      "base_rate_pct": 15.1
+      "freq_5d_pct": 20.0,
+      "freq_10d_pct": 10.0,
+      "freq_20d_pct": 5.0,
+      "base_rate_pct": 15.0
     },
     {
       "id": 8,
@@ -120,11 +120,11 @@
   "base_rates": {
     "1": 18.3,
     "2": 10.6,
-    "3": 13.3,
+    "3": 13.4,
     "4": 8.6,
     "5": 9.0,
     "6": 18.4,
-    "7": 15.1,
+    "7": 15.0,
     "8": 6.8
   },
   "transitions": {
@@ -181,11 +181,11 @@
     "6": {
       "1": 0.222,
       "2": 0.111,
-      "3": 0.093,
+      "3": 0.111,
       "4": 0.093,
       "5": 0.13,
       "6": 0.13,
-      "7": 0.148,
+      "7": 0.13,
       "8": 0.074
     },
     "7": {
@@ -743,12 +743,12 @@
     },
     {
       "date": "2026-09-11",
-      "state_id": 7,
-      "narrative_name": "Slowdown / Easing Anticipation",
-      "color": "amber",
-      "spx": "\u2193",
-      "dxy": "\u2193",
-      "tnx": "\u2193"
+      "state_id": 3,
+      "narrative_name": "US Exceptionalism",
+      "color": "green",
+      "spx": "\u2191",
+      "dxy": "\u2191",
+      "tnx": "\u2191"
     }
   ]
 }
