@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-09-24T00:32:15.370640",
+  "generated_at": "2026-09-25T00:35:04.597249",
   "today": {
     "spx_dir": "\u2193",
     "dxy_dir": "\u2193",
@@ -16,9 +16,9 @@
     "name": "Stagflation / Hawkish Pain",
     "color": "red",
     "sector_tilt": "Cash \u2014 no longs",
-    "freq_10d_pct": 30.0
+    "freq_10d_pct": 40.0
   },
-  "bearish_days_10": 4,
+  "bearish_days_10": 5,
   "all_narratives": [
     {
       "id": 1,
@@ -39,7 +39,7 @@
       "sector_tilt": "Energy, materials, industrials, banks",
       "color": "green",
       "bullish": true,
-      "freq_5d_pct": 20.0,
+      "freq_5d_pct": 0.0,
       "freq_10d_pct": 10.0,
       "freq_20d_pct": 5.0,
       "base_rate_pct": 10.6
@@ -52,7 +52,7 @@
       "color": "green",
       "bullish": true,
       "freq_5d_pct": 0.0,
-      "freq_10d_pct": 10.0,
+      "freq_10d_pct": 0.0,
       "freq_20d_pct": 5.0,
       "base_rate_pct": 13.3
     },
@@ -87,10 +87,10 @@
       "sector_tilt": "Cash \u2014 no longs",
       "color": "red",
       "bullish": false,
-      "freq_5d_pct": 20.0,
-      "freq_10d_pct": 30.0,
+      "freq_5d_pct": 40.0,
+      "freq_10d_pct": 40.0,
       "freq_20d_pct": 35.0,
-      "base_rate_pct": 18.5
+      "base_rate_pct": 18.6
     },
     {
       "id": 7,
@@ -102,7 +102,7 @@
       "freq_5d_pct": 40.0,
       "freq_10d_pct": 20.0,
       "freq_20d_pct": 15.0,
-      "base_rate_pct": 15.0
+      "base_rate_pct": 14.9
     },
     {
       "id": 8,
@@ -123,8 +123,8 @@
     "3": 13.3,
     "4": 8.6,
     "5": 9.0,
-    "6": 18.5,
-    "7": 15.0,
+    "6": 18.6,
+    "7": 14.9,
     "8": 6.8
   },
   "transitions": {
@@ -149,14 +149,14 @@
       "8": 0.077
     },
     "3": {
-      "1": 0.103,
-      "2": 0.138,
-      "3": 0.069,
-      "4": 0.172,
-      "5": 0.138,
-      "6": 0.241,
-      "7": 0.103,
-      "8": 0.034
+      "1": 0.107,
+      "2": 0.143,
+      "3": 0.071,
+      "4": 0.179,
+      "5": 0.143,
+      "6": 0.214,
+      "7": 0.107,
+      "8": 0.036
     },
     "4": {
       "1": 0.292,
@@ -179,14 +179,14 @@
       "8": 0.0
     },
     "6": {
-      "1": 0.232,
-      "2": 0.089,
-      "3": 0.107,
-      "4": 0.089,
-      "5": 0.125,
-      "6": 0.143,
-      "7": 0.143,
-      "8": 0.071
+      "1": 0.228,
+      "2": 0.088,
+      "3": 0.105,
+      "4": 0.088,
+      "5": 0.123,
+      "6": 0.158,
+      "7": 0.14,
+      "8": 0.07
     },
     "7": {
       "1": 0.091,
@@ -210,15 +210,6 @@
     }
   },
   "history_60d": [
-    {
-      "date": "2026-07-03",
-      "state_id": 7,
-      "narrative_name": "Slowdown / Easing Anticipation",
-      "color": "amber",
-      "spx": "\u2193",
-      "dxy": "\u2193",
-      "tnx": "\u2193"
-    },
     {
       "date": "2026-07-06",
       "state_id": 1,
@@ -743,6 +734,15 @@
     },
     {
       "date": "2026-09-24",
+      "state_id": 6,
+      "narrative_name": "Stagflation / Hawkish Pain",
+      "color": "red",
+      "spx": "\u2193",
+      "dxy": "\u2191",
+      "tnx": "\u2191"
+    },
+    {
+      "date": "2026-09-25",
       "state_id": 7,
       "narrative_name": "Slowdown / Easing Anticipation",
       "color": "amber",
