@@ -1,6 +1,6 @@
 {
-  "generated_at": "2026-10-01T01:19:05.440120",
-  "composite": 0.237,
+  "generated_at": "2026-10-02T01:42:33.408900",
+  "composite": 0.29,
   "regime": {
     "label": "Neutral",
     "color": "amber",
@@ -9,16 +9,16 @@
   "any_stale": true,
   "pillars": {
     "growth": {
-      "score": 0.571,
+      "score": 0.576,
       "components": {
         "lei": 0.0,
-        "icsa": 1.3346933793929954,
+        "icsa": 1.353409358237365,
         "ism": 0.5935226970058393
       },
       "stale": true,
       "stale_detail": {
         "lei": true,
-        "icsa": true,
+        "icsa": false,
         "ism": true
       }
     },
@@ -41,17 +41,17 @@
       }
     },
     "liquidity": {
-      "score": -0.773,
+      "score": -0.709,
       "components": {
-        "net_liq": -2.069816844285342,
-        "hy_oas": -0.36231557877617904,
+        "net_liq": -1.6683250808899865,
+        "hy_oas": -0.8578519486444138,
         "m2": 0.0,
-        "sofr": 3.525505079401756
+        "sofr": 3.3944650406255965
       },
       "stale": true,
       "stale_detail": {
-        "walcl": true,
-        "tga": true,
+        "walcl": false,
+        "tga": false,
         "rrp": false,
         "hy": false,
         "m2": true,
@@ -59,11 +59,11 @@
       }
     },
     "curve": {
-      "score": -0.42,
+      "score": -0.204,
       "components": {
-        "curve_spread": 4.089637541347711,
+        "curve_spread": 4.61334755845016,
         "real10y": -10.0,
-        "move_proxy": 2.676380043699375
+        "move_proxy": 2.4487966475576486
       },
       "steepener_adj": 1.0,
       "stale": false,
