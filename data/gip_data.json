@@ -1,10 +1,10 @@
 {
-  "generated_at": "2026-10-03T01:13:35.328936",
-  "composite": -0.119,
+  "generated_at": "2026-10-06T02:20:50.060684",
+  "composite": 0.321,
   "regime": {
-    "label": "Slowdown / Stagflation Risk",
-    "color": "red",
-    "tier": 2
+    "label": "Neutral",
+    "color": "amber",
+    "tier": 3
   },
   "any_stale": true,
   "pillars": {
@@ -18,18 +18,18 @@
       "stale": true,
       "stale_detail": {
         "lei": true,
-        "icsa": false,
+        "icsa": true,
         "ism": false
       }
     },
     "inflation": {
-      "score": 1.448,
+      "score": 1.442,
       "components": {
         "cpi_yoy": 0.0,
         "core_yoy": 0.0,
         "pce_yoy": 0.0,
         "ppi_yoy": 0.0,
-        "t5y5y": 9.65
+        "t5y5y": 9.615
       },
       "stale": true,
       "stale_detail": {
@@ -41,37 +41,37 @@
       }
     },
     "liquidity": {
-      "score": -1.058,
+      "score": -0.648,
       "components": {
-        "net_liq": -1.668344767732165,
-        "hy_oas": -2.3226462907147494,
+        "net_liq": -1.6735428922604427,
+        "hy_oas": -0.6446920133076749,
         "m2": 0.0,
-        "sofr": 3.5678884565318993
+        "sofr": 3.497531402642803
       },
       "stale": true,
       "stale_detail": {
         "walcl": false,
         "tga": false,
         "rrp": false,
-        "hy": false,
+        "hy": true,
         "m2": true,
-        "sofr": false
+        "sofr": true
       }
     },
     "curve": {
-      "score": -2.261,
+      "score": -0.134,
       "components": {
-        "curve_spread": 0.4986160381994771,
+        "curve_spread": 4.703875885877432,
         "real10y": -10.0,
-        "move_proxy": 2.4488184529068233
+        "move_proxy": 2.571751294976413
       },
-      "steepener_adj": -1.0,
-      "stale": false,
+      "steepener_adj": 1.0,
+      "stale": true,
       "stale_detail": {
         "t10y2y": false,
-        "dgs2": false,
-        "dgs10": false,
-        "dfii10": false,
+        "dgs2": true,
+        "dgs10": true,
+        "dfii10": true,
         "move_proxy": false
       }
     }
