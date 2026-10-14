@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-10-13T03:04:25.144457",
+  "generated_at": "2026-10-14T01:15:45.121342",
   "today": {
     "spx_dir": "\u2193",
     "dxy_dir": "\u2193",
@@ -12,13 +12,13 @@
     "bullish": false
   },
   "dominant_10d": {
-    "state_id": 3,
-    "name": "US Exceptionalism",
-    "color": "green",
-    "sector_tilt": "Large-cap quality, tech mega-caps",
-    "freq_10d_pct": 20.0
+    "state_id": 7,
+    "name": "Slowdown / Easing Anticipation",
+    "color": "amber",
+    "sector_tilt": "Gold, duration, defensive value",
+    "freq_10d_pct": 30.0
   },
-  "bearish_days_10": 3,
+  "bearish_days_10": 2,
   "all_narratives": [
     {
       "id": 1,
@@ -42,7 +42,7 @@
       "freq_5d_pct": 0.0,
       "freq_10d_pct": 10.0,
       "freq_20d_pct": 15.0,
-      "base_rate_pct": 10.6
+      "base_rate_pct": 10.5
     },
     {
       "id": 3,
@@ -87,9 +87,9 @@
       "sector_tilt": "Cash \u2014 no longs",
       "color": "red",
       "bullish": false,
-      "freq_5d_pct": 20.0,
-      "freq_10d_pct": 20.0,
-      "freq_20d_pct": 40.0,
+      "freq_5d_pct": 0.0,
+      "freq_10d_pct": 10.0,
+      "freq_20d_pct": 35.0,
       "base_rate_pct": 18.9
     },
     {
@@ -99,9 +99,9 @@
       "sector_tilt": "Gold, duration, defensive value",
       "color": "amber",
       "bullish": false,
-      "freq_5d_pct": 40.0,
-      "freq_10d_pct": 20.0,
-      "freq_20d_pct": 10.0,
+      "freq_5d_pct": 60.0,
+      "freq_10d_pct": 30.0,
+      "freq_20d_pct": 15.0,
       "base_rate_pct": 14.8
     },
     {
@@ -119,7 +119,7 @@
   ],
   "base_rates": {
     "1": 18.3,
-    "2": 10.6,
+    "2": 10.5,
     "3": 13.2,
     "4": 8.7,
     "5": 8.8,
@@ -129,14 +129,14 @@
   },
   "transitions": {
     "1": {
-      "1": 0.255,
-      "2": 0.137,
-      "3": 0.137,
-      "4": 0.059,
+      "1": 0.24,
+      "2": 0.14,
+      "3": 0.14,
+      "4": 0.06,
       "5": 0.0,
-      "6": 0.255,
-      "7": 0.098,
-      "8": 0.059
+      "6": 0.26,
+      "7": 0.1,
+      "8": 0.06
     },
     "2": {
       "1": 0.111,
@@ -189,14 +189,14 @@
       "8": 0.066
     },
     "7": {
-      "1": 0.103,
-      "2": 0.103,
-      "3": 0.241,
-      "4": 0.069,
-      "5": 0.034,
-      "6": 0.31,
-      "7": 0.069,
-      "8": 0.069
+      "1": 0.1,
+      "2": 0.1,
+      "3": 0.233,
+      "4": 0.067,
+      "5": 0.033,
+      "6": 0.3,
+      "7": 0.1,
+      "8": 0.067
     },
     "8": {
       "1": 0.2,
@@ -210,15 +210,6 @@
     }
   },
   "history_60d": [
-    {
-      "date": "2026-07-22",
-      "state_id": 8,
-      "narrative_name": "Inflation Resurgence",
-      "color": "amber",
-      "spx": "\u2193",
-      "dxy": "\u2193",
-      "tnx": "\u2191"
-    },
     {
       "date": "2026-07-23",
       "state_id": 6,
@@ -743,6 +734,15 @@
     },
     {
       "date": "2026-10-13",
+      "state_id": 7,
+      "narrative_name": "Slowdown / Easing Anticipation",
+      "color": "amber",
+      "spx": "\u2193",
+      "dxy": "\u2193",
+      "tnx": "\u2193"
+    },
+    {
+      "date": "2026-10-14",
       "state_id": 7,
       "narrative_name": "Slowdown / Easing Anticipation",
       "color": "amber",
