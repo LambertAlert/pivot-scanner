@@ -1,50 +1,127 @@
 {
-  "scan_time": "2026-10-19T23:53:41.549031",
+  "scan_time": "2026-10-20T21:23:33.956232",
   "grades": {
     "DK_bullish": {
       "ticker": "DK",
       "direction": "bullish",
       "trigger_type": "PIVOT",
-      "trigger_close": 75.19499969482422,
-      "eod_close": 75.03,
-      "session_change_pct": -0.22,
-      "held_trigger": false,
-      "grade": "FAILED",
-      "grade_note": "Reversed through trigger \u00b7 -0.2%"
+      "trigger_close": 75.02999877929688,
+      "eod_close": 77.65,
+      "session_change_pct": 3.49,
+      "held_trigger": true,
+      "grade": "STRONG",
+      "grade_note": "Held + closed at extreme \u00b7 +3.5%"
     },
     "ITGR_bullish": {
       "ticker": "ITGR",
       "direction": "bullish",
       "trigger_type": "PIVOT",
-      "trigger_close": 126.76000213623047,
-      "eod_close": 126.77,
-      "session_change_pct": 0.01,
-      "held_trigger": true,
-      "grade": "STRONG",
-      "grade_note": "Held + closed at extreme \u00b7 +0.0%"
+      "trigger_close": 126.7699966430664,
+      "eod_close": 126.75,
+      "session_change_pct": -0.02,
+      "held_trigger": false,
+      "grade": "FAILED",
+      "grade_note": "Reversed through trigger \u00b7 -0.0%"
     },
-    "SHO_bullish": {
-      "ticker": "SHO",
+    "NUE_bullish": {
+      "ticker": "NUE",
       "direction": "bullish",
       "trigger_type": "PIVOT",
-      "trigger_close": 11.914999961853027,
-      "eod_close": 11.985,
-      "session_change_pct": 0.59,
-      "held_trigger": true,
-      "grade": "STRONG",
-      "grade_note": "Held + closed at extreme \u00b7 +0.6%"
+      "trigger_close": 262.1000061035156,
+      "eod_close": 261.54,
+      "session_change_pct": -0.21,
+      "held_trigger": false,
+      "grade": "FAILED",
+      "grade_note": "Reversed through trigger \u00b7 -0.2%"
     },
-    "PBYI_bearish": {
-      "ticker": "PBYI",
+    "TBCH_bearish": {
+      "ticker": "TBCH",
       "direction": "bearish",
       "trigger_type": "PIVOT",
-      "trigger_close": 10.220000267028809,
-      "eod_close": 10.22,
-      "session_change_pct": 0.0,
+      "trigger_close": 15.829999923706055,
+      "eod_close": 15.92,
+      "session_change_pct": 0.57,
+      "held_trigger": false,
+      "grade": "FAILED",
+      "grade_note": "Reversed through trigger \u00b7 +0.6%"
+    },
+    "CHEF_bullish": {
+      "ticker": "CHEF",
+      "direction": "bullish",
+      "trigger_type": "PIVOT",
+      "trigger_close": 109.4000015258789,
+      "eod_close": 110.87,
+      "session_change_pct": 1.34,
       "held_trigger": true,
-      "grade": "HOLDING",
-      "grade_note": "Above trigger level \u00b7 +0.0%"
+      "grade": "STRONG",
+      "grade_note": "Held + closed at extreme \u00b7 +1.3%"
+    },
+    "FORR_bullish": {
+      "ticker": "FORR",
+      "direction": "bullish",
+      "trigger_type": "PIVOT",
+      "trigger_close": 12.164999961853027,
+      "eod_close": 12.19,
+      "session_change_pct": 0.21,
+      "held_trigger": true,
+      "grade": "STRONG",
+      "grade_note": "Held + closed at extreme \u00b7 +0.2%"
+    },
+    "VREX_bullish": {
+      "ticker": "VREX",
+      "direction": "bullish",
+      "trigger_type": "PIVOT",
+      "trigger_close": 18.450000762939453,
+      "eod_close": 18.42,
+      "session_change_pct": -0.16,
+      "held_trigger": false,
+      "grade": "FAILED",
+      "grade_note": "Reversed through trigger \u00b7 -0.2%"
+    },
+    "DK_bearish": {
+      "ticker": "DK",
+      "direction": "bearish",
+      "trigger_type": "PIVOT",
+      "trigger_close": 76.88500213623047,
+      "eod_close": 77.65,
+      "session_change_pct": 0.99,
+      "held_trigger": false,
+      "grade": "FAILED",
+      "grade_note": "Reversed through trigger \u00b7 +1.0%"
+    },
+    "CNK_bearish": {
+      "ticker": "CNK",
+      "direction": "bearish",
+      "trigger_type": "PIVOT",
+      "trigger_close": 39.970001220703125,
+      "eod_close": 40.16,
+      "session_change_pct": 0.48,
+      "held_trigger": false,
+      "grade": "FAILED",
+      "grade_note": "Reversed through trigger \u00b7 +0.5%"
+    },
+    "TBCH_bullish": {
+      "ticker": "TBCH",
+      "direction": "bullish",
+      "trigger_type": "PIVOT",
+      "trigger_close": 16.155000686645508,
+      "eod_close": 15.92,
+      "session_change_pct": -1.45,
+      "held_trigger": false,
+      "grade": "FAILED",
+      "grade_note": "Reversed through trigger \u00b7 -1.4%"
+    },
+    "SAFT_bullish": {
+      "ticker": "SAFT",
+      "direction": "bullish",
+      "trigger_type": "PIVOT",
+      "trigger_close": 104.125,
+      "eod_close": 104.12,
+      "session_change_pct": -0.0,
+      "held_trigger": false,
+      "grade": "FAILED",
+      "grade_note": "Reversed through trigger \u00b7 -0.0%"
     }
   },
-  "market_date": "2026-10-19"
+  "market_date": "2026-10-20"
 }
