@@ -1,28 +1,39 @@
 {
-  "scan_time": "2026-10-22T23:56:47.058292",
+  "scan_time": "2026-10-23T21:10:22.055282",
   "grades": {
-    "TEVA_bullish": {
-      "ticker": "TEVA",
-      "direction": "bullish",
+    "SAFT_bearish": {
+      "ticker": "SAFT",
+      "direction": "bearish",
       "trigger_type": "PIVOT",
-      "trigger_close": 40.619998931884766,
-      "eod_close": 40.21,
-      "session_change_pct": -1.01,
+      "trigger_close": 104.1050033569336,
+      "eod_close": 104.145,
+      "session_change_pct": 0.04,
       "held_trigger": false,
       "grade": "FAILED",
-      "grade_note": "Reversed through trigger \u00b7 -1.0%"
+      "grade_note": "Reversed through trigger \u00b7 +0.0%"
     },
-    "CHEF_bullish": {
-      "ticker": "CHEF",
+    "WKC_bearish": {
+      "ticker": "WKC",
+      "direction": "bearish",
+      "trigger_type": "PIVOT",
+      "trigger_close": 36.630001068115234,
+      "eod_close": 36.54,
+      "session_change_pct": -0.25,
+      "held_trigger": true,
+      "grade": "STRONG",
+      "grade_note": "Held + closed at extreme \u00b7 -0.2%"
+    },
+    "CNK_bullish": {
+      "ticker": "CNK",
       "direction": "bullish",
       "trigger_type": "PIVOT",
-      "trigger_close": 107.79499816894531,
-      "eod_close": 107.28,
-      "session_change_pct": -0.48,
+      "trigger_close": 40.09000015258789,
+      "eod_close": 39.665,
+      "session_change_pct": -1.06,
       "held_trigger": false,
       "grade": "FAILED",
-      "grade_note": "Reversed through trigger \u00b7 -0.5%"
+      "grade_note": "Reversed through trigger \u00b7 -1.1%"
     }
   },
-  "market_date": "2026-10-22"
+  "market_date": "2026-10-23"
 }
