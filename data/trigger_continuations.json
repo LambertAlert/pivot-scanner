@@ -1,39 +1,28 @@
 {
-  "scan_time": "2026-10-23T23:56:45.125707",
+  "scan_time": "2026-10-26T21:08:43.226582",
   "grades": {
+    "BWLP_bearish": {
+      "ticker": "BWLP",
+      "direction": "bearish",
+      "trigger_type": "PIVOT",
+      "trigger_close": 25.979999542236328,
+      "eod_close": 26.05,
+      "session_change_pct": 0.27,
+      "held_trigger": false,
+      "grade": "FAILED",
+      "grade_note": "Reversed through trigger \u00b7 +0.3%"
+    },
     "SAFT_bearish": {
       "ticker": "SAFT",
       "direction": "bearish",
       "trigger_type": "PIVOT",
-      "trigger_close": 104.1050033569336,
-      "eod_close": 104.145,
-      "session_change_pct": 0.04,
-      "held_trigger": false,
-      "grade": "FAILED",
-      "grade_note": "Reversed through trigger \u00b7 +0.0%"
-    },
-    "WKC_bearish": {
-      "ticker": "WKC",
-      "direction": "bearish",
-      "trigger_type": "PIVOT",
-      "trigger_close": 36.630001068115234,
-      "eod_close": 36.54,
-      "session_change_pct": -0.25,
+      "trigger_close": 104.06999969482422,
+      "eod_close": 104.07,
+      "session_change_pct": 0.0,
       "held_trigger": true,
       "grade": "STRONG",
-      "grade_note": "Held + closed at extreme \u00b7 -0.2%"
-    },
-    "CNK_bullish": {
-      "ticker": "CNK",
-      "direction": "bullish",
-      "trigger_type": "PIVOT",
-      "trigger_close": 40.09000015258789,
-      "eod_close": 39.665,
-      "session_change_pct": -1.06,
-      "held_trigger": false,
-      "grade": "FAILED",
-      "grade_note": "Reversed through trigger \u00b7 -1.1%"
+      "grade_note": "Held + closed at extreme \u00b7 +0.0%"
     }
   },
-  "market_date": "2026-10-23"
+  "market_date": "2026-10-26"
 }
