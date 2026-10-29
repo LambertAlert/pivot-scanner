@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-10-28T01:26:10.489074",
+  "generated_at": "2026-10-29T01:50:12.898439",
   "today": {
     "spx_dir": "\u2193",
     "dxy_dir": "\u2193",
@@ -28,7 +28,7 @@
       "color": "green",
       "bullish": true,
       "freq_5d_pct": 0.0,
-      "freq_10d_pct": 20.0,
+      "freq_10d_pct": 10.0,
       "freq_20d_pct": 15.0,
       "base_rate_pct": 18.4
     },
@@ -39,10 +39,10 @@
       "sector_tilt": "Energy, materials, industrials, banks",
       "color": "green",
       "bullish": true,
-      "freq_5d_pct": 0.0,
-      "freq_10d_pct": 0.0,
-      "freq_20d_pct": 5.0,
-      "base_rate_pct": 10.2
+      "freq_5d_pct": 20.0,
+      "freq_10d_pct": 10.0,
+      "freq_20d_pct": 10.0,
+      "base_rate_pct": 10.3
     },
     {
       "id": 3,
@@ -65,7 +65,7 @@
       "bullish": true,
       "freq_5d_pct": 20.0,
       "freq_10d_pct": 10.0,
-      "freq_20d_pct": 10.0,
+      "freq_20d_pct": 5.0,
       "base_rate_pct": 8.7
     },
     {
@@ -99,7 +99,7 @@
       "sector_tilt": "Gold, duration, defensive value",
       "color": "amber",
       "bullish": false,
-      "freq_5d_pct": 40.0,
+      "freq_5d_pct": 20.0,
       "freq_10d_pct": 20.0,
       "freq_20d_pct": 20.0,
       "base_rate_pct": 14.8
@@ -119,7 +119,7 @@
   ],
   "base_rates": {
     "1": 18.4,
-    "2": 10.2,
+    "2": 10.3,
     "3": 13.4,
     "4": 8.7,
     "5": 8.7,
@@ -142,20 +142,20 @@
       "1": 0.115,
       "2": 0.077,
       "3": 0.115,
-      "4": 0.154,
+      "4": 0.115,
       "5": 0.115,
       "6": 0.231,
-      "7": 0.115,
+      "7": 0.154,
       "8": 0.077
     },
     "3": {
       "1": 0.148,
-      "2": 0.111,
+      "2": 0.148,
       "3": 0.0,
       "4": 0.148,
       "5": 0.148,
       "6": 0.222,
-      "7": 0.185,
+      "7": 0.148,
       "8": 0.037
     },
     "4": {
@@ -210,15 +210,6 @@
     }
   },
   "history_60d": [
-    {
-      "date": "2026-08-06",
-      "state_id": 6,
-      "narrative_name": "Stagflation / Hawkish Pain",
-      "color": "red",
-      "spx": "\u2193",
-      "dxy": "\u2191",
-      "tnx": "\u2191"
-    },
     {
       "date": "2026-08-07",
       "state_id": 1,
@@ -743,6 +734,15 @@
     },
     {
       "date": "2026-10-28",
+      "state_id": 2,
+      "narrative_name": "Reflation",
+      "color": "green",
+      "spx": "\u2191",
+      "dxy": "\u2193",
+      "tnx": "\u2191"
+    },
+    {
+      "date": "2026-10-29",
       "state_id": 7,
       "narrative_name": "Slowdown / Easing Anticipation",
       "color": "amber",
