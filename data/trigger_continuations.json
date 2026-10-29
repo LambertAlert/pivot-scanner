@@ -1,5 +1,5 @@
 {
-  "scan_time": "2026-10-29T21:20:29.325671",
+  "scan_time": "2026-10-29T21:43:40.749096",
   "grades": {
     "BRZE_bullish": {
       "ticker": "BRZE",
@@ -132,6 +132,17 @@
       "held_trigger": true,
       "grade": "HOLDING",
       "grade_note": "Above trigger level \u00b7 +2.0%"
+    },
+    "INSW_bearish": {
+      "ticker": "INSW",
+      "direction": "bearish",
+      "trigger_type": "PIVOT",
+      "trigger_close": 112.63500213623047,
+      "eod_close": 113.65,
+      "session_change_pct": 0.9,
+      "held_trigger": false,
+      "grade": "FAILED",
+      "grade_note": "Reversed through trigger \u00b7 +0.9%"
     },
     "PSX_bullish": {
       "ticker": "PSX",
