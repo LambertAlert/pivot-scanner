@@ -1,72 +1,83 @@
 {
-  "scan_time": "2026-11-05T23:53:54.381958",
+  "scan_time": "2026-11-06T21:10:20.220111",
   "grades": {
-    "SLN_bullish": {
-      "ticker": "SLN",
-      "direction": "bullish",
-      "trigger_type": "PIVOT",
-      "trigger_close": 19.795000076293945,
-      "eod_close": 19.73,
-      "session_change_pct": -0.33,
-      "held_trigger": false,
-      "grade": "FAILED",
-      "grade_note": "Reversed through trigger \u00b7 -0.3%"
-    },
     "ULBI_bullish": {
       "ticker": "ULBI",
       "direction": "bullish",
       "trigger_type": "PIVOT",
-      "trigger_close": 15.649999618530273,
-      "eod_close": 15.63,
-      "session_change_pct": -0.13,
-      "held_trigger": false,
-      "grade": "FAILED",
-      "grade_note": "Reversed through trigger \u00b7 -0.1%"
+      "trigger_close": 15.630000114440918,
+      "eod_close": 15.66,
+      "session_change_pct": 0.19,
+      "held_trigger": true,
+      "grade": "STRONG",
+      "grade_note": "Held + closed at extreme \u00b7 +0.2%"
     },
     "DK_bearish": {
       "ticker": "DK",
       "direction": "bearish",
       "trigger_type": "PIVOT",
-      "trigger_close": 62.61000061035156,
-      "eod_close": 62.43,
-      "session_change_pct": -0.29,
+      "trigger_close": 62.43000030517578,
+      "eod_close": 63.93,
+      "session_change_pct": 2.4,
+      "held_trigger": false,
+      "grade": "FAILED",
+      "grade_note": "Reversed through trigger \u00b7 +2.4%"
+    },
+    "BHC_bullish": {
+      "ticker": "BHC",
+      "direction": "bullish",
+      "trigger_type": "PIVOT",
+      "trigger_close": 8.170000076293945,
+      "eod_close": 8.185,
+      "session_change_pct": 0.18,
       "held_trigger": true,
       "grade": "STRONG",
-      "grade_note": "Held + closed at extreme \u00b7 -0.3%"
+      "grade_note": "Held + closed at extreme \u00b7 +0.2%"
     },
-    "PBF_bearish": {
-      "ticker": "PBF",
+    "GDYN_bearish": {
+      "ticker": "GDYN",
       "direction": "bearish",
       "trigger_type": "PIVOT",
-      "trigger_close": 68.87000274658203,
-      "eod_close": 68.36,
-      "session_change_pct": -0.74,
+      "trigger_close": 13.194999694824219,
+      "eod_close": 13.095,
+      "session_change_pct": -0.76,
       "held_trigger": true,
       "grade": "STRONG",
-      "grade_note": "Held + closed at extreme \u00b7 -0.7%"
+      "grade_note": "Held + closed at extreme \u00b7 -0.8%"
     },
-    "PSX_bearish": {
-      "ticker": "PSX",
+    "TASK_bullish": {
+      "ticker": "TASK",
+      "direction": "bullish",
+      "trigger_type": "PIVOT",
+      "trigger_close": 9.114999771118164,
+      "eod_close": 9.1,
+      "session_change_pct": -0.16,
+      "held_trigger": false,
+      "grade": "FAILED",
+      "grade_note": "Reversed through trigger \u00b7 -0.2%"
+    },
+    "XNCR_bearish": {
+      "ticker": "XNCR",
       "direction": "bearish",
       "trigger_type": "PIVOT",
-      "trigger_close": 248.1199951171875,
-      "eod_close": 246.99,
-      "session_change_pct": -0.46,
+      "trigger_close": 36.095001220703125,
+      "eod_close": 35.755,
+      "session_change_pct": -0.94,
       "held_trigger": true,
-      "grade": "STRONG",
-      "grade_note": "Held + closed at extreme \u00b7 -0.5%"
+      "grade": "HOLDING",
+      "grade_note": "Above trigger level \u00b7 -0.9%"
     },
-    "VLO_bearish": {
-      "ticker": "VLO",
-      "direction": "bearish",
+    "DK_bullish": {
+      "ticker": "DK",
+      "direction": "bullish",
       "trigger_type": "PIVOT",
-      "trigger_close": 352.1499938964844,
-      "eod_close": 351.15,
-      "session_change_pct": -0.28,
+      "trigger_close": 63.619998931884766,
+      "eod_close": 63.93,
+      "session_change_pct": 0.49,
       "held_trigger": true,
-      "grade": "STRONG",
-      "grade_note": "Held + closed at extreme \u00b7 -0.3%"
+      "grade": "HOLDING",
+      "grade_note": "Above trigger level \u00b7 +0.5%"
     }
   },
-  "market_date": "2026-11-05"
+  "market_date": "2026-11-06"
 }
