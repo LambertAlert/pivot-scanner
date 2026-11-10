@@ -1,28 +1,94 @@
 {
-  "scan_time": "2026-11-09T23:54:54.075856",
+  "scan_time": "2026-11-10T21:13:48.130936",
   "grades": {
-    "XNCR_bearish": {
-      "ticker": "XNCR",
+    "SAFT_bearish": {
+      "ticker": "SAFT",
       "direction": "bearish",
       "trigger_type": "PIVOT",
-      "trigger_close": 38.599998474121094,
-      "eod_close": 38.6,
+      "trigger_close": 104.47000122070312,
+      "eod_close": 104.5,
+      "session_change_pct": 0.03,
+      "held_trigger": false,
+      "grade": "FAILED",
+      "grade_note": "Reversed through trigger \u00b7 +0.0%"
+    },
+    "BVC_bearish": {
+      "ticker": "BVC",
+      "direction": "bearish",
+      "trigger_type": "PIVOT",
+      "trigger_close": 15.470000267028809,
+      "eod_close": 15.47,
       "session_change_pct": 0.0,
       "held_trigger": true,
       "grade": "HOLDING",
       "grade_note": "Above trigger level \u00b7 +0.0%"
     },
-    "CDNA_bearish": {
-      "ticker": "CDNA",
-      "direction": "bearish",
+    "EVER_bullish": {
+      "ticker": "EVER",
+      "direction": "bullish",
       "trigger_type": "PIVOT",
-      "trigger_close": 84.38999938964844,
-      "eod_close": 84.39,
-      "session_change_pct": 0.0,
+      "trigger_close": 28.110000610351562,
+      "eod_close": 27.98,
+      "session_change_pct": -0.46,
+      "held_trigger": false,
+      "grade": "FAILED",
+      "grade_note": "Reversed through trigger \u00b7 -0.5%"
+    },
+    "TEM_bullish": {
+      "ticker": "TEM",
+      "direction": "bullish",
+      "trigger_type": "PIVOT",
+      "trigger_close": 80.02999877929688,
+      "eod_close": 80.55,
+      "session_change_pct": 0.65,
       "held_trigger": true,
       "grade": "HOLDING",
-      "grade_note": "Above trigger level \u00b7 +0.0%"
+      "grade_note": "Above trigger level \u00b7 +0.7%"
+    },
+    "ZLAB_bullish": {
+      "ticker": "ZLAB",
+      "direction": "bullish",
+      "trigger_type": "PIVOT",
+      "trigger_close": 26.540000915527344,
+      "eod_close": 26.385,
+      "session_change_pct": -0.58,
+      "held_trigger": false,
+      "grade": "FAILED",
+      "grade_note": "Reversed through trigger \u00b7 -0.6%"
+    },
+    "FNKO_bullish": {
+      "ticker": "FNKO",
+      "direction": "bullish",
+      "trigger_type": "PIVOT",
+      "trigger_close": 7.09499979019165,
+      "eod_close": 7.25,
+      "session_change_pct": 2.18,
+      "held_trigger": true,
+      "grade": "STRONG",
+      "grade_note": "Held + closed at extreme \u00b7 +2.2%"
+    },
+    "SLN_bullish": {
+      "ticker": "SLN",
+      "direction": "bullish",
+      "trigger_type": "PIVOT",
+      "trigger_close": 19.790000915527344,
+      "eod_close": 19.77,
+      "session_change_pct": -0.1,
+      "held_trigger": false,
+      "grade": "FAILED",
+      "grade_note": "Reversed through trigger \u00b7 -0.1%"
+    },
+    "KMTS_bearish": {
+      "ticker": "KMTS",
+      "direction": "bearish",
+      "trigger_type": "PIVOT",
+      "trigger_close": 29.75,
+      "eod_close": 29.54,
+      "session_change_pct": -0.71,
+      "held_trigger": true,
+      "grade": "STRONG",
+      "grade_note": "Held + closed at extreme \u00b7 -0.7%"
     }
   },
-  "market_date": "2026-11-09"
+  "market_date": "2026-11-10"
 }
