@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-11-11T00:08:48.159812",
+  "generated_at": "2026-11-11T00:23:36.502938",
   "count": 88,
   "entries": [
     {
@@ -440,17 +440,18 @@
       "ema8": 27.7705,
       "pct_from_ema8": 3.71,
       "state": "QUIET",
-      "in_motion_score": 0.0,
+      "in_motion_score": 25.0,
       "in_motion_components": {
         "pct_chg": 0,
         "rvol": 0,
-        "trigger": 0,
+        "trigger": 100,
         "breakout": 0,
         "candle": 0
       },
       "in_motion_reasons": [
         "Down -1.9% today",
         "Volume 0.5\u00d7 \u2014 light",
+        "30-min pivot triggered today",
         "Closed weak in lower half"
       ],
       "loading_score": 38.0,
@@ -476,7 +477,7 @@
       "vol_ratio": 1.35,
       "ema21_dist_pct": 2.28,
       "dist_high_5d_pct": -7.38,
-      "had_trigger_today": false
+      "had_trigger_today": true
     },
     {
       "ticker": "EVER",
