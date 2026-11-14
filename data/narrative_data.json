@@ -1,14 +1,14 @@
 {
-  "generated_at": "2026-11-13T02:39:32.309673",
+  "generated_at": "2026-11-14T02:28:51.790375",
   "today": {
     "spx_dir": "\u2193",
-    "dxy_dir": "\u2193",
-    "tnx_dir": "\u2193",
-    "state_id": 7,
-    "name": "Slowdown / Easing Anticipation",
-    "label": "Stocks \u2193 \u00b7 Dollar \u2193 \u00b7 Rates \u2193",
-    "sector_tilt": "Gold, duration, defensive value",
-    "color": "amber",
+    "dxy_dir": "\u2191",
+    "tnx_dir": "\u2191",
+    "state_id": 6,
+    "name": "Stagflation / Hawkish Pain",
+    "label": "Stocks \u2193 \u00b7 Dollar \u2191 \u00b7 Rates \u2191",
+    "sector_tilt": "Cash \u2014 no longs",
+    "color": "red",
     "bullish": false
   },
   "dominant_10d": {
@@ -18,7 +18,7 @@
     "sector_tilt": "Large-cap quality, tech mega-caps",
     "freq_10d_pct": 30.0
   },
-  "bearish_days_10": 3,
+  "bearish_days_10": 4,
   "all_narratives": [
     {
       "id": 1,
@@ -87,10 +87,10 @@
       "sector_tilt": "Cash \u2014 no longs",
       "color": "red",
       "bullish": false,
-      "freq_5d_pct": 40.0,
-      "freq_10d_pct": 20.0,
-      "freq_20d_pct": 15.0,
-      "base_rate_pct": 18.9
+      "freq_5d_pct": 60.0,
+      "freq_10d_pct": 30.0,
+      "freq_20d_pct": 20.0,
+      "base_rate_pct": 19.0
     },
     {
       "id": 7,
@@ -99,9 +99,9 @@
       "sector_tilt": "Gold, duration, defensive value",
       "color": "amber",
       "bullish": false,
-      "freq_5d_pct": 20.0,
-      "freq_10d_pct": 20.0,
-      "freq_20d_pct": 25.0,
+      "freq_5d_pct": 0.0,
+      "freq_10d_pct": 10.0,
+      "freq_20d_pct": 20.0,
       "base_rate_pct": 14.8
     },
     {
@@ -123,7 +123,7 @@
     "3": 13.5,
     "4": 8.7,
     "5": 8.7,
-    "6": 18.9,
+    "6": 19.0,
     "7": 14.8,
     "8": 6.7
   },
@@ -184,8 +184,8 @@
       "3": 0.098,
       "4": 0.115,
       "5": 0.098,
-      "6": 0.18,
-      "7": 0.131,
+      "6": 0.197,
+      "7": 0.115,
       "8": 0.066
     },
     "7": {
@@ -743,12 +743,12 @@
     },
     {
       "date": "2026-11-13",
-      "state_id": 7,
-      "narrative_name": "Slowdown / Easing Anticipation",
-      "color": "amber",
+      "state_id": 6,
+      "narrative_name": "Stagflation / Hawkish Pain",
+      "color": "red",
       "spx": "\u2193",
-      "dxy": "\u2193",
-      "tnx": "\u2193"
+      "dxy": "\u2191",
+      "tnx": "\u2191"
     }
   ]
 }
