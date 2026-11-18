@@ -1,6 +1,6 @@
 {
-  "generated_at": "2026-11-17T04:32:09.379757",
-  "composite": -0.195,
+  "generated_at": "2026-11-18T03:43:35.712090",
+  "composite": -0.107,
   "regime": {
     "label": "Slowdown / Stagflation Risk",
     "color": "red",
@@ -23,13 +23,13 @@
       }
     },
     "inflation": {
-      "score": 1.41,
+      "score": 1.419,
       "components": {
         "cpi_yoy": 0.0,
         "core_yoy": 0.0,
         "pce_yoy": 0.0,
         "ppi_yoy": 0.0,
-        "t5y5y": 9.399999999999999
+        "t5y5y": 9.46
       },
       "stale": true,
       "stale_detail": {
@@ -41,37 +41,37 @@
       }
     },
     "liquidity": {
-      "score": -0.896,
+      "score": -0.666,
       "components": {
-        "net_liq": -1.1509395092952608,
-        "hy_oas": -2.5278925265732974,
+        "net_liq": 0.06334452394581636,
+        "hy_oas": -3.9563627389027056,
         "m2": 0.0,
-        "sofr": 3.1094668702699204
+        "sofr": 2.9131642782901093
       },
       "stale": true,
       "stale_detail": {
         "walcl": false,
         "tga": false,
         "rrp": false,
-        "hy": true,
+        "hy": false,
         "m2": true,
-        "sofr": true
+        "sofr": false
       }
     },
     "curve": {
-      "score": -3.219,
+      "score": -3.109,
       "components": {
-        "curve_spread": -0.5234018399201577,
+        "curve_spread": -0.4187045881660634,
         "real10y": -10.0,
-        "move_proxy": 0.2118885634880149
+        "move_proxy": 0.501059662847669
       },
       "steepener_adj": -0.5,
-      "stale": true,
+      "stale": false,
       "stale_detail": {
         "t10y2y": false,
-        "dgs2": true,
-        "dgs10": true,
-        "dfii10": true,
+        "dgs2": false,
+        "dgs10": false,
+        "dfii10": false,
         "move_proxy": false
       }
     }
