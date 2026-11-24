@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-11-21T03:15:17.490995",
+  "generated_at": "2026-11-24T06:05:54.910647",
   "today": {
     "spx_dir": "\u2193",
     "dxy_dir": "\u2193",
@@ -18,7 +18,7 @@
     "sector_tilt": "Defensive \u2014 utilities, staples, gold",
     "freq_10d_pct": 30.0
   },
-  "bearish_days_10": 6,
+  "bearish_days_10": 5,
   "all_narratives": [
     {
       "id": 1,
@@ -40,7 +40,7 @@
       "color": "green",
       "bullish": true,
       "freq_5d_pct": 0.0,
-      "freq_10d_pct": 10.0,
+      "freq_10d_pct": 0.0,
       "freq_20d_pct": 10.0,
       "base_rate_pct": 10.4
     },
@@ -51,10 +51,10 @@
       "sector_tilt": "Large-cap quality, tech mega-caps",
       "color": "green",
       "bullish": true,
-      "freq_5d_pct": 0.0,
-      "freq_10d_pct": 10.0,
+      "freq_5d_pct": 20.0,
+      "freq_10d_pct": 20.0,
       "freq_20d_pct": 20.0,
-      "base_rate_pct": 13.5
+      "base_rate_pct": 13.6
     },
     {
       "id": 4,
@@ -65,8 +65,8 @@
       "bullish": true,
       "freq_5d_pct": 0.0,
       "freq_10d_pct": 0.0,
-      "freq_20d_pct": 5.0,
-      "base_rate_pct": 8.7
+      "freq_20d_pct": 0.0,
+      "base_rate_pct": 8.6
     },
     {
       "id": 5,
@@ -75,7 +75,7 @@
       "sector_tilt": "Defensive \u2014 utilities, staples, gold",
       "color": "red",
       "bullish": false,
-      "freq_5d_pct": 60.0,
+      "freq_5d_pct": 40.0,
       "freq_10d_pct": 30.0,
       "freq_20d_pct": 20.0,
       "base_rate_pct": 9.0
@@ -88,9 +88,9 @@
       "color": "red",
       "bullish": false,
       "freq_5d_pct": 0.0,
-      "freq_10d_pct": 30.0,
+      "freq_10d_pct": 20.0,
       "freq_20d_pct": 15.0,
-      "base_rate_pct": 18.8
+      "base_rate_pct": 18.7
     },
     {
       "id": 7,
@@ -100,9 +100,9 @@
       "color": "amber",
       "bullish": false,
       "freq_5d_pct": 40.0,
-      "freq_10d_pct": 20.0,
-      "freq_20d_pct": 25.0,
-      "base_rate_pct": 14.7
+      "freq_10d_pct": 30.0,
+      "freq_20d_pct": 30.0,
+      "base_rate_pct": 14.8
     },
     {
       "id": 8,
@@ -120,11 +120,11 @@
   "base_rates": {
     "1": 18.3,
     "2": 10.4,
-    "3": 13.5,
-    "4": 8.7,
+    "3": 13.6,
+    "4": 8.6,
     "5": 9.0,
-    "6": 18.8,
-    "7": 14.7,
+    "6": 18.7,
+    "7": 14.8,
     "8": 6.7
   },
   "transitions": {
@@ -139,23 +139,23 @@
       "8": 0.087
     },
     "2": {
-      "1": 0.115,
-      "2": 0.077,
-      "3": 0.115,
-      "4": 0.115,
-      "5": 0.115,
-      "6": 0.269,
-      "7": 0.154,
-      "8": 0.038
+      "1": 0.12,
+      "2": 0.08,
+      "3": 0.12,
+      "4": 0.12,
+      "5": 0.12,
+      "6": 0.24,
+      "7": 0.16,
+      "8": 0.04
     },
     "3": {
       "1": 0.172,
-      "2": 0.172,
+      "2": 0.138,
       "3": 0.0,
       "4": 0.138,
       "5": 0.138,
       "6": 0.241,
-      "7": 0.103,
+      "7": 0.138,
       "8": 0.034
     },
     "4": {
@@ -189,14 +189,14 @@
       "8": 0.065
     },
     "7": {
-      "1": 0.065,
-      "2": 0.065,
-      "3": 0.226,
-      "4": 0.032,
-      "5": 0.097,
-      "6": 0.323,
-      "7": 0.129,
-      "8": 0.065
+      "1": 0.062,
+      "2": 0.062,
+      "3": 0.25,
+      "4": 0.031,
+      "5": 0.094,
+      "6": 0.312,
+      "7": 0.125,
+      "8": 0.062
     },
     "8": {
       "1": 0.143,
@@ -210,24 +210,6 @@
     }
   },
   "history_60d": [
-    {
-      "date": "2026-08-31",
-      "state_id": 8,
-      "narrative_name": "Inflation Resurgence",
-      "color": "amber",
-      "spx": "\u2193",
-      "dxy": "\u2193",
-      "tnx": "\u2191"
-    },
-    {
-      "date": "2026-09-01",
-      "state_id": 6,
-      "narrative_name": "Stagflation / Hawkish Pain",
-      "color": "red",
-      "spx": "\u2193",
-      "dxy": "\u2191",
-      "tnx": "\u2191"
-    },
     {
       "date": "2026-09-02",
       "state_id": 1,
@@ -743,6 +725,24 @@
     },
     {
       "date": "2026-11-20",
+      "state_id": 7,
+      "narrative_name": "Slowdown / Easing Anticipation",
+      "color": "amber",
+      "spx": "\u2193",
+      "dxy": "\u2193",
+      "tnx": "\u2193"
+    },
+    {
+      "date": "2026-11-23",
+      "state_id": 3,
+      "narrative_name": "US Exceptionalism",
+      "color": "green",
+      "spx": "\u2191",
+      "dxy": "\u2191",
+      "tnx": "\u2191"
+    },
+    {
+      "date": "2026-11-24",
       "state_id": 7,
       "narrative_name": "Slowdown / Easing Anticipation",
       "color": "amber",
