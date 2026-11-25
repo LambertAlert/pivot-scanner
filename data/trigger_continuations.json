@@ -1,28 +1,61 @@
 {
-  "scan_time": "2026-11-24T23:59:19.588165",
+  "scan_time": "2026-11-25T22:54:26.937988",
   "grades": {
     "TASK_bullish": {
       "ticker": "TASK",
       "direction": "bullish",
       "trigger_type": "PIVOT",
       "trigger_close": 9.225000381469727,
-      "eod_close": 9.225,
-      "session_change_pct": 0.0,
+      "eod_close": 9.33,
+      "session_change_pct": 1.14,
       "held_trigger": true,
-      "grade": "HOLDING",
-      "grade_note": "Above trigger level \u00b7 +0.0%"
+      "grade": "STRONG",
+      "grade_note": "Held + closed at extreme \u00b7 +1.1%"
     },
     "GIB_bullish": {
       "ticker": "GIB",
       "direction": "bullish",
       "trigger_type": "PIVOT",
       "trigger_close": 82.2699966430664,
-      "eod_close": 82.27,
+      "eod_close": 83.41,
+      "session_change_pct": 1.39,
+      "held_trigger": true,
+      "grade": "STRONG",
+      "grade_note": "Held + closed at extreme \u00b7 +1.4%"
+    },
+    "TKNO_bearish": {
+      "ticker": "TKNO",
+      "direction": "bearish",
+      "trigger_type": "PIVOT",
+      "trigger_close": 7.800000190734863,
+      "eod_close": 7.8,
+      "session_change_pct": 0.0,
+      "held_trigger": true,
+      "grade": "HOLDING",
+      "grade_note": "Above trigger level \u00b7 +0.0%"
+    },
+    "TASK_bearish": {
+      "ticker": "TASK",
+      "direction": "bearish",
+      "trigger_type": "PIVOT",
+      "trigger_close": 9.329999923706055,
+      "eod_close": 9.33,
+      "session_change_pct": 0.0,
+      "held_trigger": true,
+      "grade": "HOLDING",
+      "grade_note": "Above trigger level \u00b7 +0.0%"
+    },
+    "GIB_bearish": {
+      "ticker": "GIB",
+      "direction": "bearish",
+      "trigger_type": "PIVOT",
+      "trigger_close": 83.41000366210938,
+      "eod_close": 83.41,
       "session_change_pct": 0.0,
       "held_trigger": true,
       "grade": "STRONG",
       "grade_note": "Held + closed at extreme \u00b7 +0.0%"
     }
   },
-  "market_date": "2026-11-24"
+  "market_date": "2026-11-25"
 }
