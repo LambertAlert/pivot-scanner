@@ -1,5 +1,39 @@
 {
-  "scan_time": "2026-11-26T23:56:16.396504",
-  "grades": {},
-  "market_date": "2026-11-26"
+  "scan_time": "2026-11-27T22:27:36.759162",
+  "grades": {
+    "TASK_bearish": {
+      "ticker": "TASK",
+      "direction": "bearish",
+      "trigger_type": "PIVOT",
+      "trigger_close": 9.329999923706055,
+      "eod_close": 9.42,
+      "session_change_pct": 0.96,
+      "held_trigger": false,
+      "grade": "FAILED",
+      "grade_note": "Reversed through trigger \u00b7 +1.0%"
+    },
+    "GIB_bearish": {
+      "ticker": "GIB",
+      "direction": "bearish",
+      "trigger_type": "PIVOT",
+      "trigger_close": 83.41000366210938,
+      "eod_close": 83.52,
+      "session_change_pct": 0.13,
+      "held_trigger": false,
+      "grade": "FAILED",
+      "grade_note": "Reversed through trigger \u00b7 +0.1%"
+    },
+    "CNK_bearish": {
+      "ticker": "CNK",
+      "direction": "bearish",
+      "trigger_type": "PIVOT",
+      "trigger_close": 38.97999954223633,
+      "eod_close": 38.98,
+      "session_change_pct": 0.0,
+      "held_trigger": true,
+      "grade": "STRONG",
+      "grade_note": "Held + closed at extreme \u00b7 +0.0%"
+    }
+  },
+  "market_date": "2026-11-27"
 }
