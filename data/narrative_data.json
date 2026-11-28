@@ -1,15 +1,15 @@
 {
-  "generated_at": "2026-11-27T04:17:27.771141",
+  "generated_at": "2026-11-28T03:56:43.381884",
   "today": {
-    "spx_dir": "\u2193",
-    "dxy_dir": "\u2193",
-    "tnx_dir": "\u2193",
-    "state_id": 7,
-    "name": "Slowdown / Easing Anticipation",
-    "label": "Stocks \u2193 \u00b7 Dollar \u2193 \u00b7 Rates \u2193",
-    "sector_tilt": "Gold, duration, defensive value",
-    "color": "amber",
-    "bullish": false
+    "spx_dir": "\u2191",
+    "dxy_dir": "\u2191",
+    "tnx_dir": "\u2191",
+    "state_id": 3,
+    "name": "US Exceptionalism",
+    "label": "Stocks \u2191 \u00b7 Dollar \u2191 \u00b7 Rates \u2191",
+    "sector_tilt": "Large-cap quality, tech mega-caps",
+    "color": "green",
+    "bullish": true
   },
   "dominant_10d": {
     "state_id": 7,
@@ -18,7 +18,7 @@
     "sector_tilt": "Gold, duration, defensive value",
     "freq_10d_pct": 50.0
   },
-  "bearish_days_10": 4,
+  "bearish_days_10": 3,
   "all_narratives": [
     {
       "id": 1,
@@ -51,10 +51,10 @@
       "sector_tilt": "Large-cap quality, tech mega-caps",
       "color": "green",
       "bullish": true,
-      "freq_5d_pct": 20.0,
-      "freq_10d_pct": 10.0,
-      "freq_20d_pct": 20.0,
-      "base_rate_pct": 13.6
+      "freq_5d_pct": 40.0,
+      "freq_10d_pct": 20.0,
+      "freq_20d_pct": 25.0,
+      "base_rate_pct": 13.7
     },
     {
       "id": 4,
@@ -75,10 +75,10 @@
       "sector_tilt": "Defensive \u2014 utilities, staples, gold",
       "color": "red",
       "bullish": false,
-      "freq_5d_pct": 20.0,
-      "freq_10d_pct": 40.0,
-      "freq_20d_pct": 25.0,
-      "base_rate_pct": 9.0
+      "freq_5d_pct": 0.0,
+      "freq_10d_pct": 30.0,
+      "freq_20d_pct": 20.0,
+      "base_rate_pct": 8.9
     },
     {
       "id": 6,
@@ -120,9 +120,9 @@
   "base_rates": {
     "1": 18.3,
     "2": 10.4,
-    "3": 13.6,
+    "3": 13.7,
     "4": 8.5,
-    "5": 9.0,
+    "5": 8.9,
     "6": 18.7,
     "7": 14.9,
     "8": 6.7
@@ -169,13 +169,13 @@
       "8": 0.0
     },
     "5": {
-      "1": 0.261,
-      "2": 0.043,
-      "3": 0.087,
-      "4": 0.043,
-      "5": 0.13,
-      "6": 0.13,
-      "7": 0.304,
+      "1": 0.273,
+      "2": 0.045,
+      "3": 0.091,
+      "4": 0.045,
+      "5": 0.136,
+      "6": 0.136,
+      "7": 0.273,
       "8": 0.0
     },
     "6": {
@@ -189,14 +189,14 @@
       "8": 0.067
     },
     "7": {
-      "1": 0.059,
-      "2": 0.059,
-      "3": 0.235,
+      "1": 0.057,
+      "2": 0.057,
+      "3": 0.257,
       "4": 0.029,
-      "5": 0.118,
-      "6": 0.294,
-      "7": 0.147,
-      "8": 0.059
+      "5": 0.086,
+      "6": 0.286,
+      "7": 0.171,
+      "8": 0.057
     },
     "8": {
       "1": 0.143,
@@ -734,21 +734,21 @@
     },
     {
       "date": "2026-11-26",
-      "state_id": 5,
-      "narrative_name": "Risk-Off / Flight to Quality",
-      "color": "red",
-      "spx": "\u2193",
-      "dxy": "\u2191",
-      "tnx": "\u2193"
-    },
-    {
-      "date": "2026-11-27",
       "state_id": 7,
       "narrative_name": "Slowdown / Easing Anticipation",
       "color": "amber",
       "spx": "\u2193",
       "dxy": "\u2193",
       "tnx": "\u2193"
+    },
+    {
+      "date": "2026-11-27",
+      "state_id": 3,
+      "narrative_name": "US Exceptionalism",
+      "color": "green",
+      "spx": "\u2191",
+      "dxy": "\u2191",
+      "tnx": "\u2191"
     }
   ]
 }
